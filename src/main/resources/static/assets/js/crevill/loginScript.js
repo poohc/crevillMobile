@@ -3,18 +3,18 @@ Vue.use(VeeValidate, {
   dictionary: {
     ko: {
 		    attributes: {
-		      staffId : '사원번호',
-			  passwd : '비밀번호',
+		      cellPhone : '전화번호',
+			  password : '비밀번호',
 		    }
 	  	}
   }
 });
 
 new Vue({
-    el: '#page-body',
+    el: '#appCapsule',
     data: {
-    	staffId : '',
-	  	passwd : '',
+    	cellPhone : '',
+	  	password : '',
     },
 	methods: {
     validateBeforeSubmit() {
@@ -22,8 +22,8 @@ new Vue({
         if (result) {
 	        
  			var formdata = new FormData();
-			formdata.append("staffId", $('#staffId').val());
-			formdata.append("storeId", $('#passwd').val());
+			formdata.append("cellPhone", $('#cellPhone').val());
+			formdata.append("password", $('#password').val());
 			
 			axios.post('/login/login.proc', formdata,{
 				  headers: {
@@ -33,8 +33,13 @@ new Vue({
 				if (response.data.resultCd == '00') {
 			      	location.href = '/';
 			    } else {
-					alert('ID 혹은 비밀번호를 확인해주세요.');
-					return false;
+					if (response.data.resultCd == '11') {
+						alert('최초 비밀번호 설정을 위해 이동합니다.');
+						location.href = "/login/passwordInit.view?cellPhone=" + $('#cellPhone').val();	
+					} else {
+						alert(response.data.resultMsg);
+						return false;	
+					}
 				}
 				
 			});	
@@ -45,8 +50,4 @@ new Vue({
       });
     }
   }
-}); 
-
-function cancel(){
-	location.href = '/staff/regist.view';
-}
+});

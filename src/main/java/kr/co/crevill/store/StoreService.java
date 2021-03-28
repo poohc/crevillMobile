@@ -15,7 +15,6 @@ import kr.co.crevill.common.CommonUtil;
 import kr.co.crevill.common.CrevillConstants;
 import kr.co.crevill.common.FileDto;
 import kr.co.crevill.common.FileVo;
-import kr.co.crevill.common.SessionUtil;
 
 @Service
 public class StoreService {
@@ -51,7 +50,6 @@ public class StoreService {
 	public JSONObject insertStore(StoreDto storeDto, HttpServletRequest request) {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
-		storeDto.setRegId(SessionUtil.getSessionStaffVo(request).getStaffId());
 		
 		//체험학습 가능 여부 체크가 되어 있지 않으면 무조건 N
 		if(!"Y".equals(storeDto.getExperienceClass())) {
@@ -205,7 +203,6 @@ public class StoreService {
 	public JSONObject updateStore(StoreDto storeDto, HttpServletRequest request) {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
-		storeDto.setUpdId(SessionUtil.getSessionStaffVo(request).getStaffId());
 		
 		//체험학습 가능 여부 체크가 되어 있지 않으면 무조건 N
 		if(!"Y".equals(storeDto.getExperienceClass())) {

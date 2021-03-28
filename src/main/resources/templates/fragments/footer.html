@@ -1,14 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="footerFragment">
-    <footer class="footer">
-	    <div class="container-fluid">
-	        <div class="row">
-	            <div class="col-md-12 footer-copyright text-center">
-	                <p class="mb-0">Copyright 2020 © CREVILL </p>
-	            </div>
-	        </div>
-	    </div>
-	</footer>
+    <div class="appBottomMenu">
+        <a href="index.html" class="item">
+            <div class="col">
+                <ion-icon name="home-outline"></ion-icon>
+            </div>
+        </a>
+        <a href="slist.html" class="item">
+            <div class="col">
+                <ion-icon name="cube-outline"></ion-icon>
+            </div>
+        </a>
+        <a href="memberInfo.html" class="item active">
+            <div class="col">
+                <ion-icon name="person-outline"></ion-icon>
+            </div>
+        </a>
+        <a href="play.html" class="item">
+            <div class="col">
+                <ion-icon name="play-outline"></ion-icon>
+            </div>
+        </a>
+    </div>
 </th:block>
 </html>

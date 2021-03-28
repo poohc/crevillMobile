@@ -1,27 +1,12 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-
     <!-- 공통 헤더-->
     <th:block th:replace="fragments/head :: headFragment"></th:block>
-    <body>
-    	<p th:text="${scriptName}"></p>
-    	<div class="tap-top"><i data-feather="chevrons-up"></i></div>
-    	<div class="page-wrapper compact-wrapper" id="pageWrapper">
-    		<!-- 헤더 -->
-    		<th:block th:replace="fragments/header :: headerFragment"></th:block>
-    		<div class="page-body-wrapper sidebar-icon">
-    			<!-- 사이드바-->
-    			<th:block th:if="${session.staffVo.staffGrade == 'ADMIN'}">
-            		<th:block th:replace="fragments/sidebar :: sidebarFragment"></th:block>
-            	</th:block>
-            	<th:block th:unless="${session.staffVo.staffGrade == 'ADMIN'}">
-            		<th:block th:replace="fragments/sidebarSub :: sidebarSubFragment"></th:block>
-            	</th:block>
-            	<th:block layout:fragment="content"></th:block>
-            	<th:block th:replace="fragments/footer :: footerFragment"></th:block>
-    		</div>
-        </div>
-        <!-- 공통 스크립트-->
+    <body class="bg-white">
+    	<th:block th:replace="fragments/header :: headerFragment"></th:block>
+    	<th:block layout:fragment="content"></th:block>
+    	<th:block th:replace="fragments/appSidebar :: appSidebarFragment"></th:block>
+    	<th:block th:replace="fragments/footer :: footerFragment"></th:block>
         <th:block th:replace="fragments/script :: scriptFragment(${scriptName})"></th:block>
     </body>
 </html>

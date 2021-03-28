@@ -19,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.crevill.common.CommonCodeDto;
 import kr.co.crevill.common.CommonService;
-import kr.co.crevill.play.PlayService;
 
 @Controller
 @RequestMapping("store")
@@ -30,9 +29,6 @@ public class StoreController {
 	
 	@Autowired
 	private StoreService storeService;
-	
-	@Autowired
-	private PlayService playService;
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	

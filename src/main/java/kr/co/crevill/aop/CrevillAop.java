@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
@@ -46,7 +45,9 @@ public class CrevillAop {
 		
 		logger.info("servletPath : " + servletPath);
 		
-		if(session.getAttribute("staffVo") == null && !servletPath.contains("login")) {
+		if(session.getAttribute("memberVo") == null && 
+				!servletPath.contains("login") && 
+					!servletPath.contains("passwordInit")) {
 			ModelAndView mav = new ModelAndView();
 			mav.setViewName("redirect:/login/login.view");
 			return mav;

@@ -6,117 +6,31 @@
 	<select id="checkExistCellPhone" parameterType="kr.co.crevill.member.MemberDto" resultType="Integer">
         SELECT COUNT(*)
           FROM MEMBER_PARENT
-         WHERE CELL_PHONE = #{parentCellPhone}
-         <if test="cellPhone != null and cellPhone != ''">
-           AND CELL_PHONE != #{cellPhone}
-         </if>
+         WHERE CELL_PHONE = #{cellPhone}
     </select>
 	
-	<select id="selectMemberCount" parameterType="kr.co.crevill.member.MemberDto" resultType="Integer">
-        SELECT COUNT(*)
-          FROM MEMBER_PARENT
-    </select>
-	
-    <select id="selectMemberList" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
-        SELECT NAME,
-               CASE WHEN LENGTH(CELL_PHONE) = 11 THEN CONCAT(SUBSTRING(CELL_PHONE,1,3),'-',SUBSTRING(CELL_PHONE,4,4),'-',SUBSTRING(CELL_PHONE,8,4))
-            	    ELSE CONCAT(SUBSTRING(CELL_PHONE,1,3),'-',SUBSTRING(CELL_PHONE,4,3),'-',SUBSTRING(CELL_PHONE,7,4)) END AS CELL_PHONE,
+	<select id="selectMemberInfo" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
+    	SELECT NAME,
+               CELL_PHONE,
                EMAIL,
                ADDRESS,
                QR_CODE,
-               DATE_FORMAT(REG_DATE, '%Y/%m/%d') REG_DATE,
-               CASE WHEN STATUS = 'A' THEN 'Active'
-            		ELSE 'Inactive' END AS STATUS
-          FROM MEMBER_PARENT 
+               PASSWORD
+    	  FROM MEMBER_PARENT
+         WHERE CELL_PHONE = #{cellPhone} 
     </select>
-
-    <select id="selectMemberInfo" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
-        SELECT A.NAME,
-               A.CELL_PHONE,
-               A.EMAIL,
-               A.ADDRESS,
-               A.QR_CODE,
-               B.NAME CHILD_NAME,
-               B.BIRTHDAY,
-               B.SEX,
-               B.LEARNING_GRADE
-          FROM MEMBER_PARENT A,
-               MEMBER_CHILDREN B
-         WHERE A.CELL_PHONE = B.PARENT_CELL_PHONE
-           <if test="qrCode != null and qrCode != ''">
-           AND A.QR_CODE = #{qrCode}
-           </if>
-           <if test="name != null and name != ''">
-           AND A.NAME = #{name}
-           </if>
-           <if test="cellPhone != null and cellPhone != ''">
-           AND A.CELL_PHONE = #{cellPhone}
-           </if>
-    </select>
-	
-    <insert id="insertMemberParent" parameterType="kr.co.crevill.member.MemberDto">
-    	INSERT INTO MEMBER_PARENT (
-    								NAME,
-    								CELL_PHONE,
-    								EMAIL,
-    								ADDRESS,
-    								QR_CODE,
-									REG_DATE,
-									REG_ID    								
-    							   )
-							VALUES (
-									#{parentName},
-									#{cellPhone},
-									#{email},
-									#{address},
-									QR_SEQ_NEXTVAL(),
-									NOW(),
-									#{regId}
-								   )
-    </insert>
-
-	<insert id="insertMemberChildren" parameterType="kr.co.crevill.member.MemberDto">
-    	INSERT INTO MEMBER_CHILDREN (
-    								PARENT_NAME,
-    								PARENT_CELL_PHONE,
-    								NAME,
-    								BIRTHDAY,
-    								SEX,
-    								LEARNING_GRADE
-    							   )
-							VALUES (
-									#{parentName},
-									#{cellPhone},
-									#{childName},
-									#{birthday},
-									#{sex},
-									#{learningGrade}
-								   )
-    </insert>
 	
 	<update id="updateMemberParent" parameterType="kr.co.crevill.member.MemberDto">
     	UPDATE MEMBER_PARENT 
     	  <set>
-	       	  <if test="name != null">NAME = #{parentName},</if>
-	       	  <if test="name != null">CELL_PHONE = #{cellPhone},</if>
-	       	  <if test="name != null">EMAIL = #{email},</if>
-	       	  <if test="name != null">ADDRESS = #{address},</if>
+	       	  <if test="parentName != null">NAME = #{parentName},</if>
+	       	  <if test="email != null">EMAIL = #{email},</if>
+	       	  <if test="address != null">ADDRESS = #{address},</if>
+	       	  <if test="password != null">PASSWORD = #{password},</if>
 	       	  UPD_ID = #{updId},
 			  UPD_DATE = NOW()
        	  </set>
-        WHERE QR_CODE = #{qrCode} 
+        WHERE CELL_PHONE = #{cellPhone} 
     </update>
-	
-	<delete id="deleteMemberParent">
-		DELETE
-		  FROM MEMBER_PARENT
-		 WHERE QR_CODE = #{qrCode}  
-	</delete>
-	
-	<delete id="deleteMemberChildren">
-		DELETE 
-		  FROM MEMBER_CHILDREN
-		 WHERE PARENT_CELL_PHONE = #{cellPhone} 
-	</delete>
 	
 </mapper>

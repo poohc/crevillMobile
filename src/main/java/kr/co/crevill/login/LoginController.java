@@ -1,7 +1,6 @@
 package kr.co.crevill.login;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import kr.co.crevill.staff.StaffDto;
+import kr.co.crevill.member.MemberDto;
 
 @Controller
 @RequestMapping("login")
@@ -30,17 +29,24 @@ public class LoginController {
 	
 	@PostMapping("login.proc")
 	@ResponseBody
-	public JSONObject loginProc(HttpServletRequest request, @ModelAttribute StaffDto staffDto) {
+	public JSONObject loginProc(HttpServletRequest request, @ModelAttribute MemberDto memberDto) {
 		JSONObject result = new JSONObject();
-		result = loginService.loginProcess(staffDto, request);
+		result = loginService.loginProcess(memberDto, request);
 		return result;
 	}
 	
-	@GetMapping("logout.view")
-	public ModelAndView logout(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("/login/login");
-		HttpSession session = request.getSession();
-		session.invalidate();
+	@GetMapping("passwordInit.view")
+	public ModelAndView passwordInit(HttpServletRequest request, MemberDto memberDto) {
+		ModelAndView mav = new ModelAndView("/login/passwordInit");
+		mav.addObject("cellPhone", request.getParameter("cellPhone"));
 		return mav;
+	}
+	
+	@PostMapping("passwordInit.proc")
+	@ResponseBody
+	public JSONObject passwordInitProc(HttpServletRequest request, @ModelAttribute MemberDto memberDto) {
+		JSONObject result = new JSONObject();
+		result = loginService.passwordUpdate(memberDto, request);
+		return result;
 	}
 }
