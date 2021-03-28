@@ -10,10 +10,10 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>kr.co.crevill</groupId>
-	<artifactId>crevill</artifactId>
+	<artifactId>crevillMobile</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>crevill</name>
-	<description>crevill project</description>
+	<name>crevillMobile</name>
+	<description>crevill Mobile project</description>
 	<packaging>war</packaging>
 	<properties>
 		<java.version>1.8</java.version>
