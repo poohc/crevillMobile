@@ -7,7 +7,7 @@
 	<div id="appCapsule">
 		<div class="header-large-title">
 			<h1 class="title">CREVILL</h1>
-			<h4 class="subtitle" th:text="|${session.memberVo.name} 고객님|"></h4>
+			<h4 class="subtitle" th:text="|${session.memberVo?.name} 고객님|"></h4>
 		</div>
 
 		<div class="section full mt-3 mb-3">
@@ -15,7 +15,7 @@
 				<div class="item" th:each="list : ${storeList}">
 					<div class="card">
 						<a href="storeInfo.html">
-							<img th:src="@{/common/getImage(imageIdx=${list.thumbnailImageIdx})}" class="card-img-top" th:alt="|${list.storeName} 매장이미지|">
+							<img th:src="@{/common/getImage(imageIdx=${list.image1Idx})}" class="card-img-top" th:alt="|${list.storeName} 매장이미지|">
 						</a>
 						<div class="card-body pt-2">
 							<h4 class="mb-0" th:text="${list.storeName}"></h4>

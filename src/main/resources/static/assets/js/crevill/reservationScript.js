@@ -9,20 +9,23 @@ Vue.use(VeeValidate, {
 			  voucherNo : '바우처',
    			  scheduleDate : '스케쥴날짜',		  
 			  scheduleTime : '스케쥴시간',
-			  scheduleId : '수업',
+			  scheduleId : '수업'
 		    }
 	  	}
   }
 });
 
-new Vue({
-    el: '#page-body',
+var vm = new Vue({
+    el: '#appCapsule',
     data: {
     	cellPhone : '',
 	  	voucherNo : '',
+		storeId : '',
 		scheduleDate : '',	  	
 		scheduleTime : '',
 	  	scheduleId : '',
+		scheduleList: [],
+		voucherList : []
     },
 	methods: {
     validateBeforeSubmit() {
@@ -39,14 +42,14 @@ new Vue({
 				formdata.append("voucherNo", $('#voucherNo').val());
 				formdata.append("scheduleId", $('#scheduleId').val());
 				
-				axios.post('/reservation/regist.proc', formdata,{
+				axios.post(contextRoot + 'reservation/regist.proc', formdata,{
 					  headers: {
 						'Content-Type': 'multipart/form-data'
 					  }
 					}).then((response) => {
 					if (response.data.resultCd == '00') {
 				      	alert('정상처리 되었습니다.');
-						location.href = '/reservation/regist.view';
+						location.href = contextRoot + 'reservation/list.view';
 				    }
 					
 				});	
@@ -59,18 +62,18 @@ new Vue({
 		}
         
       });
-    }
+    },
   }
 }); 
 
-$('#voucherSearchBtn').click(function(){
+$('#voucherNo').click(function(){
 	
 	$.ajax({
 		type : "POST",
 		data: {
 	            buyCellPhone : $('#cellPhone').val()
 	    },
-		url : '/voucher/getMemberVoucherList.proc',
+		url : contextRoot +  'voucher/getMemberVoucherList.proc',
 		success : function(data){
 			if(data.resultCd == '00'){
 				
@@ -78,12 +81,12 @@ $('#voucherSearchBtn').click(function(){
 					alert('바우처가 없습니다.');
 					return false;
 				} else {
-					alert('바우처가 확인되었습니다.');
-					$('#cellPhoneTxt').text($('#cellPhone').val());
-					$("select[name='voucherNo'] option").remove();
 					for(var i=0; i < data.voucherList.length; i++){
-						$("#voucherNo").append('<option value="' + data.voucherList[i].voucherNo + '">' + data.voucherList[i].ticketName + '</option');
-					}
+						Vue.set(vm.voucherList, i, data.voucherList[i]);
+					} 
+					vm.voucherList.slice().sort(function(a, b) {
+		    			return b.timeLeftHour - a.timeLeftHour;
+		            });
 				}
 				
 			} else {
@@ -100,23 +103,23 @@ $('#voucherSearchBtn').click(function(){
 	
 });
 
-$('#scheduleSearch').click(function(){
+$('#scheduleId').click(function(){
 	
 	$.ajax({
 		type : "POST",
 		data: {
-	            scheduleStart : $('#scheduleDate').val().replace(/[^0-9]/g,"")
+	            scheduleStart : $('#scheduleStart').val().replace(/[^0-9]/g,""),
+				classType : $('#classType').val()
 	    },
-		url : '/schedule/getScheduleList.proc',
+		url : contextRoot + 'schedule/getScheduleList.proc',
 		success : function(data){
 			if(data.resultCd == '00'){
-				
-				$("select[name='scheduleId'] option").remove();
-				
 				for(var i=0; i < data.scheduleList.length; i++){
-					$("#scheduleId").append('<option value="' + data.scheduleList[i].scheduleId + '">' + data.scheduleList[i].scheduleTime +' : ' + data.scheduleList[i].playName + '</option');
-				}
-				setText();
+					Vue.set(vm.scheduleList, i, data.scheduleList[i]);
+				} 
+				vm.scheduleList.slice().sort(function(a, b) {
+	    			return b.scheduleStart - a.scheduleStart;
+	            });
 			} else {
 				alert('해당 날짜에 등록된 수업이 없습니다.');
 				return false;	
@@ -130,17 +133,3 @@ $('#scheduleSearch').click(function(){
 	});
 	
 });
-
-
-function setText(){
-	$('#useDateTxt').text($('#scheduleDate').val());
-	$('#useTimeTxt').text($('#scheduleTime').val());
-	$('#useClassTxt').text($('#scheduleId').text());
-	$('#usedVoucherTxt').text($('#voucherNo').val());
-	$('#usedTimeTxt').text();
-	$('#remainTimeTxt').text();
-}
-
-function cancel(){
-	location.href = '/reservation/regist.view';
-}

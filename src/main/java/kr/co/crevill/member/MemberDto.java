@@ -1,5 +1,7 @@
 package kr.co.crevill.member;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -22,5 +24,11 @@ public class MemberDto {
 	private String updDate;
 	private String updId;
 	private String status;	
+	private String storeId;
+	private String voucherCount;
+	private String storeName;
 	private String password;
+	private MultipartFile picture;
+	private String pictureIdx;
+	private String engName;
 }

@@ -21,4 +21,7 @@ public class CrevillConstants {
 	public static final String STAFF_STATUS_ACTIVE = "A";
 	public static final String STAFF_STATUS_INACTIVE = "I";
 	public static final String STAFF_STATUS_VACATION = "V";
+	public static final String REG_ID_MOBILE = "MOBILE";
+	public static final String UPD_ID_MOBILE = "MOBILE";
+	public static final String STORE_ID_MOBILE = "MOBILE";
 }

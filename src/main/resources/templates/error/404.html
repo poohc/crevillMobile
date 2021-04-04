@@ -1,22 +1,45 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layout/default">
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorator="layout/defaultLogin">
 
 <th:block layout:fragment="content">
-	<div class="error-wrapper">
-		<div class="container">
-			<img class="img-100" src="../assets/images/other-images/sad.png" alt="">
-			<div class="error-heading">
-				<h2 class="headline font-info">404</h2>
-			</div>
-			<div class="col-md-8 offset-md-2">
-				<p class="sub-content">접속하려는 페이지는 현재 사용할 수 없습니다. 페이지가 존재하지 않거나 이동했기 때문일 수 있습니다.</p>
-			</div>
-			<div>
-				<a class="btn btn-info-gradien btn-lg" href="/index.view">메인으로 이동</a>
-			</div>
-		</div>
-	</div>
+	<!-- App Header -->
+    <div class="appHeader no-border transparent position-absolute">
+        <div class="left">
+            <a href="javascript:;" class="headerButton goBack">
+                <ion-icon name="chevron-back-outline"></ion-icon>
+            </a>
+        </div>
+        <div class="pageTitle">404페이지</div>
+    </div>
+    <!-- * App Header -->
+
+    <!-- App Capsule -->
+    <div id="appCapsule">
+
+        <div class="error-page">
+            <div class="icon-box text-danger">
+                <ion-icon name="alert-circle"></ion-icon>
+            </div>
+            <h1 class="title">존재하지 않는 페이지입니다.</h1>
+            <div class="text mb-5">
+                
+            </div>
+
+            <div class="fixed-footer">
+                <div class="row">
+                    <div class="col-6">
+                        <a href="main.view" class="btn btn-secondary btn-lg btn-block">홈으로</a>
+                    </div>
+                    <div class="col-6">
+                        <a href="main.view" class="btn btn-primary btn-lg btn-block">재시도</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- * App Capsule -->
 </th:block>
 </html>

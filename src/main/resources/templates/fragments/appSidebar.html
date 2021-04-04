@@ -13,7 +13,7 @@
 							<img th:src="@{/assets/img/sample/avatar/avatar1.jpg}"  alt="image" class="imaged rounded">
 						</div>
 						<div class="in">
-							<strong th:text="${session.memberVo.name}"></strong>
+							<strong th:text="${session.memberVo?.name}"></strong>
 							<div class="text-muted">
 								<ion-icon name="location"></ion-icon>
 								판교(즐겨찾기 매장)
@@ -65,7 +65,7 @@
 							</a>
 						</li>
 						<li>
-							<a href="reservation-list.html" class="item">
+							<a th:href="@{/reservation/list.view}" class="item">
 								<div class="icon-box bg-primary">
 									<ion-icon name="chatbubble-ellipses-outline"></ion-icon>
 								</div>

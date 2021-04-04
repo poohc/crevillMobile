@@ -22,5 +22,10 @@ public class MemberVo {
 	private String updDate;
 	private String updId;
 	private String status;
+	private String voucherCount;
+	private String storeId;
+	private String storeName;
 	private String password;
+	private String pictureIdx;
+	private String engName;
 }

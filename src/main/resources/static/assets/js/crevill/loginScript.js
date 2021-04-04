@@ -22,20 +22,20 @@ new Vue({
         if (result) {
 	        
  			var formdata = new FormData();
-			formdata.append("cellPhone", $('#cellPhone').val());
+			formdata.append("parentCellPhone", $('#cellPhone').val());
 			formdata.append("password", $('#password').val());
 			
-			axios.post('/login/login.proc', formdata,{
+			axios.post(contextRoot + 'login/login.proc', formdata,{
 				  headers: {
 					'Content-Type': 'multipart/form-data'
 				  }
 				}).then((response) => {
 				if (response.data.resultCd == '00') {
-			      	location.href = '/';
+			      	location.href = contextRoot + 'main.view';
 			    } else {
 					if (response.data.resultCd == '11') {
 						alert('최초 비밀번호 설정을 위해 이동합니다.');
-						location.href = "/login/passwordInit.view?cellPhone=" + $('#cellPhone').val();	
+						location.href = contextRoot + "login/passwordInit.view?cellPhone=" + $('#cellPhone').val();	
 					} else {
 						alert(response.data.resultMsg);
 						return false;	

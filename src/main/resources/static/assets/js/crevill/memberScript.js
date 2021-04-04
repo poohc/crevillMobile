@@ -1,7 +1,7 @@
 var acceessableCount = 1; //동시접근제한수
 
 const checkMemberCellPhone = (value) => {
-  	return axios.post('/member/checkMemberCellPhone.proc', {parentCellPhone: value}).then((response) => {
+  	return axios.post(contextRoot + 'member/checkMemberCellPhone.proc', {parentCellPhone: value}).then((response) => {
 		if (response.data.resultCd == '00') {
 	      return true;
 	    }
@@ -28,9 +28,13 @@ Vue.use(VeeValidate, {
 		    attributes: {
 		      parentName : '고객성함',
 			  email : '이메일',
+			  password : '비밀번호',
+			  passwordAgain : '비밀번호 재입력',
 			  address : '주소',
+			  detailAddress : '상세주소',	
 			  cellPhone : '전화번호',
 			  childName : '아동이름',
+			  engName : '영어이름',
 			  birthday : '생년월일',
 			  sex : '성별',
 			  learningGrade : '영어학습수준'
@@ -40,13 +44,17 @@ Vue.use(VeeValidate, {
 })
 
 new Vue({
-    el: '#page-body',
+    el: '#appCapsule',
     data: {
     	parentName : '',
 	  	email : '',
+		password : '',
+		passwordAgain : '',
 	  	address : '',
+		detailAddress : '',
 	  	cellPhone : '',
 	  	childName : '',
+		engName : '',
 	  	birthday : '',
 	  	sex : '',
 	  	learningGrade : '',
@@ -61,19 +69,37 @@ new Vue({
 			if (acceessableCount < 0 ) {
 		    	alert("이미 작업이 수행중입니다.");
 		    } else {
-				axios.post('/member/join.proc', {
-									            parentName : $('#parentName').val(),
-									            email : $('#email').val(),
-									            address : $('#address').val(),
-									            cellPhone : $('#cellPhone').val(),
-									            childName : $('#childName').val(),
-									            birthday : $('#birthday').val(),
-									            sex : $('input[name="sex"]:checked').val(),
-									            learningGrade : $('#learningGrade').val()
-			        }).then((response) => {
+				
+	  			var learningGrade = '';
+				$("input[name=learningGrade]:checked").each(function() {
+					learningGrade += $(this).val() + ',';
+				});
+				learningGrade = learningGrade.substr(0, learningGrade.length - 1);
+				
+				var formdata = new FormData();
+				formdata.append("parentName", $('#parentName').val());
+				formdata.append("email", $('#email').val());
+				formdata.append("password", $('#password').val());
+				formdata.append("address", $('#address').val() + ' | ' + $('#detailAddress').val());
+				formdata.append("cellPhone", $('#cellPhone').val());
+				formdata.append("childName", $('#childName').val());
+				formdata.append("engName", $('#engName').val());
+				formdata.append("birthday", $('#birthday').val());
+				formdata.append("sex", $('#sex').val());
+				formdata.append("learningGrade", learningGrade);
+				
+				if($("#camera")[0].files[0] != undefined){
+					formdata.append("picture", $("#camera")[0].files[0]);	
+				}
+				
+				axios.post(contextRoot + 'member/join.proc', formdata,{
+					  headers: {
+						'Content-Type': 'multipart/form-data'
+					  }
+					}).then((response) => {
 					if (response.data.resultCd == '00') {
 				      	alert('정상처리 되었습니다.');
-						location.href = '/member/join.view';
+						location.href = contextRoot;
 				    }
 					
 					return {
@@ -81,11 +107,20 @@ new Vue({
 				        message: '이미 가입되어 있는 번호입니다.'
 				      }
 				    };
-				});
+					
+				}).catch(function (error) {
+				    if (error.response) {
+				      alert('처리 중 오류가 발생했습니다. 관리자에게 문의하여 주세요.');
+				    }
+				    else if (error.request) {
+				      alert('처리 중 오류가 발생했습니다. 관리자에게 문의하여 주세요.');
+				    }
+				    else {
+				      alert('처리 중 오류가 발생했습니다. 관리자에게 문의하여 주세요.');
+				    }
+			    });	
 			}
-			
 			acceessableCount = acceessableCount + 1;
-				
         } else {
 			alert('항목을 올바르게 입력해주세요.');
 		}
@@ -105,3 +140,9 @@ $('input[name="birthday"]').daterangepicker({
       cancelLabel: "닫기"
     } 	
 }); 
+
+ $(function(){
+    $('#camera').change(function(e){
+        $('#picture').attr('src', URL.createObjectURL(e.target.files[0]));
+    });
+});

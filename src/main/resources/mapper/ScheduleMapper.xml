@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.crevill.schedule.ScheduleMapper">
+	
+	<select id="selectScheduleCount" parameterType="kr.co.crevill.schedule.ScheduleDto" resultType="Integer">
+        SELECT COUNT(*)
+          FROM SCHEDULE
+    </select>
+	
+    <select id="selectScheduleList" parameterType="kr.co.crevill.schedule.ScheduleDto" resultType="kr.co.crevill.schedule.ScheduleVo">
+        SELECT SUB.SCHEDULE_ID,
+			   SUB.OPERATION_TYPE,
+			   SUB.NUMBER_OF_PEOPLE,
+			   SUB.TUTORING_NUMBER,
+			   SUB.SCHEDULE_START,
+			   SUB.SCHEDULE_END,
+			   SUB.SCHEDULE_TIME,
+			   SUB.SCHEDULE_DATE,
+			   SUB.PLAY_NAME,
+			   SUB.REG_ID,
+			   SUB.REG_DATE,
+			   SUB.UPD_ID,
+			   SUB.UPD_DATE,
+			   SUB.SUB_TOPIC,
+			   SUB.RESERVATION_CNT,
+               CASE WHEN SUB.TUTORING_YN = 'Y' THEN (SUB.TUTORING_NUMBER - SUB.RESERVATION_CNT) 
+                    ELSE (SUB.NUMBER_OF_PEOPLE - SUB.RESERVATION_CNT) END AS RESERVATION_AVA_COUNT
+          FROM (
+		        SELECT A.SCHEDULE_ID,
+					   A.OPERATION_TYPE,
+					   A.NUMBER_OF_PEOPLE,
+					   A.TUTORING_NUMBER,
+					   A.SCHEDULE_START,
+					   A.SCHEDULE_END,
+					   CONCAT(DATE_FORMAT(A.SCHEDULE_START,'%H:%i'),'~',DATE_FORMAT(A.SCHEDULE_END,'%H:%i')) SCHEDULE_TIME,
+					   CONCAT(DATE_FORMAT(A.SCHEDULE_START,'%Y년 %m월 %d일'), ' 일정') SCHEDULE_DATE,
+					   (SELECT NAME FROM PLAY WHERE PLAY.PLAY_ID = A.PLAY_ID) PLAY_NAME,
+					   A.REG_ID,
+					   DATE_FORMAT(A.REG_DATE, '%Y/%m/%d') REG_DATE,
+					   A.UPD_ID,
+					   DATE_FORMAT(A.UPD_DATE, '%Y/%m/%d') UPD_DATE,
+					   A.SUB_TOPIC,
+					   CASE WHEN B.CLASS_TYPE = 'CLASS_D' THEN (SELECT COUNT(*) FROM RESERVATION WHERE SCHEDULE_ID = A.SCHEDULE_ID AND TUTORING_YN = 'Y')
+					        ELSE (SELECT COUNT(*) FROM RESERVATION WHERE SCHEDULE_ID = A.SCHEDULE_ID AND TUTORING_YN = 'N') END AS RESERVATION_CNT,
+					   CASE WHEN B.CLASS_TYPE = 'CLASS_D' THEN 'Y' 
+					        ELSE 'N' END AS TUTORING_YN     
+		          FROM SCHEDULE A,
+		               STORE_PLAY B
+		        <where>
+		           AND A.STORE_ID = B.STORE_ID
+		           <if test="storeId != null and storeId != 'CST00001'.toString()">
+		           AND STORE_ID = #{storeId}
+		           </if>
+		           AND B.CLASS_TYPE = #{classType}
+		           <if test="scheduleType != null and scheduleType == 'ALL'.toString()">	
+		           AND A.SCHEDULE_START BETWEEN DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '000000'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S') 
+		                                    AND DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '235959'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S')
+		           </if>                         
+				   <if test="scheduleType != null and scheduleType == 'ING'.toString()">
+				   AND A.SCHEDULE_END BETWEEN NOW() 
+		                                  AND DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '235959'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S')                                    	
+				   </if>
+				   <if test="scheduleType != null and scheduleType == 'END'.toString()">
+				   AND A.SCHEDULE_END BETWEEN DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '000000'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S') 
+		                                  AND NOW()                                    	
+				   </if>
+		        </where>
+               ) SUB
+    </select>
+	
+	<insert id="insertSchedule" parameterType="kr.co.crevill.schedule.ScheduleDto">
+    	INSERT INTO SCHEDULE (
+   					          OPERATION_TYPE,
+						      NUMBER_OF_PEOPLE,
+						      TUTORING_NUMBER,
+						      SCHEDULE_START,
+						      SCHEDULE_END,
+						      PLAY_ID,
+						      STORE_ID,
+						      SUB_TOPIC,
+						      REG_ID,
+						      REG_DATE		
+   						     )
+				      VALUES (
+					  		  #{operationType},
+						      #{numberOfPeople},
+						      #{tutoringNumber},
+						      DATE_FORMAT(STR_TO_DATE(#{scheduleStart}, '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S'),
+						      DATE_ADD(DATE_FORMAT(STR_TO_DATE(#{scheduleStart}, '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S'), INTERVAL #{scheduleEnd} MINUTE),
+						      #{playId},
+						      #{storeId},
+						      #{subTopic},
+						      #{regId},
+						      NOW()
+					   		 )
+    </insert>
+	
+</mapper>

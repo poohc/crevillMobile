@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.crevill.reservation.ReservationMapper">
+	
+	<select id="selectReservationCount" parameterType="kr.co.crevill.schedule.ScheduleDto" resultType="Integer">
+        SELECT COUNT(*)
+          FROM RESERVATION A,
+               SCHEDULE B
+         WHERE A.SCHEDULE_ID = B.SCHEDULE_ID
+           <if test="storeId != null and storeId != 'CST00001'.toString()">
+           AND B.STORE_ID = #{storeId}
+           </if>
+           <if test="scheduleType != null and scheduleType == 'ALL'.toString()">	
+           AND B.SCHEDULE_START BETWEEN DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '000000'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S') 
+                                    AND DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '235959'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S')
+           </if>                         
+		   <if test="scheduleType != null and scheduleType == 'ING'.toString()">
+		   AND B.SCHEDULE_END BETWEEN NOW() 
+                                  AND DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '235959'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S')                                    	
+		   </if>
+		   <if test="scheduleType != null and scheduleType == 'END'.toString()">
+		   AND B.SCHEDULE_END BETWEEN DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '000000'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S') 
+                                  AND NOW()                                    	
+		   </if>
+    </select>
+	
+    <select id="selectReservationList" parameterType="kr.co.crevill.schedule.ScheduleDto" resultType="kr.co.crevill.reservation.ReservationVo">
+        SELECT A.RESERVATION_ID,
+			   CASE WHEN LENGTH(A.CELL_PHONE) = 11 THEN CONCAT(SUBSTRING(A.CELL_PHONE,1,3),'-',SUBSTRING(A.CELL_PHONE,4,4),'-',SUBSTRING(A.CELL_PHONE,8,4))
+            	    ELSE CONCAT(SUBSTRING(A.CELL_PHONE,1,3),'-',SUBSTRING(A.CELL_PHONE,4,3),'-',SUBSTRING(A.CELL_PHONE,7,4)) END AS CELL_PHONE,
+               IFNULL((SELECT NAME FROM MEMBER_PARENT WHERE CELL_PHONE = A.CELL_PHONE), '비회원') CUSTOMER_NAME, 	    
+			   DATE_FORMAT(A.REG_DATE ,'%Y/%m/%d %H:%i') RESERVATION_SIGN_UP_DATE,
+			   DATE_FORMAT(B.SCHEDULE_START,'%Y/%m/%d') RESERVATION_DATE,
+			   DATE_FORMAT(B.SCHEDULE_START,'%H:%i') RESERVATION_TIME,
+			   (SELECT CASE WHEN GRADE = 'DISPOSABLE' THEN '1회권' ELSE '바우처' END FROM VOUCHER WHERE A.VOUCHER_NO = VOUCHER_NO) VOUCHER_TYPE,
+			   (SELECT CODE_VALUE FROM COMMON_CODE WHERE CODE_TYPE = 'RESERVATION_STATUS' AND CODE_KEY = A.STATUS) STATUS_NAME,
+               A.VOUCHER_NO,
+			   A.SCHEDULE_ID,
+			   CONCAT(DATE_FORMAT(B.SCHEDULE_START,'%H:%i'),'~',DATE_FORMAT(B.SCHEDULE_END,'%H:%i')) SCHEDULE_TIME, 
+			   DATE_FORMAT(B.SCHEDULE_START,'%Y-%m-%d %H:%i') SCHEDULE_DATE,
+               B.NUMBER_OF_PEOPLE,
+               B.TUTORING_NUMBER,
+			   A.STATUS,
+			   A.REG_ID,
+			   DATE_FORMAT(A.REG_DATE, '%Y/%m/%d') REG_DATE,
+			   A.UPD_ID,
+			   DATE_FORMAT(A.UPD_DATE, '%Y/%m/%d') UPD_DATE,
+			   A.CHILD_NAME,
+			   C.VOUCHER_USE_ID,
+			   (SELECT S.STORE_NAME FROM STORE S WHERE S.STORE_ID = B.STORE_ID) STORE_NAME,
+			   (SELECT P.NAME FROM PLAY P WHERE P.PLAY_ID = B.PLAY_ID) PLAY_NAME, 
+			   B.SUB_TOPIC
+          FROM RESERVATION A,
+               SCHEDULE B,
+               VOUCHER_USE C
+         WHERE A.CELL_PHONE = #{cellPhone}
+           AND A.SCHEDULE_ID = B.SCHEDULE_ID
+           AND B.SCHEDULE_ID = C.SCHEDULE_ID
+           AND A.VOUCHER_NO = C.VOUCHER_NO
+      GROUP BY A.RESERVATION_ID
+      ORDER BY A.REG_DATE DESC
+    </select>
+	
+	<select id="selectReservationSearchList" parameterType="kr.co.crevill.schedule.ScheduleDto" resultType="kr.co.crevill.reservation.ReservationVo">
+        SELECT A.RESERVATION_ID,
+			   CASE WHEN LENGTH(A.CELL_PHONE) = 11 THEN CONCAT(SUBSTRING(A.CELL_PHONE,1,3),'-',SUBSTRING(A.CELL_PHONE,4,4),'-',SUBSTRING(A.CELL_PHONE,8,4))
+            	    ELSE CONCAT(SUBSTRING(A.CELL_PHONE,1,3),'-',SUBSTRING(A.CELL_PHONE,4,3),'-',SUBSTRING(A.CELL_PHONE,7,4)) END AS CELL_PHONE,
+			   A.VOUCHER_NO,
+			   A.SCHEDULE_ID,
+			   CONCAT(DATE_FORMAT(B.SCHEDULE_START,'%H:%i'),'~',DATE_FORMAT(B.SCHEDULE_END,'%H:%i')) SCHEDULE_TIME, 
+               <![CDATA[
+               CASE WHEN SCHEDULE_START > NOW() THEN 'BE'
+                    WHEN SCHEDULE_START <= NOW() AND SCHEDULE_END > NOW() THEN 'ING'
+                    ELSE 'END' END AS PROGRESS,
+               ]]>     
+               B.NUMBER_OF_PEOPLE,
+               B.TUTORING_NUMBER, 
+			   A.STATUS,
+			   A.REG_ID,
+			   DATE_FORMAT(A.REG_DATE, '%Y/%m/%d') REG_DATE,
+			   A.UPD_ID,
+			   DATE_FORMAT(A.UPD_DATE, '%Y/%m/%d') UPD_DATE,
+			   (SELECT COUNT(*) FROM RESERVATION C WHERE B.SCHEDULE_ID = C.SCHEDULE_ID AND TUTORING_YN = 'N') RESERVATION_CNT,
+			   FORMAT((((SELECT COUNT(*) FROM RESERVATION C WHERE B.SCHEDULE_ID = C.SCHEDULE_ID AND TUTORING_YN = 'N') / B.NUMBER_OF_PEOPLE) * 100), 0) AS RESERVATION_PER,
+			   DATE_FORMAT(B.SCHEDULE_START,'%H%i') SCHEDULE_START,
+			   (SELECT COUNT(*) FROM RESERVATION C WHERE B.SCHEDULE_ID = C.SCHEDULE_ID AND TUTORING_YN = 'Y') TUTORING_CNT,
+			   FORMAT((((SELECT COUNT(*) FROM RESERVATION C WHERE B.SCHEDULE_ID = C.SCHEDULE_ID AND TUTORING_YN = 'Y') / B.TUTORING_NUMBER) * 100), 0) AS TUTORING_PER
+          FROM RESERVATION A,
+               SCHEDULE B
+         WHERE A.SCHEDULE_ID = B.SCHEDULE_ID
+           <if test="storeId != null and storeId != 'CST00001'.toString()">
+           AND B.STORE_ID = #{storeId}
+           </if> 
+           <if test="scheduleType != null and scheduleType == 'ALL'.toString()">	
+           AND B.SCHEDULE_START BETWEEN DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '000000'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S') 
+                                    AND DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '235959'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S')
+           </if>                         
+		   <if test="scheduleType != null and scheduleType == 'ING'.toString()">
+		   AND B.SCHEDULE_END BETWEEN NOW() 
+                                  AND DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '235959'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S')                                    	
+		   </if>
+		   <if test="scheduleType != null and scheduleType == 'END'.toString()">
+		   AND B.SCHEDULE_END BETWEEN DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '000000'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S') 
+                                  AND NOW()                                    	
+		   </if>
+      GROUP BY A.SCHEDULE_ID
+    </select>
+	
+	<select id="checkReservationYn" parameterType="kr.co.crevill.reservation.ReservationDto" resultType="kr.co.crevill.reservation.ReservationVo">
+		SELECT <![CDATA[
+			   CASE WHEN CNT >= NUMBER_OF_PEOPLE THEN 'N'
+		            ELSE 'Y' END AS RESERVATION_YN
+		       ]]>     
+		  FROM (
+				SELECT COUNT(A.RESERVATION_ID) CNT,
+				       B.NUMBER_OF_PEOPLE
+				  FROM RESERVATION A,
+				       SCHEDULE B
+				 WHERE A.SCHEDULE_ID = #{scheduleId}
+				   AND A.STATUS = '02'
+				   AND A.SCHEDULE_ID  = B.SCHEDULE_ID
+				GROUP BY B.NUMBER_OF_PEOPLE
+		       ) SUB
+	</select>
+	
+	<select id="checkTutoringReservationYn" parameterType="kr.co.crevill.reservation.ReservationDto" resultType="kr.co.crevill.reservation.ReservationVo">
+		SELECT <![CDATA[
+			   CASE WHEN CNT >= TUTORING_NUMBER THEN 'N'
+		            ELSE 'Y' END AS RESERVATION_YN
+		       ]]>     
+		  FROM (
+				SELECT COUNT(A.RESERVATION_ID) CNT,
+				       B.TUTORING_NUMBER 
+				  FROM SCHEDULE B LEFT JOIN 
+				  	   RESERVATION A
+				    ON A.SCHEDULE_ID = '40'
+				   AND A.STATUS = '02'
+				   AND A.TUTORING_YN = 'Y'
+				   AND A.SCHEDULE_ID  = B.SCHEDULE_ID
+		       ) SUB
+	</select>
+	
+	<select id="checkVoucherYn" parameterType="kr.co.crevill.reservation.ReservationDto" resultType="kr.co.crevill.reservation.ReservationVo">
+		SELECT <![CDATA[
+			   CASE WHEN C.PLAY_TIME > D.TIME_LEFT_MINUTE THEN 'N'
+		            ELSE 'Y' END AS VOUCHER_YN,
+		       ]]>     
+		       C.PLAY_TIME
+		  FROM RESERVATION A,
+		       SCHEDULE B,
+		       PLAY C,
+		       VOUCHER_USE_VIEW D
+		 WHERE A.CELL_PHONE = #{cellPhone}
+		   AND A.SCHEDULE_ID = #{scheduleId}
+		   AND A.STATUS = '02'
+		   AND A.SCHEDULE_ID  = B.SCHEDULE_ID 
+		   AND B.PLAY_ID  = C.PLAY_ID
+		   AND A.VOUCHER_NO  = D.VOUCHER_NO
+	</select>
+	
+	<select id="checkAlreadyReservation" parameterType="kr.co.crevill.reservation.ReservationDto" resultType="Integer">
+		SELECT COUNT(*) 
+		  FROM RESERVATION
+		 WHERE CELL_PHONE = #{cellPhone}
+		   AND SCHEDULE_ID = #{scheduleId}
+		   AND STATUS = '02'
+	</select>
+	
+	<select id="selectReservationPlayInfo" parameterType="kr.co.crevill.reservation.ReservationDto" resultType="kr.co.crevill.reservation.ReservationVo">
+		SELECT B.PLAY_TIME
+		  FROM SCHEDULE A,
+		       PLAY B
+         WHERE A.SCHEDULE_ID = #{scheduleId}
+		   AND A.PLAY_ID = B.PLAY_ID		       
+	</select>
+	
+	<insert id="insertReservation" parameterType="kr.co.crevill.reservation.ReservationDto">
+    	INSERT INTO RESERVATION (
+   					       		 CELL_PHONE,
+								 VOUCHER_NO,
+								 SCHEDULE_ID,
+								 STATUS,
+								 CHILD_NAME,
+								 TUTORING_YN,
+								 REG_ID,
+								 REG_DATE
+   						        )
+				         VALUES (
+					  		     #{cellPhone},
+								 #{voucherNo},
+								 #{scheduleId},
+								 #{status},
+						         #{childName},
+						         #{tutoringYn},
+						         #{regId},
+						         NOW()
+					   		    )
+    </insert>
+	
+	<delete id="updateReservation" parameterType="kr.co.crevill.reservation.ReservationDto">
+		UPDATE RESERVATION
+		  <set>
+       	   <if test="cellPhone != null">CELL_PHONE = #{cellPhone},</if>
+		   <if test="voucherNo != null">VOUCHER_NO = #{voucherNo},</if>
+		   <if test="scheduleId != null">SCHEDULE_ID = #{scheduleId},</if>
+		   <if test="status != null">STATUS = #{status},</if>
+		   UPD_ID = #{updId},
+		   UPD_DATE = NOW()
+		  </set> 
+		 WHERE RESERVATION_ID = #{reservationId} 
+	</delete>
+	
+	
+</mapper>

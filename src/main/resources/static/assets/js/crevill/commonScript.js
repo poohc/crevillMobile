@@ -24,7 +24,7 @@ function execDaumPostcode() {
 
             // 우편번호와 주소 정보를 해당 필드에 넣는다.
             document.getElementById('postcode').value = data.zonecode;
-            document.getElementById("roadAddress").value = roadAddr;
+            document.getElementById("address").value = roadAddr;
             
             // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
             if(roadAddr !== ''){

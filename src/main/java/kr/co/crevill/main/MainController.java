@@ -1,4 +1,4 @@
-package kr.co.crevill;
+package kr.co.crevill.main;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,16 +11,23 @@ import kr.co.crevill.store.StoreDto;
 import kr.co.crevill.store.StoreService;
 
 @Controller
-public class CrevillController {
-	
+public class MainController {
+
 	@Autowired
 	private StoreService storeService; 
 	
 	@GetMapping("/")
+	public ModelAndView mobile(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("main");
+		return mav;
+	}
+	
+	@GetMapping("main.view")
 	public ModelAndView index(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("index");
+		ModelAndView mav = new ModelAndView("main");
 		StoreDto storeDto = new StoreDto();
 		mav.addObject("storeList", storeService.selectStoreList(storeDto));
 		return mav;
 	}
+	
 }

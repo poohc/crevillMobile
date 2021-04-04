@@ -1,7 +1,5 @@
 package kr.co.crevill.member;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.json.simple.JSONObject;
@@ -39,6 +37,13 @@ public class MemberController {
 	@Autowired
 	private CommonService commonService;
 
+	
+	@GetMapping("termsAgree.view")
+	public ModelAndView termsAgree(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("member/termsAgree");
+		return mav;
+	}
+	
 	@GetMapping("join.view")
 	public ModelAndView join(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("member/join");
@@ -48,18 +53,20 @@ public class MemberController {
 		return mav;
 	}
 	
+	@PostMapping("join.proc")
+	@ResponseBody
+	public JSONObject joinProc(HttpServletRequest request, @ModelAttribute MemberDto memberDto) {
+		JSONObject result = new JSONObject();
+		result = memberService.insertMemberInfo(memberDto, request);
+		return result;
+	}
+	
 	@PostMapping("checkMemberCellPhone.proc")
 	@ResponseBody
 	public JSONObject checkMemberCellPhone(HttpServletRequest request, @RequestBody MemberDto memberDto) {
 		JSONObject result = new JSONObject();
 		result = memberService.checkMemberCellPhone(memberDto);
 		return result;
-	}
-	
-	@GetMapping("history.view")
-	public ModelAndView history(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("member/history");
-		return mav;
 	}
 	
 }

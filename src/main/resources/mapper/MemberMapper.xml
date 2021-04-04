@@ -6,7 +6,10 @@
 	<select id="checkExistCellPhone" parameterType="kr.co.crevill.member.MemberDto" resultType="Integer">
         SELECT COUNT(*)
           FROM MEMBER_PARENT
-         WHERE CELL_PHONE = #{cellPhone}
+         WHERE CELL_PHONE = #{parentCellPhone}
+         <if test="cellPhone != null and cellPhone != ''">
+           AND CELL_PHONE != #{cellPhone}
+         </if>
     </select>
 	
 	<select id="selectMemberInfo" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
@@ -15,22 +18,108 @@
                EMAIL,
                ADDRESS,
                QR_CODE,
-               PASSWORD
+               PASSWORD,
+               STORE_ID
     	  FROM MEMBER_PARENT
-         WHERE CELL_PHONE = #{cellPhone} 
+         WHERE CELL_PHONE = #{parentCellPhone} 
     </select>
+	
+	<insert id="insertMemberParent" parameterType="kr.co.crevill.member.MemberDto">
+    	INSERT INTO MEMBER_PARENT (
+    								NAME,
+    								CELL_PHONE,
+    								EMAIL,
+    								ADDRESS,
+    								QR_CODE,
+									REG_DATE,
+									REG_ID,
+									STORE_ID,
+									PASS_WORD    								
+    							   )
+							VALUES (
+									#{parentName},
+									#{cellPhone},
+									#{email},
+									#{address},
+									QR_SEQ_NEXTVAL(),
+									NOW(),
+									#{regId},
+									#{storeId},
+									#{password}
+								   )
+    </insert>
+
+	<insert id="insertMemberChildren" parameterType="kr.co.crevill.member.MemberDto">
+    	INSERT INTO MEMBER_CHILDREN (
+    								PARENT_NAME,
+    								PARENT_CELL_PHONE,
+    								NAME,
+    								ENG_NAME,
+    								BIRTHDAY,
+    								SEX,
+    								PICTURE_IDX,
+    								REG_ID,
+    								REG_DATE
+    							   )
+							VALUES (
+									#{parentName},
+									#{cellPhone},
+									#{childName},
+									#{engName},
+									#{birthday},
+									#{sex},
+									#{pictureIdx},
+									#{regId},
+									NOW()
+								   )
+    </insert>
+	
+	<insert id="insertMemberChildrenGrade" parameterType="kr.co.crevill.member.MemberDto">
+    	INSERT INTO MEMBER_CHILDREN_GRADE (
+    								       PARENT_CELL_PHONE,
+									       CHILDREN_NAME,
+									       LEARNING_GRADE,
+    								       REG_ID,
+    								       REG_DATE
+    							          )
+								   VALUES (
+										   #{cellPhone},
+										   #{childName},
+										   #{learningGrade},
+										   #{regId},
+										   NOW()
+									      )
+    </insert>
 	
 	<update id="updateMemberParent" parameterType="kr.co.crevill.member.MemberDto">
     	UPDATE MEMBER_PARENT 
     	  <set>
 	       	  <if test="parentName != null">NAME = #{parentName},</if>
+	       	  <if test="cellPhone != null">CELL_PHONE = #{cellPhone},</if>
 	       	  <if test="email != null">EMAIL = #{email},</if>
 	       	  <if test="address != null">ADDRESS = #{address},</if>
-	       	  <if test="password != null">PASSWORD = #{password},</if>
 	       	  UPD_ID = #{updId},
 			  UPD_DATE = NOW()
        	  </set>
-        WHERE CELL_PHONE = #{cellPhone} 
+        WHERE QR_CODE = #{qrCode} 
     </update>
+	
+	<delete id="deleteMemberParent">
+		DELETE
+		  FROM MEMBER_PARENT
+		 WHERE QR_CODE = #{qrCode}  
+	</delete>
+	
+	<delete id="deleteMemberChildren">
+		DELETE 
+		  FROM MEMBER_CHILDREN
+		 WHERE PARENT_CELL_PHONE = #{cellPhone} 
+	</delete>
+	
+	<delete id="deleteMemberChildrenGrade">
+		DELETE 
+		  FROM MEMBER_CHILDREN_GRADE
+		 WHERE PARENT_CELL_PHONE = #{cellPhone} 
+	</delete>
 	
 </mapper>

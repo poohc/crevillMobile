@@ -1,133 +1,132 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/memberScript.js')}">
+	  layout:decorate="~{layout/defaultJoin(scriptName='/assets/js/crevill/memberScript.js')}">
+
 <th:block layout:fragment="content">
-	<div class="page-body" id="page-body">
-		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-sm-12">
-					<form class="form theme-form" id="memberForm" @submit.prevent="validateBeforeSubmit" action="/member/join.proc" method="post">
-					<div class="card">
-						<div class="card-header">
-							<h5>보호자 정보</h5>
-						</div>
-						<div class="card-body">
-							<div class="row">
-								<div class="col">
-									<div class="form-group">
-										<label class="col-form-label-sm" for="parentName">고객성함</label>
-										<input class="form-control form-control-lg" v-validate="'required'" id="parentName" name="parentName" type="text" placeholder="고객성함">
-										<label class="col-form-label-sm" for="parentName" v-if="errors.has('parentName')">{{ errors.first('parentName') }}</label>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col">
-									<div class="form-group">
-										<label class="col-form-label-sm" for="email">이메일주소</label>
-										<input class="form-control form-control-lg" v-validate="'required|email'" id="email" name="email" type="text" placeholder="이메일주소">
-										<label class="col-form-label-sm" for="email" v-if="errors.has('email')">{{ errors.first('email') }}</label>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col">
-									<div class="form-group">
-										<label class="col-form-label-sm" for="address">
-											거주지역<시,군,구>
-										</label>
-										<input class="form-control form-control-lg" v-validate="'required'" id="address" name="address" type="text" placeholder="(예)서초구">
-										<label class="col-form-label-sm" for="address" v-if="errors.has('address')">{{ errors.first('address') }}</label>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col">
-									<div class="form-group">
-										<label class="col-form-label-sm" for="cellPhone">휴대폰번호</label>
-										<input class="form-control form-control-lg" v-validate="'required|numeric|min:10|max:11|chkCellPhone'" id="cellPhone" name="cellPhone" type="tel" placeholder="-없이 입력">
-										<label class="col-form-label-sm" for="cellPhone" v-if="errors.has('cellPhone')"><font style="color: red">{{ errors.first('cellPhone') }}</font></label>
-										<label class="col-form-label-sm" for="cellPhone" v-else>등록가능한 번호입니다.</label>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="card">
-						<div class="card-header">
-							<h5>등록 아동정보</h5>
-						</div>
-						<div class="card-body">
-							<div class="row">
-								<div class="col">
-									<div class="form-group">
-										<label class="col-form-label-sm" for="colFormLabelSm28">아동-성명</label>
-										<input class="form-control form-control-lg" v-validate="'required'" id="childName" name="childName" type="text" placeholder="아동성명">
-										<label class="col-form-label-sm" for="childName" v-if="errors.has('childName')">{{ errors.first('childName') }}</label>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col">
-									<div class="form-group">
-										<label class="col-form-label-sm" for="colFormLabelSm28">아동-생년월일</label>
-										<input class="form-control form-control-lg" v-validate="'required|numeric|min:8|max:8'" id="birthday" name="birthday" type="text">
-										<label class="col-form-label-sm" for="birthday" v-if="errors.has('birthday')">{{ errors.first('birthday') }}</label>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-sm-12">
-									<p>성별</p>
-								</div>
-								<div class="col">
-									<div class="form-group m-t-15 m-checkbox-inline mb-0 custom-radio-ml">
-										<div class="radio radio-primary">
-											<input id="radioinline1" v-validate="'required|included:M,F'" type="radio" name="sex" value="M">
-											<label class="mb-0" for="radioinline1">남자</label>
-										</div>
-										<div class="radio radio-primary">
-											<input id="radioinline2" type="radio" name="sex" value="F">
-											<label class="mb-0" for="radioinline2">여자</label>
-										</div>
-										<label class="col-form-label-sm" for="sex" v-if="errors.has('sex')">{{ errors.first('sex') }}</label>
-									</div>
-								</div>
-								<br>
-								<br>
-								<br>
-								<br>
-								<div class="col-sm-12">
-									<p>영어 학습 수준</p>
-								</div>
-								<div class="col">
-									<div class="form-group m-t-15 m-checkbox-inline mb-0">
-										<div class="checkbox checkbox-dark">
-											<select id="learningGrade" name="learningGrade">
-												<th:block th:each="learningGrade, i: ${learningGradeList}">
-													<option th:value=${learningGrade.codeKey} th:text="${learningGrade.codeValue}"></option>
-												</th:block>
-											</select>
-<!-- 											<input v-validate="'required'" th:id="'learningGrade' + ${i.index}" type="checkbox" name="learningGrade"> -->
-<!-- 											<label th:for="'learningGrade' + ${i.index}" th:text="${learningGrade.codeValue}"></label> -->
-										</div>
-										<label class="col-form-label-sm" for="learningGrade" v-if="errors.has('learningGrade')">{{ errors.first('learningGrade') }}</label>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="card-footer">
-							<button class="btn btn-primary" type="submit" data-toggle="modal">등록</button>
-							<input class="btn btn-light" type="reset" value="취소">
-						</div>
-					</div>
-					</form>
-				</div>
-			</div>
-		</div>
-		<!-- Container-fluid Ends-->
-	</div>
+	<div id="appCapsule">
+	    <form class="form theme-form" id="memberForm" @submit.prevent="validateBeforeSubmit" th:action="@{/member/join.proc}" method="post">        
+        <div class="section full mt-2 mb-2">
+            <div class="section-title">회원정보</div>
+            <div class="wide-block pb-1 pt-2">
+	            <div class="form-group boxed">
+	                <div class="input-wrapper">
+	                    <label class="label" for="parentName">성함[한글]</label>
+	                    <input type="text" class="form-control" v-validate="'required'" id="parentName" name="parentName" placeholder="예)홍길동">
+	                    <label class="label" for="parentName" v-if="errors.has('parentName')">{{ errors.first('parentName') }}</label>
+	                </div>
+	            </div>
+	            <div class="form-group boxed">
+	                <div class="input-wrapper">
+	                    <label class="label" for="email">이메일</label>
+	                    <input type="email" class="form-control" v-validate="'required|email'" id="email" name="email" placeholder="이메일주소">
+	                    <label class="label" for="email" v-if="errors.has('email')">{{ errors.first('email') }}</label>
+	                </div>
+	            </div>
+	            <div class="form-group boxed">
+	                <div class="input-wrapper">
+	                    <label class="label" for="password5">비밀번호</label>
+	                    <input type="password" class="form-control" v-validate="{required: true, min: 8, max : 8, regex: /^(?=.*?[a-z])(?=.*?[0-9]).*$/ }" id="password" name="password" ref="password" placeholder="8자리 숫자,문자조합">
+	                    <label class="label" for="password" v-if="errors.has('password')">{{ errors.first('password') }}</label>
+	                </div>
+	            </div>
+	            <div class="form-group boxed">
+	                <div class="input-wrapper">
+	                    <label class="label" for="passwordAgain">비밀번호 재입력</label>
+	                    <input type="password" class="form-control" v-validate="'confirmed:password'" data-vv-as="password" id="passwordAgain" name="passwordAgain" placeholder="재입력">
+	                    <label class="label" for="passwordAgain" v-if="errors.has('passwordAgain')">{{ errors.first('passwordAgain') }}</label>
+	                </div>
+	            </div>
+	            <div class="form-group boxed">
+	                <div class="input-wrapper">
+	                    <label class="label" for="cellPhone">전화번호</label>
+	                    <input type="tel" class="form-control" v-validate="'required|numeric|min:10|max:11|chkCellPhone'" id="cellPhone" name="cellPhone">
+	                    <label class="label" for="cellPhone" v-if="errors.has('cellPhone')">{{ errors.first('cellPhone') }}</label>
+	                </div>
+	            </div>
+	            <div class="form-group boxed">
+	                <div class="input-wrapper">
+	                    <label class="label" for="address5">Address</label>
+	                    <input type="text" id="postcode" placeholder="우편번호">
+						<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
+						<input type="text" v-validate="'required'" id="address" name="address" placeholder="주소"><br>
+						<span id="guide" style="color:#999;display:none"></span>
+						<input type="text" v-validate="'required'" id="detailAddress" name="detailAddress" placeholder="상세주소">
+						<input type="text" id="extraAddress" placeholder="참고항목">
+						<label class="label" for="address" v-if="errors.has('address')">{{ errors.first('address') }}</label>
+	                    <label class="label" for="detailAddress" v-if="errors.has('detailAddress')">{{ errors.first('detailAddress') }}</label>
+	                </div>
+	            </div>
+            </div>
+        </div>
+
+        <div class="section full mt-2 mb-2">
+            <div class="section-title">자녀정보 [자녀의 추가등록 및 삭제는 가입완료 후 고객정보변경]</div>
+            <div class="wide-block pb-1 pt-1">
+                <div class="form-group basic">
+                    <div class="input-wrapper">
+                        <label class="label" for="childName">성함</label>
+                        <input type="text" class="form-control" v-validate="'required'" id="childName" name="childName" placeholder="홍길동">
+                        <label class="label" for="childName" v-if="errors.has('childName')">{{ errors.first('childName') }}</label>
+                    </div>
+                </div>
+                <div class="form-group basic">
+                    <div class="input-wrapper">
+                        <label class="label" for="engName">FULL NAME</label>
+                        <input type="text" class="form-control" v-validate="'required'" id="engName" name="engName" placeholder="Ex)HONG GIL DONG">
+                        <label class="label" for="engName" v-if="errors.has('engName')">{{ errors.first('engName') }}</label>
+                    </div>
+                </div>
+                <div class="form-group basic">
+                    <div class="input-wrapper">
+                        <label class="label" for="birthday">생년월일</label>
+                        <input type="text" class="form-control" v-validate="'required|numeric|min:8|max:8'" id="birthday" name="birthday" placeholder="">
+                        <label class="label" for="birthday" v-if="errors.has('birthday')">{{ errors.first('birthday') }}</label>
+                    </div>
+                </div>
+                <div class="form-group basic">
+                    <div class="input-wrapper">
+                        <label class="label" for="city4">성별</label>
+                        <select class="form-control custom-select" v-validate="'required|included:M,F'" id="sex" name="sex">
+                            <option value="M">남자</option>
+                            <option value="F">여자</option>
+                        </select>
+                        <label class="label" for="birthday" v-if="errors.has('sex')">{{ errors.first('sex') }}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section full mt-2 mb-2">
+            <div class="wide-block pb-2 pt-2">
+                <div class="custom-file-upload">
+                    <input type="file" id="camera" name="camera" capture="camera" accept="image/*" />
+                    <label for="fileuploadInput">
+                        <span>
+                            <strong>
+                                <i>터치하여 사진촬영</i>
+                                <img id="picture" style="width:100%;" />
+                            </strong>
+                        </span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="listview-title mt-1">추가정보[영어학습경험]경험이 전혀 없어도 문제없습니다.]</div>
+            <ul class="listview simple-listview">
+                <li th:each="learningGrade, i: ${learningGradeList}">
+                    <div th:text="${learningGrade.codeValue}"></div>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" th:id="'learningGrade' + ${i.index}" name="learningGrade" th:value=${learningGrade.codeValue}>
+                        <label class="custom-control-label" th:for="'learningGrade' + ${i.index}"></label>
+                    </div>
+                </li>
+            </ul>
+            <div class="wide-block pt-2 pb-2">
+                <button type="submit" class="btn btn-primary btn-block">회원가입</button>
+            </div>   
+        </div>
+        </form>
+    </div>
 </th:block>
 </html>

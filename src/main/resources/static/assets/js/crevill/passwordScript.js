@@ -22,14 +22,14 @@ new Vue({
 			formdata.append("cellPhone", $('#cellPhone').val());
 			formdata.append("password", $('#password').val());
 			
-			axios.post('/login/passwordInit.proc', formdata,{
+			axios.post(contextRoot + 'login/passwordInit.proc', formdata,{
 				  headers: {
 					'Content-Type': 'multipart/form-data'
 				  }
 				}).then((response) => {
 				if (response.data.resultCd == '00') {
 			      	alert('비밀번호가 정상적으로 설정되었습니다.');
-					location.href = '/';
+					location.href = contextRoot + 'main.view';
 			    } else {
 					alert('비밀번호 설정 중 오류가 발생했습니다. 다시 시도하여 주세요.');
 				}
