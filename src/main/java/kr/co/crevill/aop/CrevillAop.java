@@ -49,7 +49,7 @@ public class CrevillAop {
 		logger.info("servletMenuPath : " + servletMenuPath);
 		
 		if(session.getAttribute("memberVo") == null && 
-				!StringUtils.equalsAny(servletMenuPath, "login.view", "passwordInit.view", "termsAgree.view", "join.view", "login.proc", "join.proc", "checkMemberCellPhone.proc", "join.proc")) {
+				!StringUtils.equalsAny(servletMenuPath, "login.view", "passwordInit.view", "termsAgree.view", "join.view", "login.proc", "passwordInit.proc", "join.proc", "checkMemberCellPhone.proc", "join.proc")) {
 			ModelAndView mav = new ModelAndView();
 			mav.setViewName("redirect:/login/login.view");
 			return mav;

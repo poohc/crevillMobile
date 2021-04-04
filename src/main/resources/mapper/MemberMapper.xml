@@ -34,7 +34,7 @@
 									REG_DATE,
 									REG_ID,
 									STORE_ID,
-									PASS_WORD    								
+									PASSWORD    								
     							   )
 							VALUES (
 									#{parentName},
@@ -98,10 +98,11 @@
 	       	  <if test="cellPhone != null">CELL_PHONE = #{cellPhone},</if>
 	       	  <if test="email != null">EMAIL = #{email},</if>
 	       	  <if test="address != null">ADDRESS = #{address},</if>
+	       	  <if test="password != null">PASSWORD = #{password},</if>
 	       	  UPD_ID = #{updId},
 			  UPD_DATE = NOW()
        	  </set>
-        WHERE QR_CODE = #{qrCode} 
+        WHERE CELL_PHONE = #{cellPhone} 
     </update>
 	
 	<delete id="deleteMemberParent">
