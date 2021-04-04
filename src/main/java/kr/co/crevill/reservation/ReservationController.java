@@ -20,6 +20,8 @@ import kr.co.crevill.common.SessionUtil;
 import kr.co.crevill.schedule.ScheduleDto;
 import kr.co.crevill.store.StoreDto;
 import kr.co.crevill.store.StoreService;
+import kr.co.crevill.voucher.VoucherSaleDto;
+import kr.co.crevill.voucher.VoucherService;
 
 @Controller
 @RequestMapping("reservation")
@@ -30,6 +32,9 @@ public class ReservationController {
 	
 	@Autowired
 	private StoreService storeService;
+	
+	@Autowired
+	private VoucherService voucherService;
 	
 	@GetMapping("list.view")
 	public ModelAndView list(HttpServletRequest request, ScheduleDto scheduleDto) {
@@ -50,6 +55,9 @@ public class ReservationController {
 		ModelAndView mav = new ModelAndView("reservation/regist");
 		StoreDto storeDto = new StoreDto();
 		mav.addObject("storeList", storeService.selectStoreList(storeDto));
+		VoucherSaleDto voucherSaleDto = new VoucherSaleDto();
+		voucherSaleDto.setBuyCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
+		mav.addObject("voucherList", voucherService.getMemberVoucherList(voucherSaleDto));
 		return mav;
 	}
 	

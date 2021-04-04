@@ -68,9 +68,12 @@
                             <label class="label" for="city4">바우처 사용</label>
                             <select class="form-control custom-select" id="voucherNo" name="voucherNo">
                                 <option value="">보유바우처 선택</option>
-                                <template v-for="item in voucherList">
-                                	<option :value="item.voucherNo"><span>[잔여:{{item.timeLeftHour}}] </span>{{item.ticketName}}</option>
-                                </template>
+<!--                                 <template v-for="item in voucherList"> -->
+<!--                                 	<option :value="item.voucherNo"><span>[잔여:{{item.timeLeftHour}}] </span>{{item.ticketName}}</option> -->
+<!--                                 </template> -->
+								<th:block th:each="voucherList : ${voucherList}">
+								<option th:value="${voucherList.voucherNo}" th:text="|[잔여:${voucherList.timeLeftHour}] ${voucherList.ticketName}|"></option>	
+								</th:block>
                             </select>
                         </div>
                     </div>
