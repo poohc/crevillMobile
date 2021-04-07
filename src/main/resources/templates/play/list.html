@@ -1,64 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/playListScript.js')}">
+	  layout:decorate="~{layout/defaultCommon}">
 
 <th:block layout:fragment="content">
-	<div class="page-body" id="page-body">
-		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
-		<!-- Container-fluid starts-->
-		<div class="container-fluid">
-	        <div class="row">
-	            <!-- Individual column searching (text inputs) Starts-->
-	            <div class="col-sm-12">
-	                <div class="card">
-	                    <div class="card-body">
-	                        <div class="table-responsive product-table">
-	                            <table class="display" id="basic-1">
-	                                <thead>
-	                                    <tr>
-	                                        <th>THUMB</th>
-	                                        <th>PLAY</th>
-	                                        <th>놀이시간[분]</th>
-	                                        <th>평일/주말구분</th>
-	                                        <th>등록일</th>
-	                                        <th>관리</th>
-	                                    </tr>
-	                                </thead>
-	                                <tbody>
-	                                    <tr th:each="playList : ${list}">
-	                                    	<td>	
-	                                        	<img th:src="@{/common/getImage(imageIdx=${playList.thumbnailIdx})}">
-	                                        </td>
-	                                        <td>
-	                                            <h6 th:text="${playList.name}"></h6><span th:text="${playList.description}"></span>
-	                                        </td>
-	                                        <td th:text="${playList.playTime}"></td>
-	                                        
-	                                        <th:block th:if="${playList.operationType == 'BOTH'}">
-											    <td class="font-success">평일/주말</td>
-											</th:block>
-											<th:block th:if="${playList.operationType == 'WEEKDAY'}">
-											    <td class="font-success">평일</td>
-											</th:block>
-											<th:block th:if="${playList.operationType == 'WEEKEND'}">
-											    <td class="font-success">주말</td>
-											</th:block>            
-	                                        <td th:text="${playList.regDate}"></td>
-	                                        <td>
-	                                            <button class="btn btn-danger btn-xs" type="button" data-original-title="btn btn-danger btn-xs" th:attr="onclick=|deletePlayInfo('${playList.playId}')|">삭제</button>
-	                                            <button class="btn btn-success btn-xs" type="button" data-original-title="btn btn-danger btn-xs" th:attr="onclick=|updatePlayInfo('${playList.playId}')|">수정</button>
-	                                        </td>
-	                                    </tr>
-	                                </tbody>
-	                            </table>
-	                        </div>
-	                    </div>
-	                </div>
-	            </div>
-	            <!-- Individual column searching (text inputs) Ends-->
-	        </div>
-	    </div>
-	</div>
+	<div id="appCapsule">
+         <div class="listview-title mt-2">놀이와 예술로 배우는 영어, 크레빌의 프로그램을 소개합니다.</div>
+         <ul class="listview image-listview media mb-2">
+         	 <th:block th:each="list : ${list}">
+             <li class="multi-level">
+                 <a href="#" class="item">
+                     <div class="imageWrapper">
+                         <img th:src="@{/common/getImage(imageIdx=${list.pictureIdx})}" alt="놀이사진" class="imaged w64">
+                     </div>
+                     <div class="in">
+                         <div th:text="${list.name}"></div>
+                     </div>
+                 </a>
+                 <ul class="listview simple-listview">
+                    <li th:text="${list.description}"></li>
+                </ul>
+             </li>
+             </th:block>
+         </ul>
+    </div>
+	<!-- * App Capsule -->
 </th:block>
 </html>

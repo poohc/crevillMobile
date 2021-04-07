@@ -76,6 +76,9 @@ public class CrevillAop {
         		if(servletMenuPath.indexOf("join.view") > -1) {
         			menu = "회원가입";
         		}
+        		if(servletMenuPath.indexOf("info.view") > -1) {
+        			menu = "회원정보";
+        		}
         	}
         	
         	if(servletPath.indexOf("staff") > -1) {
@@ -127,8 +130,8 @@ public class CrevillAop {
         	
         	if(servletPath.indexOf("play") > -1) {
         		menuDto.setUpperMenu("플레이관리");
-        		if(servletMenuPath.indexOf("regist.view") > -1) {
-        			menu = "플레이마스터";
+        		if(servletMenuPath.indexOf("list.view") > -1) {
+        			menu = "PLAY정보";
         		}
         	}
         	
@@ -160,11 +163,8 @@ public class CrevillAop {
         	
         	if(servletPath.indexOf("store") > -1) {
         		menuDto.setUpperMenu("매장관리");
-        		if(servletMenuPath.indexOf("list.view") > -1) {
-        			menu = "매장리스트";
-        		}
-        		if(servletMenuPath.indexOf("regist.view") > -1) {
-        			menu = "매장등록";
+        		if(servletMenuPath.indexOf("storeInfo.view") > -1) {
+        			menu = request.getParameter("storeName");
         		}
         	}
         	

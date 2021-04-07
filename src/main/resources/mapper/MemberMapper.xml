@@ -19,7 +19,8 @@
                ADDRESS,
                QR_CODE,
                PASSWORD,
-               STORE_ID
+               STORE_ID,
+               (SELECT STORE_NAME FROM STORE S WHERE MEMBER_PARENT.STORE_ID = S.STORE_ID) STORE_NAME 
     	  FROM MEMBER_PARENT
          WHERE CELL_PHONE = #{parentCellPhone} 
     </select>

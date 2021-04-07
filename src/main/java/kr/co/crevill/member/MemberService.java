@@ -25,6 +25,10 @@ public class MemberService {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 		
+	public MemberVo selectMemberInfo(MemberDto memberDto) {
+		return memberMapper.selectMemberInfo(memberDto);
+	}
+	
 	public JSONObject checkMemberCellPhone(MemberDto memberDto) {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);

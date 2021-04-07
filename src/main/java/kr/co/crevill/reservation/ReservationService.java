@@ -114,12 +114,12 @@ public class ReservationService {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
 		reservationDto.setStatus(CrevillConstants.RESERVATION_STATUS_CANCEL);
-//		reservationDto.setUpdId(SessionUtil.getSessionStaffVo(request).getStaffId());
+		reservationDto.setUpdId(SessionUtil.getSessionMemberVo(request).getQrCode());
 		if(reservationMapper.updateReservation(reservationDto) > 0) {
 			VoucherDto voucherDto = new VoucherDto();
 			voucherDto.setVoucherUseId(reservationDto.getVoucherUseId());
 			voucherDto.setStatus(CrevillConstants.VOUCHER_STATUS_CANCEL);;
-//			voucherDto.setUpdId(SessionUtil.getSessionStaffVo(request).getStaffId());
+			voucherDto.setUpdId(SessionUtil.getSessionMemberVo(request).getQrCode());
 			if(voucherMapper.updateVoucherUse(voucherDto) > 0) {
 				result.put("resultCd", CrevillConstants.RESULT_SUCC);	
 			}	

@@ -29,7 +29,6 @@ public class PlayController {
 	@GetMapping("list.view")
 	public ModelAndView list(HttpServletRequest request, @ModelAttribute PlayDto playDto) {
 		ModelAndView mav = new ModelAndView("play/list");
-		mav.addObject("count", playService.selectPlayCount(playDto));
 		mav.addObject("list", playService.selectPlayList(playDto));
 		return mav;
 	}

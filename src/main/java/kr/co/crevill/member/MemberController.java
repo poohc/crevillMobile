@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.crevill.common.CommonCodeDto;
 import kr.co.crevill.common.CommonService;
+import kr.co.crevill.common.SessionUtil;
 
 /**
  * 
@@ -67,6 +68,15 @@ public class MemberController {
 		JSONObject result = new JSONObject();
 		result = memberService.checkMemberCellPhone(memberDto);
 		return result;
+	}
+	
+	@GetMapping("info.view")
+	public ModelAndView info(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("member/info");
+		MemberDto memberDto = new MemberDto();
+		memberDto.setParentCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
+		mav.addObject("info", memberService.selectMemberInfo(memberDto));
+		return mav;
 	}
 	
 }

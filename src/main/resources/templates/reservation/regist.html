@@ -54,23 +54,20 @@
                     </div>
                     <div class="form-group boxed">
                         <div class="input-wrapper">
-                            <label class="label" for="city4">시간별 조회</label>
+                            <label class="label" for="scheduleId">시간별 조회</label>
                             <select class="form-control custom-select" id="scheduleId" name="scheduleId">
                                 <option value="">이용가능 시간 검색</option>
                                 <template v-for="item in scheduleList">
-                                	<option :value="item.scheduleId"><span>[{{item.reservationAvaCount}}]명 </span><span>{{item.playName}}</span>{{item.scheduleTime}}</option>
+                                	<option :value="item.scheduleId" :class="item.scheduleTime"><span>[{{item.reservationAvaCount}}]명 </span><span>{{item.playName}}</span>{{item.scheduleTime}}</option>
                                 </template>
                             </select>
                         </div>
                     </div>
                     <div class="form-group boxed">
                         <div class="input-wrapper">
-                            <label class="label" for="city4">바우처 사용</label>
+                            <label class="label" for="voucherNo">바우처 사용</label>
                             <select class="form-control custom-select" id="voucherNo" name="voucherNo">
                                 <option value="">보유바우처 선택</option>
-<!--                                 <template v-for="item in voucherList"> -->
-<!--                                 	<option :value="item.voucherNo"><span>[잔여:{{item.timeLeftHour}}] </span>{{item.ticketName}}</option> -->
-<!--                                 </template> -->
 								<th:block th:each="voucherList : ${voucherList}">
 								<option th:value="${voucherList.voucherNo}" th:text="|[잔여:${voucherList.timeLeftHour}] ${voucherList.ticketName}|"></option>	
 								</th:block>
@@ -89,13 +86,13 @@
                             <i class="chip-icon bg-danger">
                                 <ion-icon name="pin"></ion-icon>
                             </i>
-                            <span class="chip-label">{{scheduleId}}</span>
+                            <span class="chip-label" id="storeNameSpan"></span>
                         </div>
                         <div class="chip chip-media">
                             <i class="chip-icon bg-warning">
                                 <ion-icon name="alarm"></ion-icon>
                             </i>
-                            <span class="chip-label">{{scheduleTime}}</span>
+                            <span class="chip-label" id="scheduleTimeSpan"></span>
                         </div>
                     </div>
                     <div class="mt-2">

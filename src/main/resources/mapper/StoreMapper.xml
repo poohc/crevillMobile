@@ -56,7 +56,10 @@
 			   UPD_ID,
 			   DATE_FORMAT(UPD_DATE, '%Y/%m/%d') UPD_DATE
           FROM STORE
-         WHERE STORE_ID != 'ADMIN' 
+         WHERE STORE_ID NOT IN ('ADMIN','CST00001')  
+           <if test="storeId != null">
+           AND STORE_ID = #{storeId}
+           </if>
       ORDER BY SORT_RANK
     </select>
 	

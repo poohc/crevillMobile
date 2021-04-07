@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/reservationScript.js')}">
+	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/reservationListScript.js')}">
 
 <th:block layout:fragment="content">
 	 <div class="appHeader bg-primary text-light">
@@ -18,7 +18,8 @@
         <div class="listview-title mt-2">예약 목록 - 당일취소는 불가합니다.</div>
         <ul class="listview image-listview">
             <li th:each="list : ${list}">
-<!--                 <a href="#" class="item" data-toggle="modal" data-target="#DialogTodayCancel"> -->
+            	<th:block th:if="${list.status == '02'}">
+                <a class="item" th:attr="onclick=|cancel('${list.reservationId}','${list.voucherUseId}','${list.isToday}')|">
                     <img th:src="@{/assets/img/sample/avatar/avatar1.jpg}" alt="image" class="image">
                     <div class="in">
                         <div>
@@ -26,9 +27,27 @@
                             <span th:text="${list.scheduleDate}"></span>
                             <footer th:text="${list.playName}"><span th:text="${list.subTopic}"></span></footer>
                         </div>
-                        <span class="text-muted">예약취소</span>
+                        <th:block th:if="${list.status == '02'}">
+                        	<span class="text-muted">예약취소</span>
+                        </th:block>
                     </div>
-<!--                 </a> -->
+                </a>
+                </th:block>
+                <th:block th:if="${list.status == '05'}">
+                <a class="item">
+                    <img th:src="@{/assets/img/sample/avatar/avatar1.jpg}" alt="image" class="image">
+                    <div class="in">
+                        <div>
+                            <header th:text="${list.storeName}"></header>
+                            <span th:text="${list.scheduleDate}"></span>
+                            <footer th:text="${list.playName}"><span th:text="${list.subTopic}"></span></footer>
+                        </div>
+                        <th:block th:if="${list.status == '05'}">
+                        	<span class="text-muted">취소완료</span>
+                        </th:block>
+                    </div>
+                </a>
+                </th:block>
             </li>
         </ul>
     </div>

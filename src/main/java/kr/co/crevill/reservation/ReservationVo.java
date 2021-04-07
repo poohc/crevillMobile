@@ -40,4 +40,5 @@ public class ReservationVo {
 	private String voucherUseId;
 	private String storeName;
 	private String subTopic;
+	private String isToday;
 }

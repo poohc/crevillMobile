@@ -66,43 +66,6 @@ var vm = new Vue({
   }
 }); 
 
-//$('#voucherNo').click(function(){
-//	
-//	$.ajax({
-//		type : "POST",
-//		data: {
-//	            buyCellPhone : $('#cellPhone').val()
-//	    },
-//		url : contextRoot +  'voucher/getMemberVoucherList.proc',
-//		success : function(data){
-//			if(data.resultCd == '00'){
-//				
-//				if(data.voucherList.length == 0){
-//					alert('바우처가 없습니다.');
-//					return false;
-//				} else {
-//					for(var i=0; i < data.voucherList.length; i++){
-//						Vue.set(vm.voucherList, i, data.voucherList[i]);
-//					} 
-//					vm.voucherList.slice().sort(function(a, b) {
-//		    			return b.timeLeftHour - a.timeLeftHour;
-//		            });
-//				}
-//				
-//			} else {
-//				alert('회원이 아닙니다.');
-//				return false;	
-//			}
-//			
-//		},
-//		error : function(error) {
-//	        alert("바우처 목록을 가져오는 중에 오류가 발생했습니다. 다시 시도하여 주세요.");
-//			return false;
-//	    }
-//	});
-//	
-//});
-
 $('#scheduleId').click(function(){
 	
 	$.ajax({
@@ -133,3 +96,13 @@ $('#scheduleId').click(function(){
 	});
 	
 });
+
+$('#storeId').change(function(){
+	$('#storeNameSpan').text($("#storeId option:checked").text().split(" ")[($("#storeId option:checked").text().split(" ").length - 1)]);
+});
+
+$('#scheduleId').change(function(){
+	$('#scheduleTimeSpan').text($('#scheduleId option:checked').attr('class'));
+});
+
+$('#storeNameSpan').text($("#storeId option:checked").text().split(" ")[($("#storeId option:checked").text().split(" ").length - 1)]);

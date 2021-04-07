@@ -14,7 +14,7 @@
 			<div class="carousel-multiple owl-carousel owl-theme">
 				<div class="item" th:each="list : ${storeList}">
 					<div class="card">
-						<a href="storeInfo.html">
+						<a th:href="@{/store/storeInfo.view(storeId=${list.storeId})}">
 							<img th:src="@{/common/getImage(imageIdx=${list.image1Idx})}" class="card-img-top" th:alt="|${list.storeName} 매장이미지|">
 						</a>
 						<div class="card-body pt-2">
@@ -48,7 +48,7 @@
 					<h6 class="card-subtitle">CREVILL Intro</h6>
 					<h5 class="card-title">발견하세요.</h5>
 					<p class="card-text">놀이를 통한 신기한 영어학습과 창의력</p>
-					<a href="playlist.html" class="btn btn-primary">
+					<a th:href="@{/play/list.view}" class="btn btn-primary">
 						<ion-icon name="cube-outline"></ion-icon> CLASS 보기
 					</a>
 				</div>
