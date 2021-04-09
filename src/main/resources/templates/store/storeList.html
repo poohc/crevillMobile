@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/defaultCommon(scriptName='/assets/js/crevill/storeScript.js')}">
+
+<th:block layout:fragment="content">
+	 <div id="appCapsule">
+        <div class="section full">
+            <img th:src="@{/assets/img/store_title.png}" alt="image" class="imaged square w-100">
+        </div>
+        <div class="listview-title mt-2">크레빌 매장소개</div>
+        <ul class="listview image-listview media mb-2">
+            <th:block th:each="list : ${list}">
+            <li>
+                <a th:href="@{/store/storeInfo.view(storeId=${list.storeId})}" class="item">
+                    <div class="imageWrapper">
+                        <img th:src="@{/common/getImage(imageIdx=${list.image1Idx})}" th:alt="|${list.storeName} 매장이미지|" class="imaged w64">
+                    </div>
+                    <div class="in">
+                        <div>
+                            <span th:text="${list.storeNameShort}"></span>
+                            <div class="text-muted" th:text="${list.address}"></div>
+                        </div>
+                        <th:block th:if="${list.storeStatusCode == 'ACTIVE'}">
+                        <span class="badge badge-primary">OPEN</span>
+                        </th:block>
+                        <th:block th:if="${list.storeStatusCode == 'INACTIVE'}">
+                        <span class="badge badge-danger">CLOSE</span>
+                        </th:block>
+                    </div>
+                </a>
+            </li>
+            </th:block>
+        </ul>
+    </div>
+	<!-- * App Capsule -->
+</th:block>
+</html>

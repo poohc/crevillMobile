@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/defaultStore(scriptName='/assets/js/crevill/reservationScript.js')}">
+	  layout:decorate="~{layout/defaultStore}">
 
 <th:block layout:fragment="content">
 	 <!-- loader -->
@@ -111,7 +111,7 @@
         <div class="section full mt-2 mb-3">
             <div class="section-title mb-1">위치안내</div>
             <div>
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3169.885386722313!2d127.1097980155917!3d37.39254267983083!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357b585b10f7d4eb%3A0x23cd030dd3635aea!2z7ZiE64yA67Cx7ZmU7KCQIO2MkOq1kOygkA!5e0!3m2!1sko!2skr!4v1613979453758!5m2!1sko!2skr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <iframe th:src="${googleMapSrc}" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>       
         </div>
     </div>

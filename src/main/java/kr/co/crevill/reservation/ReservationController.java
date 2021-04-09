@@ -16,12 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.co.crevill.common.CrevillConstants;
 import kr.co.crevill.common.SessionUtil;
 import kr.co.crevill.schedule.ScheduleDto;
 import kr.co.crevill.store.StoreDto;
 import kr.co.crevill.store.StoreService;
 import kr.co.crevill.voucher.VoucherSaleDto;
 import kr.co.crevill.voucher.VoucherService;
+import kr.co.crevill.voucher.VoucherVo;
 
 @Controller
 @RequestMapping("reservation")
@@ -57,6 +59,14 @@ public class ReservationController {
 		mav.addObject("storeList", storeService.selectStoreList(storeDto));
 		VoucherSaleDto voucherSaleDto = new VoucherSaleDto();
 		voucherSaleDto.setBuyCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
+		
+		List<VoucherVo> voucherList = voucherService.getMemberVoucherList(voucherSaleDto);
+		
+		//TODO 모바일 회원 이고 보유 바우처가 하나도 없는 경우 1회권 바우처 자동 생성 및 판매
+		if(CrevillConstants.STORE_ID_MOBILE.equals(SessionUtil.getSessionMemberVo(request).getStoreId())) {
+			
+		}
+		
 		mav.addObject("voucherList", voucherService.getMemberVoucherList(voucherSaleDto));
 		return mav;
 	}

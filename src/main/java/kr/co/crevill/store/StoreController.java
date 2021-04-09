@@ -33,16 +33,24 @@ public class StoreController {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
+	@GetMapping("storeList.view")
+	public ModelAndView storeList(HttpServletRequest request, StoreDto storeDto) {
+		ModelAndView mav = new ModelAndView("store/storeList");
+		List<StoreVo> storeList = storeService.selectStoreList(storeDto);
+		mav.addObject("list", storeList);
+		return mav;
+	}
+	
 	@GetMapping("storeInfo.view")
-	public ModelAndView list(HttpServletRequest request, StoreDto storeDto) {
+	public ModelAndView storeInfo(HttpServletRequest request, StoreDto storeDto) {
 		ModelAndView mav = new ModelAndView("store/storeInfo");
 		List<StoreVo> storeList = storeService.selectStoreList(storeDto);
 		InstructorDto instructorDto = new InstructorDto();
 		instructorDto.setStoreId(SessionUtil.getSessionMemberVo(request).getStoreId());
-		//TODO 매장코드 추가된다면 처리해줄것
 		PlayDto playDto = new PlayDto();
 		mav.addObject("list", storeList);
 		mav.addObject("storeName", storeList.get(0).getStoreName());
+		mav.addObject("googleMapSrc", "https://www.google.com/maps?q="+storeList.get(0).getStoreName()+"&output=embed");
 		mav.addObject("nsList", staffService.selectInstructorList(instructorDto));
 		mav.addObject("playList", playService.selectPlayList(playDto));
 		return mav;

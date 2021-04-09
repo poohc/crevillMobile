@@ -12,9 +12,11 @@ public class StoreVo {
 	private String playName;
 	private String storeName;
 	private String storeNameReg;
+	private String storeNameShort;
 	private String storeType;
 	private String storePlay;
 	private String storeStatus;
+	private String storeStatusCode;
 	private String telNo;
 	private String sortRank;
 	private String registrationNumber;
