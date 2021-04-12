@@ -18,6 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.crevill.common.CrevillConstants;
 import kr.co.crevill.common.SessionUtil;
+import kr.co.crevill.member.MemberDto;
+import kr.co.crevill.member.MemberService;
 import kr.co.crevill.schedule.ScheduleDto;
 import kr.co.crevill.store.StoreDto;
 import kr.co.crevill.store.StoreService;
@@ -37,6 +39,9 @@ public class ReservationController {
 	
 	@Autowired
 	private VoucherService voucherService;
+	
+	@Autowired
+	private MemberService memberService;
 	
 	@GetMapping("list.view")
 	public ModelAndView list(HttpServletRequest request, ScheduleDto scheduleDto) {
@@ -71,11 +76,31 @@ public class ReservationController {
 		return mav;
 	}
 	
+	@GetMapping("free.view")
+	public ModelAndView free(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("reservation/freeRegist");
+		StoreDto storeDto = new StoreDto();
+		storeDto.setExperienceClass("Y");
+		MemberDto memberDto = new MemberDto();
+		memberDto.setParentCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
+		mav.addObject("storeList", storeService.selectStoreList(storeDto));
+		mav.addObject("childList", memberService.selectChildMemberList(memberDto));
+		return mav;
+	}
+	
 	@PostMapping("regist.proc")
 	@ResponseBody
 	public JSONObject registProc(HttpServletRequest request, @ModelAttribute ReservationDto reservationDto) {
 		JSONObject result = new JSONObject();
 		result = reservationService.insertReservation(reservationDto, request);
+		return result;
+	}
+	
+	@PostMapping("freeRegist.proc")
+	@ResponseBody
+	public JSONObject freeRegistProc(HttpServletRequest request, @ModelAttribute ReservationDto reservationDto) {
+		JSONObject result = new JSONObject();
+		result = reservationService.insertFreeReservation(reservationDto, request);
 		return result;
 	}
 	

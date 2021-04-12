@@ -62,6 +62,9 @@
            <if test="storeId != null">
            AND STORE_ID = #{storeId}
            </if>
+           <if test="experienceClass != null">
+           AND EXPERIENCE_CLASS = #{experienceClass}
+           </if>
       ORDER BY SORT_RANK
     </select>
 	

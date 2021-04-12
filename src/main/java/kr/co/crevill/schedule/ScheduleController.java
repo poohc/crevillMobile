@@ -1,5 +1,7 @@
 package kr.co.crevill.schedule;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,7 +90,15 @@ public class ScheduleController {
 	public JSONObject getScheduleList(HttpServletRequest request, ScheduleDto scheduleDto) {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
-		scheduleDto.setScheduleType("ALL");
+		
+		if(scheduleDto.getScheduleStart() == null || scheduleDto.getScheduleStart().isEmpty() || scheduleDto.getScheduleStart() == "") {
+			scheduleDto.setScheduleStart(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+		}
+		
+		if(scheduleDto.getScheduleType() == null || scheduleDto.getScheduleType().isEmpty()) {
+			scheduleDto.setScheduleType("ALL");	
+		}
+		
 		List<ScheduleVo> scheduleList = scheduleService.selectScheduleList(scheduleDto);
 		if(scheduleList != null && scheduleList.size() > 0) {
 			result.put("resultCd", CrevillConstants.RESULT_SUCC);

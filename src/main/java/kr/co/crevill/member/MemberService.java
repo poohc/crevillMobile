@@ -1,5 +1,7 @@
 package kr.co.crevill.member;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.json.simple.JSONObject;
@@ -27,6 +29,10 @@ public class MemberService {
 		
 	public MemberVo selectMemberInfo(MemberDto memberDto) {
 		return memberMapper.selectMemberInfo(memberDto);
+	}
+	
+	public List<MemberVo> selectChildMemberList(MemberDto memberDto){
+		return memberMapper.selectChildMemberList(memberDto);
 	}
 	
 	public JSONObject checkMemberCellPhone(MemberDto memberDto) {

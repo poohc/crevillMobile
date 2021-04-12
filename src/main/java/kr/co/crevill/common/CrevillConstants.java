@@ -24,4 +24,5 @@ public class CrevillConstants {
 	public static final String REG_ID_MOBILE = "MOBILE";
 	public static final String UPD_ID_MOBILE = "MOBILE";
 	public static final String STORE_ID_MOBILE = "MOBILE";
+	public static final String EXPERIENCE_VOUCHER_NO = "FREE";
 }

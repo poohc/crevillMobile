@@ -22,4 +22,5 @@ public class ScheduleDto {
 	private String subTopic;
 	private String classType;
 	private String cellPhone;
+	private String experienceClass;
 }

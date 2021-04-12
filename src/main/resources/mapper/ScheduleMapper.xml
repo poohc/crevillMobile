@@ -65,6 +65,10 @@
 				   AND A.SCHEDULE_END BETWEEN DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '000000'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S') 
 		                                  AND NOW()                                    	
 				   </if>
+				   <if test="experienceClass != null and experienceClass == 'Y'.toString()">
+				   AND DATE_FORMAT(A.SCHEDULE_START, '%H') % 2 = 0
+				   </if>
+				   
 		        </where>
                ) SUB
     </select>

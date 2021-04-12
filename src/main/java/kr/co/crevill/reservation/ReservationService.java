@@ -42,6 +42,7 @@ public class ReservationService {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	private final String MSG_ALREADY_RESERVATION = "해당 회원으로 동일한 예약내역이 있습니다.";
+	private final String MSG_ALREADY_FREE_RESERVATION = "해당 회원으로 무료체험신청 내역이 있습니다.";
 	private final String MSG_CLASS_FULL = "해당 클래스는 예약이 모두 완료된 클래스입니다.";
 	private final String MSG_TUTORING_FULL = "해당 튜터링은 예약이 모두 완료된 튜터링입니다.";
 	private final String MSG_LESS_TIME_LEFT_VOUCHER = "바우처의 남은 시간이 부족합니다.";
@@ -62,7 +63,7 @@ public class ReservationService {
 		JSONObject result = new JSONObject();
 		HttpSession session = request.getSession();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
-//		reservationDto.setRegId(SessionUtil.getSessionStaffVo(request).getStaffId());
+		reservationDto.setRegId(SessionUtil.getSessionMemberVo(request).getQrCode());
 		reservationDto.setStatus(CrevillConstants.RESERVATION_STATUS_READY);
 		
 		/**
@@ -102,6 +103,49 @@ public class ReservationService {
 								result.put("resultCd", CrevillConstants.RESULT_SUCC);
 							}
 						}
+					}
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	public JSONObject insertFreeReservation(ReservationDto reservationDto, HttpServletRequest request) {
+		JSONObject result = new JSONObject();
+		HttpSession session = request.getSession();
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		reservationDto.setRegId(SessionUtil.getSessionMemberVo(request).getQrCode());
+		reservationDto.setStatus(CrevillConstants.RESERVATION_STATUS_READY);
+		reservationDto.setCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
+		reservationDto.setVoucherNo(CrevillConstants.EXPERIENCE_VOUCHER_NO);
+		reservationDto.setTutoringYn("Y");
+		/**
+		 * 무료체험예약 유효성 체크
+		 * 1. 무료체험예약이 있었는지 체크
+		 * 2. 해당 튜터링 예약 인원 체크
+		 */
+		
+		if(reservationMapper.checkAlreadyFreeReservation(reservationDto) >= 1) {
+			result.put("resultMsg", MSG_ALREADY_FREE_RESERVATION);
+		} else {
+			ReservationVo reservationVo = reservationMapper.checkTutoringReservationYn(reservationDto);
+			if(reservationVo != null && "N".equals(reservationVo.getReservationYn())) {
+				result.put("resultMsg", MSG_TUTORING_FULL);
+			} else {
+				//선택 수업의 플레이타임 가져오기
+				ReservationVo rVo = reservationMapper.selectReservationPlayInfo(reservationDto);
+				EntranceDto entranceDto = new EntranceDto(); 
+				entranceDto.setVoucherNo(CrevillConstants.EXPERIENCE_VOUCHER_NO);
+         	    entranceDto.setUseTime(rVo.getPlayTime());
+         	    entranceDto.setStatus(CrevillConstants.VOUCHER_STATUS_USED);
+         	    entranceDto.setScheduleId(reservationDto.getScheduleId());
+         	    entranceDto.setRegId(reservationDto.getRegId());
+				//바우처 사용 처리
+         	    if(entranceMapper.insertVoucherUse(entranceDto) > 0) {
+         	    	//예약등록 처리
+         	    	if(reservationMapper.insertReservation(reservationDto) > 0) {
+						result.put("resultCd", CrevillConstants.RESULT_SUCC);
 					}
 				}
 			}

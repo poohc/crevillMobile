@@ -21,7 +21,7 @@
 	<div id="appCapsule" class="extra-header-active">
         <div class="section mb-2 mt-2 full">
             <div class="wide-block pt-2 pb-2">
-                <form class="form theme-form" id="memberForm" @submit.prevent="validateBeforeSubmit" th:action="@{/member/join.proc}" method="post">
+                <form class="form theme-form" id="reservationForm" @submit.prevent="validateBeforeSubmit" th:action="@{/reservation/regist.proc}" method="post">
                 <input type="hidden" id="cellPhone" name="cellPhone" th:value="${session.memberVo?.cellPhone}">
                     <div class="form-group boxed">
                         <div class="input-wrapper">

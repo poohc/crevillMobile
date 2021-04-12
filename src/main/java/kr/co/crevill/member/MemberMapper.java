@@ -1,5 +1,7 @@
 package kr.co.crevill.member;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface MemberMapper {
 	public int checkExistCellPhone(MemberDto memberDto);
 	public MemberVo selectMemberInfo(MemberDto memberDto);
+	public List<MemberVo> selectChildMemberList(MemberDto memberDto);
 	public int insertMemberParent(MemberDto memberDto);
 	public int insertMemberChildren(MemberDto memberDto);
 	public int insertMemberChildrenGrade(MemberDto memberDto);

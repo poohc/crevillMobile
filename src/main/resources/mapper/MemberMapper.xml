@@ -25,6 +25,22 @@
          WHERE CELL_PHONE = #{parentCellPhone} 
     </select>
 	
+	<select id="selectChildMemberList" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
+    	SELECT A.NAME,
+		       A.CELL_PHONE,
+		       A.EMAIL,
+		       A.ADDRESS,
+		       A.QR_CODE,
+		       A.PASSWORD,
+		       A.STORE_ID,
+		       (SELECT S.STORE_NAME FROM STORE S WHERE A.STORE_ID = S.STORE_ID) STORE_NAME,
+		       B.NAME CHILD_NAME 
+		  FROM MEMBER_PARENT A,
+		       MEMBER_CHILDREN B
+		 WHERE A.CELL_PHONE = #{parentCellPhone} 
+		   AND A.CELL_PHONE = B.PARENT_CELL_PHONE
+    </select>
+	
 	<insert id="insertMemberParent" parameterType="kr.co.crevill.member.MemberDto">
     	INSERT INTO MEMBER_PARENT (
     								NAME,

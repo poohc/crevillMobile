@@ -136,7 +136,7 @@
 				       B.TUTORING_NUMBER 
 				  FROM SCHEDULE B LEFT JOIN 
 				  	   RESERVATION A
-				    ON A.SCHEDULE_ID = '40'
+				    ON A.SCHEDULE_ID = #{scheduleId}
 				   AND A.STATUS = '02'
 				   AND A.TUTORING_YN = 'Y'
 				   AND A.SCHEDULE_ID  = B.SCHEDULE_ID
@@ -167,6 +167,14 @@
 		 WHERE CELL_PHONE = #{cellPhone}
 		   AND SCHEDULE_ID = #{scheduleId}
 		   AND STATUS = '02'
+	</select>
+	
+	<select id="checkAlreadyFreeReservation" parameterType="kr.co.crevill.reservation.ReservationDto" resultType="Integer">
+		SELECT COUNT(*) 
+		  FROM RESERVATION
+		 WHERE CELL_PHONE = #{cellPhone}
+		   AND VOUCHER_NO = 'FREE'
+		   AND STATUS != '05'
 	</select>
 	
 	<select id="selectReservationPlayInfo" parameterType="kr.co.crevill.reservation.ReservationDto" resultType="kr.co.crevill.reservation.ReservationVo">
