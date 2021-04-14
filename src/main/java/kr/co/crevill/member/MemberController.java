@@ -16,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.co.crevill.common.CommonCodeDto;
 import kr.co.crevill.common.CommonService;
 import kr.co.crevill.common.SessionUtil;
+import kr.co.crevill.voucher.VoucherSaleDto;
+import kr.co.crevill.voucher.VoucherService;
 
 /**
  * 
@@ -36,8 +38,10 @@ public class MemberController {
 	private MemberService memberService;
 	
 	@Autowired
+	private VoucherService voucherService;
+	
+	@Autowired
 	private CommonService commonService;
-
 	
 	@GetMapping("termsAgree.view")
 	public ModelAndView termsAgree(HttpServletRequest request) {
@@ -54,11 +58,31 @@ public class MemberController {
 		return mav;
 	}
 	
+	@GetMapping("update.view")
+	public ModelAndView update(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("member/update");
+		MemberDto memberDto = new MemberDto();
+		memberDto.setParentCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
+		CommonCodeDto commonCodeDto = new CommonCodeDto();
+		commonCodeDto.setCodeType("LEARNING_GRADE");
+		mav.addObject("learningGradeList", commonService.selectCommonCode(commonCodeDto));
+		mav.addObject("info", memberService.selectMemberInfo(memberDto));
+		return mav;
+	}
+	
 	@PostMapping("join.proc")
 	@ResponseBody
 	public JSONObject joinProc(HttpServletRequest request, @ModelAttribute MemberDto memberDto) {
 		JSONObject result = new JSONObject();
 		result = memberService.insertMemberInfo(memberDto, request);
+		return result;
+	}
+	
+	@PostMapping("update.proc")
+	@ResponseBody
+	public JSONObject updateProc(HttpServletRequest request, @RequestBody MemberDto memberDto) {
+		JSONObject result = new JSONObject();
+		result = memberService.updateMemberInfo(memberDto, request);
 		return result;
 	}
 	
@@ -75,8 +99,12 @@ public class MemberController {
 		ModelAndView mav = new ModelAndView("member/info");
 		MemberDto memberDto = new MemberDto();
 		memberDto.setParentCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
+		memberDto.setQrCode(SessionUtil.getSessionMemberVo(request).getQrCode());
+		VoucherSaleDto voucherSaleDto = new VoucherSaleDto();
+		voucherSaleDto.setBuyCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
 		mav.addObject("info", memberService.selectMemberInfo(memberDto));
+		mav.addObject("voucherList", voucherService.getMemberVoucherList(voucherSaleDto));
+		mav.addObject("visitList", memberService.selectVisitStoreList(memberDto));
 		return mav;
 	}
-	
 }

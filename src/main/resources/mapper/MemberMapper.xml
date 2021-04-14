@@ -16,11 +16,16 @@
     	SELECT NAME,
                CELL_PHONE,
                EMAIL,
-               ADDRESS,
+               REPLACE(ADDRESS,'|','') ADDRESS,
+			   SUBSTRING_INDEX(ADDRESS, '|', 1) ROAD_ADDRESS,
+			   CASE WHEN INSTR(ADDRESS,'|') > 0 THEN SUBSTRING_INDEX(ADDRESS, '|', -1)
+			        ELSE '' END AS DETAIL_ADDRESS,
                QR_CODE,
                PASSWORD,
                STORE_ID,
-               (SELECT STORE_NAME FROM STORE S WHERE MEMBER_PARENT.STORE_ID = S.STORE_ID) STORE_NAME 
+               CASE WHEN MEMBER_PARENT.STORE_ID = 'MOBILE' THEN '모바일'
+                    ELSE (SELECT STORE_NAME FROM STORE S WHERE MEMBER_PARENT.STORE_ID = S.STORE_ID) 
+                    END AS STORE_NAME 
     	  FROM MEMBER_PARENT
          WHERE CELL_PHONE = #{parentCellPhone} 
     </select>
@@ -40,6 +45,17 @@
 		 WHERE A.CELL_PHONE = #{parentCellPhone} 
 		   AND A.CELL_PHONE = B.PARENT_CELL_PHONE
     </select>
+	
+	<select id="selectVisitStoreList" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
+		SELECT DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') VISIT_DATE,
+		       CASE WHEN B.STORE_ID = 'MOBILE' THEN '모바일'
+		       	    ELSE (SELECT STORE_NAME FROM STORE S WHERE B.STORE_ID = S.STORE_ID)
+		       	    END AS STORE_NAME
+		  FROM SCHEDULE_ENTRANCE_MEMBER A,
+		       SCHEDULE B
+		 WHERE A.MEMBER_QR_CODE = #{qrCode} 
+		   AND A.SCHEDULE_ID = B.SCHEDULE_ID
+	</select>
 	
 	<insert id="insertMemberParent" parameterType="kr.co.crevill.member.MemberDto">
     	INSERT INTO MEMBER_PARENT (

@@ -15,6 +15,7 @@ import kr.co.crevill.common.CommonUtil;
 import kr.co.crevill.common.CrevillConstants;
 import kr.co.crevill.common.FileDto;
 import kr.co.crevill.common.FileVo;
+import kr.co.crevill.common.SessionUtil;
 
 @Service
 public class MemberService {
@@ -33,6 +34,10 @@ public class MemberService {
 	
 	public List<MemberVo> selectChildMemberList(MemberDto memberDto){
 		return memberMapper.selectChildMemberList(memberDto);
+	}
+	
+	public List<MemberVo> selectVisitStoreList(MemberDto memberDto){
+		return memberMapper.selectVisitStoreList(memberDto);
 	}
 	
 	public JSONObject checkMemberCellPhone(MemberDto memberDto) {
@@ -83,6 +88,18 @@ public class MemberService {
 					}
 				}
 			}
+		}
+		return result;
+	}
+	
+	public JSONObject updateMemberInfo(MemberDto memberDto, HttpServletRequest request) {
+		JSONObject result = new JSONObject();
+		memberDto.setCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
+		memberDto.setUpdId(SessionUtil.getSessionMemberVo(request).getQrCode());
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		//부모 정보 INSERT 성공 시 자녀정보 INSERT
+		if(memberMapper.updateMemberParent(memberDto) > 0) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);
 		}
 		return result;
 	}

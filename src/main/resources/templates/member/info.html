@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/defaultCommon}">
+	  layout:decorate="~{layout/defaultCommon(scriptName='/assets/js/crevill/memberInfoScript.js')}">
 
 <th:block layout:fragment="content">
 	<div id="appCapsule">
@@ -20,13 +20,22 @@
         <div class="section full mt-2">
             <div class="profile-stats pl-2 pr-2">
                 <a href="#" class="item">
-                    <strong>50시간권</strong>보유바우처
+                	<th:block th:if="${#lists.size(voucherList) > 0}">
+                		<th:block th:each="list, i : ${voucherList}">
+		                	<th:block th:if="${i.index == 0}">
+		                    	<strong th:text="${list.ticketName}"></strong>보유바우처
+		                    </th:block>
+                    	</th:block>
+                	</th:block>
+                	<th:block th:unless="${#lists.size(voucherList) > 0}">
+                		<strong>바우처 없음</strong>보유바우처
+                	</th:block>
                 </a>
                 <a href="#" class="item">
-                    <strong>현대백화점 판교점</strong>등록매장
+                    <strong th:text="${info.storeName}"></strong>등록매장
                 </a>
                 <a href="#" class="item">
-                    <strong>10</strong>방문횟수
+                    <strong th:text="${#lists.size(visitList)}"></strong>방문횟수
                 </a>
             </div>
         </div>
@@ -76,31 +85,19 @@
                                             <th scope="col">방문매장</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th scope="row">2020-10-10</th>
-                                            <td>판교 현대백화점</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2020-10-10</th>
-                                            <td>판교 현대백화점</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2020-10-10</th>
-                                            <td>판교 현대백화점</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2020-10-10</th>
-                                            <td>판교 현대백화점</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2020-10-10</th>
-                                            <td>판교 현대백화점</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2020-10-10</th>
-                                            <td>판교 현대백화점</td>
-                                        </tr>
+                                    <tbody>	
+                                    	<th:block th:if="${#lists.size(visitList) > 0}">
+	                                    	<tr th:each="list : ${visitList}">
+	                                            <th scope="row" th:text="${list.visitDate}"></th>
+	                                            <td th:text="${list.storeName}"></td>
+	                                        </tr>
+                                    	</th:block>
+                                        <th:block th:unless="${#lists.size(visitList) > 0}">
+                                        	<tr>
+                                        		<th scope="row">&nbsp;</th>
+                                        		<td>방문이력이 없습니다.</td>
+                                        	</tr>
+                                        </th:block>
                                     </tbody>
                                 </table>
                             </div>
@@ -112,35 +109,32 @@
                 <!--  bookmarks -->
                 <div class="tab-pane fade" id="bookmarks" role="tabpanel">
                     <ul class="listview image-listview media flush transparent pt-1">
-                        <li>
-                            <a href="voucher-stat.html" class="item">
+                        <th:block th:if="${#lists.size(voucherList) > 0}">
+                        <li th:each="list : ${voucherList}">
+                            <a href="" class="item">
                                 <div class="imageWrapper">
-                                    <img src="assets/img/sample/photo/1.jpg" alt="image" class="imaged w64">
+                                    <img th:src="@{/assets/img/sample/photo/1.jpg}" alt="image" class="imaged w64">
                                 </div>
                                 <div>
-                                    <div>
-                                        50시간권
-                                        <div class="text-muted">일반</div>
+                                    <div th:text="${list.ticketName}">
+                                        <div class="text-muted" th:text="${list.grade}"></div>
                                     </div>
-                                    <span class="badge badge-primary">잔여시간 24</span>
+                                    <span class="badge badge-primary" th:text="|잔여시간 ${list.timeLeftHour}|"></span>
                                 </div>
                             </a>
                         </li>
+                        </th:block>
+                        <th:block th:unless="${#lists.size(voucherList) > 0}">
                         <li>
-                            <a href="voucher-stat.html" class="item">
+                            <a href="" class="item">
                                 <div class="imageWrapper">
-                                    <img src="assets/img/sample/photo/1.jpg" alt="image" class="imaged w64">
                                 </div>
                                 <div>
-                                    <div>
-                                        100시간권
-                                        <div class="text-muted">VIP</div>
-                                    </div>
-                                    <span class="badge badge-primary">잔여시간 50</span>
+                                    <div>보유 바우처가 없습니다.</div>
                                 </div>
                             </a>
                         </li>
-                        <br><br><br>
+                        </th:block>
                     </ul>
                 </div>
                 <!-- * bookmarks -->
@@ -148,14 +142,14 @@
                 <div class="tab-pane fade" id="settings" role="tabpanel">
                     <ul class="listview image-listview text flush transparent pt-1">
                         <li>
-                            <a href="member_edit.html" class="item">
+                            <a class="item" th:attr="onclick=|updateMemberInfo('${info.qrCode}')|">
                                 <div class="in">
                                     <div>회원정보수정</div>
                                 </div>
                             </a>
                         </li>
                         <li>
-                            <a href="child-list.html" class="item">
+                            <a href="" class="item">
                                 <div class="in">
                                     <div>자녀정보</div>
                                     <span class="badge badge-primary">2명</span>

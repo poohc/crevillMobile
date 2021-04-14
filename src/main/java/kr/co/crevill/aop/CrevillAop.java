@@ -79,6 +79,9 @@ public class CrevillAop {
         		if(servletMenuPath.indexOf("info.view") > -1) {
         			menu = "회원정보";
         		}
+        		if(servletMenuPath.indexOf("update.view") > -1) {
+        			menu = "고객정보수정";
+        		}
         	}
         	
         	if(servletPath.indexOf("staff") > -1) {
