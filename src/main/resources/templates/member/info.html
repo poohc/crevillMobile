@@ -12,7 +12,7 @@
                 </div>
                 <div class="in">
                     <h3 class="name" th:text="${info.name}"></h3>
-                    <h5 class="subtext">VIP회원</h5>
+                    <h5 class="subtext" th:text="${memberGrade}"></h5>
                 </div>
             </div>
         </div>
@@ -83,6 +83,9 @@
                                         <tr>
                                             <th scope="col">방문일</th>
                                             <th scope="col">방문매장</th>
+                                            <th scope="col">바우처</th>
+                                            <th scope="col">시간증감</th>
+                                            <th scope="col">이용내역</th>
                                         </tr>
                                     </thead>
                                     <tbody>	
@@ -90,12 +93,15 @@
 	                                    	<tr th:each="list : ${visitList}">
 	                                            <th scope="row" th:text="${list.visitDate}"></th>
 	                                            <td th:text="${list.storeName}"></td>
+	                                            <td th:text="${list.ticketName}"></td>
+	                                            <td th:text="${list.useTime}"></td>
+	                                            <td th:text="${list.playName}"></td>
 	                                        </tr>
                                     	</th:block>
                                         <th:block th:unless="${#lists.size(visitList) > 0}">
                                         	<tr>
                                         		<th scope="row">&nbsp;</th>
-                                        		<td>방문이력이 없습니다.</td>
+                                        		<td colspan="4">방문이력이 없습니다.</td>
                                         	</tr>
                                         </th:block>
                                     </tbody>
@@ -149,36 +155,37 @@
                             </a>
                         </li>
                         <li>
-                            <a href="" class="item">
+                            <a class="item" th:attr="onclick=|childList()|">
                                 <div class="in">
                                     <div>자녀정보</div>
-                                    <span class="badge badge-primary">2명</span>
+                                    <span class="badge badge-primary" th:text="|${#lists.size(childList)}명|"></span>
                                 </div>
                             </a>
                         </li>
                         <li>
-                            <a href="password_change.html" class="item">
+                            <a th:href="@{/member/passwordChange.view}" class="item">
                                 <div class="in">
                                     <div>비밀번호수정</div>
                                 </div>
                             </a>
                         </li>
                         <li>
-                            <a href="agree2.html" class="item">
+                            <a th:href="@{/member/privacyAgree.view}" class="item">
                                 <div class="in">
                                     <div>개인정보취급방침</div>
                                 </div>
                             </a>
                         </li>
                         <li>
-                            <a href="agree1.html" class="item">
+                            <a th:href="@{/member/terms.view}" class="item">
                                 <div class="in">
                                     <div>이용약관</div>
                                 </div>
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="item">
+<!--                             <a class="item" th:attr="onclick=|deleteMemberInfo('${info.qrCode}','${info.cellPhone}')|"> -->
+                            <a class="item" href="javascript:alert('가입해지는 고객센터로 연락해 주시면 바로 처리해 드리겠습니다.')">
                                 <div class="in">
                                     <div class="text-danger">가입해지</div>
                                 </div>

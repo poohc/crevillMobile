@@ -32,6 +32,10 @@ public class MemberService {
 		return memberMapper.selectMemberInfo(memberDto);
 	}
 	
+	public List<MemberVo> selectChildMemberInfo(MemberDto memberDto){
+		return memberMapper.selectChildMemberInfo(memberDto);
+	}
+	
 	public List<MemberVo> selectChildMemberList(MemberDto memberDto){
 		return memberMapper.selectChildMemberList(memberDto);
 	}
@@ -103,4 +107,109 @@ public class MemberService {
 		}
 		return result;
 	}
+	
+	public JSONObject updateChildMemberInfo(MemberDto memberDto, HttpServletRequest request) {
+		JSONObject result = new JSONObject();
+		memberDto.setCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
+		memberDto.setUpdId(SessionUtil.getSessionMemberVo(request).getQrCode());
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		
+		if(memberDto.getPicture() != null && !memberDto.getPicture().isEmpty()) {
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			memberDto.setPictureIdx(fileVo.getImageIdx());
+			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(memberDto.getPicture());
+			fileDto.setImageIdx(fileVo.getImageIdx());
+			fileDto.setDescription("아이사진");
+			commonMapper.insertImages(fileDto);
+		}
+		
+		if(memberMapper.updateMemberChild(memberDto) > 0) {
+			
+			if(memberMapper.deleteMemberChildrenGrade(memberDto) > 0) {
+				//자녀 영어수준 INSERT 추가
+				int learningGradeCount = memberDto.getLearningGrade().split(",").length;
+				int tmpCnt = 0;
+				
+				if(learningGradeCount > 0) {
+					for(String learningGrade : memberDto.getLearningGrade().split(",")) {
+						memberDto.setLearningGrade(learningGrade);
+						if(memberMapper.insertMemberChildrenGrade(memberDto) > 0) {
+							tmpCnt++;
+						}
+					}
+					if(learningGradeCount == tmpCnt) {
+						result.put("resultCd", CrevillConstants.RESULT_SUCC);
+					}
+				} else {
+					if(memberMapper.insertMemberChildrenGrade(memberDto) > 0) {
+						result.put("resultCd", CrevillConstants.RESULT_SUCC);
+					}
+				}
+			}
+		}
+		return result;
+	}
+	
+	public JSONObject childAdd(MemberDto memberDto, HttpServletRequest request) {
+		JSONObject result = new JSONObject();
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		memberDto.setRegId(CrevillConstants.REG_ID_MOBILE);
+		memberDto.setStoreId(CrevillConstants.STORE_ID_MOBILE);
+		if(memberDto.getPicture() != null && !memberDto.getPicture().isEmpty()) {
+			FileVo fileVo = commonMapper.selectImagesIdx();
+			memberDto.setPictureIdx(fileVo.getImageIdx());
+			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(memberDto.getPicture());
+			fileDto.setImageIdx(fileVo.getImageIdx());
+			fileDto.setDescription("아이사진");
+			commonMapper.insertImages(fileDto);
+		}
+		
+		if(memberMapper.insertMemberChildren(memberDto) > 0) {
+			//자녀 영어수준 INSERT 추가
+			int learningGradeCount = memberDto.getLearningGrade().split(",").length;
+			int tmpCnt = 0;
+			
+			if(learningGradeCount > 0) {
+				for(String learningGrade : memberDto.getLearningGrade().split(",")) {
+					memberDto.setLearningGrade(learningGrade);
+					if(memberMapper.insertMemberChildrenGrade(memberDto) > 0) {
+						tmpCnt++;
+					}
+				}
+				if(learningGradeCount == tmpCnt) {
+					result.put("resultCd", CrevillConstants.RESULT_SUCC);
+				}
+			} else {
+				if(memberMapper.insertMemberChildrenGrade(memberDto) > 0) {
+					result.put("resultCd", CrevillConstants.RESULT_SUCC);
+				}
+			}
+		}
+		return result;
+	}
+	
+	public JSONObject passwordChange(MemberDto memberDto, HttpServletRequest request) {
+		JSONObject result = new JSONObject();
+		memberDto.setCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
+		memberDto.setUpdId(SessionUtil.getSessionMemberVo(request).getQrCode());
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		if(memberMapper.updateMemberParent(memberDto) > 0) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);
+		}
+		return result;
+	}
+	
+	public JSONObject deleteMemberInfo(MemberDto memberDto) {
+		JSONObject result = new JSONObject();
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		if(memberMapper.deleteMemberChildren(memberDto) > 0) {
+			if(memberMapper.deleteMemberParent(memberDto) > 0) {
+				if(memberMapper.deleteMemberChildrenGrade(memberDto) > 0) {
+					result.put("resultCd", CrevillConstants.RESULT_SUCC);	
+				}	
+			}
+		}
+		return result;
+	}
+	
 }

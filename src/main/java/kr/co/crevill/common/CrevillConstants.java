@@ -7,6 +7,7 @@ public class CrevillConstants {
 	public static final String RESULT_FAIL = "99";
 	public static final String RESULT_SUCC_MSG = "성공";
 	public static final String RESULT_FAIL_MSG = "실패";
+	public static final String RESULT_LOGIN_FAIL_MSG = "로그인에 실패했습니다. 다시 시도하여 주세요.";
 	public static final String NOT_EXIST_CELL_PHONE = "해당 전화번호로 가입된 정보가 없습니다. 회원 가입하여 주세요";
 	public static final String VOUCHER_STATUS_READY = "02";
 	public static final String VOUCHER_STATUS_USED = "04";

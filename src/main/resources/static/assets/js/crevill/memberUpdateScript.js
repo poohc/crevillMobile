@@ -12,7 +12,9 @@ Vue.use(VeeValidate, {
 			  childName : '아동이름',
 			  birthday : '생년월일',
 			  sex : '성별',
-			  learningGrade : '영어학습수준'
+			  learningGrade : '영어학습수준',
+			  password : '비밀번호',
+			  passwordAgain : '비밀번호'
 		    }
 	  	}
   }
@@ -29,6 +31,8 @@ new Vue({
 	  	birthday : '',
 	  	sex : '',
 	  	learningGrade : '',
+		password : '',
+		passwordAgain : ''
     },
 	methods: {
     validateBeforeSubmit() {

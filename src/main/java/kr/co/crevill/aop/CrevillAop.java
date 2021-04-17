@@ -82,6 +82,24 @@ public class CrevillAop {
         		if(servletMenuPath.indexOf("update.view") > -1) {
         			menu = "고객정보수정";
         		}
+        		if(servletMenuPath.indexOf("childList.view") > -1) {
+        			menu = "자녀정보";
+        		}
+        		if(servletMenuPath.indexOf("childUpdate.view") > -1) {
+        			menu = "자녀정보수정";
+        		}
+        		if(servletMenuPath.indexOf("childAdd.view") > -1) {
+        			menu = "자녀등록";
+        		}
+        		if(servletMenuPath.indexOf("privacyAgree.view") > -1) {
+        			menu = "개인정보취급방침";
+        		}
+        		if(servletMenuPath.indexOf("terms.view") > -1) {
+        			menu = "이용약관";
+        		}
+        		if(servletMenuPath.indexOf("passwordChange.view") > -1) {
+        			menu = "비밀번호 변경";
+        		}
         	}
         	
         	if(servletPath.indexOf("staff") > -1) {
@@ -110,6 +128,9 @@ public class CrevillAop {
         		}
         		if(servletMenuPath.indexOf("regist.view") > -1) {
         			menu = "예약등록";
+        		}
+        		if(servletMenuPath.indexOf("free.view") > -1) {
+        			menu = "무료체험신청";
         		}
         	}
         	

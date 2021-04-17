@@ -31,4 +31,7 @@ public class MemberVo {
 	private String pictureIdx;
 	private String engName;
 	private String visitDate;
+	private String ticketName;
+	private String useTime;
+	private String playName;
 }

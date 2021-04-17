@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/defaultCommon(scriptName='/assets/js/crevill/memberChildUpdateScript.js')}">
+
+<th:block layout:fragment="content">
+	<div id="appCapsule">
+	    <form class="form theme-form" id="memberForm" @submit.prevent="validateBeforeSubmit" th:action="@{/member/childUpdate.proc}" method="post">
+		<th:block th:each="info : ${info}">
+		<input type="hidden" id="childName" name="childName" th:value="${info.childName}">
+        <div class="section full mt-2 mb-2">
+            <div class="section-title">자녀정보수정</div>
+            <div class="wide-block pb-1 pt-1">
+                <div class="form-group basic">
+                    <div class="input-wrapper">
+                        <label class="label" for="childName">이름[자녀이름수정불가]</label>
+                        <input type="text" class="form-control" id="childName" name="childName" placeholder="홍길동" th:value="${info.childName}" disabled="disabled">
+                    </div>
+                </div>
+                <div class="form-group basic">
+                    <div class="input-wrapper">
+                        <label class="label" for="engName">FULL NAME</label>
+                        <input type="text" class="form-control" v-validate="'required'" id="engName" name="engName" placeholder="Ex)HONG GIL DONG" th:value="${info.engName}">
+                        <label class="label" for="engName" v-if="errors.has('engName')">{{ errors.first('engName') }}</label>
+                    </div>
+                </div>
+                <div class="form-group basic">
+                    <div class="input-wrapper">
+                        <label class="label" for="birthday">생년월일</label>
+                        <input type="text" class="form-control" v-validate="'required|numeric|min:8|max:8'" id="birthday" name="birthday" placeholder=""  th:value="${info.birthday}">
+                        <label class="label" for="birthday" v-if="errors.has('birthday')">{{ errors.first('birthday') }}</label>
+                    </div>
+                </div>
+                <div class="form-group basic">
+                    <div class="input-wrapper">
+                        <label class="label" for="city4">성별</label>
+                        <select class="form-control custom-select" v-validate="'required|included:M,F'" id="sex" name="sex">
+                            <option value="M" th:selected="${info.sex == 'M'}">남자</option>
+                            <option value="F" th:selected="${info.sex == 'F'}">여자</option>
+                        </select>
+                        <label class="label" for="birthday" v-if="errors.has('sex')">{{ errors.first('sex') }}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section full mt-2 mb-2">
+            <div class="wide-block pb-2 pt-2">
+                <div class="custom-file-upload">
+                    <input type="file" id="camera" name="camera" capture="camera" accept="image/*" />
+                    <label for="fileuploadInput">
+                        <span>
+                            <strong>
+                                <i>터치하여 사진촬영</i>
+                                <img id="picture" style="width:100%;" />
+                            </strong>
+                        </span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="listview-title mt-1">추가정보[영어학습경험]경험이 전혀 없어도 문제없습니다.]</div>
+            <ul class="listview simple-listview">
+                <li th:each="learningGrade, i: ${learningGradeList}">
+                    <div th:text="${learningGrade.codeValue}"></div>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" th:id="'learningGrade' + ${i.index}" name="learningGrade" th:value="${learningGrade.codeValue}"  th:checked="${#strings.contains(checkedlearningGradeList,learningGrade.codeValue)}">
+                        <label class="custom-control-label" th:for="'learningGrade' + ${i.index}"></label>
+                    </div>
+                </li>
+            </ul>
+            <div class="wide-block pt-2 pb-2">
+                <button type="submit" class="btn btn-primary btn-block">자녀정보수정</button>
+            </div>   
+        </div>
+        </th:block>
+        </form>
+    </div>
+</th:block>
+</html>

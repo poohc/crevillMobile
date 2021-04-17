@@ -30,6 +30,35 @@
          WHERE CELL_PHONE = #{parentCellPhone} 
     </select>
 	
+	<select id="selectChildMemberInfo" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
+        SELECT A.NAME,
+               A.CELL_PHONE,
+               A.EMAIL,
+               A.ADDRESS,
+               A.QR_CODE,
+               B.NAME CHILD_NAME,
+               B.BIRTHDAY,
+               B.SEX,
+               (SELECT GROUP_CONCAT(C.LEARNING_GRADE SEPARATOR ',') FROM MEMBER_CHILDREN_GRADE C WHERE C.PARENT_CELL_PHONE = A.CELL_PHONE AND C.CHILDREN_NAME = B.NAME) LEARNING_GRADE,
+               A.STORE_ID,
+               B.ENG_NAME
+          FROM MEMBER_PARENT A,
+               MEMBER_CHILDREN B
+         WHERE A.CELL_PHONE = B.PARENT_CELL_PHONE
+           <if test="qrCode != null and qrCode != ''">
+           AND A.QR_CODE = #{qrCode}
+           </if>
+           <if test="name != null and name != ''">
+           AND A.NAME = #{name}
+           </if>
+           <if test="childName != null and childName != ''">
+           AND B.NAME = #{childName}
+           </if>
+           <if test="cellPhone != null and cellPhone != ''">
+           AND A.CELL_PHONE = #{cellPhone}
+           </if>
+    </select>
+	
 	<select id="selectChildMemberList" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
     	SELECT A.NAME,
 		       A.CELL_PHONE,
@@ -39,7 +68,8 @@
 		       A.PASSWORD,
 		       A.STORE_ID,
 		       (SELECT S.STORE_NAME FROM STORE S WHERE A.STORE_ID = S.STORE_ID) STORE_NAME,
-		       B.NAME CHILD_NAME 
+		       B.NAME CHILD_NAME,
+		       B.ENG_NAME
 		  FROM MEMBER_PARENT A,
 		       MEMBER_CHILDREN B
 		 WHERE A.CELL_PHONE = #{parentCellPhone} 
@@ -50,11 +80,21 @@
 		SELECT DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') VISIT_DATE,
 		       CASE WHEN B.STORE_ID = 'MOBILE' THEN '모바일'
 		       	    ELSE (SELECT STORE_NAME FROM STORE S WHERE B.STORE_ID = S.STORE_ID)
-		       	    END AS STORE_NAME
+		       	    END AS STORE_NAME,
+		       D.TICKET_NAME,
+		       CASE WHEN C.STATUS = '04' THEN CONCAT ('+', TRUNCATE((C.USE_TIME / 60),0))
+		            ELSE CONCAT ('-', TRUNCATE((C.USE_TIME / 60),0)) END AS USE_TIME,
+		       E.NAME PLAY_NAME     
 		  FROM SCHEDULE_ENTRANCE_MEMBER A,
-		       SCHEDULE B
+		       SCHEDULE B,
+		       VOUCHER_USE C,
+		       VOUCHER D,
+		       PLAY E
 		 WHERE A.MEMBER_QR_CODE = #{qrCode} 
 		   AND A.SCHEDULE_ID = B.SCHEDULE_ID
+		   AND B.SCHEDULE_ID = C.SCHEDULE_ID
+		   AND C.VOUCHER_NO = D.VOUCHER_NO 
+		   AND B.PLAY_ID = E.PLAY_ID
 	</select>
 	
 	<insert id="insertMemberParent" parameterType="kr.co.crevill.member.MemberDto">
@@ -138,6 +178,20 @@
         WHERE CELL_PHONE = #{cellPhone} 
     </update>
 	
+	<update id="updateMemberChild" parameterType="kr.co.crevill.member.MemberDto">
+    	UPDATE MEMBER_CHILDREN 
+    	  <set>
+    		  <if test="engName != null">ENG_NAME = #{engName},</if>
+	       	  <if test="birthday != null">BIRTHDAY = #{birthday},</if>
+	       	  <if test="sex != null">SEX = #{sex},</if>
+	       	  <if test="pictureIdx != null">PICTURE_IDX = #{pictureIdx},</if>
+	       	  UPD_ID = #{updId},
+			  UPD_DATE = NOW()
+       	  </set>
+        WHERE PARENT_CELL_PHONE = #{cellPhone} 
+          AND NAME = #{childName}
+    </update>
+	
 	<delete id="deleteMemberParent">
 		DELETE
 		  FROM MEMBER_PARENT
@@ -153,7 +207,10 @@
 	<delete id="deleteMemberChildrenGrade">
 		DELETE 
 		  FROM MEMBER_CHILDREN_GRADE
-		 WHERE PARENT_CELL_PHONE = #{cellPhone} 
+		 WHERE PARENT_CELL_PHONE = #{cellPhone}
+		   <if test="childName != null">
+		   AND CHILDREN_NAME = #{childName}
+		   </if> 
 	</delete>
 	
 </mapper>

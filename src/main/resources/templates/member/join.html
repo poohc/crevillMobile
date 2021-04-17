@@ -25,7 +25,7 @@
 	            </div>
 	            <div class="form-group boxed">
 	                <div class="input-wrapper">
-	                    <label class="label" for="password5">비밀번호</label>
+	                    <label class="label" for="password">비밀번호</label>
 	                    <input type="password" class="form-control" v-validate="{required: true, min: 8, max : 8, regex: /^(?=.*?[a-z])(?=.*?[0-9]).*$/ }" id="password" name="password" ref="password" placeholder="8자리 숫자,문자조합">
 	                    <label class="label" for="password" v-if="errors.has('password')">{{ errors.first('password') }}</label>
 	                </div>
@@ -100,16 +100,17 @@
             <div class="wide-block pb-2 pt-2">
                 <div class="custom-file-upload">
                     <input type="file" id="camera" name="camera" capture="camera" accept="image/*" />
-                    <label for="fileuploadInput">
+                    <label for="camera">
                         <span>
                             <strong>
+                                <ion-icon name="cloud-upload-outline"></ion-icon>
                                 <i>터치하여 사진촬영</i>
-                                <img id="picture" style="width:100%;" />
                             </strong>
                         </span>
                     </label>
                 </div>
             </div>
+            <img id="picture" style="width:100%;" />
         </div>
         <div>
             <div class="listview-title mt-1">추가정보[영어학습경험]경험이 전혀 없어도 문제없습니다.]</div>
@@ -117,7 +118,7 @@
                 <li th:each="learningGrade, i: ${learningGradeList}">
                     <div th:text="${learningGrade.codeValue}"></div>
                     <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" th:id="'learningGrade' + ${i.index}" name="learningGrade" th:value=${learningGrade.codeValue}>
+                        <input type="checkbox" class="custom-control-input" th:id="'learningGrade' + ${i.index}" name="learningGrade" th:value="${learningGrade.codeValue}">
                         <label class="custom-control-label" th:for="'learningGrade' + ${i.index}"></label>
                     </div>
                 </li>

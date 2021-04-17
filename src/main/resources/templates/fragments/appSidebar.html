@@ -27,7 +27,7 @@
 
 					<ul class="listview flush transparent no-line image-listview mt-2">
 						<li>
-							<a th:href="@{/}" class="item">
+							<a th:href="@{/main.view}" class="item">
 								<div class="icon-box bg-primary">
 									<ion-icon name="home-outline"></ion-icon>
 								</div>
@@ -121,10 +121,10 @@
 
 				<!-- sidebar buttons -->
 				<div class="sidebar-buttons">
-					<a href="tel:010-1234-5678" class="button">
+					<a href="tel:02-1688-0980" class="button">
 						<ion-icon name="phone-portrait-outline"></ion-icon>
 					</a>
-					<a href="javascript:;" class="button"> 
+					<a th:href="@{/login/loginOut.view}" class="button"> 
 						<ion-icon name="log-out-outline"></ion-icon>
 					</a>
 				</div>

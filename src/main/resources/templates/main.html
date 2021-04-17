@@ -43,7 +43,7 @@
 
 		<div class="section mt-3 mb-3">
 			<div class="card">
-				<img src="assets/img/sample/photo/main_title1.jpg" class="card-img-top" alt="image">
+				<img th:src="@{/assets/img/sample/photo/main_title1.jpg}" class="card-img-top" alt="image">
 				<div class="card-body">
 					<h6 class="card-subtitle">CREVILL Intro</h6>
 					<h5 class="card-title">발견하세요.</h5>
@@ -54,7 +54,24 @@
 				</div>
 			</div>
 		</div>
-
+		
+		 <div class="section mt-3 mb-3">
+            <div class="card">
+                <img th:src="@{/assets/img/sample/photo/main_title2.jpg}" class="card-img-top" alt="image">
+                <div class="card-body">
+                    <h6 class="card-subtitle">CREVILL Intro</h6>
+                    <h5 class="card-title">원어민을 만나세요.</h5>
+                    <p class="card-text">
+                        경험이 많은 원어민이 아이들에게 놀이를 통하여 영어능력을 올려줍니다.
+                    </p>
+                    <a th:href="@{/staff/nsList.view}" class="btn btn-primary">
+                        <ion-icon name="layers-outline"></ion-icon>
+                        원어민 프로필 보기
+                    </a>
+                </div>
+            </div>
+        </div>
+		
 		<th:block th:replace="fragments/appFooter :: appFooterFragment"></th:block>
 		
 	</div>

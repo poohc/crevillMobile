@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/defaultStore(scriptName='/assets/js/crevill/memberChildListScript.js')}">
+
+<th:block layout:fragment="content">
+	 <!-- App Header -->
+    <div class="appHeader bg-primary text-light">
+        <div class="left">
+            <a href="javascript:;" class="headerButton goBack">
+                <ion-icon name="chevron-back-outline"></ion-icon>
+            </a>
+        </div>
+        <div class="pageTitle">자녀정보</div>
+        <div class="right">
+            <a th:href="@{/member/childAdd.view}" class="headerButton">
+                <ion-icon name="person-add-outline"></ion-icon>
+            </a>
+        </div>
+    </div>
+    <!-- * App Header -->
+	 <div id="appCapsule">
+        <div class="listview-title mt-2">자녀리스트</div>
+        <ul class="listview image-listview">
+            <th:block th:each="list : ${childList}">
+            <li>
+                <a class="item" th:attr="onclick=|updateChildInfo('${list.childName}')|">
+                	<th:block th:if="${list.pictureIdx != null && list.pictureIdx != ''}">
+                    	<img th:src="@{/common/getImage(imageIdx=${list.pictureIdx})}" th:alt="|${list.childName} 어린이 사진|" class="image">
+                    </th:block>
+                    <th:block th:unless="${list.pictureIdx != null && list.pictureIdx != ''}">
+                    	<img th:src="@{/assets/img/sample/avatar/avatar3.jpg}" th:alt="|${list.childName} 어린이 사진|" class="image">
+                    </th:block>
+                    <div class="in">
+                        <div th:text="${list.childName}"></div>
+                        <span class="text-muted"></span>
+                    </div>
+                </a>
+            </li>
+            </th:block>
+        </ul>
+    </div>
+</th:block>
+</html>

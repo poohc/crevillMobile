@@ -27,6 +27,7 @@ public class LoginService {
 		JSONObject result = new JSONObject();
 		HttpSession session = request.getSession();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		result.put("resultMsg", CrevillConstants.RESULT_LOGIN_FAIL_MSG);
 		
 		//기존 회원 정보 없을 경우 
 		if(memberMapper.checkExistCellPhone(memberDto) > 0) {

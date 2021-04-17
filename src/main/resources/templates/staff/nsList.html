@@ -1,59 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/nstaffListScript.js')}">
+	  layout:decorate="~{layout/defaultCommon}">
 
 <th:block layout:fragment="content">
-	<div class="page-body">
-		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
-		<!-- Container-fluid starts-->
-		<div class="container-fluid">
-			<div class="row">
-				<!-- Zero Configuration  Starts-->
-				<div class="col-sm-12">
-					<div class="card">
-						<div class="card-body">
-							<div class="table-responsive">
-								<table class="display" id="basic-1">
-									<thead>
-										<tr>
-											<th>사원번호</th>
-											<th>사진</th>
-											<th>국적</th>
-											<th>성함</th>
-											<th>FULL NAME</th>
-											<th>입사일</th>
-											<th>전화번호</th>
-											<th>근무처</th>
-											<th>직원정보</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr th:each="list : ${list}">
-											<td th:text="${list.nsId}"></td>
-											<td><img class="img-fluid top-radius-blog" th:src="@{/common/getImage(imageIdx=${list.pictureIdx})}"></td>
-											<td th:text="${list.nationality}"></td>
-											<td th:text="${list.name}"></td>
-											<td th:text="${list.fullName}"></td>
-											<td th:text="${list.startDate}"></td>
-											<td th:text="${list.telNo}"></td>
-											<td th:text="${list.storeId}"></td>
-											<td>
-												<span class="badge badge-primary" th:attr="onclick=|nstaffUpdate('${list.nsId}')|">정보수정</span>
-												<a href="" type="button" th:attr="onclick=|nstaffDelete('${list.nsId}')|">
-													<span class="badge badge-warning">퇴사처리</span>
-												</a>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- Zero Configuration  Ends-->
-		</div>
-	</div>
+	<div id="appCapsule">
+         <div class="listview-title mt-2">경험이 많은 원어민이 아이들에게 놀이를 통하여 영어능력을 올려줍니다.</div>
+         <ul class="listview image-listview media mb-2">
+         	 <th:block th:each="list : ${list}">
+             <li class="multi-level">
+                 <a href="#" class="item">
+                     <div class="imageWrapper">
+                         <img th:src="@{/common/getImage(imageIdx=${list.pictureIdx})}" alt="놀이사진" class="imaged w64">
+                     </div>
+                     <div class="in">
+                         <div th:text="${list.name}"></div>
+                     </div>
+                 </a>
+<!--                  <ul class="listview simple-listview"> -->
+<!--                     <li th:text="${list.description}"></li> -->
+<!--                 </ul> -->
+             </li>
+             </th:block>
+         </ul>
+    </div>
+	<!-- * App Capsule -->
 </th:block>
 </html>

@@ -17,6 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.crevill.common.CommonCodeDto;
 import kr.co.crevill.common.CommonService;
+import kr.co.crevill.common.CrevillConstants;
+import kr.co.crevill.common.SessionUtil;
 import kr.co.crevill.store.StoreDto;
 import kr.co.crevill.store.StoreService;
 
@@ -97,6 +99,9 @@ public class StaffController {
 	@GetMapping("nsList.view")
 	public ModelAndView nsList(HttpServletRequest request, InstructorDto instructorDto) {
 		ModelAndView mav = new ModelAndView("staff/nsList");
+		if(!CrevillConstants.STORE_ID_MOBILE.equals(SessionUtil.getSessionMemberVo(request).getStoreId())) {
+			instructorDto.setStoreId(SessionUtil.getSessionMemberVo(request).getStoreId());	
+		}
 		mav.addObject("list", staffService.selectInstructorList(instructorDto));
 		return mav;
 	}
