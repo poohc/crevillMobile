@@ -18,4 +18,5 @@ public class ReservationDto {
 	private String childName;
 	private String tutoringYn;
 	private String voucherUseId;
+	private String classType;
 }

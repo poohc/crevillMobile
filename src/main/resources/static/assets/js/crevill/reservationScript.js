@@ -41,6 +41,7 @@ var vm = new Vue({
 				formdata.append("cellPhone", $('#cellPhone').val());
 				formdata.append("voucherNo", $('#voucherNo').val());
 				formdata.append("scheduleId", $('#scheduleId').val());
+				formdata.append("classType", $('#classType').val());
 				
 				axios.post(contextRoot + 'reservation/regist.proc', formdata,{
 					  headers: {

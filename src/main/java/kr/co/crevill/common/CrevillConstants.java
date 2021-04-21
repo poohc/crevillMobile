@@ -26,4 +26,18 @@ public class CrevillConstants {
 	public static final String UPD_ID_MOBILE = "MOBILE";
 	public static final String STORE_ID_MOBILE = "MOBILE";
 	public static final String EXPERIENCE_VOUCHER_NO = "FREE";
+	public static final String ALREADY_HAVE_VOUCHER_MSG = "바우처회원은 이용하실 수 없습니다.";
+	public static final String ALREADY_USE_FREE_RESERVATION_MSG = "바우처회원은 이용하실 수 없습니다.";
+	public static final String CREATE_VOUCHER_STORE_ID = "CST00001";
+	public static final String CREATE_NORMAL_VOUCHER_GRADE = "NORMAL";
+	public static final String CREATE_NORMAL_VOUCHER_TICKET_NAME = "1회권";
+	public static final String CREATE_NORMAL_VOUCHER_PRICE = "40000";
+	public static final String CREATE_NORMAL_VOUCHER_USE_TIME = "2";
+	public static final String CREATE_NORMAL_VOUCHER_END_DATE = "0";
+	public static final String CREATE_NORMAL_VOUCHER_ATTRIBUTE = "CLASS,비회원";
+	public static final String CREATE_NORMAL_VOUCHER_PG_TYPE = "DEPT";
+	public static final String CREATE_NORMAL_VOUCHER_APPROVAL_NO = "000000";
+	public static final String CLASS_TYPE_CLASS = "CLASS_A";
+	public static final String CLASS_TYPE_TUTORING = "CLASS_D";
+	public static final String CLASS_TYPE_SPECIAL_CAMP = "CLASS_B";
 }

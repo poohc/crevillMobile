@@ -7,6 +7,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,6 +45,8 @@ public class ReservationController {
 	@Autowired
 	private MemberService memberService;
 	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@GetMapping("list.view")
 	public ModelAndView list(HttpServletRequest request, ScheduleDto scheduleDto) {
 		ModelAndView mav = new ModelAndView("reservation/list");
@@ -68,8 +72,9 @@ public class ReservationController {
 		List<VoucherVo> voucherList = voucherService.getMemberVoucherList(voucherSaleDto);
 		
 		//TODO 모바일 회원 이고 보유 바우처가 하나도 없는 경우 1회권 바우처 자동 생성 및 판매
-		if(CrevillConstants.STORE_ID_MOBILE.equals(SessionUtil.getSessionMemberVo(request).getStoreId())) {
-			
+		if(CrevillConstants.STORE_ID_MOBILE.equals(SessionUtil.getSessionMemberVo(request).getStoreId()) &&
+				voucherList.size() == 0) {
+			reservationService.setNormalVoucher(request);
 		}
 		
 		mav.addObject("voucherList", voucherService.getMemberVoucherList(voucherSaleDto));
@@ -86,6 +91,14 @@ public class ReservationController {
 		mav.addObject("storeList", storeService.selectStoreList(storeDto));
 		mav.addObject("childList", memberService.selectChildMemberList(memberDto));
 		return mav;
+	}
+	
+	@PostMapping("freeCheck.proc")
+	@ResponseBody
+	public JSONObject registProc(HttpServletRequest request) {
+		JSONObject result = new JSONObject();
+		result = reservationService.checkFreeReservation(request);
+		return result;
 	}
 	
 	@PostMapping("regist.proc")

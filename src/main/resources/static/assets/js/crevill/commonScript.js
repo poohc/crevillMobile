@@ -53,3 +53,23 @@ function execDaumPostcode() {
 	    autoClose: true
 	});
 }
+
+function checkFreeReservation(){
+	$.ajax({
+			type : "POST",
+			url : contextRoot + 'reservation/freeCheck.proc',
+			success : function(data){
+				if(data.resultCd == '00'){
+					location.href = contextRoot + 'reservation/free.view';
+				} else {
+					alert(data.resultMsg);
+					return false;	
+				}
+				
+			},
+			error : function(error) {
+		        alert("무료체험 이동처리 중 오류가 발생했습니다. 다시 시도하여 주세요.");
+				return false;
+		    }
+		});	
+}

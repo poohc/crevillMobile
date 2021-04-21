@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,10 +17,15 @@ import kr.co.crevill.common.CrevillConstants;
 import kr.co.crevill.common.SessionUtil;
 import kr.co.crevill.entrance.EntranceDto;
 import kr.co.crevill.entrance.EntranceMapper;
+import kr.co.crevill.member.MemberDto;
+import kr.co.crevill.member.MemberMapper;
+import kr.co.crevill.member.MemberVo;
 import kr.co.crevill.play.PlayMapper;
 import kr.co.crevill.schedule.ScheduleDto;
 import kr.co.crevill.voucher.VoucherDto;
 import kr.co.crevill.voucher.VoucherMapper;
+import kr.co.crevill.voucher.VoucherSaleDto;
+import kr.co.crevill.voucher.VoucherVo;
 
 @Service
 public class ReservationService {
@@ -38,6 +44,9 @@ public class ReservationService {
 	
 	@Autowired
 	private VoucherMapper voucherMapper; 
+	
+	@Autowired
+	private MemberMapper memberMapper;
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -65,6 +74,11 @@ public class ReservationService {
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
 		reservationDto.setRegId(SessionUtil.getSessionMemberVo(request).getQrCode());
 		reservationDto.setStatus(CrevillConstants.RESERVATION_STATUS_READY);
+		if(StringUtils.equalsAny(reservationDto.getClassType(), CrevillConstants.CLASS_TYPE_TUTORING)) {
+			reservationDto.setTutoringYn("Y");
+		} else {
+			reservationDto.setTutoringYn("N");
+		}
 		
 		/**
 		 * 예약 유효성 체크
@@ -167,6 +181,89 @@ public class ReservationService {
 			if(voucherMapper.updateVoucherUse(voucherDto) > 0) {
 				result.put("resultCd", CrevillConstants.RESULT_SUCC);	
 			}	
+		}
+		return result;
+	}
+	
+	/**
+	 * 무료체험이용여부체크 
+	 * @methodName : checkFreeReservation
+	 * @author : Juyoung Park
+	 * @date : 2021.04.21
+	 * @param request
+	 * @return
+	 */
+	public JSONObject checkFreeReservation(HttpServletRequest request) {
+		JSONObject result = new JSONObject();
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		VoucherDto voucherDto = new VoucherDto();
+		voucherDto.setCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
+		List<VoucherVo> voucherList = voucherMapper.getMemberVoucherAllList(voucherDto);
+		ReservationDto reservationDto = new ReservationDto(); 
+		reservationDto.setCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
+		
+		if(reservationMapper.checkAlreadyFreeReservation(reservationDto) > 0) {
+			result.put("resultMsg", CrevillConstants.ALREADY_USE_FREE_RESERVATION_MSG);
+		} else {
+			if(voucherList != null && voucherList.size() > 0) {
+				result.put("resultMsg", CrevillConstants.ALREADY_HAVE_VOUCHER_MSG);
+			} else {
+				result.put("resultCd", CrevillConstants.RESULT_SUCC);		
+			}
+		}
+		
+		return result;
+	}
+	
+	public JSONObject setNormalVoucher(HttpServletRequest request){
+		JSONObject result = new JSONObject();
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		
+		VoucherDto voucherDto = new VoucherDto();
+		voucherDto.setVoucherNo(voucherMapper.selectVoucherNo());
+		voucherDto.setGrade(CrevillConstants.CREATE_NORMAL_VOUCHER_GRADE);
+		voucherDto.setTicketName(CrevillConstants.CREATE_NORMAL_VOUCHER_TICKET_NAME);
+		voucherDto.setPrice(CrevillConstants.CREATE_NORMAL_VOUCHER_PRICE);
+		voucherDto.setSalePrice(CrevillConstants.CREATE_NORMAL_VOUCHER_PRICE);
+		voucherDto.setUseTime(CrevillConstants.CREATE_NORMAL_VOUCHER_USE_TIME);
+		voucherDto.setEndDate(CrevillConstants.CREATE_NORMAL_VOUCHER_END_DATE);
+		voucherDto.setStoreId(CrevillConstants.CREATE_VOUCHER_STORE_ID);
+		voucherDto.setAttribute(CrevillConstants.CREATE_NORMAL_VOUCHER_ATTRIBUTE);
+		voucherDto.setStatus(CrevillConstants.VOUCHER_STATUS_READY);
+		voucherDto.setRegId(SessionUtil.getSessionMemberVo(request).getQrCode());
+		
+		if(voucherMapper.insertVoucher(voucherDto) > 0) {
+			//선택된 전달매체 모두 INSERT 성공해야 SUCC
+			int cnt = voucherDto.getAttribute().split(",").length;
+			int insCnt = 0;
+			for(String attribute : voucherDto.getAttribute().split(",")) {
+				voucherDto.setAttribute(attribute);
+				if(voucherMapper.insertVoucherAttribute(voucherDto) > 0) {
+					insCnt++;
+				}	
+			}
+			//바우처 정상적으로 생성되면 바우처 판매처리
+			if(cnt == insCnt) {
+				VoucherSaleDto voucherSaleDto = new VoucherSaleDto();
+				voucherSaleDto.setVoucherNo(voucherDto.getVoucherNo());
+				voucherSaleDto.setBuyCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
+				voucherSaleDto.setPgType(CrevillConstants.CREATE_NORMAL_VOUCHER_PG_TYPE);
+				voucherSaleDto.setApprovalNo(CrevillConstants.CREATE_NORMAL_VOUCHER_APPROVAL_NO);
+				voucherSaleDto.setStoreId(CrevillConstants.CREATE_VOUCHER_STORE_ID);
+				voucherSaleDto.setRegId(SessionUtil.getSessionMemberVo(request).getQrCode());
+				MemberDto memberDto = new MemberDto();
+				memberDto.setParentCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone()); 
+				List<MemberVo> childList = memberMapper.selectChildMemberList(memberDto);
+				if(childList != null && childList.size() > 0) {
+					voucherSaleDto.setUsedChildrenName(childList.get(0).getChildName());
+				}
+				if(voucherMapper.insertVoucherSale(voucherSaleDto) > 0) {
+					voucherDto.setStatus(CrevillConstants.VOUCHER_STATUS_SALE);
+					if(voucherMapper.updateVoucher(voucherDto) > 0) {
+						result.put("resultCd", CrevillConstants.RESULT_SUCC);
+					}
+				}
+			}
 		}
 		return result;
 	}
