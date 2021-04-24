@@ -59,7 +59,7 @@
 			   DATE_FORMAT(UPD_DATE, '%Y/%m/%d') UPD_DATE
           FROM STORE
          WHERE STORE_ID NOT IN ('ADMIN','CST00001')  
-           <if test="storeId != null">
+           <if test="storeId != null and storeId != 'MOBILE'.toString()">
            AND STORE_ID = #{storeId}
            </if>
            <if test="experienceClass != null">

@@ -65,6 +65,7 @@ public class ReservationController {
 	public ModelAndView regist(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("reservation/regist");
 		StoreDto storeDto = new StoreDto();
+		storeDto.setStoreId(SessionUtil.getSessionMemberVo(request).getStoreId());
 		mav.addObject("storeList", storeService.selectStoreList(storeDto));
 		VoucherSaleDto voucherSaleDto = new VoucherSaleDto();
 		voucherSaleDto.setBuyCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
