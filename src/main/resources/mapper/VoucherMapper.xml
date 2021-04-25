@@ -122,6 +122,7 @@
 		   AND A.STATUS = '12'
 		   AND (C.TIME_LEFT_HOUR = 'UNLIMITED' OR C.TIME_LEFT_HOUR  > 0)
 		   AND B.BUY_CELL_PHONE = D.PARENT_CELL_PHONE
+      GROUP BY A.VOUCHER_NO		   
 	</select>
 	
 	<select id="getMemberVoucherAllList" parameterType="kr.co.crevill.voucher.VoucherDto" resultType="kr.co.crevill.voucher.VoucherVo">

@@ -41,4 +41,5 @@ public class ReservationVo {
 	private String storeName;
 	private String subTopic;
 	private String isToday;
+	private String isCancelPossible;
 }

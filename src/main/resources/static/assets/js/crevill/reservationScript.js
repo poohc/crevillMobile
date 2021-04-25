@@ -51,7 +51,9 @@ var vm = new Vue({
 					if (response.data.resultCd == '00') {
 				      	alert('정상처리 되었습니다.');
 						location.href = contextRoot + 'reservation/list.view';
-				    }
+				    } else {
+						alert(response.data.resultMsg);
+					} 
 					
 				});	
 			}
@@ -73,7 +75,8 @@ $('#scheduleId').click(function(){
 		type : "POST",
 		data: {
 	            scheduleStart : $('#scheduleStart').val().replace(/[^0-9]/g,""),
-				classType : $('#classType').val()
+				classType : $('#classType').val(),
+				storeId : $('#storeId').val()
 	    },
 		url : contextRoot + 'schedule/getScheduleList.proc',
 		success : function(data){

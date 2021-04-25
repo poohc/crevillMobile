@@ -41,8 +41,8 @@
 					   A.UPD_ID,
 					   DATE_FORMAT(A.UPD_DATE, '%Y/%m/%d') UPD_DATE,
 					   A.SUB_TOPIC,
-					   CASE WHEN B.CLASS_TYPE = 'CLASS_D' THEN (SELECT COUNT(*) FROM RESERVATION WHERE SCHEDULE_ID = A.SCHEDULE_ID AND TUTORING_YN = 'Y')
-					        ELSE (SELECT COUNT(*) FROM RESERVATION WHERE SCHEDULE_ID = A.SCHEDULE_ID AND TUTORING_YN = 'N') END AS RESERVATION_CNT,
+					   CASE WHEN B.CLASS_TYPE = 'CLASS_D' THEN (SELECT COUNT(*) FROM RESERVATION WHERE SCHEDULE_ID = A.SCHEDULE_ID AND TUTORING_YN = 'Y' AND STATUS = '02')
+					        ELSE (SELECT COUNT(*) FROM RESERVATION WHERE SCHEDULE_ID = A.SCHEDULE_ID AND TUTORING_YN = 'N' AND STATUS = '02') END AS RESERVATION_CNT,
 					   CASE WHEN B.CLASS_TYPE = 'CLASS_D' THEN 'Y' 
 					        ELSE 'N' END AS TUTORING_YN     
 		          FROM SCHEDULE A,
@@ -50,7 +50,7 @@
 		        <where>
 		           AND A.STORE_ID = B.STORE_ID
 		           <if test="storeId != null and storeId != 'CST00001'.toString()">
-		           AND STORE_ID = #{storeId}
+		           AND A.STORE_ID = #{storeId}
 		           </if>
 		           AND B.CLASS_TYPE = #{classType}
 		           <if test="scheduleType != null and scheduleType == 'ALL'.toString()">	

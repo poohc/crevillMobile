@@ -1,9 +1,12 @@
-function cancel(reservationId, voucherUseId, isToday){
+function cancel(reservationId, voucherUseId, isToday, isCancelPossible){
 	
 	if(confirm('예약을 취소처리 하시겠습니까?')){
 		
 		if(isToday == 'TODAY'){
 			alert('당일 취소는 불가능합니다.');
+			return false;
+		} else if(isCancelPossible == 'CANCEL_IMPOSSIBLE'){
+			alert('지난 날짜는 취소되지 않습니다. 매장으로 연락해주세요');
 			return false;
 		} else {
 			var formdata = new FormData();
