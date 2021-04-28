@@ -102,6 +102,18 @@ $('#scheduleId').click(function(){
 });
 
 $('#storeId').change(function(){
+	if($('#storeId').find(':selected').data('time') == 0){
+		alert('1회권 사용이 불가능한 매장입니다.');		
+		$("#voucherNo option:eq(0)").prop("selected", true);
+		document.querySelectorAll(`[data-ticketname='1회권']`).forEach(function(item) {
+		  item.style.display = 'none';
+		});
+	} else {
+		$("#voucherNo option:eq(0)").prop("selected", true);
+		document.querySelectorAll(`[data-ticketname='1회권']`).forEach(function(item) {
+		  item.style.display = 'block';
+		});
+	}
 	$('#storeNameSpan').text($("#storeId option:checked").text().split(" ")[($("#storeId option:checked").text().split(" ").length - 1)]);
 });
 

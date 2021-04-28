@@ -56,7 +56,8 @@
 			   REG_ID,
 			   DATE_FORMAT(REG_DATE, '%Y/%m/%d') REG_DATE,
 			   UPD_ID,
-			   DATE_FORMAT(UPD_DATE, '%Y/%m/%d') UPD_DATE
+			   DATE_FORMAT(UPD_DATE, '%Y/%m/%d') UPD_DATE,
+			   (SELECT COUNT(*) FROM STORE_PLAY A WHERE A.STORE_ID = STORE.STORE_ID AND A.CLASS_TYPE = 'CLASS_C') CNT_TIME_CLASS
           FROM STORE
          WHERE STORE_ID NOT IN ('ADMIN','CST00001')  
            <if test="storeId != null and storeId != 'MOBILE'.toString()">

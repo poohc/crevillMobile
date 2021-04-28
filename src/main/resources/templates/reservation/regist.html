@@ -28,7 +28,7 @@
                             <label class="label" for="city4">이용매장선택</label>
                             <select class="form-control custom-select" id="storeId" name="storeId">
                            		<th:block th:each="list : ${storeList}">
-								<option th:value="${list.storeId}" th:text="${list.storeName}"></option>
+								<option th:value="${list.storeId}" th:text="${list.storeName}" th:attr="data-time=${list.cntTimeClass}"></option>
 								</th:block>
                             </select>
                         </div>
@@ -69,7 +69,7 @@
                             <select class="form-control custom-select" id="voucherNo" name="voucherNo">
                                 <option value="">보유바우처 선택</option>
 								<th:block th:each="voucherList : ${voucherList}">
-								<option th:value="${voucherList.voucherNo}" th:text="|[잔여:${voucherList.timeLeftHour}] ${voucherList.ticketName}|"></option>	
+								<option th:value="${voucherList.voucherNo}" th:text="|[잔여:${voucherList.timeLeftHour}] ${voucherList.ticketName}|" th:attr="data-ticketname=${voucherList.ticketName}"></option>	
 								</th:block>
                             </select>
                         </div>
