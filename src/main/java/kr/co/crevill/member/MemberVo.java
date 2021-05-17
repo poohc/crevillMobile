@@ -27,6 +27,7 @@ public class MemberVo {
 	private String voucherCount;
 	private String storeId;
 	private String storeName;
+	private String storeNameShort;
 	private String password;
 	private String pictureIdx;
 	private String engName;

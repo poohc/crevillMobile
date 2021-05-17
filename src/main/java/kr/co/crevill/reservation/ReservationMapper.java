@@ -21,4 +21,7 @@ public interface ReservationMapper {
 	public ReservationVo selectReservationPlayInfo(ReservationDto reservationDto);
 	public int insertReservation(ReservationDto reservationDto);
 	public int updateReservation(ReservationDto reservationDto);
+	public List<ReservationVo> selectRecommendReservationWeekday();
+	public List<ReservationVo> selectRecommendReservationWeekend();
+	public List<ReservationVo> selectQuickReservation(ScheduleDto scheduleDto);
 }

@@ -68,6 +68,18 @@ public class ReservationService {
 		return reservationMapper.selectReservationSearchList(scheduleDto);
 	}
 	
+	public List<ReservationVo> selectRecommendReservationWeekday(){
+		return reservationMapper.selectRecommendReservationWeekday();
+	}
+	
+	public List<ReservationVo> selectRecommendReservationWeekend(){
+		return reservationMapper.selectRecommendReservationWeekend();
+	}
+	
+	public List<ReservationVo> selectQuickReservation(ScheduleDto scheduleDto){
+		return reservationMapper.selectQuickReservation(scheduleDto);
+	}
+	
 	public JSONObject insertReservation(ReservationDto reservationDto, HttpServletRequest request) {
 		JSONObject result = new JSONObject();
 		HttpSession session = request.getSession();

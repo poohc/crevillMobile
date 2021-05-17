@@ -4,7 +4,7 @@
 @import url("inc/owl-carousel/owl.theme.default.css");
 @import url("https://fonts.googleapis.com/css?family=Inter:400,500,700&display=swap");
 body {
-  font-family: "Inter", sans-serif;
+    font-family: 'Noto Sans KR', sans-serif;
   font-size: 15px;
   line-height: 1.55rem;
   letter-spacing: -0.015rem;
@@ -71,6 +71,80 @@ button:hover, button:active, button:focus {
   z-index: 99999;
   background: #1E74FD;
 }
+
+.calendar-box {
+
+}
+
+.buttons-container {
+  cursor: pointer;
+}
+
+.week {
+  overflow: hidden;
+}
+
+.week.highlight {
+  background: #efefef;
+}
+
+/* weekend */
+.week .day:first-child, .week .day:last-child {
+  /*color: orange;*/
+}
+
+/* sunday */
+.week .day:first-child {
+  /*color: red;*/
+}
+
+.day {
+  display: inline-block;
+  float: left;
+  width: 14.28%;
+  text-align: center;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.day.disabled span {
+  color: #AAA;
+}
+
+/* vertical highlight */
+.week .day.highlight span {
+  /*color: blue;*/
+}
+
+.day.selected span {
+  /*background: orange;*/
+}
+
+.day.today span {
+  font-weight: bold;
+}
+
+.months-container.hidden, .weeks-container.hidden {
+  display: none;
+}
+
+.months-wrapper {
+  overflow: hidden;
+}
+
+.months-wrapper .month {
+  display: inline-block;
+  float: left;
+  width: 25%;
+  text-align: center;
+  cursor: pointer;
+}
+.months-wrapper .month.one-third {
+  width: 33.33%;
+}
+
+
+
 
 .appHeader.no-border {
   border: 0;
@@ -224,7 +298,7 @@ button:hover, button:active, button:focus {
 }
 
 .appHeader.scrolled.bg-primary.is-active {
-  background: #1E74FD !important;
+  background: #3B3F59 !important;
 }
 
 .appHeader.scrolled.bg-primary.is-active .headerButton {
@@ -607,7 +681,7 @@ button:hover, button:active, button:focus {
   display: flex;
   align-items: center;
   position: relative;
-  background: #1E74FD;
+  background: #F3B963;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.08);
   position: fixed;
   z-index: 100;
@@ -1446,7 +1520,7 @@ i.icon {
 
 .imaged {
   height: auto;
-  border-radius: 6px;
+  border-radius: 0px;
 }
 
 .imaged.w16 {
@@ -1514,7 +1588,7 @@ i.icon {
 }
 
 .imaged.radius {
-  border-radius: 6px !important;
+  border-radius: 0px !important;
 }
 
 .imaged.square {
@@ -1585,7 +1659,7 @@ i.icon {
 
 .badge-primary,
 a.badge-primary {
-  background: #1E74FD !important;
+  background: #3B3F59 !important;
 }
 
 .badge-secondary,
@@ -1595,12 +1669,12 @@ a.badge-secondary {
 
 .badge-success,
 a.badge-success {
-  background: #34C759 !important;
+  background: #F3B963 !important;
 }
 
 .badge-danger,
 a.badge-danger {
-  background: #EC4433 !important;
+  background: #F3B963 !important;
 }
 
 .badge-warning,
@@ -2011,7 +2085,7 @@ a.badge-dark {
 
 .card {
   background: #ffffff;
-  border-radius: 6px;
+  border-radius: 0px;
   border: 0;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.08);
 }
@@ -2041,8 +2115,9 @@ a.badge-dark {
 }
 
 .card .listview > li:last-child .item {
-  border-radius: 0 0 6px 6px;
+  border-radius: 6px 6px 0 0;
 }
+
 
 .card .card-header {
   background: transparent;
@@ -2063,13 +2138,17 @@ a.badge-dark {
   border-radius: 6px 6px 0 0;
 }
 
+.card .card-img-top1 {
+    border-radius: 0px 0px 0 0;
+  }
+
 .card .overlay-img {
-  border-radius: 6px;
+  border-radius: 0px;
 }
 
 .card .card-img-overlay {
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.0);
+  border-radius: 0px;
 }
 
 .card .card-img-overlay .card-title {
@@ -2089,7 +2168,7 @@ a.badge-dark {
 }
 
 .card.bg-primary .card-text, .card.bg-secondary .card-text, .card.bg-danger .card-text, .card.bg-success .card-text, .card.bg-warning .card-text, .card.bg-info .card-text, .card.bg-dark .card-text {
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 1.0);
 }
 
 .card.bg-primary .card-header, .card.bg-secondary .card-header, .card.bg-danger .card-header, .card.bg-success .card-header, .card.bg-warning .card-header, .card.bg-info .card-header, .card.bg-dark .card-header {
@@ -2145,7 +2224,7 @@ a.badge-dark {
   justify-content: center;
   transition: 0.2s all;
   text-decoration: none !important;
-  border-radius: 6px;
+  border-radius: 0px;
   border-width: 2px;
 }
 
@@ -2229,15 +2308,15 @@ a.badge-dark {
 }
 
 .btn-primary {
-  background: #1E74FD !important;
-  border-color: #1E74FD !important;
+  background: #3B3F59 !important;
+  border-color: #3B3F59 !important;
   color: #ffffff !important;
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active {
-  background: #0564fd !important;
-  border-color: #0564fd !important;
-}
+    background: #ECC88D !important;
+    border-color: #ECC88D !important;
+  }
 
 .btn-primary.disabled, .btn-primary:disabled {
   background: #1E74FD;
@@ -2246,8 +2325,8 @@ a.badge-dark {
 }
 
 .btn-secondary {
-  background: #6C7C94 !important;
-  border-color: #6C7C94 !important;
+  background: #617085 !important;
+  border-color: #617085 !important;
   color: #ffffff !important;
 }
 
@@ -3554,7 +3633,7 @@ a.badge-dark {
 }
 
 .bg-primary {
-  background: #1E74FD !important;
+  background: #3B3F59 !important;
   color: #FFF;
 }
 
@@ -4334,8 +4413,8 @@ textarea,
 
 .nav-tabs.style1 {
   border: 0;
-  background: rgba(225, 225, 225, 0.4);
-  border-radius: 6px;
+  background: rgba(236, 236, 236, 0.4);
+  border-radius: 0px;
   display: flex;
 }
 
@@ -4357,7 +4436,7 @@ textarea,
   border: 0 !important;
   line-height: 1.2em;
   width: 100%;
-  border-radius: 6px;
+  border-radius: 0px;
   padding: 6px 10px;
   height: 30px;
   display: flex;
@@ -4375,8 +4454,11 @@ textarea,
 }
 
 .nav-tabs.style1 .nav-item .nav-link.active {
-  color: #141515;
+  color: #fff;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.08);
+  background: #3B3F59;
+  
+  
 }
 
 .nav-tabs.lined {
@@ -5097,8 +5179,8 @@ textarea,
 }
 
 .owl-carousel .owl-stage-outer {
-  padding-bottom: 20px;
-  margin-bottom: -20px;
+  padding-bottom: 0px;
+  /*margin-bottom: -20px;*/
 }
 
 .login-form {
@@ -5989,7 +6071,7 @@ textarea,
 }
 
 .comment-box .text {
-  margin-top: 6px;
+  margin-top: -5px;
 }
 
 .pagination {
@@ -8021,7 +8103,7 @@ body.dark-mode-active .nav-tabs.style1 .nav-item .nav-link {
 }
 
 body.dark-mode-active .nav-tabs.style1 .nav-item .nav-link.active {
-  background: #23344c;
+  background: #3B3F59;
   color: #FFFFFF;
 }
 

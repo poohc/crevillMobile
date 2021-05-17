@@ -25,7 +25,10 @@
                STORE_ID,
                CASE WHEN MEMBER_PARENT.STORE_ID = 'MOBILE' THEN '모바일'
                     ELSE (SELECT STORE_NAME FROM STORE S WHERE MEMBER_PARENT.STORE_ID = S.STORE_ID) 
-                    END AS STORE_NAME 
+                    END AS STORE_NAME,
+               CASE WHEN MEMBER_PARENT.STORE_ID = 'MOBILE' THEN '모바일'
+                    ELSE (SELECT SUBSTRING_INDEX(S.STORE_NAME, ' ', - 1) FROM STORE S WHERE MEMBER_PARENT.STORE_ID = S.STORE_ID) 
+                    END AS STORE_NAME_SHORT
     	  FROM MEMBER_PARENT
          WHERE CELL_PHONE = #{parentCellPhone} 
     </select>

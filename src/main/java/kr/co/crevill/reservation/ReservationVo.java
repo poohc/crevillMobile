@@ -39,7 +39,10 @@ public class ReservationVo {
 	private String tutoringPer;
 	private String voucherUseId;
 	private String storeName;
+	private String storeNameShort;
 	private String subTopic;
 	private String isToday;
 	private String isCancelPossible;
+	private String timeLeftHour;
+	private String ticketName;
 }

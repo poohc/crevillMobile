@@ -1,45 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="footerFragment">
-    <div class="appBottomMenu">
-    	<th:block th:if="${#httpServletRequest.requestURI == '/mobile/main.view'}">
-    	<a th:href="@{/main.view}" class="item active">
-        </th:block>
-        <th:block th:unless="${#httpServletRequest.requestURI == '/mobile/main.view'}">
-        <a th:href="@{/main.view}" class="item">
-        </th:block>
+    <div class="appBottomMenu rounded">
+        <a th:href="@{/main.view}" class="item active">
             <div class="col">
-                <ion-icon name="home-outline"></ion-icon>
+                <ion-icon name="file-tray-full-outline"></ion-icon>
+                <strong>홈</strong>
             </div>
         </a>
-        <th:block th:if="${#httpServletRequest.requestURI == '/mobile/store/storeList.view'}">
-        <a th:href="@{/store/storeList.view}" class="item active">
-        </th:block>
-        <th:block th:unless="${#httpServletRequest.requestURI == '/mobile/store/storeList.view'}">
         <a th:href="@{/store/storeList.view}" class="item">
-        </th:block>
             <div class="col">
-                <ion-icon name="cube-outline"></ion-icon>
+                <ion-icon name="storefront-outline"></ion-icon>
+                <strong>매장소개</strong>
             </div>
         </a>
-        <th:block th:if="${#httpServletRequest.requestURI == '/mobile/member/info.view'}">
-        <a th:href="@{/member/info.view}" class="item active">
-        </th:block>
-        <th:block th:unless="${#httpServletRequest.requestURI == '/mobile/member/info.view'}">
+        <a href="time_list.html" class="item">
+            <div class="col">
+                <ion-icon name="document-text-outline"></ion-icon>
+                <strong>시간표</strong>
+            </div>
+        </a>
         <a th:href="@{/member/info.view}" class="item">
-        </th:block>
             <div class="col">
-                <ion-icon name="person-outline"></ion-icon>
+                <ion-icon name="people-outline"></ion-icon>
+                <strong>회원정보</strong>
             </div>
         </a>
-        <th:block th:if="${#httpServletRequest.requestURI == '/mobile/play/list.view'}">
-        <a th:href="@{/play/list.view}" class="item active">
-        </th:block>
-        <th:block th:unless="${#httpServletRequest.requestURI == '/mobile/play/list.view'}">
-        <a th:href="@{/play/list.view}" class="item">
-        </th:block>
+        <a href="comingsoon.html" class="item">
             <div class="col">
-                <ion-icon name="play-outline"></ion-icon>
+                <ion-icon name="rocket-outline"></ion-icon>
+                <strong>이용안내</strong>
+            </div>
+        </a>
+        <a th:href="@{/reservation/regist.view}" class="item">
+            <div class="col">
+                <ion-icon name="calendar-outline"></ion-icon>
+                <strong>실시간예약</strong>
             </div>
         </a>
     </div>

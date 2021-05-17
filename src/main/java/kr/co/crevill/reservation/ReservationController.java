@@ -135,4 +135,18 @@ public class ReservationController {
 		result = reservationService.cancelReservation(reservationDto, request);
 		return result;
 	}
+	
+	@PostMapping("getQuickReservationInfo.proc")
+	@ResponseBody
+	public JSONObject getQuickReservationInfo(HttpServletRequest request, @ModelAttribute ScheduleDto scheduleDto) {
+		JSONObject result = new JSONObject();
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		scheduleDto.setCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
+		List<ReservationVo> reservationList = reservationService.selectQuickReservation(scheduleDto);
+		if(reservationList != null && reservationList.size() > 0) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);
+			result.put("scheduleList", reservationList);
+		}
+		return result;
+	}
 }

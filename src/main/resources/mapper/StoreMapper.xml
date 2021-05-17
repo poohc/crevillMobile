@@ -66,6 +66,16 @@
            <if test="experienceClass != null">
            AND EXPERIENCE_CLASS = #{experienceClass}
            </if>
+           <if test="location != null and location == 'SEOUL'.toString()">
+           AND ADDRESS LIKE '서울%'
+           </if>
+           <if test="location != null and location == 'KYUNGKI'.toString()">
+           AND ADDRESS LIKE '경기%'
+           </if>
+           <if test="location != null and location == 'NAMBU'.toString()">
+           AND (ADDRESS NOT LIKE '서울%' OR ADDRESS NOT LIKE '경기%')
+           </if>
+           
       ORDER BY SORT_RANK
     </select>
 	

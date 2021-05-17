@@ -1,20 +1,55 @@
 package kr.co.crevill.main;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.co.crevill.common.SessionUtil;
+import kr.co.crevill.member.MemberDto;
+import kr.co.crevill.member.MemberService;
+import kr.co.crevill.promotion.PromotionDto;
+import kr.co.crevill.promotion.PromotionService;
+import kr.co.crevill.reservation.ReservationService;
+import kr.co.crevill.reservation.ReservationVo;
+import kr.co.crevill.schedule.ScheduleDto;
 import kr.co.crevill.store.StoreDto;
 import kr.co.crevill.store.StoreService;
+import kr.co.crevill.storeProgram.StoreProgramDto;
+import kr.co.crevill.storeProgram.StoreProgramService;
+import kr.co.crevill.voucher.VoucherDto;
+import kr.co.crevill.voucher.VoucherService;
 
 @Controller
 public class MainController {
 
 	@Autowired
 	private StoreService storeService; 
+	
+	@Autowired
+	private StoreProgramService storeProgramService; 
+	
+	@Autowired
+	private ReservationService reservationService; 
+	
+	@Autowired
+	private MemberService memberService; 
+	
+	@Autowired
+	private VoucherService voucherService;
+	
+	@Autowired
+	private PromotionService promotionService; 
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@GetMapping("/")
 	public ModelAndView mobile(HttpServletRequest request) {
@@ -26,8 +61,43 @@ public class MainController {
 	public ModelAndView index(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("main");
 		StoreDto storeDto = new StoreDto();
+		StoreProgramDto storeProgramDto = new StoreProgramDto();
+		storeProgramDto.setLimit(3);
 		mav.addObject("storeList", storeService.selectStoreList(storeDto));
+		mav.addObject("programList", storeProgramService.selectStoreProgramList(storeProgramDto));
+		
+		List<ReservationVo> recommendListWeekday = reservationService.selectRecommendReservationWeekday();
+		List<ReservationVo> recommendListWeekend = reservationService.selectRecommendReservationWeekend();
+		
+		List<ReservationVo> reccomendList = Stream.concat(recommendListWeekday.stream(), recommendListWeekend.stream()).collect(Collectors.toList());
+		logger.info("중복 제거 전 예약 리스트 사이즈: " + reccomendList.size());
+		reccomendList.stream().distinct().collect(Collectors.toList());
+		logger.info("중복 제거 후 예약 리스트 사이즈: " + reccomendList.size());
+		for(ReservationVo v : reccomendList) {
+			logger.info("중복제거된 추천 예약 리스트 : " + v.getScheduleId());
+		}
+		
+		mav.addObject("reccomendList", reccomendList);
+		MemberDto memberDto = new MemberDto();
+		memberDto.setParentCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
+		mav.addObject("childList", memberService.selectChildMemberList(memberDto));
+		VoucherDto voucherDto = new VoucherDto();
+		voucherDto.setCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
+		mav.addObject("voucherInfo", voucherService.getMemberVoucherInfo(voucherDto));
+		mav.addObject("cellPhone", SessionUtil.getSessionMemberVo(request).getCellPhone());
+		ScheduleDto scheduleDto = new ScheduleDto();
+		scheduleDto.setCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
+		mav.addObject("reservationList", reservationService.selectReservationList(scheduleDto));
+		mav.addObject("voucherList", voucherService.getMemberVoucherAllList(voucherDto));
+		storeDto.setLocation("SEOUL");
+		mav.addObject("seoulStore", storeService.selectStoreList(storeDto));
+		storeDto.setLocation("KYUNGKI");
+		mav.addObject("kyungkiStore", storeService.selectStoreList(storeDto));
+		storeDto.setLocation("NAMBU");
+		mav.addObject("nambuStore", storeService.selectStoreList(storeDto));
+		PromotionDto promotionDto = new PromotionDto();
+		promotionDto.setStoreId(SessionUtil.getSessionMemberVo(request).getStoreId());
+		mav.addObject("promotionList", promotionService.getPromotionList(promotionDto));
 		return mav;
 	}
-	
 }

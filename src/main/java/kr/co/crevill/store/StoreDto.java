@@ -24,6 +24,7 @@ public class StoreDto {
 	private String openDay;
 	private String closeDay;
 	private String experienceClass;
+	private String location;
 	private MultipartFile registrationCertificate;
 	private MultipartFile playgroundCertificate;
 	private MultipartFile insuranceCertificate;

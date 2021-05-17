@@ -309,5 +309,17 @@
 		  FROM VOUCHER_ATTRIBUTE
 		 WHERE VOUCHER_NO = #{voucherNo} 
 	</delete>
+	
+	<select id="getMemberVoucherInfo" parameterType="kr.co.crevill.voucher.VoucherDto" resultType="kr.co.crevill.voucher.VoucherVo">
+		SELECT FORMAT(SUM(SUB.TIME_LEFT_HOUR), 0) TIME_LEFT_HOUR
+		  FROM (
+	    SELECT C.TIME_LEFT_HOUR
+		  FROM VOUCHER_SALE B,
+		       VOUCHER_USE_VIEW C
+		 WHERE B.VOUCHER_NO = C.VOUCHER_NO 
+		   AND B.BUY_CELL_PHONE = #{cellPhone}
+	  GROUP BY C.VOUCHER_NO
+	           ) SUB   
+	</select>
 		
 </mapper>

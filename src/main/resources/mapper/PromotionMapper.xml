@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.crevill.promotion.PromotionMapper">
+	
+    <select id="selectPromotionList" parameterType="kr.co.crevill.promotion.PromotionDto" resultType="kr.co.crevill.promotion.PromotionVo">
+        SELECT PROMOTION_ID,
+			   PROMOTION_NAME,
+			   PROMOTION_CONTENTS,
+			   DATE_FORMAT(STR_TO_DATE(END_DATE,'%Y%m%d'), '%Y-%m-%d') END_DATE,
+			   PROMOTION_TYPE,
+			   PROMOTION_VALUE,
+			   PROMOTION_BANNER_ID,
+			   PROMOTION_DETAIL_IMAGE_ID,
+			   (SELECT GROUP_CONCAT(S.STORE_NAME SEPARATOR ',') FROM PROMOTION_STORE PS, STORE S WHERE PROMOTION_ID = PS.PROMOTION_ID AND PS.STORE_ID = S.STORE_ID) STORE_ID,
+			   REG_ID,
+		       DATE_FORMAT(REG_DATE, '%Y-%m-%d') REG_DATE,
+		       UPD_ID,
+		       DATE_FORMAT(UPD_DATE, '%Y-%m-%d') UPD_DATE,
+		       STATUS	
+          FROM PROMOTION
+    </select>
+	
+	<select id="getPromotionList" parameterType="kr.co.crevill.promotion.PromotionDto" resultType="kr.co.crevill.promotion.PromotionVo">
+        SELECT A.PROMOTION_ID,
+			   A.PROMOTION_NAME,
+			   A.PROMOTION_CONTENTS,
+			   DATE_FORMAT(STR_TO_DATE(A.END_DATE,'%Y%m%d'), '%Y-%m-%d') END_DATE,
+			   A.PROMOTION_TYPE,
+			   A.PROMOTION_VALUE,
+			   A.PROMOTION_BANNER_ID,
+			   A.PROMOTION_DETAIL_IMAGE_ID,
+			   (SELECT GROUP_CONCAT(S.STORE_NAME SEPARATOR ',') FROM PROMOTION_STORE PS, STORE S WHERE A.PROMOTION_ID = PS.PROMOTION_ID AND PS.STORE_ID = S.STORE_ID) STORE_ID,
+			   A.REG_ID,
+		       DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') REG_DATE,
+		       A.UPD_ID,
+		       DATE_FORMAT(A.UPD_DATE, '%Y-%m-%d') UPD_DATE,
+		       A.STATUS	
+          FROM PROMOTION A,
+               PROMOTION_STORE B
+         WHERE A.PROMOTION_ID = B.PROMOTION_ID
+           <![CDATA[
+           AND A.END_DATE >= DATE_FORMAT(NOW(), '%Y%m%d')
+           ]]>
+           AND A.STATUS = 'ACTIVE' 
+           AND B.STORE_ID = #{storeId}       
+    </select>
+	
+	<select id="selectPromotionInfo" parameterType="kr.co.crevill.promotion.PromotionDto" resultType="kr.co.crevill.promotion.PromotionVo">
+        SELECT PROMOTION_ID,
+			   PROMOTION_NAME,
+			   PROMOTION_CONTENTS,
+			   DATE_FORMAT(STR_TO_DATE(END_DATE,'%Y%m%d'), '%Y-%m-%d') END_DATE,
+			   PROMOTION_TYPE,
+			   PROMOTION_VALUE,
+			   PROMOTION_BANNER_ID,
+			   PROMOTION_DETAIL_IMAGE_ID,
+			   (SELECT GROUP_CONCAT(S.STORE_ID SEPARATOR ',') FROM PROMOTION_STORE PS, STORE S WHERE PROMOTION_ID = PS.PROMOTION_ID AND PS.STORE_ID = S.STORE_ID) STORE_ID,
+			   REG_ID,
+		       DATE_FORMAT(REG_DATE, '%Y/%m/%d') REG_DATE,
+		       UPD_ID,
+		       DATE_FORMAT(UPD_DATE, '%Y/%m/%d') UPD_DATE,
+		       STATUS	
+          FROM PROMOTION
+        <where>
+           AND PROMOTION_ID = #{promotionId}
+        </where>
+    </select>
+	
+	<select id="selectPromotionIdSeq" resultType="string">
+		SELECT PROMOTION_ID_SEQ_NEXTVAL()
+	</select>
+	
+	<insert id="insertPromotion" parameterType="kr.co.crevill.promotion.PromotionDto">
+    	INSERT INTO PROMOTION (
+   					      	   PROMOTION_ID,
+   					      	   PROMOTION_NAME,
+							   PROMOTION_CONTENTS,
+							   END_DATE,
+							   PROMOTION_TYPE,
+							   PROMOTION_VALUE,
+							   PROMOTION_BANNER_ID,
+							   PROMOTION_DETAIL_IMAGE_ID,
+							   STATUS,
+					           REG_ID,
+					           REG_DATE						
+   						      )
+				       VALUES (
+				       		   #{promotionId},
+					  		   #{promotionName},
+							   #{promotionContents},
+							   #{endDate},
+							   #{promotionType},
+							   #{promotionValue},
+							   #{promotionBannerId},
+							   #{promotionDetailImageId},
+						       #{status},
+						       #{regId},
+						       NOW()
+				   		      )
+    </insert>
+	
+	<insert id="insertPromotionStore" parameterType="kr.co.crevill.promotion.PromotionDto">
+		INSERT INTO PROMOTION_STORE
+								   (
+									STORE_ID,
+									PROMOTION_ID,
+									REG_ID,
+									REG_DATE
+								   )
+						    VALUES (
+						    		#{storeId},
+						    		#{promotionId},
+						    		#{regId},
+						       	 	NOW()
+						    	   )
+	</insert>
+	
+	<update id="updatePromotion" parameterType="kr.co.crevill.promotion.PromotionDto">
+		UPDATE PROMOTION 
+    	  <set>
+    	   <if test="promotionName != null">PROMOTION_NAME = #{promotionName},</if>
+		   <if test="promotionContents != null">PROMOTION_CONTENTS = #{promotionContents},</if>
+		   <if test="endDate != null">END_DATE = #{endDate},</if>
+		   <if test="promotionType != null">PROMOTION_TYPE = #{promotionType},</if>
+		   <if test="promotionValue != null">PROMOTION_VALUE = #{promotionValue},</if>
+		   <if test="promotionBannerId != null">PROMOTION_BANNER_ID = #{promotionBannerId},</if>
+		   <if test="promotionDetailImageId != null">PROMOTION_DETAIL_IMAGE_ID = #{promotionDetailImageId},</if>
+		   <if test="status != null">STATUS = #{status},</if>
+		   UPD_ID = #{updId},
+		   UPD_DATE = NOW()
+    	 </set>
+    	 WHERE PROMOTION_ID = #{promotionId}
+    </update>
+	
+	<delete id="deletePromotion" parameterType="kr.co.crevill.promotion.PromotionDto">
+		DELETE 
+		  FROM PROMOTION
+		 WHERE PROMOTION_ID = #{promotionId}
+	</delete>
+	
+	<delete id="deletePromotionStore" parameterType="kr.co.crevill.promotion.PromotionDto">
+		DELETE 
+		  FROM PROMOTION_STORE
+		 WHERE PROMOTION_ID = #{promotionId}
+	</delete>
+	
+</mapper>

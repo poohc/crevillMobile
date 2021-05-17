@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<th:block th:fragment="scriptFragment(scriptName)">
 		<!-- Jquery, Moment, DateRangePicker -->
 	    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
@@ -25,6 +25,8 @@
 	    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	    <!-- Custom Js -->
 	    <script th:src="@{/assets/js/base.js}"></script>
+	    <script type="module" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.js"></script>
+	    <script th:src="@{/assets/js/plugins/progressbar-js/progressbar.min.js}"></script>
 	    <script th:src="@{/assets/js/crevill/commonScript.js}"></script>
 	    <script th:src="@{${scriptName}}"></script>
 	    <script th:inline="javascript"> var contextRoot = /*[[@{/}]]*/ ''; </script>

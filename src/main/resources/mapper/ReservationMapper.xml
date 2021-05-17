@@ -49,6 +49,7 @@
 			   A.CHILD_NAME,
 			   C.VOUCHER_USE_ID,
 			   (SELECT S.STORE_NAME FROM STORE S WHERE S.STORE_ID = B.STORE_ID) STORE_NAME,
+			   (SELECT SUBSTRING_INDEX(S.STORE_NAME, ' ', - 1) FROM STORE S WHERE S.STORE_ID = B.STORE_ID) STORE_NAME_SHORT,
 			   (SELECT P.NAME FROM PLAY P WHERE P.PLAY_ID = B.PLAY_ID) PLAY_NAME, 
 			   B.SUB_TOPIC,
 			   CASE WHEN DATE_FORMAT(B.SCHEDULE_START, '%Y/%m/%d') = DATE_FORMAT(NOW(), '%Y/%m/%d') THEN 'TODAY'
@@ -223,5 +224,55 @@
 		 WHERE RESERVATION_ID = #{reservationId} 
 	</delete>
 	
+	<select id="selectRecommendReservationWeekday" resultType="kr.co.crevill.reservation.ReservationVo">
+		SELECT A.NUMBER_OF_PEOPLE,
+		       A.SCHEDULE_ID,
+		       (SELECT P.NAME FROM PLAY P WHERE P.PLAY_ID = A.PLAY_ID) PLAY_NAME,
+		       DATE_FORMAT(A.SCHEDULE_START, '%m월 %d일 %H:%i') SCHEDULE_START,
+		       (SELECT COUNT(*) FROM RESERVATION R WHERE R.SCHEDULE_ID = A.SCHEDULE_ID AND R.TUTORING_YN = 'N') RESERVATION_CNT
+		  FROM SCHEDULE A
+		 WHERE SCHEDULE_START > NOW()        
+		   AND DATE_FORMAT(SCHEDULE_END, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
+		   <![CDATA[
+		   AND (SELECT COUNT(*) FROM RESERVATION R WHERE R.SCHEDULE_ID = A.SCHEDULE_ID AND R.TUTORING_YN = 'N') < A.NUMBER_OF_PEOPLE
+		   ]]> 
+		 LIMIT 2 
+	</select>
+	
+	<select id="selectRecommendReservationWeekend" resultType="kr.co.crevill.reservation.ReservationVo">
+		SELECT A.NUMBER_OF_PEOPLE,
+		       A.SCHEDULE_ID,
+		       (SELECT P.NAME FROM PLAY P WHERE P.PLAY_ID = A.PLAY_ID) PLAY_NAME,
+		       DATE_FORMAT(A.SCHEDULE_START, '%m월 %d일 %H:%i') SCHEDULE_START,
+		       (SELECT COUNT(*) FROM RESERVATION R WHERE R.SCHEDULE_ID = A.SCHEDULE_ID AND R.TUTORING_YN = 'N') RESERVATION_CNT 
+		  FROM SCHEDULE A
+		 WHERE SCHEDULE_START BETWEEN STR_TO_DATE(CONCAT(DATE_FORMAT(ADDDATE( NOW(), - WEEKDAY(NOW()) + 5 ), '%Y%m%d'), '000000'), '%Y%m%d%H%i%S')
+		                          AND STR_TO_DATE(CONCAT(DATE_FORMAT(ADDDATE( NOW(), - WEEKDAY(NOW()) + 6 ), '%Y%m%d'), '235959'), '%Y%m%d%H%i%S')
+		   AND SCHEDULE_START > NOW()                       
+		   <![CDATA[
+		   AND (SELECT COUNT(*) FROM RESERVATION R WHERE R.SCHEDULE_ID = A.SCHEDULE_ID AND R.TUTORING_YN = 'N') < A.NUMBER_OF_PEOPLE
+		   ]]> 
+		 LIMIT 1 
+	</select>
+	
+	<select id="selectQuickReservation" parameterType="kr.co.crevill.schedule.ScheduleDto" resultType="kr.co.crevill.reservation.ReservationVo">
+		SELECT A.NUMBER_OF_PEOPLE,
+		       A.SCHEDULE_ID,
+		       (SELECT P.NAME FROM PLAY P WHERE P.PLAY_ID = A.PLAY_ID) PLAY_NAME,
+		       DATE_FORMAT(A.SCHEDULE_START, '%m월 %d일 %H:%i') SCHEDULE_START,
+		       (SELECT COUNT(*) FROM RESERVATION R WHERE R.SCHEDULE_ID = A.SCHEDULE_ID AND R.TUTORING_YN = 'N') RESERVATION_CNT,
+		       B.VOUCHER_NO,
+		       D.TICKET_NAME,
+		       C.TIME_LEFT_HOUR 
+		  FROM SCHEDULE A,
+		       VOUCHER_SALE B,
+		       VOUCHER_USE_VIEW C,
+		       VOUCHER D
+		 WHERE A.SCHEDULE_ID = #{scheduleId}
+		   AND B.BUY_CELL_PHONE = #{cellPhone}
+		   AND B.VOUCHER_NO = C.VOUCHER_NO
+		   AND C.VOUCHER_NO = D.VOUCHER_NO
+	  GROUP BY B.VOUCHER_NO
+	</select>
 	
 </mapper>

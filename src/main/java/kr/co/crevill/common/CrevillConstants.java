@@ -40,4 +40,8 @@ public class CrevillConstants {
 	public static final String CLASS_TYPE_CLASS = "CLASS_A";
 	public static final String CLASS_TYPE_TUTORING = "CLASS_D";
 	public static final String CLASS_TYPE_SPECIAL_CAMP = "CLASS_B";
+	public static final String PROGRAM_STATUS_ACTIVE = "ACTIVE";
+	public static final String PROGRAM_STATUS_INACTIVE = "INACTIVE";
+	public static final String PROMOTION_STATUS_ACTIVE = "ACTIVE";
+	public static final String PROMOTION_STATUS_INACTIVE = "INACTIVE";
 }

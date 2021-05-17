@@ -4,77 +4,354 @@
 	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/indexScript.js')}">
 
 <th:block layout:fragment="content">
-	<div id="appCapsule">
-		<div class="header-large-title">
-			<h1 class="title">CREVILL</h1>
-			<h4 class="subtitle" th:text="|${session.memberVo?.name} 고객님|"></h4>
-		</div>
-
-		<div class="section full mt-3 mb-3">
-			<div class="carousel-multiple owl-carousel owl-theme">
-				<div class="item" th:each="list : ${storeList}">
-					<div class="card">
-						<a th:href="@{/store/storeInfo.view(storeId=${list.storeId})}">
-							<img th:src="@{/common/getImage(imageIdx=${list.image1Idx})}" class="card-img-top" th:alt="|${list.storeName} 매장이미지|">
-						</a>
-						<div class="card-body pt-2">
-							<h4 class="mb-0" th:text="${list.storeName}"></h4>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="section mt-3 mb-3">
-			<div class="card">
-				<div
-					class="card-body d-flex justify-content-between align-items-end">
-					<div>
-						<h6 class="card-subtitle">눈을 보호하세요</h6>
-						<h5 class="card-title mb-0 d-flex align-items-center justify-content-between">다크모드</h5>
-					</div>
-					<div class="custom-control custom-switch">
-						<input type="checkbox" class="custom-control-input dark-mode-switch" id="darkmodeswitch">
-						<label class="custom-control-label" for="darkmodeswitch"></label>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="section mt-3 mb-3">
-			<div class="card">
-				<img th:src="@{/assets/img/sample/photo/main_title1.jpg}" class="card-img-top" alt="image">
-				<div class="card-body">
-					<h6 class="card-subtitle">CREVILL Intro</h6>
-					<h5 class="card-title">발견하세요.</h5>
-					<p class="card-text">놀이를 통한 신기한 영어학습과 창의력</p>
-					<a th:href="@{/play/list.view}" class="btn btn-primary">
-						<ion-icon name="cube-outline"></ion-icon> CLASS 보기
-					</a>
-				</div>
-			</div>
-		</div>
+	 <div id="appCapsule" style="padding-top:45px;">
+        <div class="section mt-1">
+            <div class="row">
+                <div class="col-6" style="padding-right: 0px;">
+                    <div class="card bg-dark text-white" style="box-shadow: none;">
+                        <img src="assets/img/left.jpg" class="card-img overlay-img" alt="image">
+                        <div class="card-img-overlay" style="color: black;">
+                            <h5 class="card-title" th:text="|${session.memberVo?.name}님|"></h5>
+                            <p class="card-text"><span class="badge badge-danger" th:text="|${session.memberVo?.storeNameShort}|"></span> 회원</p>
+                            <p class="card-text"><small>5일전 판교점 방문</small></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6" style="padding-left: 0px;">
+                    <div class="carousel-full owl-carousel owl-theme">
+                   		<div class="item" th:each="programList : ${programList}">
+                            <div class="card">
+                                <a href="">
+                                	<img th:src="@{/common/getImage(imageIdx=${programList.thumbnailId})}" class="card-img overlay-img" alt="image" style="height: 160.61px;">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-full owl-carousel owl-theme">
+            <div class="section mt-0">
+            	<th:block th:each="reccomendList : ${reccomendList}">
+                <a href="#" data-toggle="modal" data-target="#actionSheetForm" th:attr="onclick=|reservation('${reccomendList.scheduleId}','${reccomendList.scheduleStart}','${reccomendList.playName}', '${reccomendList.reservationCnt}')|">
+                    <div class="card bg-primary comment-box" style="text-align: left;">
+                        <div class="card-text">예약추천</div>
+                        <div class="text">
+                            <h5 style="color:white;" th:text="|${reccomendList.scheduleStart} 클래스 ${reccomendList.playName}|"></h5>
+                            <span class="chip-label">
+                                <span class="badge badge-success" th:text="${reccomendList.reservationCnt}"></span>
+                                <font color="white">예약가능</font>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+                </th:block>
+            </div>
+        </div>
 		
-		 <div class="section mt-3 mb-3">
-            <div class="card">
-                <img th:src="@{/assets/img/sample/photo/main_title2.jpg}" class="card-img-top" alt="image">
-                <div class="card-body">
-                    <h6 class="card-subtitle">CREVILL Intro</h6>
-                    <h5 class="card-title">원어민을 만나세요.</h5>
-                    <p class="card-text">
-                        경험이 많은 원어민이 아이들에게 놀이를 통하여 영어능력을 올려줍니다.
-                    </p>
-                    <a th:href="@{/staff/nsList.view}" class="btn btn-primary">
-                        <ion-icon name="layers-outline"></ion-icon>
-                        원어민 프로필 보기
+		<div class="modal fade action-sheet" id="actionSheetForm" tabindex="-1" role="dialog">
+			<form class="form theme-form" id="reservationForm" @submit.prevent="validateBeforeSubmit" th:action="@{/reservation/regist.proc}" method="post">
+			<input type="hidden" id="scheduleId" name="scheduleId" :value="scheduleId" />
+			<input type="hidden" id="cellPhone" name="cellPhone" th:value="${cellPhone}" />
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">빠른 예약</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="action-sheet-content">
+	                        <div class="form-group basic">
+	                            {{scheduleStart}} {{playName}} <span class="badge badge-success">예약</span><br>
+	                            잔여시간 <span class="badge badge-danger" th:text="|${voucherInfo.timeLeftHour}시간|"></span><br><br>
+	                            <div class="input-wrapper">
+	                                <div class="input-wrapper">
+	                                    <label class="label" for="voucherId">사용할 바우처</label>
+	                                    <select class="form-control custom-select" id="voucherNo" name="voucherNo">
+	                                        <template v-for="item in scheduleList">
+	                                        	<option :value="item.voucherNo">{{item.ticketName}}</option>
+	                                        </template>
+	                                    </select>
+	                                </div>
+	                            </div>
+	                        </div>
+	
+	                        <div class="form-group basic">
+	                            <div class="input-wrapper">
+	                                <div class="form-group basic">
+	                                    <div class="input-wrapper">
+	                                        <label class="label" for="childName">이용아동</label>
+	                                        <select class="form-control custom-select" id="childName" name="childName">
+	                                            <option th:each="childList : ${childList}" th:value="${childList.childName}" th:text="${childList.childName}">뽀로로</option>
+	                                        </select>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                        </div>
+	                        <div class="form-group basic">
+	                            <button type="submit" class="btn btn-secondary btn-block btn-lg">바로예약</button>
+	                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+		
+        <div class="section full  mt-0">
+            <div class="section-title">예약알림</div>
+            <div class="carousel-multiple owl-carousel owl-theme">
+                <div class="item" th:each="list : ${reservationList}">
+                    <a th:href="@{/reservation/list.view}">
+                        <div class="card bg-primary comment-box">
+                            <h6 class="card-title" style="font-size:14px;">예약알림 : 
+                            <span class="badge badge-danger" th:text="${list.storeNameShort}"></span></h6>
+                            <div class="card-text" th:text="${list.scheduleDate}"></div>
+                            <div class="text" style="font-size:13px;"  th:text="${list.playName}"></div>
+                            <span class="badge badge-light"  th:text="${list.subTopic}"></span>
+                        </div>
                     </a>
                 </div>
             </div>
         </div>
-		
-		<th:block th:replace="fragments/appFooter :: appFooterFragment"></th:block>
-		
-	</div>
-	<!-- * App Capsule -->
+        <div class="section full mt-1">
+            <div class="wide-block pt-2 pb-2">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+                                100시간
+                            </button>
+                            <div class="dropdown-menu" style="padding-top:5px;">
+                                <a class="dropdown-item">20시간</a>
+                            </div>잔여시간
+                            <div class="chip chip-outline chip-primary ml-05 mb-05" style="padding-left:0px;">
+                                <span class="chip-label">20/100</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div id="circle1" class="circle-progress">
+                            <div class="in">
+                                <div class="text">
+                                    잔여시간
+                                    <h3 class="value">10</h3>
+                                    시간
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div id="circle3" class="circle-progress">
+                            <div class="in">
+                                <div class="text">
+                                    바우처
+                                    <h3 class="value">80%</h3>
+                                    소진률
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section full mt-1">
+                <div class="carousel-full owl-carousel owl-theme">
+                    <div class="item">
+                        <div class="card">
+                            <a href="promotion_list.html"><img src="assets/img/promo2.jpg" class="card-img-top1" alt="image"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section full mt-1">
+                <div class="section-title">회원 예약상담</div>
+                <div class="wide-block pt-2">
+                    <div class="row" style="text-align: center;">
+                        <div class="col-4">
+                            <a href="https://pf.kakao.com/_xoFKuxb">
+                                <img src="assets/img/btn1.jpg" alt="alt" class="imaged w-50 rounded"
+                                    style="padding-bottom:5px;">
+                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
+                                    <h5>카카오상담</h5>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-4">
+                            <a href="https://pf.kakao.com/_xoFKuxb">
+                                <img src="assets/img/btn1.jpg" alt="alt" class="imaged w-50 rounded"
+                                    style="padding-bottom:5px;">
+                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
+                                    <h5>카카오상담</h5>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-4">
+                            <a href="https://pf.kakao.com/_xoFKuxb">
+                                <img src="assets/img/btn1.jpg" alt="alt" class="imaged w-50 rounded"
+                                    style="padding-bottom:5px;">
+                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
+                                    <h5>카카오상담</h5>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade show active" id="pilled" role="tabpanel">
+                <div class="section full mt-1">
+                    <div class="section-title">CENTER</div>
+                    <ul class="nav nav-tabs style1" role="tablist" style="padding-left:16px; padding-right:16px;">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#seoul" role="tab">
+                                서울권
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#gyeongi" role="tab">
+                                경기권
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#southern" role="tab">
+                                남부권
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content mt-2">
+                        <div class="tab-pane fade show active" id="seoul" role="tabpanel">
+                            <div class="wide-block pt-2 pb-2">
+                                <div class="row">
+                                    <div class="col-6" th:each="list : ${seoulStore}">
+                                        <div class="item">
+                                            <div class="card">
+                                                	<a th:href="@{/store/storeInfo.view(storeId=${list.storeId})}">
+                                                		<img th:src="@{/common/getImage(imageIdx=${list.image1Idx})}" class="card-img-top overlay-img" alt="image">
+                                                	</a>
+                                                	<div class="card-body pt-2">
+                                                    <h5 class="mb-0" th:text="${list.storeNameShort}"></h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="gyeongi" role="tabpanel">
+                            <div class="wide-block pt-2 pb-2">
+                                <div class="row">
+                                    <div class="col-6" th:each="list : ${kyungkiStore}">
+                                        <div class="item">
+                                            <div class="card">
+                                                	<a th:href="@{/store/storeInfo.view(storeId=${list.storeId})}">
+                                                		<img th:src="@{/common/getImage(imageIdx=${list.image1Idx})}" class="card-img-top overlay-img" alt="image">
+                                                	</a>
+                                                	<div class="card-body pt-2">
+                                                    <h5 class="mb-0" th:text="${list.storeNameShort}"></h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="southern" role="tabpanel">
+                            <div class="wide-block pt-2 pb-2">
+                                <div class="row">
+                                    <div class="col-6" th:each="list : ${nambuStore}">
+                                        <div class="item">
+                                            <div class="card">
+                                                	<a th:href="@{/store/storeInfo.view(storeId=${list.storeId})}">
+                                                		<img th:src="@{/common/getImage(imageIdx=${list.image1Idx})}" class="card-img-top overlay-img" alt="image">
+                                                	</a>
+                                                	<div class="card-body pt-2">
+                                                    <h5 class="mb-0" th:text="${list.storeNameShort}"></h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section full mt-2 mb-3">
+            <div class="section-title">크레빌 프로모션</div>
+            <div class="carousel-full owl-carousel owl-theme">
+                <div class="item" th:each="list : ${promotionList}">
+                    <a href="promotion_list.html">
+                    	<img th:src="@{/common/getImage(imageIdx=${list.promotionBannerId})}" class="imaged w-100 square" alt="promotion">
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="section mt-3 mb-3">
+            <div class="card">
+                <img th:src="@{assets/img/logo_motion.gif}" class="card-img-top" alt="image">
+                <div class="card-body">
+                    <p class="card-text">
+                        창의적 영어 놀이공간 크레빌. 아이들이 자연스럽게 영어에 노출되어, 자신감을 갖게 해 줍니다.
+                    </p>
+                    <a href="#" class="btn btn-primary" data-toggle="modal" data-component="stories"
+                        data-target="#about_crevill">
+                        <ion-icon name="person-outline"></ion-icon>
+                        크레빌 소개
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade modalbox" id="about_crevill" data-backdrop="static" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">크레빌 소개</h5>
+                        <a href="javascript:;" data-dismiss="modal">닫기</a>
+                    </div>
+                    <div class="modal-body">
+                        <img th:src="@{assets/img/detail_crevill.jpg}" alt="image" class="imaged img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section mt-3 mb-3">
+            <div class="card">
+                <img th:src="@{assets/img/intro.gif}" class="card-img-top" alt="image">
+                <div class="card-body">
+                    <!--<h6 class="card-subtitle">CREVILL Intro</h6>-->
+                    <p class="card-text">
+                        크레빌 프로그램은 특별합니다. 차별화된 커리큘럼을 기반으로 한 다양한 프로그램을 만나보세요.
+                    </p>
+                    <a href="#" class="btn btn-primary" data-toggle="modal" data-component="stories" data-target="#about_program">
+                        <ion-icon name="images-outline"></ion-icon>
+                        PROGRAM 소개
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade modalbox" id="about_program" data-backdrop="static" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">프로그램 소개</h5>
+                        <a href="javascript:;" data-dismiss="modal">닫기</a>
+                    </div>
+                    <div class="modal-body">
+                        <img th:src="@{assets/img/detail_program.jpg}" alt="image" class="imaged img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- app footer -->
+        <th:block th:replace="fragments/appFooter :: appFooterFragment"></th:block>
+    </div>
+    <!-- * App Capsule -->
 </th:block>
 </html>
