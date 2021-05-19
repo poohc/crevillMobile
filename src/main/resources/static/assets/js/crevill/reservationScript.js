@@ -1,4 +1,5 @@
 var acceessableCount = 1; //동시접근제한수
+var calendarEvent = [{}];
 
 Vue.use(VeeValidate, {
   locale: 'ko',
@@ -7,6 +8,7 @@ Vue.use(VeeValidate, {
 		    attributes: {
 		      cellPhone : '전화번호',
 			  voucherNo : '바우처',
+			  classType : '클래스/튜터링선택',
    			  scheduleDate : '스케쥴날짜',		  
 			  scheduleTime : '스케쥴시간',
 			  scheduleId : '수업'
@@ -25,7 +27,11 @@ var vm = new Vue({
 		scheduleTime : '',
 	  	scheduleId : '',
 		scheduleList: [],
-		voucherList : []
+		voucherList : [],
+		voucherTimeLeftHour : '',
+		voucherEndDate : '',
+		reservationCnt : '',
+		classType : ''
     },
 	methods: {
     validateBeforeSubmit() {
@@ -37,10 +43,24 @@ var vm = new Vue({
 			if (acceessableCount < 0 ) {
 		    	alert("이미 작업이 수행중입니다.");
 		    } else {
+			
+				var scheduleId = '';
+				$("input[name=scheduleId]:checked").each(function() {
+					scheduleId += $(this).val() + ',';
+				});
+				scheduleId = scheduleId.substr(0, scheduleId.length - 1);
+				
+				var childName = '';
+				$("input[name=childName]:checked").each(function() {
+					childName += $(this).val() + ',';
+				});
+				childName = childName.substr(0, childName.length - 1);
+				
 				var formdata = new FormData();
 				formdata.append("cellPhone", $('#cellPhone').val());
-				formdata.append("voucherNo", $('#voucherNo').val());
-				formdata.append("scheduleId", $('#scheduleId').val());
+				formdata.append("voucherNo", $("input[name=voucherNo]:checked").val());
+				formdata.append("scheduleId", scheduleId);
+				formdata.append("childName", childName);
 				formdata.append("classType", $('#classType').val());
 				
 				axios.post(contextRoot + 'reservation/regist.proc', formdata,{
@@ -49,8 +69,8 @@ var vm = new Vue({
 					  }
 					}).then((response) => {
 					if (response.data.resultCd == '00') {
-				      	alert('정상처리 되었습니다.');
-						location.href = contextRoot + 'reservation/list.view';
+				      	$('#DialogReserveSuccess').modal('show');
+//						location.href = contextRoot + 'reservation/list.view';
 				    } else {
 						alert(response.data.resultMsg);
 					} 
@@ -69,56 +89,140 @@ var vm = new Vue({
   }
 }); 
 
-$('#scheduleId').click(function(){
+$('input[name="voucherNo"]').click(function(){
 	
 	$.ajax({
 		type : "POST",
 		data: {
-	            scheduleStart : $('#scheduleStart').val().replace(/[^0-9]/g,""),
-				classType : $('#classType').val(),
-				storeId : $('#storeId').val()
+	            voucherNo : $(this).val()
 	    },
-		url : contextRoot + 'schedule/getScheduleList.proc',
+		url : contextRoot + 'voucher/getVoucherInfo.proc',
 		success : function(data){
 			if(data.resultCd == '00'){
-				for(var i=0; i < data.scheduleList.length; i++){
-					Vue.set(vm.scheduleList, i, data.scheduleList[i]);
-				} 
-				vm.scheduleList.slice().sort(function(a, b) {
-	    			return b.scheduleStart - a.scheduleStart;
-	            });
+				vm.voucherTimeLeftHour = data.voucherInfo.timeLeftHour;
+				vm.voucherEndDate = data.voucherInfo.endDate;
 			} else {
-				alert('해당 날짜에 등록된 수업이 없습니다.');
+				alert('바우처 정보를 불러올 수가 없습니다.');
 				return false;	
 			}
 			
 		},
 		error : function(error) {
-	        alert("수업 목록을 가져오는 중에 오류가 발생했습니다. 다시 시도하여 주세요.");
+	        alert("바우처 정보를 가져오는 중에 오류가 발생했습니다. 다시 시도하여 주세요.");
 			return false;
 	    }
 	});
 	
 });
 
-$('#storeId').change(function(){
-	if($('#storeId').find(':selected').data('time') == 0){
-		alert('1회권 사용이 불가능한 매장입니다.');		
-		$("#voucherNo option:eq(0)").prop("selected", true);
-		document.querySelectorAll(`[data-ticketname='1회권']`).forEach(function(item) {
-		  item.style.display = 'none';
-		});
-	} else {
-		$("#voucherNo option:eq(0)").prop("selected", true);
-		document.querySelectorAll(`[data-ticketname='1회권']`).forEach(function(item) {
-		  item.style.display = 'block';
-		});
+$('input[name="childName"]').click(function(){
+	vm.reservationCnt = $("input:checkbox[name=childName]:checked").length;
+});
+
+$('#classType').change(function(){
+	vm.classType = $("#classType option:checked").text();
+	setReservationCalendar();
+});
+
+$('#cal').click(function(){
+	setCalEvent();
+});
+
+setTimeout(function() {
+//강제이벤트 발생
+$('input[name="voucherNo"]').trigger('click');
+$('input[name="childName"]').trigger('click');
+$('#classType').trigger('change');
+setReservationCalendar();
+}, 1000);
+
+function setReservationCalendar(){
+	
+	var tutoringYn = 'N';
+	var operationType = 'WEEKDAY';
+	var playName;
+	
+	if($('#classType').val() == 'CLASS_D'){
+		tutoringYn = 'Y'
 	}
-	$('#storeNameSpan').text($("#storeId option:checked").text().split(" ")[($("#storeId option:checked").text().split(" ").length - 1)]);
-});
+	
+	if($('#classType').val() == 'CLASS_B' || $('#classType').val() == 'CLASS_E'){
+		operationType = 'WEEKEND';
+	}
+	
+	if($('#classType').val() == 'CLASS_B'){
+		playName = 'SPECIAL CAMP';
+	}
+	
+	if($('#classType').val() == 'CLASS_E'){
+		playName = 'VIP 캠프';
+	}
+	
+	$.ajax({
+		type : "POST",
+		data: {
+	            tutoringYn : tutoringYn,
+				operationType : operationType,
+				playName : playName
+	    },
+		url : contextRoot + 'reservation/getAvaReservationList.proc',
+		success : function(data){
+			if(data.resultCd == '00'){
+				
+				for(var i=0; i < data.list.length; i++){
+					var temp = {
+					  date: data.list[i].scheduleStart
+					}
+					calendarEvent.push(temp);
+				}
+			} else {
+//				alert('해당 조건으로 예약 가능한 날짜가 없습니다.');
+				return false;	
+			}
+			
+		},
+		error : function(error) {
+	        alert("예약 정보를 가져오는 중에 오류가 발생했습니다. 다시 시도하여 주세요.");
+			return false;
+	    }
+	});
+}
 
-$('#scheduleId').change(function(){
-	$('#scheduleTimeSpan').text($('#scheduleId option:checked').attr('class'));
-});
+function getReservationSearchList(scheduleStart){
+	$.ajax({
+		type : "POST",
+		data: {
+	            scheduleStart : scheduleStart
+	    },
+		url : contextRoot + 'reservation/getSearchDayReservation.proc',
+		success : function(data){
+			if(data.resultCd == '00'){
+				
+				for(var i=0; i < data.list.length; i++){
+					Vue.set(vm.scheduleList, i, data.list[i]);
+				} 
+				vm.scheduleList.slice().sort(function(a, b) {
+	    			return b.scheduleStart - a.scheduleStart;
+	            });
+			} else {
+//				alert('해당 조건으로 예약 가능한 날짜가 없습니다.');
+				return false;	
+			}
+			
+		},
+		error : function(error) {
+	        alert("예약 정보를 가져오는 중에 오류가 발생했습니다. 다시 시도하여 주세요.");
+			return false;
+	    }
+	});
+}
 
-$('#storeNameSpan').text($("#storeId option:checked").text().split(" ")[($("#storeId option:checked").text().split(" ").length - 1)]);
+function setCalEvent(){
+	$("#calendar").MEC({
+		events: calendarEvent
+	});
+}
+
+function registProc(){
+	$('#reservationForm').submit();
+}

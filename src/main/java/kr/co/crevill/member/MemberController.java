@@ -60,6 +60,12 @@ public class MemberController {
 		CommonCodeDto commonCodeDto = new CommonCodeDto();
 		commonCodeDto.setCodeType("LEARNING_GRADE");
 		mav.addObject("learningGradeList", commonService.selectCommonCode(commonCodeDto));
+		mav.addObject("sEncData", memberService.createNiceEncryptString(request));
+		
+		if(!"null".equals(String.valueOf(request.getParameter("niceSucc")))) {
+			memberService.getNiceResult(request);
+		}
+		
 		return mav;
 	}
 	

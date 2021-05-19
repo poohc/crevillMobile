@@ -67,6 +67,11 @@ public class VoucherService {
 	public VoucherVo getMemberVoucherInfo(VoucherDto voucherDto) {
 		return voucherMapper.getMemberVoucherInfo(voucherDto);
 	}
+	
+	public VoucherVo getVoucherInfo(VoucherDto voucherDto) {
+		return voucherMapper.getVoucherInfo(voucherDto);
+	}
+	
 	/**
 	 * 직원 저장 처리 
 	 * @methodName : insertVoucher

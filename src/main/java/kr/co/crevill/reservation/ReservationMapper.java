@@ -24,4 +24,6 @@ public interface ReservationMapper {
 	public List<ReservationVo> selectRecommendReservationWeekday();
 	public List<ReservationVo> selectRecommendReservationWeekend();
 	public List<ReservationVo> selectQuickReservation(ScheduleDto scheduleDto);
+	public List<ReservationVo> selectAvaReservation(ReservationDto reservationDto);
+	public List<ReservationVo> selectSearchDayReservation(ReservationDto reservationDto);
 }

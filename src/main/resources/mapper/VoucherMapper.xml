@@ -310,6 +310,18 @@
 		 WHERE VOUCHER_NO = #{voucherNo} 
 	</delete>
 	
+	<select id="getVoucherInfo" parameterType="kr.co.crevill.voucher.VoucherDto" resultType="kr.co.crevill.voucher.VoucherVo">
+		SELECT A.VOUCHER_NO,
+		       A.TICKET_NAME,
+		       DATE_FORMAT(STR_TO_DATE(A.END_DATE, '%Y%m%d'), '%Y-%m-%d') END_DATE,
+		       B.TIME_LEFT_HOUR,
+		       B.TIME_LEFT_MINUTE 
+		  FROM VOUCHER A,
+		       VOUCHER_USE_VIEW B
+		 WHERE A.VOUCHER_NO = #{voucherNo}
+		   AND A.VOUCHER_NO = B.VOUCHER_NO
+	</select>
+	
 	<select id="getMemberVoucherInfo" parameterType="kr.co.crevill.voucher.VoucherDto" resultType="kr.co.crevill.voucher.VoucherVo">
 		SELECT FORMAT(SUM(SUB.TIME_LEFT_HOUR), 0) TIME_LEFT_HOUR
 		  FROM (

@@ -69,15 +69,17 @@ public class ReservationController {
 		mav.addObject("storeList", storeService.selectStoreList(storeDto));
 		VoucherSaleDto voucherSaleDto = new VoucherSaleDto();
 		voucherSaleDto.setBuyCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
-		
 		List<VoucherVo> voucherList = voucherService.getMemberVoucherList(voucherSaleDto);
 		
 		//TODO 모바일 회원 이고 보유 바우처가 하나도 없는 경우 1회권 바우처 자동 생성 및 판매
-		if(CrevillConstants.STORE_ID_MOBILE.equals(SessionUtil.getSessionMemberVo(request).getStoreId()) &&
-				voucherList.size() == 0) {
-			reservationService.setNormalVoucher(request);
-		}
-		
+//		if(CrevillConstants.STORE_ID_MOBILE.equals(SessionUtil.getSessionMemberVo(request).getStoreId()) &&
+//				voucherList.size() == 0) {
+//			reservationService.setNormalVoucher(request);
+//		}
+		MemberDto memberDto = new MemberDto();
+		memberDto.setParentCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
+		mav.addObject("cellPhone", SessionUtil.getSessionMemberVo(request).getCellPhone());
+		mav.addObject("childList", memberService.selectChildMemberList(memberDto));
 		mav.addObject("voucherList", voucherService.getMemberVoucherList(voucherSaleDto));
 		return mav;
 	}
@@ -149,4 +151,31 @@ public class ReservationController {
 		}
 		return result;
 	}
+	
+	@PostMapping("getAvaReservationList.proc")
+	@ResponseBody
+	public JSONObject getAvaReservationList(HttpServletRequest request, @ModelAttribute ReservationDto reservationDto) {
+		JSONObject result = new JSONObject();
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		List<ReservationVo> avaReservationList = reservationService.selectAvaReservation(reservationDto);
+		if(avaReservationList != null && avaReservationList.size() > 0) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);
+			result.put("list", avaReservationList);
+		}
+		return result;
+	}
+	
+	@PostMapping("getSearchDayReservation.proc")
+	@ResponseBody
+	public JSONObject getSearchDayReservation(HttpServletRequest request, @ModelAttribute ReservationDto reservationDto) {
+		JSONObject result = new JSONObject();
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		List<ReservationVo> list = reservationService.selectSearchDayReservation(reservationDto);
+		if(list != null && list.size() > 0) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);
+			result.put("list", list);
+		}
+		return result;
+	}
+	
 }

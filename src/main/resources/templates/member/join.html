@@ -4,118 +4,151 @@
 	  layout:decorate="~{layout/defaultJoin(scriptName='/assets/js/crevill/memberScript.js')}">
 
 <th:block layout:fragment="content">
+	<div class="modal fade dialogbox" id="DialogCancel" data-backdrop="static" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">회원가입 취소</h5>
+                </div>
+                <div class="modal-body">
+                    회원가입을 중단합니다.
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-inline">
+                        <a href="#" class="btn btn-text-secondary" data-dismiss="modal">취소</a>
+                        <a href="login.html" class="btn btn-text-primary" data-dismiss="modal">확인</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 	<div id="appCapsule">
+		<form name="form_chk" method="post">
+			<input type="hidden" name="m" value="checkplusService">				<!-- 필수 데이타로, 누락하시면 안됩니다. -->
+			<input type="hidden" name="EncodeData" th:value="${sEncData}">		<!-- 위에서 업체정보를 암호화 한 데이타입니다. -->
+			<input type="hidden" name="recvMethodType" value ="get">
+		</form>
 	    <form class="form theme-form" id="memberForm" @submit.prevent="validateBeforeSubmit" th:action="@{/member/join.proc}" method="post">        
-        <div class="section full mt-2 mb-2">
-            <div class="section-title">회원정보</div>
+         <div class="section full mt-2 mb-2">
+            <div class="section-title">회원정보입력</div>
             <div class="wide-block pb-1 pt-2">
-	            <div class="form-group boxed">
+	            <div><button type="button" class="btn btn-primary btn-sm mr-1" onclick="fnPopup()">나이스 본인인증</button></div>
+	            <div class="form-group basic">
 	                <div class="input-wrapper">
 	                    <label class="label" for="parentName">성함[한글]</label>
-	                    <input type="text" class="form-control" v-validate="'required'" id="parentName" name="parentName" placeholder="예)홍길동">
+	                    <input type="text" class="form-control" v-validate="'required'" id="parentName" name="parentName" placeholder="홍길동" readonly th:value="${sName}">
+	                    <i class="clear-input">
+	                        <ion-icon name="close-circle"></ion-icon>
+	                    </i>
 	                    <label class="label" for="parentName" v-if="errors.has('parentName')">{{ errors.first('parentName') }}</label>
 	                </div>
 	            </div>
-	            <div class="form-group boxed">
-	                <div class="input-wrapper">
-	                    <label class="label" for="email">이메일</label>
-	                    <input type="email" class="form-control" v-validate="'required|email'" id="email" name="email" placeholder="이메일주소">
-	                    <label class="label" for="email" v-if="errors.has('email')">{{ errors.first('email') }}</label>
-	                </div>
-	            </div>
-	            <div class="form-group boxed">
-	                <div class="input-wrapper">
-	                    <label class="label" for="password">비밀번호</label>
-	                    <input type="password" class="form-control" v-validate="{required: true, min: 8, max : 8, regex: /^(?=.*?[a-z])(?=.*?[0-9]).*$/ }" id="password" name="password" ref="password" placeholder="8자리 숫자,문자조합">
-	                    <label class="label" for="password" v-if="errors.has('password')">{{ errors.first('password') }}</label>
-	                </div>
-	            </div>
-	            <div class="form-group boxed">
-	                <div class="input-wrapper">
-	                    <label class="label" for="passwordAgain">비밀번호 재입력</label>
-	                    <input type="password" class="form-control" v-validate="'confirmed:password'" data-vv-as="password" id="passwordAgain" name="passwordAgain" placeholder="재입력">
-	                    <label class="label" for="passwordAgain" v-if="errors.has('passwordAgain')">{{ errors.first('passwordAgain') }}</label>
-	                </div>
-	            </div>
-	            <div class="form-group boxed">
+	            <div class="form-group basic">
 	                <div class="input-wrapper">
 	                    <label class="label" for="cellPhone">전화번호</label>
-	                    <input type="tel" class="form-control" v-validate="'required|numeric|min:10|max:11|chkCellPhone'" id="cellPhone" name="cellPhone">
+	                    <input type="tel" class="form-control" v-validate="'required|numeric|min:10|max:11|chkCellPhone'" id="cellPhone" name="cellPhone" placeholder="01066668888" readonly th:value="${sMobileNo}">
+	                    <i class="clear-input">
+	                        <ion-icon name="close-circle"></ion-icon>
+	                    </i>
 	                    <label class="label" for="cellPhone" v-if="errors.has('cellPhone')">{{ errors.first('cellPhone') }}</label>
 	                </div>
 	            </div>
-	            <div class="form-group boxed">
+	            <div class="form-group basic">
 	                <div class="input-wrapper">
-	                    <label class="label" for="address5">Address</label>
-	                    <input type="text" id="postcode" placeholder="우편번호">
-						<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
-						<input type="text" v-validate="'required'" id="address" name="address" placeholder="주소"><br>
-						<span id="guide" style="color:#999;display:none"></span>
-						<input type="text" v-validate="'required'" id="detailAddress" name="detailAddress" placeholder="상세주소">
-						<input type="text" id="extraAddress" placeholder="참고항목">
-						<label class="label" for="address" v-if="errors.has('address')">{{ errors.first('address') }}</label>
-	                    <label class="label" for="detailAddress" v-if="errors.has('detailAddress')">{{ errors.first('detailAddress') }}</label>
+	                    <label class="label" for="email">이메일(공지안내를 위한 정확한 메일주소 입력)</label>
+	                    <input type="email" class="form-control" v-validate="'required|email'" id="email" name="email" placeholder="이메일주소">
+	                    <i class="clear-input">
+	                        <ion-icon name="close-circle"></ion-icon>
+	                    </i>
+	                    <label class="label" for="email" v-if="errors.has('email')">{{ errors.first('email') }}</label>
+	                </div>
+	            </div>
+	            <div class="form-group basic">
+	                <div class="input-wrapper">
+	                    <label class="label" for="password">비밀번호</label>
+	                    <input type="password" class="form-control" v-validate="{required: true, min: 8, max : 8, regex: /^(?=.*?[a-z])(?=.*?[0-9]).*$/ }" id="password" name="password" ref="password" placeholder="8자리 숫자,문자조합">
+	                    <i class="clear-input">
+	                        <ion-icon name="close-circle"></ion-icon>
+	                    </i>
+	                    <label class="label" for="password" v-if="errors.has('password')">{{ errors.first('password') }}</label>
+	                </div>
+	            </div>
+	            <div class="form-group basic">
+	                <div class="input-wrapper">
+	                    <label class="label" for="password5">비밀번호 재입력</label>
+	                    <input type="password" class="form-control" v-validate="'confirmed:password'" data-vv-as="password" id="passwordAgain" name="passwordAgain" placeholder="재입력">
+	                    <i class="clear-input">
+	                        <ion-icon name="close-circle"></ion-icon>
+	                    </i>
+	                    <label class="label" for="passwordAgain" v-if="errors.has('passwordAgain')">{{ errors.first('passwordAgain') }}</label>
+	                </div>
+	            </div>
+	            <div class="form-group basic">
+	                <div class="input-wrapper">
+	                    <label class="label" for="address">주소</label>
+	                    <textarea v-validate="'required'" id="address" name="address" rows="2" class="form-control" onclick='execDaumPostcode();'></textarea>
+	                    <i class="clear-input">
+	                        <ion-icon name="close-circle"></ion-icon>
+	                    </i>
+	                    <input type="text" class="form-control" v-validate="'required'" id="detailAddress" name="detailAddress" placeholder="상세주소">
+	                    <i class="clear-input">
+	                        <ion-icon name="close-circle"></ion-icon>
+	                    </i>
+	                    <label class="label" for="address" v-if="errors.has('address')">{{ errors.first('address') }}</label>
+	             	<label class="label" for="detailAddress" v-if="errors.has('detailAddress')">{{ errors.first('detailAddress') }}</label>
 	                </div>
 	            </div>
             </div>
         </div>
 
         <div class="section full mt-2 mb-2">
-            <div class="section-title">자녀정보 [자녀의 추가등록 및 삭제는 가입완료 후 고객정보변경]</div>
+            <div class="section-title">자녀정보 [자녀의 추가등록 및 삭제는 가입완료 후 고객정보변경</div>
             <div class="wide-block pb-1 pt-1">
-                <div class="form-group basic">
-                    <div class="input-wrapper">
-                        <label class="label" for="childName">성함</label>
-                        <input type="text" class="form-control" v-validate="'required'" id="childName" name="childName" placeholder="홍길동">
-                        <label class="label" for="childName" v-if="errors.has('childName')">{{ errors.first('childName') }}</label>
-                    </div>
-                </div>
-                <div class="form-group basic">
-                    <div class="input-wrapper">
-                        <label class="label" for="engName">FULL NAME</label>
-                        <input type="text" class="form-control" v-validate="'required'" id="engName" name="engName" placeholder="Ex)HONG GIL DONG">
-                        <label class="label" for="engName" v-if="errors.has('engName')">{{ errors.first('engName') }}</label>
-                    </div>
-                </div>
-                <div class="form-group basic">
-                    <div class="input-wrapper">
-                        <label class="label" for="birthday">생년월일</label>
-                        <input type="text" class="form-control" v-validate="'required|numeric|min:8|max:8'" id="birthday" name="birthday" placeholder="">
-                        <label class="label" for="birthday" v-if="errors.has('birthday')">{{ errors.first('birthday') }}</label>
-                    </div>
-                </div>
-                <div class="form-group basic">
-                    <div class="input-wrapper">
-                        <label class="label" for="city4">성별</label>
-                        <select class="form-control custom-select" v-validate="'required|included:M,F'" id="sex" name="sex">
-                            <option value="M">남자</option>
-                            <option value="F">여자</option>
-                        </select>
-                        <label class="label" for="birthday" v-if="errors.has('sex')">{{ errors.first('sex') }}</label>
-                    </div>
-                </div>
+	            <div class="form-group basic">
+	                <div class="input-wrapper">
+	                    <label class="label" for="childName">성함</label>
+	                    <input type="text" class="form-control" v-validate="'required'" id="childName" name="childName" placeholder="홍길동">
+	                    <i class="clear-input">
+	                        <ion-icon name="close-circle"></ion-icon>
+	                    </i>
+	                    <label class="label" for="childName" v-if="errors.has('childName')">{{ errors.first('childName') }}</label>
+	                </div>
+	            </div>
+	            <div class="form-group basic">
+	                <div class="input-wrapper">
+	                    <label class="label" for="engName">FULL NAME OR NICKNAME</label>
+	                    <input type="text" class="form-control" v-validate="'required'" id="engName" name="engName" placeholder="Ex)NANCY">
+	                    <i class="clear-input">
+	                        <ion-icon name="close-circle"></ion-icon>
+	                    </i>
+	                    <label class="label" for="engName" v-if="errors.has('engName')">{{ errors.first('engName') }}</label>
+	                </div>
+	            </div>
+	            <div class="form-group basic">
+	                <div class="input-wrapper">
+	                    <label class="label" for="birthday">생년월일</label>
+	                    <input type="text" class="form-control" v-validate="'required|numeric|min:8|max:8'" id="birthday" name="birthday" placeholder="">
+	                    <i class="clear-input">
+	                        <ion-icon name="close-circle"></ion-icon>
+	                    </i>
+	                    <label class="label" for="birthday" v-if="errors.has('birthday')">{{ errors.first('birthday') }}</label>
+	                </div>
+	            </div>
+	            <div class="form-group basic">
+	                <div class="input-wrapper">
+	                    <label class="label" for="sex">성별</label>
+	                    <select class="form-control custom-select" v-validate="'required|included:M,F'" id="sex" name="sex">
+	                        <option value="F">여아</option>
+	                        <option value="M">남아</option>
+	                    </select>
+	                </div>
+	            </div>
             </div>
-        </div>
-        <div class="section full mt-2 mb-2">
-            <div class="wide-block pb-2 pt-2">
-                <div class="custom-file-upload">
-                    <input type="file" id="camera" name="camera" capture="camera" accept="image/*" />
-                    <label for="camera">
-                        <span>
-                            <strong>
-                                <ion-icon name="cloud-upload-outline"></ion-icon>
-                                <i>터치하여 사진촬영</i>
-                            </strong>
-                        </span>
-                    </label>
-                </div>
-            </div>
-            <img id="picture" style="width:100%;" />
         </div>
         <div>
             <div class="listview-title mt-1">추가정보[영어학습경험]경험이 전혀 없어도 문제없습니다.]</div>
             <ul class="listview simple-listview">
-                <li th:each="learningGrade, i: ${learningGradeList}">
+            	<li th:each="learningGrade, i: ${learningGradeList}">
                     <div th:text="${learningGrade.codeValue}"></div>
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" th:id="'learningGrade' + ${i.index}" name="learningGrade" th:value="${learningGrade.codeValue}">

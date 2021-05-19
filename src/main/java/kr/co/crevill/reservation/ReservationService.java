@@ -1,5 +1,6 @@
 package kr.co.crevill.reservation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,6 +56,7 @@ public class ReservationService {
 	private final String MSG_CLASS_FULL = "해당 클래스는 예약이 모두 완료된 클래스입니다.";
 	private final String MSG_TUTORING_FULL = "해당 튜터링은 예약이 모두 완료된 튜터링입니다.";
 	private final String MSG_LESS_TIME_LEFT_VOUCHER = "바우처의 남은 시간이 부족합니다.";
+	private final String MSG_RESRVATION_PART_SUCC = "일부 예약이 실패했습니다. 상세 내역은 예약목록에서 확인해 주세요.";
 	
 	public int selectReservationCount(ScheduleDto scheduleDto) {
 		return reservationMapper.selectReservationCount(scheduleDto);
@@ -79,6 +81,14 @@ public class ReservationService {
 	public List<ReservationVo> selectQuickReservation(ScheduleDto scheduleDto){
 		return reservationMapper.selectQuickReservation(scheduleDto);
 	}
+
+	public List<ReservationVo> selectAvaReservation(ReservationDto reservationDto){
+		return reservationMapper.selectAvaReservation(reservationDto);
+	}
+	
+	public List<ReservationVo> selectSearchDayReservation(ReservationDto reservationDto){
+		return reservationMapper.selectSearchDayReservation(reservationDto);
+	}
 	
 	public JSONObject insertReservation(ReservationDto reservationDto, HttpServletRequest request) {
 		JSONObject result = new JSONObject();
@@ -91,47 +101,79 @@ public class ReservationService {
 		} else {
 			reservationDto.setTutoringYn("N");
 		}
+		int totalCnt = reservationDto.getChildName().split(",").length + reservationDto.getScheduleId().split(",").length; 
+		int succCnt = 0;
+		int fainCnt = 0;
 		
-		/**
-		 * 예약 유효성 체크
-		 * 1. 회원으로 동일한 시간에 같은 클래스 예약이 있는지 체크
-		 * 2. 해당 클래스 예약 인원 체크
-		 * 3. 바우처 사용 시간 체크
-		 */
+		ReservationDto nReservationDto = new ReservationDto();
+		nReservationDto.setVoucherNo(reservationDto.getVoucherNo());
+		List<String> scheduleList = new ArrayList<String>();
+		for(String scheduleId : reservationDto.getScheduleId().split(",")) {
+			scheduleList.add(scheduleId);
+		}
+		nReservationDto.setScheduleIdList(scheduleList);
 		
-		if(reservationMapper.checkAlreadyReservation(reservationDto) >= 1) {
-			result.put("resultMsg", MSG_ALREADY_RESERVATION);
-		} else {
-			ReservationVo reservationVo = reservationMapper.checkReservationYn(reservationDto);
-			if(reservationVo != null && "N".equals(reservationVo.getReservationYn())) {
-				result.put("resultMsg", MSG_CLASS_FULL);
-			} else {
-				reservationVo = reservationMapper.checkTutoringReservationYn(reservationDto);
-				if(reservationVo != null && "N".equals(reservationVo.getReservationYn())) {
-					result.put("resultMsg", MSG_TUTORING_FULL);
+		//스케쥴에 잡힌 시간보다 바우처 남은 시간이 부족할 경우 전체 실패로 처리
+		ReservationVo reservationVo = reservationMapper.checkVoucherYn(nReservationDto);
+		if(reservationVo != null && "N".equals(reservationVo.getVoucherYn())) {
+			result.put("resultMsg", MSG_LESS_TIME_LEFT_VOUCHER);
+			return result;
+		}
+		
+		//아이이름 X 스케쥴ID 개수만큼 FOR 문 돌면서 처리
+		for(String childName : reservationDto.getChildName().split(",")) {
+			for(String scheduleId : reservationDto.getScheduleId().split(",")) {
+				nReservationDto = new ReservationDto();
+				nReservationDto.setScheduleId(scheduleId);
+				nReservationDto.setCellPhone(reservationDto.getCellPhone());
+				nReservationDto.setClassType(reservationDto.getClassType());
+				nReservationDto.setVoucherNo(reservationDto.getVoucherNo());
+				nReservationDto.setChildName(childName);
+				nReservationDto.setRegId(SessionUtil.getSessionMemberVo(request).getQrCode());
+				nReservationDto.setStatus(CrevillConstants.RESERVATION_STATUS_READY);
+				nReservationDto.setTutoringYn(reservationDto.getTutoringYn());
+				/**
+				 * 예약 유효성 체크
+				 * 1. 회원으로 동일한 시간에 같은 클래스 예약이 있는지 체크
+				 * 2. 해당 클래스 예약 인원 체크
+				 * 3. 바우처 사용 시간 체크
+				 */		
+				if(reservationMapper.checkAlreadyReservation(nReservationDto) >= 1) {
+					result.put("resultMsg", MSG_ALREADY_RESERVATION);
 				} else {
-					reservationVo = reservationMapper.checkVoucherYn(reservationDto);
-					if(reservationVo != null && "N".equals(reservationVo.getVoucherYn())) {
-						result.put("resultMsg", MSG_LESS_TIME_LEFT_VOUCHER);
+					reservationVo = reservationMapper.checkReservationYn(nReservationDto);
+					if(reservationVo != null && "N".equals(reservationVo.getReservationYn())) {
+						result.put("resultMsg", MSG_CLASS_FULL);
 					} else {
-						//선택 수업의 플레이타임 가져오기
-						ReservationVo rVo = reservationMapper.selectReservationPlayInfo(reservationDto);
-						EntranceDto entranceDto = new EntranceDto(); 
-						entranceDto.setVoucherNo(reservationDto.getVoucherNo());
-		         	    entranceDto.setUseTime(rVo.getPlayTime());
-		         	    entranceDto.setStatus(CrevillConstants.VOUCHER_STATUS_USED);
-		         	    entranceDto.setScheduleId(reservationDto.getScheduleId());
-		         	    entranceDto.setRegId(reservationDto.getRegId());
-						//바우처 사용 처리
-		         	    if(entranceMapper.insertVoucherUse(entranceDto) > 0) {
-		         	    	//예약등록 처리
-		         	    	if(reservationMapper.insertReservation(reservationDto) > 0) {
-								result.put("resultCd", CrevillConstants.RESULT_SUCC);
+						reservationVo = reservationMapper.checkTutoringReservationYn(nReservationDto);
+						if(reservationVo != null && "N".equals(reservationVo.getReservationYn())) {
+							result.put("resultMsg", MSG_TUTORING_FULL);
+						} else {
+							//선택 수업의 플레이타임 가져오기
+							ReservationVo rVo = reservationMapper.selectReservationPlayInfo(nReservationDto);
+							EntranceDto entranceDto = new EntranceDto(); 
+							entranceDto.setVoucherNo(nReservationDto.getVoucherNo());
+			         	    entranceDto.setUseTime(rVo.getPlayTime());
+			         	    entranceDto.setStatus(CrevillConstants.VOUCHER_STATUS_USED);
+			         	    entranceDto.setScheduleId(nReservationDto.getScheduleId());
+			         	    entranceDto.setRegId(reservationDto.getRegId());
+							//바우처 사용 처리
+			         	    if(entranceMapper.insertVoucherUse(entranceDto) > 0) {
+			         	    	//예약등록 처리
+			         	    	if(reservationMapper.insertReservation(nReservationDto) > 0) {
+									succCnt++;
+								}
 							}
 						}
 					}
 				}
 			}
+		}
+		
+		if(totalCnt == succCnt) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);
+		} else if(succCnt > 0 && totalCnt < succCnt) {
+			result.put("resultMsg", MSG_RESRVATION_PART_SUCC);
 		}
 		
 		return result;

@@ -148,20 +148,18 @@
 	
 	<select id="checkVoucherYn" parameterType="kr.co.crevill.reservation.ReservationDto" resultType="kr.co.crevill.reservation.ReservationVo">
 		SELECT <![CDATA[
-			   CASE WHEN C.PLAY_TIME > D.TIME_LEFT_MINUTE THEN 'N'
-		            ELSE 'Y' END AS VOUCHER_YN,
-		       ]]>     
-		       C.PLAY_TIME
-		  FROM RESERVATION A,
-		       SCHEDULE B,
-		       PLAY C,
-		       VOUCHER_USE_VIEW D
-		 WHERE A.CELL_PHONE = #{cellPhone}
-		   AND A.SCHEDULE_ID = #{scheduleId}
-		   AND A.STATUS = '02'
-		   AND A.SCHEDULE_ID  = B.SCHEDULE_ID 
-		   AND B.PLAY_ID  = C.PLAY_ID
-		   AND A.VOUCHER_NO  = D.VOUCHER_NO
+			   CASE WHEN SUM(C.PLAY_TIME) > B.TIME_LEFT_MINUTE THEN 'N'
+			            ELSE 'Y' END AS VOUCHER_YN
+			   ]]>         	            
+		  FROM SCHEDULE A,
+		       VOUCHER_USE_VIEW B,
+		       PLAY C
+		 WHERE A.SCHEDULE_ID IN 
+		 	<foreach collection="scheduleIdList" item="scheduleId"  separator="," open="(" close=")">
+			#{scheduleId}
+			</foreach>
+		   AND B.VOUCHER_NO = #{voucherNo}
+		   AND A.PLAY_ID = C.PLAY_ID
 	</select>
 	
 	<select id="checkAlreadyReservation" parameterType="kr.co.crevill.reservation.ReservationDto" resultType="Integer">
@@ -169,6 +167,7 @@
 		  FROM RESERVATION
 		 WHERE CELL_PHONE = #{cellPhone}
 		   AND SCHEDULE_ID = #{scheduleId}
+		   AND CHILD_NAME = #{childName}
 		   AND STATUS = '02'
 	</select>
 	
@@ -273,6 +272,37 @@
 		   AND B.VOUCHER_NO = C.VOUCHER_NO
 		   AND C.VOUCHER_NO = D.VOUCHER_NO
 	  GROUP BY B.VOUCHER_NO
+	</select>
+	
+	<select id="selectAvaReservation" parameterType="kr.co.crevill.reservation.ReservationDto" resultType="kr.co.crevill.reservation.ReservationVo">
+		SELECT A.NUMBER_OF_PEOPLE,
+		       A.SCHEDULE_ID,
+		       B.NAME PLAY_NAME,
+		       DATE_FORMAT(A.SCHEDULE_START, '%Y-%m-%d') SCHEDULE_START,
+		       (SELECT COUNT(*) FROM RESERVATION R WHERE R.SCHEDULE_ID = A.SCHEDULE_ID AND R.TUTORING_YN = #{tutoringYn}) RESERVATION_CNT
+		  FROM SCHEDULE A,
+		       PLAY B
+		 WHERE A.SCHEDULE_START > NOW()
+		   <![CDATA[        
+		   AND (SELECT COUNT(*) FROM RESERVATION R WHERE R.SCHEDULE_ID = A.SCHEDULE_ID AND R.TUTORING_YN = #{tutoringYn}) < A.NUMBER_OF_PEOPLE
+		   ]]>
+		   AND A.OPERATION_TYPE = #{operationType}
+		   AND A.PLAY_ID = B.PLAY_ID
+		   <if test="playName != null">
+		   AND B.NAME = #{playName}
+		   </if> 
+		GROUP BY A.SCHEDULE_ID
+	</select>
+	
+	<select id="selectSearchDayReservation" parameterType="kr.co.crevill.reservation.ReservationDto" resultType="kr.co.crevill.reservation.ReservationVo">
+		SELECT A.SCHEDULE_ID,
+		       DATE_FORMAT(A.SCHEDULE_START, '%H:%i') SCHEDULE_START,
+		       B.NAME PLAY_NAME
+		  FROM SCHEDULE A,
+		       PLAY B
+		 WHERE DATE_FORMAT(A.SCHEDULE_START, '%Y-%m-%d') = #{scheduleStart}
+		   AND A.PLAY_ID = B.PLAY_ID
+      GROUP BY A.SCHEDULE_ID		   
 	</select>
 	
 </mapper>

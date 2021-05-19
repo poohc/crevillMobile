@@ -104,6 +104,19 @@ public class VoucherController {
 		return voucherService.getVoucherList(voucherDto);
 	}
 	
+	@PostMapping("getVoucherInfo.proc")
+	@ResponseBody
+	public JSONObject getVoucherInfo(VoucherDto voucherDto){
+		JSONObject result = new JSONObject();
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		VoucherVo voucherVo = voucherService.getVoucherInfo(voucherDto);
+		if(voucherVo != null && !voucherVo.getVoucherNo().isEmpty()) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);
+			result.put("voucherInfo", voucherVo);
+		}
+		return result;
+	}
+	
 	@PostMapping("getMemberVoucherList.proc")
 	@ResponseBody
 	public JSONObject getMemberVoucherList(HttpServletRequest request, VoucherSaleDto voucherSaleDto){

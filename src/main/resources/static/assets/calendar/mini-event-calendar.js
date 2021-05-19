@@ -80,6 +80,13 @@
 				$(this).focus();
 				$(this).addClass('focused');
 			}
+			
+			if($(this).data('event') != null && $(this).data('event').date != ''){
+				$('#scheduleStart').val($(this).data('event').date);
+				getReservationSearchList($(this).data('event').date);
+				$('#ModalForm').modal('hide');	
+			}
+			
 		});
 
 		function populateCalendar(month, year, onInit) {

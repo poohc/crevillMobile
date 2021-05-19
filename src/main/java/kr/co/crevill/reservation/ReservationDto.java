@@ -1,5 +1,7 @@
 package kr.co.crevill.reservation;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -19,4 +21,8 @@ public class ReservationDto {
 	private String tutoringYn;
 	private String voucherUseId;
 	private String classType;
+	private String operationType;
+	private String playName;
+	private String scheduleStart;
+	private List<String> scheduleIdList;
 }
