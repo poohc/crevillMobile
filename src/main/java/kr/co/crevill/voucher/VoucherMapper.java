@@ -28,4 +28,5 @@ public interface VoucherMapper {
 	public int deleteVoucherAttribute(VoucherDto voucherDto);
 	public VoucherVo getMemberVoucherInfo(VoucherDto voucherDto);
 	public VoucherVo getVoucherInfo(VoucherDto voucherDto);
+	public List<VoucherVo> selectPromotionVoucherList(VoucherDto voucherDto);
 }

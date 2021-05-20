@@ -72,6 +72,10 @@ public class VoucherService {
 		return voucherMapper.getVoucherInfo(voucherDto);
 	}
 	
+	public List<VoucherVo> selectPromotionVoucherList(VoucherDto voucherDto){
+		return voucherMapper.selectPromotionVoucherList(voucherDto);
+	}
+	
 	/**
 	 * 직원 저장 처리 
 	 * @methodName : insertVoucher

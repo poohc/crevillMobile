@@ -32,4 +32,6 @@ public class VoucherVo {
 	private String timeLeftHour;
     private String timeLeftMinute;
     private String voucherUseId; 
+    private String voucherRegDate;
+    private String voucherUseDate;
 }

@@ -87,6 +87,7 @@
 	                <div class="input-wrapper">
 	                    <label class="label" for="address">주소</label>
 	                    <textarea v-validate="'required'" id="address" name="address" rows="2" class="form-control" onclick='execDaumPostcode();'></textarea>
+	                    <span id="guide" style="color:#999;display:none"></span>
 	                    <i class="clear-input">
 	                        <ion-icon name="close-circle"></ion-icon>
 	                    </i>

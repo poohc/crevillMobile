@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.co.crevill.common.CommonCodeDto;
 import kr.co.crevill.common.CommonService;
 import kr.co.crevill.common.SessionUtil;
+import kr.co.crevill.voucher.VoucherDto;
 import kr.co.crevill.voucher.VoucherSaleDto;
 import kr.co.crevill.voucher.VoucherService;
 import kr.co.crevill.voucher.VoucherVo;
@@ -126,10 +127,12 @@ public class MemberController {
 //			}
 			memberGrade = "바우처회원";
 		} 
-		
+		VoucherDto voucherDto = new VoucherDto();
+		voucherDto.setCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
 		mav.addObject("info", memberService.selectMemberInfo(memberDto));
 		mav.addObject("memberGrade", memberGrade);
 		mav.addObject("voucherList", voucherList);
+		mav.addObject("promotionVoucherList", voucherService.selectPromotionVoucherList(voucherDto));
 		mav.addObject("visitList", memberService.selectVisitStoreList(memberDto));
 		mav.addObject("childList", memberService.selectChildMemberList(memberDto));
 		return mav;
