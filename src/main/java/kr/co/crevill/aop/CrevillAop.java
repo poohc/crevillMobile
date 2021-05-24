@@ -64,12 +64,16 @@ public class CrevillAop {
 		
 		if(session.getAttribute("memberVo") == null && 
 				!StringUtils.equalsAny(servletMenuPath, "main.view", "login.view", "passwordInit.view", "termsAgree.view", "join.view", "login.proc", "passwordInit.proc", "join.proc", "checkMemberCellPhone.proc", "join.proc", "getImage")) {
-			if(!StringUtils.equalsAny(requestUri, "/mobile/main.view", "/mobile/play/list.view", "/mobile/play/detail.view", "/mobile/program/timeTable.view", "/mobile/program/timeTableDetail.view")) {
+			
+			if(!StringUtils.equalsAny(requestUri, "/mobile/main.view", "/mobile/play/list.view", "/mobile/play/detail.view", 
+												  "/mobile/program/timeTable.view", "/mobile/program/timeTableDetail.view", 
+												  "/mobile/store/storeList.view", "/mobile/store/storeInfo.view", "/mobile/main/guide.view")) {
 				logger.info("여기로 오면 안되는데?");
 				ModelAndView mav = new ModelAndView();
 				mav.setViewName("redirect:/login/login.view");
 				return mav;	
 			}
+			
 		}
 		
         try {
@@ -212,6 +216,12 @@ public class CrevillAop {
         		}
         		if(servletMenuPath.indexOf("timeTableDetail.view") > -1) {
         			menu = "매장 시간표";
+        		}
+        	}
+        	
+        	if(servletPath.indexOf("main") > -1) {
+        		if(servletMenuPath.indexOf("guide.view") > -1) {
+        			menu = "이용안내";
         		}
         	}
         	

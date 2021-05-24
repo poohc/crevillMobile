@@ -109,4 +109,10 @@ public class MainController {
 		mav.addObject("playList", playService.selectPlayList(playDto));
 		return mav;
 	}
+	
+	@GetMapping("main/guide.view")
+	public ModelAndView guide(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("/common/guide");
+		return mav;
+	}
 }

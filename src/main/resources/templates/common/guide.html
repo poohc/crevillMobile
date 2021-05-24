@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/defaultCommon(scriptName='/assets/js/crevill/programListScript.js')}">
+	  
+<th:block layout:fragment="content">
+	
+	 <div class="extraHeader p-0">
+        <ul class="nav nav-tabs lined" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#store" role="tab">
+                    매장이용안내
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#voucher" role="tab">
+                    바우처구입안내
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#faq" role="tab">
+                    FAQ
+                </a>
+            </li>
+        </ul>
+    </div>
+	
+	<div id="appCapsule">
+         <div class="tab-content mt-1">
+            <div class="tab-pane fade show active" id="store" role="tabpanel">
+                <div class="section full mt-1">
+                    <img th:src="@{/assets/img/detail_program.jpg}" alt="image" class="imaged img-fluid">
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="voucher" role="tabpanel">
+                <div class="section full mt-1">
+                    <img th:src="@{/assets/img/detail_program.jpg}" alt="image" class="imaged img-fluid">
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="faq" role="tabpanel">
+                <div class="section full">
+                    <div class="accordion" id="faq1">
+                        <div class="item">
+                            <div class="accordion-header">
+                                <button class="btn collapsed" type="button" data-toggle="collapse"
+                                    data-target="#f1">
+                                    FAQ1
+                                </button>
+                            </div>
+                            <div id="accordion1" class="accordion-body collapse" data-parent="#faq1">
+                                <div class="accordion-content">
+                                    FAQ1
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion" id="faq2">
+                        <div class="item">
+                            <div class="accordion-header">
+                                <button class="btn collapsed" type="button" data-toggle="collapse"
+                                    data-target="#faq2">
+                                    FAQ1
+                                </button>
+                            </div>
+                            <div id="accordion1" class="accordion-body collapse" data-parent="#faq2">
+                                <div class="accordion-content">
+                                    FAQ1
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<!-- * App Capsule -->
+</th:block>
+</html>

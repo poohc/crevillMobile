@@ -28,7 +28,7 @@
             </div>
         </a>
         </th:block>
-        <th:block th:if="${session.memberVo != null}">
+        <th:block th:unless="${session.memberVo != null}">
         <a href="javascript:alert('회원만 접근이 가능합니다.')" class="item">
             <div class="col">
                 <ion-icon name="people-outline"></ion-icon>
@@ -36,7 +36,7 @@
             </div>
         </a>
         </th:block>
-        <a href="comingsoon.html" class="item">
+        <a th:href="@{/main/guide.view}" class="item">
             <div class="col">
                 <ion-icon name="rocket-outline"></ion-icon>
                 <strong>이용안내</strong>
