@@ -14,10 +14,10 @@
                             <th:block th:if="${session.memberVo != null}">
                             <h5 class="card-title" th:text="|${session.memberVo?.name}님|"></h5>
 	                            <p class="card-text"><span class="badge badge-danger" th:text="|${session.memberVo?.storeNameShort}|"></span> 회원</p>
-	                            <th:block th:if="${not #strings.isEmpty(visitSummary.visitDate)}">
+	                            <th:block th:if="${visitSummary != null}">
 	                            	<p class="card-text"><small th:text="|${visitSummary.visitDate}일전 ${visitSummary.storeName}방문|"></small></p>
 	                            </th:block>
-	                            <th:block th:unless="${not #strings.isEmpty(visitSummary.visitDate)}">
+	                            <th:block th:if="${visitSummary != null}">
 	                            	<p class="card-text"><small>방문이력 없음</small></p>
 	                            </th:block>
                             </th:block>
