@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/defaultCommon(scriptName='/assets/js/crevill/programListScript.js')}">
+	  
+<th:block layout:fragment="content">
+	<div id="appCapsule">
+         <div class="section full mb-3">
+            <div class="section full">
+                <img th:src="@{/assets/img/b.gif}" alt="image" class="imaged square w-100">
+            </div>
+            
+            <div class="section full mt-3 mb-3">
+                <div class="wide-block pt-2 pb-2" style="padding-top:16px;" th:text="|${currentYear}년 ${currentMonth}월|"><br>
+                    <code>업데이트 : 매월 25일</code>
+                </div>
+                <div class="section full mt-2">
+                    <div class="wide-block pt-2 pb-2">
+                        <form class="search-form">
+                            <div class="form-group searchbox">
+                                <input type="text" class="form-control" value="" placeholder="매장명입력">
+                                <i class="input-icon">
+                                    <ion-icon name="search-outline"></ion-icon>
+                                </i>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <ul class="listview image-listview text">
+                    <li th:each="list : ${list}">
+                        <a href="" class="item" th:attr="onclick=|timeTableDetail('${list.storeId}')|">
+                            <div class="in">
+                                <div>
+                                	<span class="badge badge-primary" style="font-size: 15px;" th:text="${list.storeName}"></span>
+                                </div>
+                                <div class="chip">
+                                    <span class="chip-label" th:text="|${currentYear}-${currentMonth}-${currentDay} 업데이트|"></span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+	<!-- * App Capsule -->
+</th:block>
+</html>

@@ -48,6 +48,10 @@ public class MemberService {
 		return memberMapper.selectVisitStoreList(memberDto);
 	}
 	
+	public MemberVo selectVisitStoreSummary(MemberDto memberDto) {
+		return memberMapper.selectVisitStoreSummary(memberDto);
+	}
+	
 	public String createNiceEncryptString(HttpServletRequest request) {
 		NiceID.Check.CPClient niceCheck = new  NiceID.Check.CPClient();
 		HttpSession session = request.getSession();

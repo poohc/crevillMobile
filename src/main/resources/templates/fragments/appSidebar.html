@@ -43,6 +43,8 @@
                                 </div>
                             </a>
                         </li>
+                        <th:block th:if="${session.memberVo != null}">
+                        <th:block th:if="${voucherInfo != null && not #strings.isEmpty(voucherInfo.timeLeftHour)}">
                         <li>
                             <a th:href="@{/reservation/free.view}" class="item">
                                 <div class="icon-box bg-primary">
@@ -54,6 +56,7 @@
                                 </div>
                             </a>
                         </li>
+                        </th:block>
                         <li>
                             <a th:href="@{/reservation/regist.view}" class="item">
                                 <div class="icon-box bg-primary">
@@ -84,6 +87,7 @@
                                 </div>
                             </a>
                         </li>
+                        </th:block>
                         <li>
                             <div class="item">
                                 <div class="icon-box bg-primary">

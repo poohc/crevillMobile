@@ -1,25 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/defaultCommon}">
-
+	  layout:decorate="~{layout/defaultCommon(scriptName='/assets/js/crevill/playListScript.js')}">
+	  
 <th:block layout:fragment="content">
 	<div id="appCapsule">
          <div class="listview-title mt-2">놀이와 예술로 배우는 영어, 크레빌의 프로그램을 소개합니다.</div>
-         <ul class="listview image-listview media mb-2">
+         <ul class="listview image-listview">
          	 <th:block th:each="list : ${list}">
-             <li class="multi-level">
-                 <a href="#" class="item">
+             <li>
+                 <a href="#" class="item" th:attr="onclick=|playDetail('${list.playId}')|"> 
                      <div class="imageWrapper">
-                         <img th:src="@{/common/getImage(imageIdx=${list.pictureIdx})}" alt="놀이사진" class="imaged w64">
+                         <img th:src="@{/common/getImage(imageIdx=${list.thumbnailIdx})}" alt="놀이사진" class="imaged">
                      </div>
                      <div class="in">
                          <div th:text="${list.name}"></div>
                      </div>
                  </a>
-                 <ul class="listview simple-listview">
-                    <li th:text="${list.description}"></li>
-                </ul>
              </li>
              </th:block>
          </ul>

@@ -19,6 +19,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.crevill.common.MenuDto;
+import kr.co.crevill.common.SessionUtil;
+import kr.co.crevill.voucher.VoucherDto;
+import kr.co.crevill.voucher.VoucherService;
 
 @Aspect
 @Component
@@ -28,6 +31,9 @@ public class CrevillAop {
 	
 	@Autowired
 	private MenuDto menuDto;
+	
+	@Autowired
+	private VoucherService voucherService;
 	
 	@Around("execution(* kr.co.crevill..*Controller.*(..))")
     public Object Around(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -46,13 +52,24 @@ public class CrevillAop {
 			servletMenuPath = requestUri.split("/")[3];
 		} 
 		
+		logger.info("servletPath : " + servletMenuPath);
 		logger.info("servletMenuPath : " + servletMenuPath);
 		
-		if(session.getAttribute("memberVo") == null && 
-				!StringUtils.equalsAny(servletMenuPath, "login.view", "passwordInit.view", "termsAgree.view", "join.view", "login.proc", "passwordInit.proc", "join.proc", "checkMemberCellPhone.proc", "join.proc")) {
+		//빈 INDEX 값일 경우 main.view 로 이동
+		if("/mobile/".equals(requestUri)) {
 			ModelAndView mav = new ModelAndView();
-			mav.setViewName("redirect:/login/login.view");
+			mav.setViewName("redirect:/main.view");
 			return mav;
+		}
+		
+		if(session.getAttribute("memberVo") == null && 
+				!StringUtils.equalsAny(servletMenuPath, "main.view", "login.view", "passwordInit.view", "termsAgree.view", "join.view", "login.proc", "passwordInit.proc", "join.proc", "checkMemberCellPhone.proc", "join.proc", "getImage")) {
+			if(!StringUtils.equalsAny(requestUri, "/mobile/main.view", "/mobile/play/list.view", "/mobile/play/detail.view", "/mobile/program/timeTable.view", "/mobile/program/timeTableDetail.view")) {
+				logger.info("여기로 오면 안되는데?");
+				ModelAndView mav = new ModelAndView();
+				mav.setViewName("redirect:/login/login.view");
+				return mav;	
+			}
 		}
 		
         try {
@@ -155,7 +172,10 @@ public class CrevillAop {
         	if(servletPath.indexOf("play") > -1) {
         		menuDto.setUpperMenu("플레이관리");
         		if(servletMenuPath.indexOf("list.view") > -1) {
-        			menu = "PLAY정보";
+        			menu = "프로그램 리스트";
+        		}
+        		if(servletMenuPath.indexOf("detail.view") > -1) {
+        			menu = "프로그램 상세";
         		}
         	}
         	
@@ -185,6 +205,16 @@ public class CrevillAop {
         		}
         	}
         	
+        	if(servletPath.indexOf("program") > -1) {
+        		menuDto.setUpperMenu("프로그램");
+        		if(servletMenuPath.indexOf("timeTable.view") > -1) {
+        			menu = "프로그램 시간표";
+        		}
+        		if(servletMenuPath.indexOf("timeTableDetail.view") > -1) {
+        			menu = "매장 시간표";
+        		}
+        	}
+        	
         	if(servletPath.indexOf("store") > -1) {
         		menuDto.setUpperMenu("매장관리");
         		if(servletMenuPath.indexOf("storeInfo.view") > -1) {
@@ -196,6 +226,11 @@ public class CrevillAop {
     		menuDto.setCurrentMenu(menu);
     		logger.info("menuDto : " + menuDto.toString());
         	request.setAttribute("menu", menuDto);
+        	
+        	VoucherDto voucherDto = new VoucherDto();
+    		voucherDto.setCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
+    		request.setAttribute("voucherInfo", voucherService.getMemberVoucherInfo(voucherDto));
+        	
         	logger.info("==================== Logging 종료 ====================");
         	Object result = joinPoint.proceed();
             return result;

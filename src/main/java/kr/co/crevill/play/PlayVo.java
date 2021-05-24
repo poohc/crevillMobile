@@ -17,4 +17,5 @@ public class PlayVo {
 	private String regDate;
 	private String updId;
 	private String updDate;
+	private String teachingPlanImgId;
 }

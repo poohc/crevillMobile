@@ -29,18 +29,21 @@
     </select>
 	
 	<select id="selectPlayInfo" parameterType="kr.co.crevill.play.PlayDto" resultType="kr.co.crevill.play.PlayVo">
-        SELECT PLAY_ID,
-		       NAME,
-		       DESCRIPTION,
-		       PLAY_TIME,
-		       OPERATION_TYPE,
-		       THUMBNAIL_IDX,
-		       PICTURE_IDX,
-		       REG_ID,
-		       DATE_FORMAT(REG_DATE, '%Y/%m/%d') REG_DATE,
-		       UPD_ID,
-		       DATE_FORMAT(UPD_DATE, '%Y/%m/%d') UPD_DATE	
-          FROM PLAY
+        SELECT A.PLAY_ID,
+		       A.NAME,
+		       A.DESCRIPTION,
+		       A.PLAY_TIME,
+		       A.OPERATION_TYPE,
+		       A.THUMBNAIL_IDX,
+		       A.PICTURE_IDX,
+		       A.REG_ID,
+		       DATE_FORMAT(A.REG_DATE, '%Y/%m/%d') REG_DATE,
+		       A.UPD_ID,
+		       DATE_FORMAT(A.UPD_DATE, '%Y/%m/%d') UPD_DATE,
+		       B.TEACHING_PLAN_IMG_ID 
+          FROM PLAY A LEFT OUTER JOIN 
+               STORE_PROGRAM B
+            ON A.PLAY_ID = B.CHAIN_CLASS      
         <where>
            AND PLAY_ID = #{playId}
         </where>

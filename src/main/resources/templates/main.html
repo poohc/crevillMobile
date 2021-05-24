@@ -11,18 +11,29 @@
                     <div class="card bg-dark text-white" style="box-shadow: none;">
                         <img src="assets/img/left.jpg" class="card-img overlay-img" alt="image">
                         <div class="card-img-overlay" style="color: black;">
+                            <th:block th:if="${session.memberVo != null}">
                             <h5 class="card-title" th:text="|${session.memberVo?.name}님|"></h5>
-                            <p class="card-text"><span class="badge badge-danger" th:text="|${session.memberVo?.storeNameShort}|"></span> 회원</p>
-                            <p class="card-text"><small>5일전 판교점 방문</small></p>
+	                            <p class="card-text"><span class="badge badge-danger" th:text="|${session.memberVo?.storeNameShort}|"></span> 회원</p>
+	                            <th:block th:if="${not #strings.isEmpty(visitSummary.visitDate)}">
+	                            	<p class="card-text"><small th:text="|${visitSummary.visitDate}일전 ${visitSummary.storeName}방문|"></small></p>
+	                            </th:block>
+	                            <th:block th:unless="${not #strings.isEmpty(visitSummary.visitDate)}">
+	                            	<p class="card-text"><small>방문이력 없음</small></p>
+	                            </th:block>
+                            </th:block>
+                            <th:block th:unless="${session.memberVo != null}">
+	                            <a th:href="@{/login/login.view}" class="btn btn-primary square mr-1">로그인</a><br><br>
+	                            <p class="card-text"><small>안녕하세요. 크레빌영어 마을입니다.</small></p>
+                            </th:block>
                         </div>
                     </div>
                 </div>
                 <div class="col-6" style="padding-left: 0px;">
                     <div class="carousel-full owl-carousel owl-theme">
-                   		<div class="item" th:each="programList : ${programList}">
+                   		<div class="item" th:each="playList : ${playList}">
                             <div class="card">
-                                <a href="">
-                                	<img th:src="@{/common/getImage(imageIdx=${programList.thumbnailId})}" class="card-img overlay-img" alt="image" style="height: 160.61px;">
+                                <a th:href="@{/play/list.view}">
+                                	<img th:src="@{/common/getImage(imageIdx=${playList.thumbnailIdx})}" class="card-img overlay-img" alt="image" style="height: 160.61px;">
                                 </a>
                             </div>
                         </div>
@@ -30,6 +41,7 @@
                 </div>
             </div>
         </div>
+        <th:block th:if="${session.memberVo != null}">
         <div class="carousel-full owl-carousel owl-theme">
             <div class="section mt-0">
             	<th:block th:each="reccomendList : ${reccomendList}">
@@ -153,7 +165,8 @@
                     </div>
                 </div>
             </div>
-
+			</th:block>
+			
             <div class="section full mt-1">
                 <div class="carousel-full owl-carousel owl-theme">
                     <div class="item">

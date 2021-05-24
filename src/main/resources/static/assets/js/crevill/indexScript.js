@@ -124,6 +124,5 @@ function reservation(scheduleId, scheduleStart, playName, reservationCnt){
 	        alert("예약 목록을 가져오는 중에 오류가 발생했습니다. 다시 시도하여 주세요.");
 			return false;
 	    }
-	});
-	
+	});	
 }

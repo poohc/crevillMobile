@@ -33,6 +33,13 @@ public class PlayController {
 		return mav;
 	}
 	
+	@GetMapping("detail.view")
+	public ModelAndView detail(HttpServletRequest request, @ModelAttribute PlayDto playDto) {
+		ModelAndView mav = new ModelAndView("play/detail");
+		mav.addObject("info", playService.selectPlayInfo(playDto));
+		return mav;
+	}
+	
 	@PostMapping("playList.view")
 	@ResponseBody
 	public List<PlayVo> playList(HttpServletRequest request, String operationType) {

@@ -100,6 +100,19 @@
 		   AND B.PLAY_ID = E.PLAY_ID
 	</select>
 	
+	<select id="selectVisitStoreSummary" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
+		SELECT DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') VISIT_DATE,
+		       CASE WHEN B.STORE_ID = 'MOBILE' THEN '모바일'
+		       	    ELSE (SELECT STORE_NAME FROM STORE S WHERE B.STORE_ID = S.STORE_ID)
+		       	    END AS STORE_NAME     
+		  FROM SCHEDULE_ENTRANCE_MEMBER A,
+		       SCHEDULE B
+		 WHERE A.MEMBER_QR_CODE = #{qrCode}
+		   AND A.SCHEDULE_ID = B.SCHEDULE_ID
+	  ORDER BY A.REG_DATE DESC
+	     LIMIT 1 	   
+	</select>
+	
 	<insert id="insertMemberParent" parameterType="kr.co.crevill.member.MemberDto">
     	INSERT INTO MEMBER_PARENT (
     								NAME,

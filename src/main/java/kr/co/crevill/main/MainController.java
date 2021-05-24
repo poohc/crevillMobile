@@ -16,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.co.crevill.common.SessionUtil;
 import kr.co.crevill.member.MemberDto;
 import kr.co.crevill.member.MemberService;
+import kr.co.crevill.play.PlayDto;
+import kr.co.crevill.play.PlayService;
 import kr.co.crevill.promotion.PromotionDto;
 import kr.co.crevill.promotion.PromotionService;
 import kr.co.crevill.reservation.ReservationService;
@@ -49,6 +51,9 @@ public class MainController {
 	@Autowired
 	private PromotionService promotionService; 
 	
+	@Autowired
+	private PlayService playService;
+	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@GetMapping("/")
@@ -80,6 +85,7 @@ public class MainController {
 		mav.addObject("reccomendList", reccomendList);
 		MemberDto memberDto = new MemberDto();
 		memberDto.setParentCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
+		memberDto.setQrCode(SessionUtil.getSessionMemberVo(request).getQrCode());
 		mav.addObject("childList", memberService.selectChildMemberList(memberDto));
 		VoucherDto voucherDto = new VoucherDto();
 		voucherDto.setCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
@@ -98,6 +104,9 @@ public class MainController {
 		PromotionDto promotionDto = new PromotionDto();
 		promotionDto.setStoreId(SessionUtil.getSessionMemberVo(request).getStoreId());
 		mav.addObject("promotionList", promotionService.getPromotionList(promotionDto));
+		mav.addObject("visitSummary", memberService.selectVisitStoreSummary(memberDto));
+		PlayDto playDto = new PlayDto();
+		mav.addObject("playList", playService.selectPlayList(playDto));
 		return mav;
 	}
 }

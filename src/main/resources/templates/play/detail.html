@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/defaultCommon}">
+
+<th:block layout:fragment="content">
+	<div id="appCapsule">
+        <div class="blog-post">
+            <div class="mb-2">
+                <img th:src="@{/common/getImage(imageIdx=${info.pictureIdx})}" alt="놀이사진" class="imaged square w-100">
+            </div>
+            <h1 class="title" th:text="${info.name}"></h1>
+            <div class="post-header" th:text="|등록일 ${info.regDate}|"></div>
+            <div class="post-body">
+                <p th:text="${info.description}"></p>
+                <th:block th:if="${not #strings.isEmpty(info.teachingPlanImgId)}">
+                	<img th:src="@{/common/getImage(imageIdx=${info.teachingPlanImgId})}" alt="교안사진" class="imaged square w-100">
+                </th:block>
+                <th:block th:unless="${not #strings.isEmpty(info.teachingPlanImgId)}">
+                	교안이미지가 없습니다.
+                </th:block>
+            </div>
+        </div>
+        <div class="section mt-4">
+            <button type="button" class="btn btn-outline-primary btn-block" data-toggle="modal" data-target="#actionSheetShare">
+            <ion-icon name="share-outline"></ion-icon>
+                공유
+            </button>
+        </div><br><br><br>
+    </div>
+	<!-- * App Capsule -->
+	<div class="modal fade action-sheet inset" id="actionSheetShare" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">소셜로 페이지 공유</h5>
+                </div>
+                <div class="modal-body">
+                    <ul class="action-button-list">
+                        <li>
+                            <a href="#" class="btn btn-list" data-dismiss="modal">
+                                <span>
+                                    <ion-icon name="logo-facebook"></ion-icon>
+                                    페이스북
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="btn btn-list" data-dismiss="modal">
+                                <span>
+                                    <ion-icon name="logo-twitter"></ion-icon>
+                                    트위터
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="btn btn-list" data-dismiss="modal">
+                                <span>
+                                    <ion-icon name="logo-instagram"></ion-icon>
+                                    인스타그램
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="btn btn-list" data-dismiss="modal">
+                                <span>
+                                    <ion-icon name="logo-"></ion-icon>
+                                    카카오톡
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>

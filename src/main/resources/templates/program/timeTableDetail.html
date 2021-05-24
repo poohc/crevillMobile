@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/defaultCommon}">
+
+<th:block layout:fragment="content">
+	<div id="appCapsule">
+        <div class="section full mt-2 mb-2">
+            <div class="section-title" th:text="|${currentYear}년 ${currentMonth}월|"></div>
+            <div class="wide-block pt-2 pb-2">
+                <div class="mb-1">
+                    <img th:src="@{/assets/img/WEEK1.jpg}" alt="image" class="imaged img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
+	<!-- * App Capsule -->
+</th:block>
+</html>

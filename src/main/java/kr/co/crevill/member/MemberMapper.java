@@ -13,6 +13,7 @@ public interface MemberMapper {
 	public List<MemberVo> selectChildMemberInfo(MemberDto memberDto);
 	public List<MemberVo> selectChildMemberList(MemberDto memberDto);
 	public List<MemberVo> selectVisitStoreList(MemberDto memberDto);
+	public MemberVo selectVisitStoreSummary(MemberDto memberDto);
 	public int insertMemberParent(MemberDto memberDto);
 	public int insertMemberChildren(MemberDto memberDto);
 	public int insertMemberChildrenGrade(MemberDto memberDto);
