@@ -74,7 +74,12 @@
                         <div class="action-sheet-content">
 	                        <div class="form-group basic">
 	                            {{scheduleStart}} {{playName}} <span class="badge badge-success">예약</span><br>
+	                            <th:block th:if="${voucherInfo != null}">
 	                            잔여시간 <span class="badge badge-danger" th:text="|${voucherInfo.timeLeftHour}시간|"></span><br><br>
+	                            </th:block>
+	                            <th:block th:unless="${voucherInfo != null}">
+	                            잔여시간 <span class="badge badge-danger">바우처없음</span><br><br>
+	                            </th:block>
 	                            <div class="input-wrapper">
 	                                <div class="input-wrapper">
 	                                    <label class="label" for="voucherId">사용할 바우처</label>

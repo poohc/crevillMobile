@@ -101,7 +101,7 @@ public class ReservationService {
 		} else {
 			reservationDto.setTutoringYn("N");
 		}
-		int totalCnt = reservationDto.getChildName().split(",").length + reservationDto.getScheduleId().split(",").length; 
+		int totalCnt = reservationDto.getChildName().split(",").length * reservationDto.getScheduleId().split(",").length; 
 		int succCnt = 0;
 		int fainCnt = 0;
 		
@@ -169,6 +169,8 @@ public class ReservationService {
 				}
 			}
 		}
+		
+		logger.info("예약총건수 : "+totalCnt+" + 예약성공 건수 : " + succCnt);
 		
 		if(totalCnt == succCnt) {
 			result.put("resultCd", CrevillConstants.RESULT_SUCC);
