@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/defaultCommon(scriptName='/assets/js/crevill/programListScript.js')}">
+	  layout:decorate="~{layout/defaultCommon(scriptName='/assets/js/crevill/programListScript')}">
 	  
 <th:block layout:fragment="content">
 	<div id="appCapsule">
@@ -11,14 +11,16 @@
             </div>
             
             <div class="section full mt-3 mb-3">
-                <div class="wide-block pt-2 pb-2" style="padding-top:16px;" th:text="|${currentYear}년 ${currentMonth}월|"><br>
+                <div class="wide-block pt-2 pb-2" style="padding-top:16px;">
+                	<span th:text="|${currentYear}년 ${currentMonth}월|"></span>
+                	<br>
                     <code>업데이트 : 매월 25일</code>
                 </div>
                 <div class="section full mt-2">
                     <div class="wide-block pt-2 pb-2">
                         <form class="search-form">
                             <div class="form-group searchbox">
-                                <input type="text" class="form-control" value="" placeholder="매장명입력">
+                                <input type="text" class="form-control" placeholder="매장명입력" id="storeName" name="storeName">
                                 <i class="input-icon">
                                     <ion-icon name="search-outline"></ion-icon>
                                 </i>
@@ -29,13 +31,13 @@
 
                 <ul class="listview image-listview text">
                     <li th:each="list : ${list}">
-                        <a href="" class="item" th:attr="onclick=|timeTableDetail('${list.storeId}')|">
+                        <a th:href="@{/program/timeTableDetail.view(storeId=${list.storeId})}" class="item">
                             <div class="in">
                                 <div>
-                                	<span class="badge badge-primary" style="font-size: 15px;" th:text="${list.storeName}"></span>
+                                	<span class="badge badge-primary" style="font-size: 15px;" th:text="${list.storeNameShort}"></span>
                                 </div>
                                 <div class="chip">
-                                    <span class="chip-label" th:text="|${currentYear}-${currentMonth}-${currentDay} 업데이트|"></span>
+                                    <span class="chip-label" th:text="|${list.updDate} 업데이트|"></span>
                                 </div>
                             </div>
                         </a>

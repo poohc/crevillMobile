@@ -17,7 +17,12 @@
 			<div class="right">
 				<a href="#" class="headerButton" data-toggle="modal" data-target="#PanelRight">
 					<ion-icon name="notifications-outline"></ion-icon>
-					<span class="badge badge-danger">2</span>
+					<th:block th:if="${todayReservationList != null}">
+						<span class="badge badge-danger" th:text="${todayReservationListCnt}"></span>
+					</th:block>
+					<th:block th:unless="${todayReservationList != null}">
+						<span class="badge badge-danger"></span>
+					</th:block>
 				</a>
 			</div>
 		</div>
@@ -36,21 +41,14 @@
                 <div class="modal-body">
                     <ul class="listview link-listview mb-1">
                         <li class="multi-level">
-                            <a href="#" class="item">판교점</a>
+                            <a href="#" class="item" th:text="|${session.memberVo?.storeNameShort}|"></a>
                             <!-- sub menu -->
                             <ul class="listview link-listview">
-                                <li>
-                                    <a href="#" class="item">
-                                        11:00
-                                        <span class="badge badge-primary">CLASS GYM</span>
-                                        <span class="badge badge-success">자녀이름</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="item">
-                                        11:00
-                                        <span class="badge badge-primary">CLASS GYM</span>
-                                        <span class="badge badge-success">자녀이름</span>
+                                <li th:each="list : ${todayReservationList}">
+                                    <a th:href="@{/reservation/reservationList.view}" class="item">
+                                        <span th:text="${list.reservationTime}"></span>
+                                        <span class="badge badge-primary" th:text="${list.playName}"></span>
+                                        <span class="badge badge-success" th:text="${list.reservationName}"></span>
                                     </a>
                                 </li>
                             </ul>
@@ -60,6 +58,5 @@
             </div>
         </div>
     </div>
-	
 </th:block>
 </html>

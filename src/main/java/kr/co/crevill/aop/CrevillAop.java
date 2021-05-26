@@ -227,6 +227,11 @@ public class CrevillAop {
         	
         	if(servletPath.indexOf("store") > -1) {
         		menuDto.setUpperMenu("매장관리");
+        		
+        		if(servletMenuPath.indexOf("storeList.view") > -1) {
+        			menu = "크레빌 센터";
+        		}
+        		
         		if(servletMenuPath.indexOf("storeInfo.view") > -1) {
         			menu = request.getParameter("storeName");
         		}
@@ -240,7 +245,8 @@ public class CrevillAop {
         	VoucherDto voucherDto = new VoucherDto();
     		voucherDto.setCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
     		request.setAttribute("voucherInfo", voucherService.getMemberVoucherInfo(voucherDto));
-        	
+    		contextPath = contextPath.replace("mobile/", "");
+    		request.setAttribute("servletPath", servletPath);
         	logger.info("==================== Logging 종료 ====================");
         	Object result = joinPoint.proceed();
             return result;
@@ -248,5 +254,5 @@ public class CrevillAop {
         	logger.error("Logging 오류 : " + e);
         	return null;
         }
-    }	
+    }
 }

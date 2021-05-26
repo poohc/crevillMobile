@@ -1,4 +1,5 @@
-function timeTableDetail(storeId){
-	var url = contextRoot + 'program/timeTableDetail.view?storeId=' + storeId;
-	location.replace(url);
-}
+ $("#storeName").on("keydown",function(key){
+    if(key.keyCode==13) {
+     	location.href = contextRoot + 'program/timeTable.view?storeName=' + $('#storeName').val();   
+    }
+ });

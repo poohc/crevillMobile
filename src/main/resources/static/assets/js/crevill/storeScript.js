@@ -22,7 +22,7 @@ Vue.use(VeeValidate, {
 });
 
 new Vue({
-    el: '#page-body',
+    el: '#appCapsule',
     data: {
     	storeType : '',
 	  	storeName : '',

@@ -2,26 +2,26 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="footerFragment">
     <div class="appBottomMenu rounded">
-        <a th:href="@{/main.view}" class="item active">
+        <a th:href="@{/main.view}" class="item" th:classappend="${servletPath} == '' ? active">
             <div class="col">
                 <ion-icon name="file-tray-full-outline"></ion-icon>
                 <strong>홈</strong>
             </div>
         </a>
-        <a th:href="@{/store/storeList.view}" class="item">
+        <a th:href="@{/store/storeList.view}" class="item" th:classappend="${servletPath} == 'store' ? active">
             <div class="col">
                 <ion-icon name="storefront-outline"></ion-icon>
                 <strong>매장소개</strong>
             </div>
         </a>
-        <a th:href="@{/program/timeTable.view}" class="item">
+        <a th:href="@{/program/timeTable.view}" class="item" th:classappend="${servletPath} == 'program' ? active">
             <div class="col">
                 <ion-icon name="document-text-outline"></ion-icon>
                 <strong>시간표</strong>
             </div>
         </a>
         <th:block th:if="${session.memberVo != null}">
-        <a th:href="@{/member/info.view}" class="item">
+        <a th:href="@{/member/info.view}" class="item" th:classappend="${servletPath} == 'member' ? active">
             <div class="col">
                 <ion-icon name="people-outline"></ion-icon>
                 <strong>회원정보</strong>
@@ -29,21 +29,21 @@
         </a>
         </th:block>
         <th:block th:unless="${session.memberVo != null}">
-        <a href="javascript:alert('회원만 접근이 가능합니다.')" class="item">
+        <a href="javascript:alert('회원만 접근이 가능합니다.')" class="item" th:classappend="${servletPath} == 'member' ? active">
             <div class="col">
                 <ion-icon name="people-outline"></ion-icon>
                 <strong>회원정보</strong>
             </div>
         </a>
         </th:block>
-        <a th:href="@{/main/guide.view}" class="item">
+        <a th:href="@{/main/guide.view}" class="item" th:classappend="${servletPath} == 'main' ? active">
             <div class="col">
                 <ion-icon name="rocket-outline"></ion-icon>
                 <strong>이용안내</strong>
             </div>
         </a>
         <th:block th:if="${voucherInfo != null && not #strings.isEmpty(voucherInfo.timeLeftHour)}">
-        <a th:href="@{/reservation/regist.view}" class="item">
+        <a th:href="@{/reservation/regist.view}" class="item" th:classappend="${servletPath} == 'reservation' ? active">
             <div class="col">
                 <ion-icon name="calendar-outline"></ion-icon>
                 <strong>실시간예약</strong>
@@ -51,7 +51,7 @@
         </a>
         </th:block>
         <th:block th:unless="${voucherInfo != null && not #strings.isEmpty(voucherInfo.timeLeftHour)}">
-        <a href="javascript:alert('바우처회원만 접근이 가능합니다.')" class="item">
+        <a href="javascript:alert('바우처회원만 접근이 가능합니다.')" class="item" th:classappend="${servletPath} == 'reservation' ? active">
             <div class="col">
                 <ion-icon name="calendar-outline"></ion-icon>
                 <strong>실시간예약</strong>

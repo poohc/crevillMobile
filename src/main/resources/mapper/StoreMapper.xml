@@ -75,7 +75,9 @@
            <if test="location != null and location == 'NAMBU'.toString()">
            AND (ADDRESS NOT LIKE '서울%' OR ADDRESS NOT LIKE '경기%')
            </if>
-           
+           <if test="storeName != null">
+           AND STORE_NAME LIKE CONCAT('%',#{storeName},'%')
+           </if>
       ORDER BY SORT_RANK
     </select>
 	

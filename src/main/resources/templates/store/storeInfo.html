@@ -27,27 +27,23 @@
 	<div id="appCapsule">
         <th:block th:each="list : ${list}">
         <div class="carousel-full owl-carousel owl-theme">
-            <div class="item">
+            <div class="item" style="padding-top: 15px;">
                 <img th:src="@{/common/getImage(imageIdx=${list.image1Idx})}" alt="매장이미지1" class="imaged w-100 square">
             </div>
-            <div class="item">
+            <div class="item" style="padding-top: 15px;">
                 <img th:src="@{/common/getImage(imageIdx=${list.image2Idx})}" alt="매장이미지2" class="imaged w-100 square">
             </div>
-            <div class="item">
+            <div class="item" style="padding-top: 15px;">
                 <img th:src="@{/common/getImage(imageIdx=${list.image3Idx})}" alt="매장이미지3" class="imaged w-100 square">
             </div>
         </div>
+        
         <!-- * carousel -->
         <div class="section full">
             <div class="wide-block pt-2 pb-2 product-detail-header">
-                <h1 class="title" th:text="${list.storeName}"></h1>
+                <h1 class="title" style="text-decoration: underline;" th:text="${list.storeName}"></h1>
                 <div class="text" th:text="${list.address}"></div>
-                <div class="detail-footer">
-                    <!-- price -->
-                    <div class="price">
-                        <div class="current-price">OPEN</div>
-                    </div>
-                </div>
+                <span class="badge badge-success">OPEN</span>
                 <div class="divider mt-3 mb-2"></div>
                 <a th:href="'tel:' + ${list.telNo}" class="btn btn-block btn-primary">상담전화</a>
             </div>
@@ -60,41 +56,161 @@
                 우리 아이들은 크레빌의 다양한 프로그램을 통해
                 자유롭게 표현하는 방법을 배우고 주도성과 자율성을 기를 수 있습니다.
             </div>
-
         </div>
-
-        <!-- Review -->
-        <div class="section full mt-2">
-            <div class="section-title">원어민 소개</div>
+		
+		<div class="section full mt-2 mb-2">
             <div class="wide-block pt-2 pb-2">
-                <th:block th:each="list : ${nsList}">
-                <div class="comment-block">
-                    <!--item -->
-                    <div class="item">
-                        <div class="avatar">
-                            <img th:src="@{/common/getImage(imageIdx=${list.pictureIdx})}" alt="원어민직원사진" class="imaged w32 rounded">
-                        </div>
-                        <div class="in">
-                            <div class="comment-header">
-                                <h4 class="title" th:text="${list.fullName}"></h4>
-                                <span class="time">교육중</span>
+                <p class="mb-0">
+                    <img th:src="@{/assets/img/parking.png}" alt="image" class="imaged w48 square">
+                    백화점 주차장 이용, 이용시 마다 <code>2시간권</code> 제공
+                </p>
+            </div>
+        </div>
+		
+		<div class="section full mt-2 mb-2">
+            <div class="section-title" th:text="|${currentYear}월 스케쥴|"></div>
+            <div class="wide-block pt-2 pb-2">
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#schedule">보기</button>
+            </div>
+        </div>
+        <!--스케쥴 팝업-->
+        <div class="modal fade action-sheet" id="schedule" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"th:text="|${currentYear}월 스케쥴|"></h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="action-sheet-content">
+                            <div class="mb-1">
+                            	<th:block th:if="${info.etcFile1Idx != null}">
+                                	<img th:src="@{/common/getImage(imageIdx=${info.etcFile1Idx})}" th:alt="|${info.storeName} 매장이미지|" class="imaged img-fluid">
+                                </th:block>
+                                <th:block th:unless="${info.etcFile1Idx != null}">
+                                	<img th:src="@{/assets/img/sc.jpg}" alt="image" class="imaged img-fluid">
+                                </th:block>
                             </div>
-                            <div class="rate-block mb-1 mt-05">&nbsp;</div>
-                            <div class="text">&nbsp;</div>
-<!--                             <div class="rate-block mb-1 mt-05" th:text="|국적 : ${list.nationality}|"></div> -->
-<!--                             <div class="text" th:text="|최고의 ${list.nationality} 원어민입니다.|"></div> -->
-                            <div class="comment-footer">
-                            </div>
+                            <a href="#" class="btn btn-primary btn-block" data-bs-dismiss="modal">닫기</a>
                         </div>
                     </div>
                 </div>
-                </th:block>
-                <div class="divider mt-3 mb-2"></div>
-                <a th:href="@{/reservation/regist.view}" class="btn btn-block btn-primary">예약하기</a>
             </div>
         </div>
-        <!-- * Review -->
-
+		
+		<div class="section mt-2 mb-3">
+            <div class="section-title">센터 원어민</div>
+            <div class="row">
+                <div class="col-6" th:each="list : ${nsList}">
+                    <div class="card product-card">
+                        <div class="card-body">
+                            <img th:src="@{/common/getImage(imageIdx=${list.pictureIdx})}" alt="원어민직원사진" class="image">
+                            <h2 class="title" style="text-align: center;">
+                                <div class="chip chip-outline">
+                                    <span class="chip-label" th:text="${list.fullName}"></span>
+                                </div>
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		
+		<div class="section full mt-2 mb-3">
+            <div class="section-title mb-1">과정소개</div>
+            <div class="carousel-multiple owl-carousel owl-theme">
+                <div class="item">
+                    <div class="card product-card">
+                        <div class="card-body">
+                            <a href="#" data-toggle="modal" data-target="#program1">
+                            	<img th:src="@{/assets/img/sample/photo/cv001_c2.jpg}" class="image" alt="product image">
+                                <div class="price">GYM CLASS</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="card product-card">
+                        <div class="card-body">
+                            <a href="#" data-toggle="modal" data-target="#program2">
+                            	<img th:src="@{/assets/img/sample/photo/cv001_c1.jpg}" class="image" alt="product image">
+                                <div class="price">SPORTS CLASS</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="card product-card">
+                        <div class="card-body">
+                            <a href="#" data-toggle="modal" data-target="#program3">
+                            	<img th:src="@{/assets/img/sample/photo/cv001_c3.jpg}" class="image" alt="product image">
+                                <div class="price">BLOCK CLASS</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="card product-card">
+                        <div class="card-body">
+                            <a href="#" data-toggle="modal" data-target="#program4">
+                            	<img th:src="@{/assets/img/sample/photo/cv001_c4.jpg}" class="image" alt="product image">
+                                <div class="price">SPECIAL CAMP</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		
+		<div class="modal fade dialogbox" id="program1" data-backdrop="static" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <img th:src="@{/assets/img/program1.jpg}" alt="image" class="img-fluid">
+                    <div class="modal-footer">
+                        <div class="btn-inline">
+                            <a href="#" class="btn btn-text-secondary" data-dismiss="modal">닫기</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade dialogbox" id="program2" data-backdrop="static" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <img th:src="@{/assets/img/program2.jpg}" alt="image" class="img-fluid">
+                    <div class="modal-footer">
+                        <div class="btn-inline">
+                            <a href="#" class="btn btn-text-secondary" data-dismiss="modal">닫기</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade dialogbox" id="program3" data-backdrop="static" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <img th:src="@{/assets/img/program3.jpg}" alt="image" class="img-fluid">
+                    <div class="modal-footer">
+                        <div class="btn-inline">
+                            <a href="#" class="btn btn-text-secondary" data-dismiss="modal">닫기</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade dialogbox" id="program4" data-backdrop="static" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <img th:src="@{/assets/img/program4.jpg}" alt="image" class="img-fluid">
+                    <div class="modal-footer">
+                        <div class="btn-inline">
+                            <a href="#" class="btn btn-text-secondary" data-dismiss="modal">닫기</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		
+		<!-- 
         <div class="section full mt-2 mb-3">
             <div class="section-title mb-1">과정소개</div>
             <div class="carousel-multiple owl-carousel owl-theme">
@@ -110,12 +226,15 @@
                 </th:block>
             </div>
         </div>
-        <div class="section full mt-2 mb-3">
+         -->
+        
+         <div class="section full mt-2 mb-3">
             <div class="section-title mb-1">위치안내</div>
             <div>
-                <iframe th:src="${googleMapSrc}" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-            </div>       
+                <iframe th:src="${googleMapSrc}" width=100% height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
         </div>
+        
     </div>
     <div class="modal fade action-sheet" id="saveStore" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">

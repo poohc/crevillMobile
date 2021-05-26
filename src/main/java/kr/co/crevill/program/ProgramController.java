@@ -27,22 +27,22 @@ public class ProgramController {
 	private StoreService storeService;
 	
 	@GetMapping("timeTable.view")
-	public ModelAndView timetable(HttpServletRequest request, @ModelAttribute ProgramDto programDto) {
+	public ModelAndView timetable(HttpServletRequest request, @ModelAttribute StoreDto storeDto) {
 		ModelAndView mav = new ModelAndView("program/timeTable");
 		mav.addObject("currentYear", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy")));
 		mav.addObject("currentMonth", LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM")));
 		mav.addObject("currentDay", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd")));
-		StoreDto storeDto = new StoreDto(); 
 		mav.addObject("list", storeService.selectStoreList(storeDto));
 		return mav;
 	}
 	
 	@GetMapping("timeTableDetail.view")
-	public ModelAndView timetableDetail(HttpServletRequest request, @ModelAttribute ProgramDto programDto) {
+	public ModelAndView timetableDetail(HttpServletRequest request, @ModelAttribute StoreDto storeDto) {
 		ModelAndView mav = new ModelAndView("program/timeTableDetail");
 		mav.addObject("currentYear", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy")));
 		mav.addObject("currentMonth", LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM")));
 		mav.addObject("currentDay", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd")));
+		mav.addObject("info" , storeService.selectStoreInfo(storeDto));
 		return mav;
 	}
 }

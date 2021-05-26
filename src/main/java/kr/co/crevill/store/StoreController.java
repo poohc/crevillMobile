@@ -1,5 +1,7 @@
 package kr.co.crevill.store;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,14 +47,19 @@ public class StoreController {
 	public ModelAndView storeInfo(HttpServletRequest request, StoreDto storeDto) {
 		ModelAndView mav = new ModelAndView("store/storeInfo");
 		List<StoreVo> storeList = storeService.selectStoreList(storeDto);
-		InstructorDto instructorDto = new InstructorDto();
-		instructorDto.setStoreId(SessionUtil.getSessionMemberVo(request).getStoreId());
 		PlayDto playDto = new PlayDto();
+		mav.addObject("currentYear", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy")));
+		mav.addObject("currentMonth", LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM")));
+		mav.addObject("currentDay", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd")));
 		mav.addObject("list", storeList);
 		mav.addObject("storeName", storeList.get(0).getStoreName());
-		mav.addObject("googleMapSrc", "https://www.google.com/maps?q="+storeList.get(0).getStoreName()+"&output=embed");
-		mav.addObject("nsList", staffService.selectInstructorList(instructorDto));
 		mav.addObject("playList", playService.selectPlayList(playDto));
+		StoreVo storeInfo = storeService.selectStoreInfo(storeDto);
+		mav.addObject("info", storeInfo);
+		InstructorDto instructorDto = new InstructorDto();
+		instructorDto.setStoreId(storeDto.getStoreId());
+		mav.addObject("nsList", staffService.selectInstructorList(instructorDto));
+		mav.addObject("googleMapSrc", "https://www.google.com/maps?q="+storeInfo.getRoadAddress()+"&output=embed");
 		return mav;
 	}
 }

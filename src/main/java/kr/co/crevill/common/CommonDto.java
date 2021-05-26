@@ -29,4 +29,5 @@ public class CommonDto {
 	private String reservationTime;
 	private String reservationStatus;
 	private String cellPhone;
+	private String storeId;
 }

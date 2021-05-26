@@ -1,14 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/defaultCommon(scriptName='/assets/js/crevill/storeScript.js')}">
+	  layout:decorate="~{layout/defaultCommon(scriptName='/assets/js/crevill/storeListScript.js')}">
 
 <th:block layout:fragment="content">
 	 <div id="appCapsule">
-        <div class="section full">
-            <img th:src="@{/assets/img/store_title.png}" alt="image" class="imaged square w-100">
+         <div class="section full">
+            <div class="carousel-full owl-carousel owl-theme">
+                <div class="item" style="padding-top: 41px;">
+                    <img th:src="@{/assets/img/promo2.png}" alt="promotion" class="imaged w-100 square">
+                </div>
+                <div class="item" style="padding-top: 41px;">
+                    <img th:src="@{/assets/img/promo2.png}" alt="promotion" class="imaged w-100 square">
+                </div>
+            </div>
         </div>
-        <div class="listview-title mt-2">크레빌 매장소개</div>
+        <div class="section full mt-2">
+            <div class="section mt-0">
+                크레빌 센터 검색
+            </div>
+            <div class="wide-block pt-2 pb-2">
+	            <div class="form-group searchbox">
+	                <input type="text" class="form-control" placeholder="매장명입력" id="storeName" name="storeName">
+	                <i class="input-icon">
+	                    <ion-icon name="search-outline"></ion-icon>
+	                </i>
+	            </div>
+            </div>
+        </div>
         <ul class="listview image-listview media mb-2">
             <th:block th:each="list : ${list}">
             <li>
@@ -19,7 +38,18 @@
                     <div class="in">
                         <div>
                             <span th:text="${list.storeNameShort}"></span>
-                            <div class="text-muted" th:text="${list.address}"></div>
+                            <span class="badge badge-light" style="font-size:10px; min-height: 18px;" th:text="${list.telNo}"></span>
+                            <div class="text-muted">
+                            	<th:block th:each="class, i : ${#strings.arraySplit(list.playName, ',')}">
+                            		<th:block th:if="${i.count == i.size}">
+                            			<span class="badge badge-primary" style="font-size:10px; min-height: 18px;" th:text="|${class}| "></span>
+                            		</th:block>
+                            		<th:block th:unless="${i.count == i.size}">
+                            			<span class="badge badge-primary" style="font-size:10px; min-height: 18px;" th:text="|${class}| "></span> |
+                            		</th:block>
+                            	</th:block>
+                            </div>
+                            <div class="text-muted" style="text-decoration-line: underline;" th:text="${list.address}"></div>
                         </div>
                         <th:block th:if="${list.storeStatusCode == 'ACTIVE'}">
                         <span class="badge badge-primary">OPEN</span>

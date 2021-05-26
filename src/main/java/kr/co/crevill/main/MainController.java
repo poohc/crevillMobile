@@ -13,6 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.co.crevill.common.CommonDto;
+import kr.co.crevill.common.CommonService;
+import kr.co.crevill.common.CommonVo;
 import kr.co.crevill.common.SessionUtil;
 import kr.co.crevill.member.MemberDto;
 import kr.co.crevill.member.MemberService;
@@ -53,6 +56,9 @@ public class MainController {
 	
 	@Autowired
 	private PlayService playService;
+	
+	@Autowired
+	private CommonService commonService;
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -107,6 +113,13 @@ public class MainController {
 		mav.addObject("visitSummary", memberService.selectVisitStoreSummary(memberDto));
 		PlayDto playDto = new PlayDto();
 		mav.addObject("playList", playService.selectPlayList(playDto));
+		CommonDto commonDto = new CommonDto();
+		commonDto.setCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
+		List<CommonVo> todayReservationList = commonService.selectTodayReservationInfo(commonDto);
+		if(todayReservationList != null && todayReservationList.size() > 0) {
+			mav.addObject("todayReservationList", todayReservationList);	
+			mav.addObject("todayReservationListCnt", todayReservationList.size());
+		}
 		return mav;
 	}
 	

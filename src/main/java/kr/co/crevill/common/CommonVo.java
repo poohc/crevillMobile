@@ -28,5 +28,7 @@ public class CommonVo {
 	private String reservationDate;
 	private String reservationTime;
 	private String reservationStatus;
+	private String reservationId;
 	private String cellPhone;
+	private String playName;
 }
