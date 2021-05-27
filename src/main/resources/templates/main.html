@@ -17,7 +17,7 @@
 	                            <th:block th:if="${visitSummary != null}">
 	                            	<p class="card-text"><small th:text="|${visitSummary.visitDate}일전 ${visitSummary.storeName}방문|"></small></p>
 	                            </th:block>
-	                            <th:block th:if="${visitSummary != null}">
+	                            <th:block th:unless="${visitSummary != null}">
 	                            	<p class="card-text"><small>방문이력 없음</small></p>
 	                            </th:block>
                             </th:block>
@@ -30,10 +30,10 @@
                 </div>
                 <div class="col-6" style="padding-left: 0px;">
                     <div class="carousel-full owl-carousel owl-theme">
-                   		<div class="item" th:each="playList : ${playList}">
+                   		<div class="item" th:each="list : ${programList}">
                             <div class="card">
                                 <a th:href="@{/play/list.view}">
-                                	<img th:src="@{/common/getImage(imageIdx=${playList.thumbnailIdx})}" class="card-img overlay-img" alt="image" style="height: 160.61px;">
+                                	<img th:src="@{/common/getImage(imageIdx=${list.thumbnailId})}" class="card-img overlay-img" alt="image" style="height: 160.61px;">
                                 </a>
                             </div>
                         </div>
@@ -177,11 +177,15 @@
 			
             <div class="section full mt-1">
                 <div class="carousel-full owl-carousel owl-theme">
+                    <th:block th:each="list : ${promotionList}">
                     <div class="item">
                         <div class="card">
-                            <a href="promotion_list.html"><img src="assets/img/promo2.jpg" class="card-img-top1" alt="image"></a>
+                            <a th:href="@{/promotion/list.view}">
+                            	<img th:src="@{/common/getImage(imageIdx=${list.promotionBannerId})}" class="card-img card-img-top1" th:alt="|${list.promotionName} 배너이미지|">
+                            </a>
                         </div>
                     </div>
+                    </th:block>
                 </div>
             </div>
 
@@ -302,7 +306,7 @@
             <div class="section-title">크레빌 프로모션</div>
             <div class="carousel-full owl-carousel owl-theme">
                 <div class="item" th:each="list : ${promotionList}">
-                    <a href="promotion_list.html">
+                    <a th:href="@{/promotion/list.view}">
                     	<img th:src="@{/common/getImage(imageIdx=${list.promotionBannerId})}" class="imaged w-100 square" alt="promotion">
                     </a>
                 </div>
@@ -316,8 +320,7 @@
                     <p class="card-text">
                         창의적 영어 놀이공간 크레빌. 아이들이 자연스럽게 영어에 노출되어, 자신감을 갖게 해 줍니다.
                     </p>
-                    <a href="#" class="btn btn-primary" data-toggle="modal" data-component="stories"
-                        data-target="#about_crevill">
+                    <a href="#" class="btn btn-primary" data-toggle="modal" data-component="stories" data-target="#about_crevill">
                         <ion-icon name="person-outline"></ion-icon>
                         크레빌 소개
                     </a>

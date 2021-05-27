@@ -94,6 +94,12 @@ $('#circle3').circleProgress({
 	}
 });
 
+$(document).ready(function(){
+//	$(".owl-carousel").owlCarousel({
+//		mouseDrag: true
+//	});
+});
+
 function reservation(scheduleId, scheduleStart, playName, reservationCnt){
 	vm.scheduleId = scheduleId;
 	vm.scheduleStart = scheduleStart;

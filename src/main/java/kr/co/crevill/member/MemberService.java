@@ -166,11 +166,16 @@ public class MemberService {
 	    } else {
 	        sMessage = "알수 없는 에러 입니다. iReturn : " + iReturn;
 	    }
+	    
 	    logger.info("NICE 이름 : " + sName);
 	    logger.info("NICE 전화번호 : " + sMobileNo);
 	    logger.info("NICE 응답 sMessage : " + sMessage);
 	    request.setAttribute("sName", sName);
 	    request.setAttribute("sMobileNo", sMobileNo);
+	    request.setAttribute("sBirthDate", sBirthDate);
+	    request.setAttribute("sGender", sGender);
+	    request.setAttribute("sMobileCo", sMobileCo);
+	    request.setAttribute("sDupInfo", sDupInfo);
 	    return sMessage;
 	}
 	

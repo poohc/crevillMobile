@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/defaultCommon}">
+	  
+<th:block layout:fragment="content">
+	<div id="appCapsule">
+		<th:block th:if="${list != null}">
+			<th:block th:each="list : ${list}">	
+	        <div class="section mt-2">
+	            <div class="card">
+	                <img th:src="@{/common/getImage(imageIdx=${list.promotionBannerId})}" class="card-img-top" th:alt="|${list.promotionName} 배너이미지|">
+	                <div class="card-body">
+	                    <h6 class="card-subtitle">
+	                    	<span class="badge badge-success" th:text="|만료일 ${list.endDate}|"></span> | 
+	                    	<span class="badge badge-danger">진행중</span>
+	                    </h6>
+	                    <h5 class="card-title" th:text="${list.promotionName}"></h5>
+	                    <p class="card-text" th:text="${list.promotionContents}"></p>
+	                    <th:block th:each="store, i : ${#strings.arraySplit(list.storeId, ',')}">
+                       		<th:block th:if="${i.count == i.size}">
+                       			<span class="badge badge-primary" th:text="|${store}| "></span>
+                       		</th:block>
+                       		<th:block th:unless="${i.count == i.size}">
+                       			<span class="badge badge-primary" th:text="|${store}| "></span> |
+                       		</th:block>
+                       	</th:block>
+	                </div>
+	            </div>
+	        </div>
+	        </th:block>
+        </th:block>
+        <th:block th:unless="${list != null}">
+	        <div class="section mt-2">
+	            <div class="card">
+	                현재 진행중인 프로모션이 없습니다.
+	            </div>
+	        </div>
+        </th:block>
+    </div>
+	<!-- * App Capsule -->
+</th:block>
+</html>

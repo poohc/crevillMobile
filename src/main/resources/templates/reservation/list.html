@@ -25,7 +25,11 @@
                         <div>
                             <header th:text="${list.storeName}"></header>
                             <span th:text="${list.scheduleDate}"></span>
-                            <footer th:text="${list.playName}"><span th:text="${list.subTopic}"></span></footer>
+                            <footer>
+                            	<span th:text="${list.playName}"></span> |
+                            	<span th:text="${list.subTopic}"></span> |
+                            	<span th:text="${list.childName}"></span>
+                            </footer>
                         </div>
                         <th:block th:if="${list.status == '02'}">
                         	<span class="text-muted">예약취소</span>
@@ -40,7 +44,11 @@
                         <div>
                             <header th:text="${list.storeName}"></header>
                             <span th:text="${list.scheduleDate}"></span>
-                            <footer th:text="${list.playName}"><span th:text="${list.subTopic}"></span></footer>
+                            <footer>
+                            	<span th:text="${list.playName}"></span> |
+                            	<span th:text="${list.subTopic}"></span> |
+                            	<span th:text="${list.childName}"></span>
+                            </footer>
                         </div>
                         <th:block th:if="${list.status == '05'}">
                         	<span class="text-muted">취소완료</span>

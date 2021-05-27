@@ -28,7 +28,11 @@
 			<input type="hidden" name="EncodeData" th:value="${sEncData}">		<!-- 위에서 업체정보를 암호화 한 데이타입니다. -->
 			<input type="hidden" name="recvMethodType" value ="get">
 		</form>
-	    <form class="form theme-form" id="memberForm" @submit.prevent="validateBeforeSubmit" th:action="@{/member/join.proc}" method="post">        
+	    <form class="form theme-form" id="memberForm" @submit.prevent="validateBeforeSubmit" th:action="@{/member/join.proc}" method="post"> 
+	    <input type="hidden" id="sBirthDate" name="sBirthDate" th:value="${sBirthDate}">
+	    <input type="hidden" id="sGender" name="sGender" th:value="${sGender}">
+	    <input type="hidden" id="sMobileCo" name="sMobileCo" th:value="${sMobileCo}">
+	    <input type="hidden" id="sDupInfo" name="sDupInfo" th:value="${sDupInfo}">
          <div class="section full mt-2 mb-2">
             <div class="section-title">회원정보입력</div>
             <div class="wide-block pb-1 pt-2">

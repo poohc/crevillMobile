@@ -87,6 +87,10 @@ new Vue({
 				formdata.append("birthday", $('#birthday').val());
 				formdata.append("sex", $('#sex').val());
 				formdata.append("learningGrade", learningGrade);
+				formdata.append("parentBirthday", $('#sBirthDate').val());
+				formdata.append("parentSex", $('#sGender').val());
+				formdata.append("mobileCorp", $('#sMobileCo').val());
+				formdata.append("di", $('#sDupInfo').val());
 				
 //				if($("#camera")[0].files[0] != undefined){
 //					formdata.append("picture", $("#camera")[0].files[0]);	

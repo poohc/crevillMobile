@@ -123,7 +123,11 @@
 									REG_DATE,
 									REG_ID,
 									STORE_ID,
-									PASSWORD    								
+									PASSWORD,
+									BIRTHDAY,
+									SEX,
+									MOBILE_CORP,
+									DI    								
     							   )
 							VALUES (
 									#{parentName},
@@ -134,7 +138,11 @@
 									NOW(),
 									#{regId},
 									#{storeId},
-									#{password}
+									#{password},
+									#{parentBirthday},
+									#{parentSex},
+									#{mobileCorp},
+									#{di}
 								   )
     </insert>
 

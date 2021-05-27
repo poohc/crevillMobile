@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.co.crevill.common.SessionUtil;
 import kr.co.crevill.store.StoreDto;
 import kr.co.crevill.store.StoreService;
 
@@ -31,6 +32,7 @@ public class PromotionController {
 	@GetMapping("list.view")
 	public ModelAndView list(HttpServletRequest request, @ModelAttribute PromotionDto promotionDto) {
 		ModelAndView mav = new ModelAndView("promotion/list");
+		promotionDto.setStoreId(SessionUtil.getSessionMemberVo(request).getStoreId());
 		mav.addObject("list", promotionService.selectPromotionList(promotionDto));
 		return mav;
 	}

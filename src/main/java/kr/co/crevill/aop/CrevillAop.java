@@ -225,6 +225,12 @@ public class CrevillAop {
         		}
         	}
         	
+        	if(servletPath.indexOf("promotion") > -1) {
+        		if(servletMenuPath.indexOf("list.view") > -1) {
+        			menu = "프로모션";
+        		}
+        	}
+        	
         	if(servletPath.indexOf("store") > -1) {
         		menuDto.setUpperMenu("매장관리");
         		

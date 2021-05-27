@@ -31,4 +31,8 @@ public class MemberDto {
 	private MultipartFile picture;
 	private String pictureIdx;
 	private String engName;
+	private String parentBirthday;
+	private String parentSex;
+	private String mobileCorp;
+	private String di;
 }
