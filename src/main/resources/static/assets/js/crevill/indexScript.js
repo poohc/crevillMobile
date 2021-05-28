@@ -19,43 +19,49 @@ var vm = new Vue({
         scheduleId : '',
 		scheduleStart : '',
 		playName : '',
-		reservationCnt : ''
+		reservationCnt : '',
+		voucherTimeLeft : ''
     },
 	methods: {
-    validateBeforeSubmit() {
-      this.$validator.validate().then((result) => {
-        if (result) {
-	        
-			acceessableCount  = acceessableCount - 1; //count부터 뺀다
-			
-			if (acceessableCount < 0 ) {
-		    	alert("이미 작업이 수행중입니다.");
-		    } else {
-				var formdata = new FormData();
-				formdata.append("voucherNo", $('#voucherNo').val());
-				formdata.append("scheduleId", $('#scheduleId').val());
-				formdata.append("childName", $('#childName').val());
-				formdata.append("cellPhone", $('#cellPhone').val());
-				
-				axios.post(contextRoot + 'reservation/regist.proc', formdata,{
-					  headers: {
-						'Content-Type': 'multipart/form-data'
-					  }
-					}).then((response) => {
-					if (response.data.resultCd == '00') {
-				      	alert('정상처리 되었습니다.');
-				    } else {
-						alert(response.data.resultMsg);
-					} 
-					
-				});	
-			}
-			acceessableCount = acceessableCount + 1;
-        } else {
-			alert('항목을 올바르게 입력해주세요.');
-		}
-      });
-    },
+				voucherChange: function (event) {
+					var selectedOption = event.target.options[event.target.selectedIndex];
+ 					var voucherTimeLeft = selectedOption.getAttribute('data-timeleft');
+			        vm.voucherTimeLeft = voucherTimeLeft;
+			    },
+			    validateBeforeSubmit() {
+			      this.$validator.validate().then((result) => {
+			        if (result) {
+				        
+						acceessableCount  = acceessableCount - 1; //count부터 뺀다
+						
+						if (acceessableCount < 0 ) {
+					    	alert("이미 작업이 수행중입니다.");
+					    } else {
+							var formdata = new FormData();
+							formdata.append("voucherNo", $('#voucherNo').val());
+							formdata.append("scheduleId", $('#scheduleId').val());
+							formdata.append("childName", $('#childName').val());
+							formdata.append("cellPhone", $('#cellPhone').val());
+							
+							axios.post(contextRoot + 'reservation/regist.proc', formdata,{
+								  headers: {
+									'Content-Type': 'multipart/form-data'
+								  }
+								}).then((response) => {
+								if (response.data.resultCd == '00') {
+							      	alert('정상처리 되었습니다.');
+							    } else {
+									alert(response.data.resultMsg);
+								} 
+								
+							});	
+						}
+						acceessableCount = acceessableCount + 1;
+			        } else {
+						alert('항목을 올바르게 입력해주세요.');
+					}
+			      });
+			    },	
     }
 }); 
 
@@ -120,6 +126,8 @@ function reservation(scheduleId, scheduleStart, playName, reservationCnt){
 				vm.scheduleList.slice().sort(function(a, b) {
 	    			return b.scheduleStart - a.scheduleStart;
 	            });
+				vm.voucherTimeLeft = data.scheduleList[0].timeLeftHour;
+				
 			} else {
 				alert('해당 날짜에 예약 가능한 스케쥴이 없습니다.');
 				return false;	
