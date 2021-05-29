@@ -1,5 +1,7 @@
 package kr.co.crevill.storeProgram;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.json.simple.JSONObject;
@@ -28,7 +30,18 @@ public class StoreProgramController {
 	@GetMapping("list.view")
 	public ModelAndView list(HttpServletRequest request, @ModelAttribute StoreProgramDto storeProgramDto) {
 		ModelAndView mav = new ModelAndView("storeProgram/list");
-		mav.addObject("list", storeProgramService.selectStoreProgramList(storeProgramDto));
+		List<StoreProgramVo> list = storeProgramService.selectStoreProgramList(storeProgramDto);
+		mav.addObject("playName", list.get(0).getChainClassName());
+		mav.addObject("list", list);
+		return mav;
+	}
+	
+	@GetMapping("info.view")
+	public ModelAndView info(HttpServletRequest request, @ModelAttribute StoreProgramDto storeProgramDto) {
+		ModelAndView mav = new ModelAndView("storeProgram/info");
+		StoreProgramVo info = storeProgramService.selectStoreProgramInfo(storeProgramDto);
+		mav.addObject("info", info);
+		mav.addObject("playName", info.getChainClassName());
 		return mav;
 	}
 	

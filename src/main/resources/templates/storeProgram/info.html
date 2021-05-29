@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/defaultStoreProgram}">
+	  
+<th:block layout:fragment="content">
+	<div id="appCapsule">
+         <div class="blog-post">
+            <div class="mb-2">
+                <img th:src="@{/common/getImage(imageIdx=${info.pictureId})}" class="imaged square w-100" alt="프로그램 이미지">
+            </div>
+            <h1 class="title" th:text="${info.programName}"></h1>
+            <div class="post-header" th:text="|등록일 ${info.regDate}|"></div>
+            <div class="post-body">
+                <p th:text="${info.programContents}">
+                </p>
+                <img th:src="@{/common/getImage(imageIdx=${info.teachingPlanImgId})}" class="image" alt="프로그램 교안이미지">
+            </div>
+        </div>
+
+
+        <div class="section mt-4">
+            <button type="button" class="btn btn-outline-primary btn-block" data-toggle="modal"
+                data-target="#actionSheetShare">
+                <ion-icon name="share-outline"></ion-icon>
+                공유
+            </button>
+        </div><br><br><br>
+    </div>
+    
+    <div class="modal fade action-sheet inset" id="actionSheetShare" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">소셜로 페이지 공유</h5>
+                </div>
+                <div class="modal-body">
+                    <ul class="action-button-list">
+                        <li>
+                            <a href="#" class="btn btn-list" data-dismiss="modal">
+                                <span>
+                                    <ion-icon name="logo-facebook"></ion-icon>
+                                    페이스북
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="btn btn-list" data-dismiss="modal">
+                                <span>
+                                    <ion-icon name="logo-twitter"></ion-icon>
+                                    트위터
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="btn btn-list" data-dismiss="modal">
+                                <span>
+                                    <ion-icon name="logo-instagram"></ion-icon>
+                                    인스타그램
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="btn btn-list" data-dismiss="modal">
+                                <span>
+                                    <ion-icon name="logo-"></ion-icon>
+                                    카카오톡
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>

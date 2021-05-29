@@ -18,18 +18,13 @@
 			   DATE_FORMAT(A.REG_DATE, '%Y/%m/%d') REG_DATE,
 			   A.START_DATE,
 			   A.END_DATE,
-			   GROUP_CONCAT(CASE WHEN B.NOTICE_SEND_TYPE = 'KAKAO' THEN '카카오톡' ELSE '공지리스트' END SEPARATOR ',') NOTICE_SEND_TYPE 
+			   GROUP_CONCAT(CASE WHEN B.NOTICE_SEND_TYPE = 'KAKAO' THEN '카카오톡' ELSE '공지리스트' END SEPARATOR ',') NOTICE_SEND_TYPE,
+			   A.BANNER_ID
 		  FROM NOTICE A, 
 		       NOTICE_SEND_TYPE B
 		 WHERE A.NOTICE_ID  = B.NOTICE_ID 
-      GROUP BY A.NOTICE_ID,
-			   A.TITLE,
-			   A.NOTICE_TYPE,
-			   A.CONTENTS,
-			   A.REG_ID,
-			   A.REG_DATE,
-			   A.START_DATE,
-			   A.END_DATE
+		   AND A.NOTICE_TYPE = 'ALL'
+      GROUP BY A.NOTICE_ID
 	</select>
 	
 	<insert id="insertNotice" parameterType="kr.co.crevill.branches.NoticeDto">

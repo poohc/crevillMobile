@@ -19,12 +19,15 @@
 			   DATE_FORMAT(UPD_DATE, '%Y-%m-%d') UPD_DATE
           FROM STORE_PROGRAM
         <where>
-           <if test="status != null">
+           <if test="chainClass != null and chainClass != ''">
+           AND CHAIN_CLASS = #{chainClass}	
+           </if>
+           <if test="status != null and status != ''">
            AND STATUS = #{status}	
            </if>
         </where>
 	  ORDER BY REG_DATE DESC         
-	     <if test="limit != null">
+	     <if test="limit != null and limit != ''">
 	     LIMIT #{limit}
 	     </if> 
     </select>
@@ -32,6 +35,7 @@
 	<select id="selectStoreProgramInfo" parameterType="kr.co.crevill.storeProgram.StoreProgramDto" resultType="kr.co.crevill.storeProgram.StoreProgramVo">
         SELECT PROGRAM_ID,
 			   CHAIN_CLASS,
+			   (SELECT NAME FROM PLAY P WHERE P.PLAY_ID = CHAIN_CLASS) CHAIN_CLASS_NAME,
 			   PROGRAM_NAME,
 			   PROGRAM_CONTENTS,
 			   THUMBNAIL_ID,

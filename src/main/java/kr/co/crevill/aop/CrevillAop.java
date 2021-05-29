@@ -67,7 +67,8 @@ public class CrevillAop {
 			
 			if(!StringUtils.equalsAny(requestUri, "/mobile/main.view", "/mobile/play/list.view", "/mobile/play/detail.view", 
 												  "/mobile/program/timeTable.view", "/mobile/program/timeTableDetail.view", 
-												  "/mobile/store/storeList.view", "/mobile/store/storeInfo.view", "/mobile/main/guide.view")) {
+												  "/mobile/store/storeList.view", "/mobile/store/storeInfo.view", "/mobile/main/guide.view",
+												  "/mobile/storeProgram/list.view", "/mobile/storeProgram/info.view")) {
 				logger.info("여기로 오면 안되는데?");
 				ModelAndView mav = new ModelAndView();
 				mav.setViewName("redirect:/login/login.view");

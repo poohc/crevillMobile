@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/defaultStoreProgram}">
+		  
+<th:block layout:fragment="content">
+	<div id="appCapsule">
+        <div class="listview-title mt-2" th:text="|${playName} 프로그램|"></div>  <!--play명 + 프로그램-->
+        <ul class="listview image-listview">
+            <li th:each="list : ${list}">
+                <a th:href="@{/storeProgram/info.view(programId=${list.programId})}" class="item">
+                    <img th:src="@{/common/getImage(imageIdx=${list.thumbnailId})}" class="image" alt="썸네일 이미지">
+                    <div class="in">
+                        <div th:text="${list.programName}"></div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</th:block>
+</html>

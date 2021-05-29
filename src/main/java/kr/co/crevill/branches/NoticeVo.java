@@ -16,4 +16,5 @@ public class NoticeVo {
 	private String updDate;
 	private String startDate;
 	private String endDate;
+	private String bannerId;
 }

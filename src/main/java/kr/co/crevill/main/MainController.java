@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.co.crevill.branches.BranchesService;
+import kr.co.crevill.branches.NoticeDto;
 import kr.co.crevill.common.CommonDto;
 import kr.co.crevill.common.CommonService;
 import kr.co.crevill.common.CommonVo;
@@ -59,6 +61,9 @@ public class MainController {
 	
 	@Autowired
 	private CommonService commonService;
+	
+	@Autowired
+	private BranchesService branchesService;
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -120,6 +125,8 @@ public class MainController {
 			mav.addObject("todayReservationList", todayReservationList);	
 			mav.addObject("todayReservationListCnt", todayReservationList.size());
 		}
+		NoticeDto noticeDto = new NoticeDto(); 
+		mav.addObject("noticeList", branchesService.selectNoticeList(noticeDto));
 		return mav;
 	}
 	

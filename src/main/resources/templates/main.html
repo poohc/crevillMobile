@@ -32,7 +32,7 @@
                     <div class="carousel-full owl-carousel owl-theme">
                    		<div class="item" th:each="list : ${programList}">
                             <div class="card">
-                                <a th:href="@{/play/list.view}">
+                                <a th:href="@{/storeProgram/list.view(chainClass=${list.chainClass})}" class="item">
                                 	<img th:src="@{/common/getImage(imageIdx=${list.thumbnailId})}" class="card-img overlay-img" alt="image" style="height: 160.61px;">
                                 </a>
                             </div>
@@ -177,11 +177,11 @@
 			
             <div class="section full mt-1">
                 <div class="carousel-full owl-carousel owl-theme">
-                    <th:block th:each="list : ${promotionList}">
+                    <th:block th:each="list : ${noticeList}">
                     <div class="item">
                         <div class="card">
                             <a th:href="@{/promotion/list.view}">
-                            	<img th:src="@{/common/getImage(imageIdx=${list.promotionBannerId})}" class="card-img card-img-top1" th:alt="|${list.promotionName} 배너이미지|">
+                            	<img th:src="@{/common/getImage(imageIdx=${list.bannerId})}" class="card-img card-img-top1" th:alt="|${list.title} 배너이미지|">
                             </a>
                         </div>
                     </div>
