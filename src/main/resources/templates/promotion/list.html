@@ -9,7 +9,7 @@
 			<th:block th:each="list : ${list}">	
 	        <div class="section mt-2">
 	            <div class="card">
-	                <img th:src="@{/common/getImage(imageIdx=${list.promotionBannerId})}" class="card-img-top" th:alt="|${list.promotionName} 배너이미지|">
+	                <img th:src="@{/common/getImage(imageIdx=${list.promotionDetailImageId})}" class="card-img-top" th:alt="|${list.promotionName} 배너이미지|">
 	                <div class="card-body">
 	                    <h6 class="card-subtitle">
 	                    	<span class="badge badge-success" th:text="|만료일 ${list.endDate}|"></span> | 

@@ -30,7 +30,8 @@ public class LoginController {
 	
 	@GetMapping("loginOut.view")
 	public ModelAndView loginOut(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView("/login/login");
+		ModelAndView mav = new ModelAndView("");
+		mav.setViewName("redirect:/main.view");
 		HttpSession session = request.getSession();
 		session.invalidate();
 		return mav;

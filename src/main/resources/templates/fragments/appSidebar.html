@@ -11,9 +11,19 @@
                             <img th:src="@{/assets/img/logo_circle.jpg}" alt="image" class="imaged rounded">
                         </div>
                         <div class="in">
+                        	<th:block th:if="${session.memberVo != null}">
                             <strong th:text="${session.memberVo?.name}"></strong>
+                            </th:block>
+                            <th:block th:unless="${session.memberVo != null}">
+                            <strong>비회원</strong>
+                            </th:block>
                             <div class="text-muted">
-                                <ion-icon name="location"></ion-icon>판교점
+                                <ion-icon name="location"></ion-icon>
+                                <th:block th:if="${session.memberVo != null}">
+                                <span th:text="${session.memberVo?.storeNameShort}"></span>
+                                </th:block>
+                                <th:block th:unless="${session.memberVo != null}">
+                                </th:block>
                             </div>
                         </div>
                         <a href="javascript:;" class="close-sidebar-button" data-dismiss="modal">

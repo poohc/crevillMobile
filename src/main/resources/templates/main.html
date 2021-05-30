@@ -41,7 +41,7 @@
                 </div>
             </div>
         </div>
-        <th:block th:if="${session.memberVo != null}">
+        <th:block th:if="${session.memberVo != null && voucherInfo != null}">
         <div class="carousel-full owl-carousel owl-theme">
             <div class="section mt-0">
             	<th:block th:each="reccomendList : ${reccomendList}">
@@ -133,17 +133,19 @@
             </div>
         </div>
         
-        <div class="section full mt-1">
+         <div class="section full mt-1">
             <div class="wide-block pt-2 pb-2">
                 <div class="row">
                     <div class="col-4">
                         <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
-                                100시간
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" style="font-size:10px">
+                                100시간권
                             </button>
                             <div class="dropdown-menu" style="padding-top:5px;">
-                                <a class="dropdown-item">20시간</a>
-                            </div>잔여시간
+                                <a class="dropdown-item">100시간권</a>
+                                <a class="dropdown-item">20시간권</a>
+                            </div>
+                            잔여시간
                             <div class="chip chip-outline chip-primary ml-05 mb-05" style="padding-left:0px;">
                                 <span class="chip-label">20/100</span>
                             </div>
