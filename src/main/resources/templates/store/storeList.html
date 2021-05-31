@@ -7,11 +7,8 @@
 	 <div id="appCapsule">
          <div class="section full">
             <div class="carousel-full owl-carousel owl-theme">
-                <div class="item" style="padding-top: 41px;">
-                    <img th:src="@{/assets/img/promo2.png}" alt="promotion" class="imaged w-100 square">
-                </div>
-                <div class="item" style="padding-top: 41px;">
-                    <img th:src="@{/assets/img/promo2.png}" alt="promotion" class="imaged w-100 square">
+                <div class="item" style="padding-top: 41px;" th:each="list : ${promotionList}">
+                    <img th:src="@{/common/getImage(imageIdx=${list.promotionBannerId})}" class="imaged w-100 square" alt="promotion">
                 </div>
             </div>
         </div>

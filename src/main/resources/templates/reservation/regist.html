@@ -97,12 +97,12 @@
             <div class="wide-block pt-2 pb-1">
                 <div class="section-title">예약 가능한 리스트</div>
                 <div class="row">
-                	<template v-for="item in scheduleList">
+                	<template v-for="(item, index) in scheduleList">
                     <div class="col-6">
                         <div class="exampleBox" style="height: 100px;">
                             <div class="custom-control custom-checkbox d-inline" style="padding-left: 0.0rem;">
-                                <input type="checkbox" class="custom-control-input" name="scheduleId" :value="item.scheduleId" v-validate="'required'">
-                                <label class="custom-control-label p-0" for="customCheck5"></label>
+                                <input type="checkbox" class="custom-control-input" :id="'scheduleId-' + index" name="scheduleId" :value="item.scheduleId" v-validate="'required'">
+                                <label class="custom-control-label p-0" :for="'scheduleId-' + index"></label>
                             </div>
                             <div>
                                 {{item.scheduleStart}} {{item.playName}}    

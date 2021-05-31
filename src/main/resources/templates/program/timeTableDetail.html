@@ -10,7 +10,7 @@
             <div class="wide-block pt-2 pb-2">
                 <div class="mb-1">
                 	<th:block th:if="${info.etcFile1Idx != null}">
-                	<img th:src="@{/common/getImage(imageIdx=${info.etcFile1Idx})}" class="imaged img-fluid" alt="스케쥴 이미지">
+                	<img th:src="@{/common/getImage(imageIdx=${info.etcFile2Idx})}" class="imaged img-fluid" alt="스케쥴 이미지">
                 	</th:block>
                 	<th:block th:unless="${info.etcFile1Idx != null}">
                 	등록된 매장시간표가 없습니다.

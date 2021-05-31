@@ -17,6 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.co.crevill.common.SessionUtil;
 import kr.co.crevill.play.PlayDto;
 import kr.co.crevill.play.PlayService;
+import kr.co.crevill.promotion.PromotionDto;
+import kr.co.crevill.promotion.PromotionService;
 import kr.co.crevill.staff.InstructorDto;
 import kr.co.crevill.staff.StaffService;
 
@@ -33,12 +35,18 @@ public class StoreController {
 	@Autowired
 	private PlayService playService;
 	
+	@Autowired
+	private PromotionService promotionService;
+	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@GetMapping("storeList.view")
 	public ModelAndView storeList(HttpServletRequest request, StoreDto storeDto) {
 		ModelAndView mav = new ModelAndView("store/storeList");
 		List<StoreVo> storeList = storeService.selectStoreList(storeDto);
+		PromotionDto promotionDto = new PromotionDto();
+		promotionDto.setStoreId(SessionUtil.getSessionMemberVo(request).getStoreId());
+		mav.addObject("promotionList", promotionService.getPromotionList(promotionDto));
 		mav.addObject("list", storeList);
 		return mav;
 	}
