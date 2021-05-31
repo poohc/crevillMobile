@@ -133,7 +133,9 @@
             </div>
         </div>
         </th:block>
+        
         <div class="section full mt-1">
+        	<th:block th:if="${session.memberVo != null && voucherInfo != null}">
             <div class="wide-block pt-2 pb-2">
                 <div class="row">
                     <div class="col-4">
@@ -175,7 +177,7 @@
                     </div>
                 </div>
             </div>
-			
+			</th:block>
             <div class="section full mt-1">
                 <div class="carousel-full owl-carousel owl-theme">
                     <th:block th:each="list : ${noticeList}">
