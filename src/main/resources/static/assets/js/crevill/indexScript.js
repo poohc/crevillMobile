@@ -101,9 +101,11 @@ $('#circle3').circleProgress({
 });
 
 $(document).ready(function(){
-//	$(".owl-carousel").owlCarousel({
-//		mouseDrag: true
-//	});
+	$(".owl-carousel").owlCarousel({
+		items:1,                 // 한번에 보여줄 아이템 수
+        loop:true,               // 반복여부
+        autoplayHoverPause:true  //마우스오버시 멈출지 여부
+	}); 
 });
 
 function reservation(scheduleId, scheduleStart, playName, reservationCnt){
