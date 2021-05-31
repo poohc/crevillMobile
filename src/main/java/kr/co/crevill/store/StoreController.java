@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.co.crevill.branches.BranchesService;
+import kr.co.crevill.branches.NoticeDto;
 import kr.co.crevill.common.SessionUtil;
 import kr.co.crevill.play.PlayDto;
 import kr.co.crevill.play.PlayService;
@@ -36,7 +38,7 @@ public class StoreController {
 	private PlayService playService;
 	
 	@Autowired
-	private PromotionService promotionService;
+	private BranchesService branchesService;
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -44,9 +46,8 @@ public class StoreController {
 	public ModelAndView storeList(HttpServletRequest request, StoreDto storeDto) {
 		ModelAndView mav = new ModelAndView("store/storeList");
 		List<StoreVo> storeList = storeService.selectStoreList(storeDto);
-		PromotionDto promotionDto = new PromotionDto();
-		promotionDto.setStoreId(SessionUtil.getSessionMemberVo(request).getStoreId());
-		mav.addObject("promotionList", promotionService.getPromotionList(promotionDto));
+		NoticeDto noticeDto = new NoticeDto(); 
+		mav.addObject("noticeList", branchesService.selectNoticeList(noticeDto));
 		mav.addObject("list", storeList);
 		return mav;
 	}
