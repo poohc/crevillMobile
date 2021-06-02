@@ -596,7 +596,7 @@ button:hover, button:active, button:focus {
 }
 
 #appCapsule.extra-header-active {
-  padding-top: 112px;
+  padding-top: 56px; /*default 112px*/
 }
 
 #appCapsule.full-height {
@@ -912,7 +912,7 @@ button:hover, button:active, button:focus {
 }
 
 .footer-logo {
-  height: 16px;
+  height: 13px;
 }
 
 .footer-link {
@@ -5165,7 +5165,7 @@ textarea,
 
 .carousel-multiple {
   width: calc(100% + 16px);
-  margin-left: -16px;
+  margin-left: 0px;
 }
 
 .carousel-single {

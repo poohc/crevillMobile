@@ -153,7 +153,14 @@ public class ReservationService {
 							ReservationVo rVo = reservationMapper.selectReservationPlayInfo(nReservationDto);
 							EntranceDto entranceDto = new EntranceDto(); 
 							entranceDto.setVoucherNo(nReservationDto.getVoucherNo());
-			         	    entranceDto.setUseTime(rVo.getPlayTime());
+			         	    
+							//모바일 회원의 1회권 사용일 경우, 1회권 바우처 모든 시간(2시간, 상수값으로 정의) 다 소진
+							if(CrevillConstants.STORE_ID_MOBILE.equals(SessionUtil.getSessionMemberVo(request).getStoreId()) &&
+									"Y".equals(reservationDto.getExperienceClass())) {
+								entranceDto.setUseTime(CrevillConstants.SHORT_VOUCHER_USE_TIME);
+							} else {
+								entranceDto.setUseTime(rVo.getPlayTime());
+							}
 			         	    entranceDto.setStatus(CrevillConstants.VOUCHER_STATUS_USED);
 			         	    entranceDto.setScheduleId(nReservationDto.getScheduleId());
 			         	    entranceDto.setRegId(reservationDto.getRegId());

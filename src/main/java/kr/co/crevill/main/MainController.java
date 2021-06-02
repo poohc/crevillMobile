@@ -18,6 +18,7 @@ import kr.co.crevill.branches.NoticeDto;
 import kr.co.crevill.common.CommonDto;
 import kr.co.crevill.common.CommonService;
 import kr.co.crevill.common.CommonVo;
+import kr.co.crevill.common.CrevillConstants;
 import kr.co.crevill.common.SessionUtil;
 import kr.co.crevill.member.MemberDto;
 import kr.co.crevill.member.MemberService;
@@ -92,8 +93,11 @@ public class MainController {
 		for(ReservationVo v : reccomendList) {
 			logger.info("중복제거된 추천 예약 리스트 : " + v.getScheduleId());
 		}
+		//모바일회원이 아닐경우에만 추천 예약 리스트 노출
+		if(!CrevillConstants.STORE_ID_MOBILE.equals(SessionUtil.getSessionMemberVo(request).getStoreId())) {
+			mav.addObject("reccomendList", reccomendList);	
+		}
 		
-		mav.addObject("reccomendList", reccomendList);
 		MemberDto memberDto = new MemberDto();
 		memberDto.setParentCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
 		memberDto.setQrCode(SessionUtil.getSessionMemberVo(request).getQrCode());

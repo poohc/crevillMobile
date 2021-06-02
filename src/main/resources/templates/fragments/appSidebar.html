@@ -54,7 +54,7 @@
                             </a>
                         </li>
                         <th:block th:if="${session.memberVo != null}">
-	                        <th:block th:if="${voucherInfo != null}">
+	                        <th:block th:if="${voucherInfo != null && session.memberVo.storeId != 'MOBILE'}">
 	                        <li>
 	                            <a th:href="@{/reservation/regist.view}" class="item">
 	                                <div class="icon-box bg-primary">
@@ -66,7 +66,7 @@
 	                            </a>
 	                        </li>
 	                        </th:block>
-	                        <th:block th:unless="${voucherInfo != null}">
+	                        <th:block th:unless="${voucherInfo != null && session.memberVo.storeId != 'MOBILE'}">
 	                        <li>
 	                            <a th:href="@{/reservation/free.view}" class="item">
 	                                <div class="icon-box bg-primary">
@@ -74,6 +74,17 @@
 	                                </div>
 	                                <div class="in">
 	                                    <div>체험수업신청</div>
+	                                    <span class="badge badge-danger"></span>
+	                                </div>
+	                            </a>
+	                        </li>
+	                        <li>
+	                            <a th:href="@{/reservation/shortRegist.view}" class="item">
+	                                <div class="icon-box bg-primary">
+	                                    <ion-icon name="rocket-outline"></ion-icon>
+	                                </div>
+	                                <div class="in">
+	                                    <div>1회예약</div>
 	                                    <span class="badge badge-danger"></span>
 	                                </div>
 	                            </a>

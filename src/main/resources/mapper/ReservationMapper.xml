@@ -51,7 +51,7 @@
 			   (SELECT S.STORE_NAME FROM STORE S WHERE S.STORE_ID = B.STORE_ID) STORE_NAME,
 			   (SELECT SUBSTRING_INDEX(S.STORE_NAME, ' ', - 1) FROM STORE S WHERE S.STORE_ID = B.STORE_ID) STORE_NAME_SHORT,
 			   (SELECT P.NAME FROM PLAY P WHERE P.PLAY_ID = B.PLAY_ID) PLAY_NAME, 
-			   B.SUB_TOPIC,
+			   IFNULL(B.SUB_TOPIC,''),
 			   CASE WHEN DATE_FORMAT(B.SCHEDULE_START, '%Y/%m/%d') = DATE_FORMAT(NOW(), '%Y/%m/%d') THEN 'TODAY'
 			        ELSE 'NOT_TODAY' END AS IS_TODAY,
 			   CASE WHEN DATE_FORMAT(B.SCHEDULE_START, '%Y/%m/%d') > DATE_FORMAT(NOW(), '%Y/%m/%d') THEN 'CANCEL_POSSIBLE'
@@ -60,6 +60,10 @@
                SCHEDULE B,
                VOUCHER_USE C
          WHERE A.CELL_PHONE = #{cellPhone}
+           AND A.STATUS = '02'
+           <![CDATA[
+           AND B.SCHEDULE_END > NOW()
+           ]]>
            AND A.SCHEDULE_ID = B.SCHEDULE_ID
            AND B.SCHEDULE_ID = C.SCHEDULE_ID
            AND A.VOUCHER_NO = C.VOUCHER_NO
@@ -289,9 +293,12 @@
 		   ]]>
 		   AND A.OPERATION_TYPE = #{operationType}
 		   AND A.PLAY_ID = B.PLAY_ID
-		   <if test="playName != null">
+		   <if test="playName != null and playName != ''">
 		   AND B.NAME = #{playName}
-		   </if> 
+		   </if>
+		   <if test="experienceClass != null and experienceClass == 'Y'.toString()">
+		   AND DATE_FORMAT(A.SCHEDULE_START, '%H') % 2 = 0
+		   </if>
 		GROUP BY A.SCHEDULE_ID
 	</select>
 	
@@ -303,6 +310,9 @@
 		       PLAY B
 		 WHERE DATE_FORMAT(A.SCHEDULE_START, '%Y-%m-%d') = #{scheduleStart}
 		   AND A.PLAY_ID = B.PLAY_ID
+		   <if test="experienceClass != null and experienceClass == 'Y'.toString()">
+		   AND DATE_FORMAT(A.SCHEDULE_START, '%H') % 2 = 0
+		   </if>
       GROUP BY A.SCHEDULE_ID		   
 	</select>
 	
