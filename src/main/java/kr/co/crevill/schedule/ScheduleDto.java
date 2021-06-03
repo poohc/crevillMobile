@@ -23,4 +23,5 @@ public class ScheduleDto {
 	private String classType;
 	private String cellPhone;
 	private String experienceClass;
+	private int limit;
 }

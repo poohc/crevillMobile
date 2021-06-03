@@ -1096,6 +1096,10 @@ button:hover, button:active, button:focus {
   margin-top: 40px !important;
 }
 
+.mt-6{
+    margin-top: 56px !important;
+}
+
 .mb-0 {
   margin-bottom: 0px !important;
 }
@@ -1122,6 +1126,10 @@ button:hover, button:active, button:focus {
 
 .mb-5 {
   margin-bottom: 40px !important;
+}
+
+.mb-6{
+
 }
 
 .ml-0 {
@@ -1800,6 +1808,10 @@ a.badge-dark {
 .listview .text-muted {
   font-size: 13px;
   color: #A1A1A2 !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
 }
 
 .listview > li {
@@ -1917,7 +1929,7 @@ a.badge-dark {
 }
 
 .image-listview > li .item {
-  padding: 10px 16px;
+  padding: 16px 16px;
   width: 100%;
   min-height: 50px;
   display: flex;
@@ -1957,6 +1969,7 @@ a.badge-dark {
   justify-content: space-between;
   width: 100%;
 }
+
 
 .image-listview > li a.item {
   color: #141515 !important;
@@ -8213,4 +8226,12 @@ body.dark-mode-active .story-blocks .seen img {
 
 body.dark-mode-active .story-blocks .passive img {
   box-shadow: 0 0 0 4px #0F1C2F, 0 0 0 5px rgba(88, 109, 127, 0.5);
+}
+
+.n_res .owl-dots{
+    display: none;
+}
+/* reservation/regist */
+.n_select01{
+    border: 1px solid #ccc;
 }

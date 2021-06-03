@@ -108,6 +108,7 @@ public class MainController {
 		mav.addObject("cellPhone", SessionUtil.getSessionMemberVo(request).getCellPhone());
 		ScheduleDto scheduleDto = new ScheduleDto();
 		scheduleDto.setCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
+		scheduleDto.setLimit(4);
 		mav.addObject("reservationList", reservationService.selectReservationList(scheduleDto));
 		mav.addObject("voucherList", voucherService.getMemberVoucherAllList(voucherDto));
 		storeDto.setLocation("SEOUL");

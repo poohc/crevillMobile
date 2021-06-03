@@ -134,10 +134,18 @@
                         <ion-icon name="phone-portrait-outline"></ion-icon>
                         <h5>고객센터</h5>
                     </a>
+                    <th:block th:if="${session.memberVo != null}">
                     <a th:href="@{/login/loginOut.view}" class="button">
                         <ion-icon name="log-out-outline"></ion-icon>
                         <h5>로그아웃</h5>
                     </a>
+                    </th:block>
+                    <th:block th:unless="${session.memberVo != null}">
+                    <a th:href="@{/login/login.view}" class="button">
+                        <ion-icon name="log-out-outline"></ion-icon>
+                        <h5>로그인</h5>
+                    </a>
+                    </th:block>
                 </div>
                 <!-- * sidebar buttons -->
             </div>

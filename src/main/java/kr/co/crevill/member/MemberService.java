@@ -197,14 +197,14 @@ public class MemberService {
 		if(memberMapper.insertMemberParent(memberDto) > 0) {
 			//자녀정보 INSERT 성공 시 resultCd = SUCC
 			
-			if(memberDto.getPicture() != null && !memberDto.getPicture().isEmpty()) {
-				FileVo fileVo = commonMapper.selectImagesIdx();
-				memberDto.setPictureIdx(fileVo.getImageIdx());
-				FileDto fileDto = CommonUtil.setBlobByMultiPartFile(memberDto.getPicture());
-				fileDto.setImageIdx(fileVo.getImageIdx());
-				fileDto.setDescription("아이사진");
-				commonMapper.insertImages(fileDto);
-			}
+//			if(memberDto.getPicture() != null && !memberDto.getPicture().isEmpty()) {
+//				FileVo fileVo = commonMapper.selectImagesIdx();
+//				memberDto.setPictureIdx(fileVo.getImageIdx());
+//				FileDto fileDto = CommonUtil.setBlobByMultiPartFile(memberDto.getPicture());
+//				fileDto.setImageIdx(fileVo.getImageIdx());
+//				fileDto.setDescription("아이사진");
+//				commonMapper.insertImages(fileDto);
+//			}
 			
 			if(memberMapper.insertMemberChildren(memberDto) > 0) {
 				//자녀 영어수준 INSERT 추가
@@ -249,14 +249,14 @@ public class MemberService {
 		memberDto.setUpdId(SessionUtil.getSessionMemberVo(request).getQrCode());
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
 		
-		if(memberDto.getPicture() != null && !memberDto.getPicture().isEmpty()) {
-			FileVo fileVo = commonMapper.selectImagesIdx();
-			memberDto.setPictureIdx(fileVo.getImageIdx());
-			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(memberDto.getPicture());
-			fileDto.setImageIdx(fileVo.getImageIdx());
-			fileDto.setDescription("아이사진");
-			commonMapper.insertImages(fileDto);
-		}
+//		if(memberDto.getPicture() != null && !memberDto.getPicture().isEmpty()) {
+//			FileVo fileVo = commonMapper.selectImagesIdx();
+//			memberDto.setPictureIdx(fileVo.getImageIdx());
+//			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(memberDto.getPicture());
+//			fileDto.setImageIdx(fileVo.getImageIdx());
+//			fileDto.setDescription("아이사진");
+//			commonMapper.insertImages(fileDto);
+//		}
 		
 		if(memberMapper.updateMemberChild(memberDto) > 0) {
 			
@@ -290,14 +290,14 @@ public class MemberService {
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
 		memberDto.setRegId(CrevillConstants.REG_ID_MOBILE);
 		memberDto.setStoreId(CrevillConstants.STORE_ID_MOBILE);
-		if(memberDto.getPicture() != null && !memberDto.getPicture().isEmpty()) {
-			FileVo fileVo = commonMapper.selectImagesIdx();
-			memberDto.setPictureIdx(fileVo.getImageIdx());
-			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(memberDto.getPicture());
-			fileDto.setImageIdx(fileVo.getImageIdx());
-			fileDto.setDescription("아이사진");
-			commonMapper.insertImages(fileDto);
-		}
+//		if(memberDto.getPicture() != null && !memberDto.getPicture().isEmpty()) {
+//			FileVo fileVo = commonMapper.selectImagesIdx();
+//			memberDto.setPictureIdx(fileVo.getImageIdx());
+//			FileDto fileDto = CommonUtil.setBlobByMultiPartFile(memberDto.getPicture());
+//			fileDto.setImageIdx(fileVo.getImageIdx());
+//			fileDto.setDescription("아이사진");
+//			commonMapper.insertImages(fileDto);
+//		}
 		
 		if(memberMapper.insertMemberChildren(memberDto) > 0) {
 			//자녀 영어수준 INSERT 추가

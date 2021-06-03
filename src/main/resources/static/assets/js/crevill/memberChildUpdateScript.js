@@ -48,9 +48,9 @@ new Vue({
 				formdata.append("sex", $('#sex').val());
 				formdata.append("learningGrade", learningGrade);
 				
-				if($("#camera")[0].files[0] != undefined){
-					formdata.append("picture", $("#camera")[0].files[0]);	
-				}
+//				if($("#camera")[0].files[0] != undefined){
+//					formdata.append("picture", $("#camera")[0].files[0]);	
+//				}
 				
 				axios.post(contextRoot + 'member/childUpdate.proc', formdata,{
 					  headers: {

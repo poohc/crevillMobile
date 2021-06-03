@@ -201,8 +201,10 @@ $('.carousel-full').owlCarousel({
     margin: 0,
     nav: false,
     items: 1,
-    dots: false,
+    //dots: false,
+    dots: true,
 });
+
 $('.carousel-single').owlCarousel({
     stagePadding: 30,
     loop: true,

@@ -69,6 +69,9 @@
            AND A.VOUCHER_NO = C.VOUCHER_NO
       GROUP BY A.RESERVATION_ID
       ORDER BY A.REG_DATE DESC
+      <if test="limit != null and limit != ''">
+      LIMIT #{limit}
+      </if>
     </select>
 	
 	<select id="selectReservationSearchList" parameterType="kr.co.crevill.schedule.ScheduleDto" resultType="kr.co.crevill.reservation.ReservationVo">
@@ -288,6 +291,7 @@
 		  FROM SCHEDULE A,
 		       PLAY B
 		 WHERE A.SCHEDULE_START > NOW()
+		   AND A.STORE_ID = #{storeId}
 		   <![CDATA[        
 		   AND (SELECT COUNT(*) FROM RESERVATION R WHERE R.SCHEDULE_ID = A.SCHEDULE_ID AND R.TUTORING_YN = #{tutoringYn}) < A.NUMBER_OF_PEOPLE
 		   ]]>
@@ -305,11 +309,13 @@
 	<select id="selectSearchDayReservation" parameterType="kr.co.crevill.reservation.ReservationDto" resultType="kr.co.crevill.reservation.ReservationVo">
 		SELECT A.SCHEDULE_ID,
 		       DATE_FORMAT(A.SCHEDULE_START, '%H:%i') SCHEDULE_START,
-		       B.NAME PLAY_NAME
+		       B.NAME PLAY_NAME,
+		       (SELECT SUBSTRING_INDEX(S.STORE_NAME, ' ', - 1) FROM STORE S WHERE S.STORE_ID = A.STORE_ID) STORE_NAME_SHORT
 		  FROM SCHEDULE A,
 		       PLAY B
 		 WHERE DATE_FORMAT(A.SCHEDULE_START, '%Y-%m-%d') = #{scheduleStart}
 		   AND A.PLAY_ID = B.PLAY_ID
+		   AND A.STORE_ID = #{storeId}
 		   <if test="experienceClass != null and experienceClass == 'Y'.toString()">
 		   AND DATE_FORMAT(A.SCHEDULE_START, '%H') % 2 = 0
 		   </if>

@@ -35,18 +35,18 @@
                 <div class="card-img-overlay">
                     <th:block th:if="${session.memberVo != null}">
                         <h5 class="card-title" th:text="|${session.memberVo?.name}님|"></h5>
-                        <p class="card-text"><span class="badge badge-danger"
-                                th:text="|${session.memberVo?.storeNameShort}|"></span> 회원</p>
-                        <th:block th:if="${visitSummary != null}">
-                            <p class="card-text"><small th:text="|최근방문 : ${visitSummary.visitDate}|"></small></p>
-                        </th:block>
+                        <p class="card-text">
+                        	<span class="badge badge-danger" th:text="|${session.memberVo?.memberType}|"></span> 회원</p>
+                        	<th:block th:if="${visitSummary != null}">
+                           		<p class="card-text"><small th:text="|최근방문 : ${visitSummary.visitDate}|"></small></p>
+                        	</th:block>
                         <th:block th:unless="${visitSummary != null}">
                             <p class="card-text"><small>방문이력 없음</small></p>
                         </th:block>
                     </th:block>
                     <th:block th:unless="${session.memberVo != null}">
                         <a th:href="@{/login/login.view}" class="btn btn-primary square mr-1">로그인</a><br><br>
-                        <p class="card-text"><small>안녕하세요. 크레빌영어 마을입니다.</small></p>
+                        <p class="card-text"><small>안녕하세요. 크레빌 영어 마을입니다.</small></p>
                     </th:block>
                 </div>
             </div>
@@ -75,6 +75,7 @@
             </div>
             <div class="section full mt-1">
                 <div class="section-title">신규프로그램</div>
+                
                 <div class="carousel-full owl-carousel owl-theme">
                     <div class="item" th:each="list : ${programList}">
                         <div class="card">
@@ -85,6 +86,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
 
             <div class="modal fade action-sheet" id="actionSheetForm" tabindex="-1" role="dialog">
@@ -147,7 +149,7 @@
                 </form>
             </div>
 
-            <div class="section mt-2">
+            <div class="n_res section mt-2">
                 <div class="section-title">예약알림</div>
                 <div class="carousel-multiple owl-carousel owl-theme">
                     <th:block th:each="list : ${reservationList}">
@@ -168,7 +170,7 @@
         </th:block>
 
         <div class="section full mt-1">
-            <th:block th:if="${session.memberVo != null && voucherInfo != null}">
+            <th:block th:if="${session.memberVo != null && voucherInfo != null && session.memberVo.storeId != 'MOBILE'}">
                 <div class="wide-block pt-2 pb-2">
                     <div class="row">
                         <div class="col-4">
@@ -341,7 +343,6 @@
                 </div>
             </div>
         </div>
-        <th:block th:if="${voucherInfo != null && session.memberVo.storeId != 'MOBILE'}">
         <div class="section full mt-2 mb-3">
             <div class="section-title">크레빌 프로모션</div>
             <div class="carousel-full owl-carousel owl-theme">
@@ -353,7 +354,6 @@
                 </div>
             </div>
         </div>
-		</th:block>
         <div class="section full mt-1">
             <div class="wide-block pt-2">
                 <div class="row" style="text-align: center;">

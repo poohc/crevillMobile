@@ -1,78 +1,99 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/defaultReservation(scriptName='/assets/js/crevill/reservationShortScript.js')}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/defaultReservation(scriptName='/assets/js/crevill/reservationShortScript.js')}">
 
 <th:block layout:fragment="content">
-	<div id="appCapsule" class="extra-header-active">
-		<form class="form theme-form" id="reservationForm" @submit.prevent="validateBeforeSubmit" th:action="@{/reservation/regist.proc}" method="post">
-        <div class="section full mb-3">
-            <input type="hidden" id="cellPhone" name="cellPhone" th:value="${cellPhone}">
-            <div class="section-title">예약자 정보 선택</div>
-            <div class="wide-block pt-2 pb-2">
-                <div class="custom-control custom-radio d-inline" th:each="list, i : ${voucherList}">
-                    <input type="radio" th:id="'voucherNo' + ${i.index}" name="voucherNo" class="custom-control-input" th:value="${list.voucherNo}" v-validate="'required'">
-                    <label class="custom-control-label p-0" th:for="'voucherNo' + ${i.index}" th:text="${list.ticketName}"></label>
-                    <label class="col-form-label-sm" for="voucherNo" v-if="errors.has('voucherNo')">{{ errors.first('voucherNo') }}</label>
+    <div id="appCapsule" class="extra-header-active">
+        <form class="form theme-form" id="reservationForm" @submit.prevent="validateBeforeSubmit"
+            th:action="@{/reservation/regist.proc}" method="post">
+            <div class="section full mb-3">
+                <input type="hidden" id="cellPhone" name="cellPhone" th:value="${cellPhone}">
+                <div class="section-title">예약자 정보 선택</div>
+                <div class="wide-block pt-2 pb-2">
+                    <div class="custom-control custom-radio d-inline" th:each="list, i : ${voucherList}">
+                        <input type="radio" th:id="'voucherNo' + ${i.index}" name="voucherNo"
+                            class="custom-control-input" th:value="${list.voucherNo}" v-validate="'required'">
+                        <label class="custom-control-label p-0" th:for="'voucherNo' + ${i.index}"
+                            th:text="${list.ticketName}"></label>
+                        <label class="col-form-label-sm" for="voucherNo"
+                            v-if="errors.has('voucherNo')">{{ errors.first('voucherNo') }}</label>
+                    </div>
                 </div>
-            </div>
-            <div class="wide-block pt-2 pb-2">
-            	<th:block th:each="list, i : ${childList}">
-                <div class="custom-control custom-checkbox d-inline">
-                    <input type="checkbox" class="custom-control-input" th:id="'childName' + ${i.index}" name="childName" th:value="${list.childName}" v-validate="'required'">
-                    <label class="custom-control-label p-0" th:for="'childName' + ${i.index}"></label>
-                    <label class="col-form-label-sm" for="childName" v-if="errors.has('childName')">{{ errors.first('childName') }}</label>
-                </div>
-                <span th:text="${list.childName}"></span>
-                </th:block>
-            </div>
-            
-            <div class="wide-block pt-2 pb-1">
-                <p>
-                	<span class="badge badge-primary">잔여 {{voucherTimeLeftHour}}시간</span> | 
-                	<span class="badge badge-primary">{{voucherEndDate}} 만료</span> | 
-                	<span class="badge badge-info">{{reservationCnt}}명</span> | 
-                	<span class="badge badge-info">{{classType}}</span>
-                </p>
-            </div>
-
-            <div class="wide-block pt-2 pb-1">
-                <ul class="listview image-listview no-line no-space flush">
-	                <li>
-	                    <div class="item" id="cal">
-	                        <div class="icon-box bg-primary">
-	                            <a href="" data-toggle="modal" data-target="#ModalForm">
-	                                <ion-icon name="calendar-outline"></ion-icon>
-	                            </a>
-	                        </div>
-	                        <div class="in">
-	                            <div class="form-group basic">
-	                                <div class="input-wrapper">
-	                                    <input type="text" class="form-control" id="scheduleStart" name="scheduleStart" placeholder="예약가능일 조회" v-validate="'required'">
-	                                    <i class="clear-input">
-	                                        <ion-icon name="close-circle"></ion-icon>
-	                                    </i>
-	                                </div>
-	                            </div>
-	                        </div>
-	                    </div>
-	                </li>
-	            </ul>
-            </div>
-            <!--달력 팝업-->
-            <div class="modal fade modalbox" id="ModalForm" data-backdrop="static" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">예약가능일 조회</h5>
-                            <a href="javascript:;" data-dismiss="modal">닫기</a>
+                <div class="wide-block pt-2 pb-2">
+                    <th:block th:each="list, i : ${childList}">
+                        <div class="custom-control custom-checkbox d-inline">
+                            <input type="checkbox" class="custom-control-input" th:id="'childName' + ${i.index}"
+                                name="childName" th:value="${list.childName}" v-validate="'required'">
+                            <label class="custom-control-label p-0" th:for="'childName' + ${i.index}"></label>
+                            <label class="col-form-label-sm" for="childName"
+                                v-if="errors.has('childName')">{{ errors.first('childName') }}</label>
                         </div>
-                        <div class="modal-body">
-                            <div class="login-form">
-                                <div class="section full mb-3">
-                                    <div class="page">
-                                        <div class="page-content">
-                                            <div id="calendar"></div>
+                        <span th:text="${list.childName}"></span>
+                    </th:block>
+                </div>
+                <!--추가부분 바우처없는 회원의 매장선택 용이하도록 추가-->
+                <!--Store정보에서 time checkbox 선택매장만 검색-->
+                <div class="wide-block pt-2 pb-2">
+                    <div class="form-group basic">
+                        <div class="input-wrapper">
+                            <label class="label" for="storeId" style="font:13px">센터선택</label>
+                            <select class="form-control custom-select" id="storeId" name="storeId">
+                                <option th:each="list : ${storeList}" th:value="${list.storeId}" th:text="${list.storeNameShort}"></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wide-block pt-2 pb-1">
+                    <p>
+                        <span class="badge badge-success">{{storeId}}</span> |
+                        <span class="badge badge-primary">잔여 {{voucherTimeLeftHour}}시간</span> |
+                        <span class="badge badge-danger">{{voucherEndDate}} 만료</span> |
+                        <span class="badge badge-info">{{reservationCnt}}명</span> |
+                        <span class="badge badge-secondary">{{classType}}</span>
+                    </p>
+                </div>
+
+
+                <div class="wide-block pt-2 pb-1">
+                    <ul class="listview image-listview no-line no-space flush">
+                        <li>
+                            <div class="item" id="cal">
+                                <div class="icon-box bg-primary">
+                                    <a href="" data-toggle="modal" data-target="#ModalForm">
+                                        <ion-icon name="calendar-outline"></ion-icon>
+                                    </a>
+                                </div>
+                                <div class="in">
+                                    <div class="form-group basic">
+                                        <div class="input-wrapper">
+                                            <input type="text" class="form-control" id="scheduleStart"
+                                                name="scheduleStart" placeholder="예약가능일 조회" v-validate="'required'">
+                                            <i class="clear-input">
+                                                <ion-icon name="close-circle"></ion-icon>
+                                            </i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!--달력 팝업-->
+                <div class="modal fade modalbox" id="ModalForm" data-backdrop="static" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">예약가능일 조회</h5>
+                                <a href="javascript:;" data-dismiss="modal">닫기</a>
+                            </div>
+                            <div class="modal-body">
+                                <div class="login-form">
+                                    <div class="section full mb-3">
+                                        <div class="page">
+                                            <div class="page-content">
+                                                <div id="calendar"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -80,33 +101,34 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="wide-block pt-2 pb-1">
-                <div class="section-title">예약 가능한 리스트</div>
-                <div class="row">
-                	<template v-for="(item, index) in scheduleList">
-                    <div class="col-6">
-                        <div class="exampleBox" style="height: 100px;">
-                            <div class="custom-control custom-checkbox d-inline" style="padding-left: 0.0rem;">
-                                <input type="checkbox" class="custom-control-input" :id="'scheduleId-' + index" name="scheduleId" :value="item.scheduleId" v-validate="'required'">
-                                <label class="custom-control-label p-0" :for="'scheduleId-' + index"></label>
+                <div class="wide-block pt-2 pb-1">
+                    <div class="section-title">예약 가능한 리스트</div>
+                    <div class="row">
+                        <template v-for="(item, index) in scheduleList">
+                            <div class="col-6">
+                                <div class="exampleBox" style="height: 100px;">
+                                    <div class="custom-control custom-checkbox d-inline" style="padding-left: 0.0rem;">
+                                        <input type="checkbox" class="custom-control-input" :id="'scheduleId-' + index"
+                                            name="scheduleId" :value="item.scheduleId" v-validate="'required'">
+                                        <label class="custom-control-label p-0" :for="'scheduleId-' + index"></label>
+                                    </div>
+                                    <div>
+                                        {{item.scheduleStart}} {{item.playName}}<br/>
+                                        {{item.storeNameShort}}
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                {{item.scheduleStart}} {{item.playName}}    
-                            </div>
-                        </div>
+                        </template>
                     </div>
-                    </template>
                 </div>
             </div>
-        </div>
-        <div class="fixed-footer">
-	        <div class="row">
-	            <div class="col-12">
-	                <button id="registBtn" class="btn btn-primary btn-lg btn-block" type="submit">등록완료</button>
-	            </div>
-	        </div>
-        </div>
+            <div class="fixed-footer">
+                <div class="row">
+                    <div class="col-12">
+                        <button id="registBtn" class="btn btn-primary btn-lg btn-block" type="submit">등록완료</button>
+                    </div>
+                </div>
+            </div>
         </form>
     </div>
     <div class="modal fade dialogbox" id="DialogReserveSuccess" data-backdrop="static" tabindex="-1" role="dialog">
@@ -133,4 +155,5 @@
         </div>
     </div>
 </th:block>
+
 </html>

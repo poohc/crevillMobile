@@ -19,21 +19,19 @@
         </div>
         <div class="pageTitle" th:text="${storeName}"></div>
         <div class="right">
-            <a href="#" class="headerButton" data-toggle="modal" data-target="#saveStore">
-                <ion-icon name="star-outline"></ion-icon>
-            </a>
+
         </div>
     </div>
 	<div id="appCapsule">
         <th:block th:each="list : ${list}">
         <div class="carousel-full owl-carousel owl-theme">
-            <div class="item" style="padding-top: 15px;">
+            <div class="item" style="padding-top: 0px;">
                 <img th:src="@{/common/getImage(imageIdx=${list.image1Idx})}" alt="매장이미지1" class="imaged w-100 square">
             </div>
-            <div class="item" style="padding-top: 15px;">
+            <div class="item" style="padding-top: 0px;">
                 <img th:src="@{/common/getImage(imageIdx=${list.image2Idx})}" alt="매장이미지2" class="imaged w-100 square">
             </div>
-            <div class="item" style="padding-top: 15px;">
+            <div class="item" style="padding-top: 0px;">
                 <img th:src="@{/common/getImage(imageIdx=${list.image3Idx})}" alt="매장이미지3" class="imaged w-100 square">
             </div>
         </div>

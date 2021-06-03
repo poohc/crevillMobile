@@ -7,7 +7,7 @@
 	 <div id="appCapsule">
          <div class="section full">
             <div class="carousel-full owl-carousel owl-theme">
-                <div class="item" style="padding-top: 41px;" th:each="list : ${noticeList}">
+                <div class="item" style="padding-top: 0px;" th:each="list : ${noticeList}">
                     <img th:src="@{/common/getImage(imageIdx=${list.bannerId})}" class="imaged w-100 square" alt="promotion">
                 </div>
             </div>
@@ -37,14 +37,14 @@
                             <span th:text="${list.storeNameShort}"></span>
                             <span class="badge badge-light" style="font-size:10px; min-height: 18px;" th:text="${list.telNo}"></span>
                             <div class="text-muted">
-                            	<th:block th:each="class, i : ${#strings.arraySplit(list.playName, ',')}">
+                            	<!--<th:block th:each="class, i : ${#strings.arraySplit(list.playName, ',')}">
                             		<th:block th:if="${i.count == i.size}">
                             			<span class="badge badge-primary" style="font-size:10px; min-height: 18px;" th:text="|${class}| "></span>
                             		</th:block>
                             		<th:block th:unless="${i.count == i.size}">
                             			<span class="badge badge-primary" style="font-size:10px; min-height: 18px;" th:text="|${class}| "></span> |
                             		</th:block>
-                            	</th:block>
+                            	</th:block>-->
                             </div>
                             <div class="text-muted" style="text-decoration-line: underline;" th:text="${list.address}"></div>
                         </div>

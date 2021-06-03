@@ -122,6 +122,8 @@ $('input[name="childName"]').click(function(){
 $('#classType').change(function(){
 	vm.classType = $("#classType option:checked").text();
 	setReservationCalendar();
+	$('#scheduleStart').val('');
+	vm.scheduleList = {};
 });
 
 $('#cal').click(function(){

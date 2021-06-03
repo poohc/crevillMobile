@@ -90,6 +90,14 @@ var vm = new Vue({
   }
 }); 
 
+$('#storeId').click(function(){
+	vm.storeId = $('#storeId option:checked').text();
+});
+
+$('#storeId').change(function(){
+	setReservationCalendar();
+});
+
 $('input[name="voucherNo"]').click(function(){
 	
 	$.ajax({
@@ -128,6 +136,7 @@ setTimeout(function() {
 //강제이벤트 발생
 $('input[name="voucherNo"]').trigger('click');
 $('input[name="childName"]').trigger('click');
+$('#storeId').trigger('click');
 vm.classType = '클래스';
 setReservationCalendar();
 }, 1000);
@@ -142,7 +151,8 @@ function setReservationCalendar(){
 		data: {
 	            tutoringYn : tutoringYn,
 				operationType : operationType,
-				experienceClass : 'Y'
+				experienceClass : 'Y',
+				storeId : $('#storeId').val()
 	    },
 		url : contextRoot + 'reservation/getAvaReservationList.proc',
 		success : function(data){
@@ -172,7 +182,8 @@ function getReservationSearchList(scheduleStart){
 		type : "POST",
 		data: {
 	            scheduleStart : scheduleStart,
-				experienceClass : 'Y'
+				experienceClass : 'Y',
+				storeId : $('#storeId').val()
 	    },
 		url : contextRoot + 'reservation/getSearchDayReservation.proc',
 		success : function(data){

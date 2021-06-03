@@ -35,4 +35,5 @@ public class MemberVo {
 	private String ticketName;
 	private String useTime;
 	private String playName;
+	private String memberType;
 }

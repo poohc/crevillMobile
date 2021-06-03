@@ -35,6 +35,10 @@ public class StoreService {
 		return storeMapper.selectStoreList(storeDto);
 	}
 	
+	public List<StoreVo> selectShortVoucherStoreList(StoreDto storeDto){
+		return storeMapper.selectShortVoucherStoreList(storeDto);
+	}
+	
 	public StoreVo selectStoreInfo(StoreDto storeDto){
 		return storeMapper.selectStoreInfo(storeDto);
 	}

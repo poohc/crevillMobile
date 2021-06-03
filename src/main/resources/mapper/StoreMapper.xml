@@ -81,6 +81,20 @@
       ORDER BY SORT_RANK
     </select>
 	
+	<select id="selectShortVoucherStoreList" parameterType="kr.co.crevill.store.StoreDto" resultType="kr.co.crevill.store.StoreVo">
+        SELECT A.STORE_ID,
+			   A.STORE_NAME,
+			   SUBSTRING_INDEX(A.STORE_NAME, ' ', - 1) STORE_NAME_SHORT,
+			   A.STORE_NAME_REG
+          FROM STORE A,
+               STORE_PLAY B
+         WHERE A.STORE_ID NOT IN ('ADMIN','CST00001')
+           AND A.STORE_ID = B.STORE_ID
+           AND B.CLASS_TYPE = 'CLASS_C'
+      GROUP BY A.STORE_ID     
+      ORDER BY A.SORT_RANK
+    </select>
+	
 	<select id="selectStoreInfo" parameterType="kr.co.crevill.store.StoreDto" resultType="kr.co.crevill.store.StoreVo">
         SELECT STORE_ID,
 			   STORE_NAME,

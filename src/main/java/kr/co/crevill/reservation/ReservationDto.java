@@ -26,4 +26,5 @@ public class ReservationDto {
 	private String scheduleStart;
 	private List<String> scheduleIdList;
 	private String experienceClass;
+	private String storeId;
 }

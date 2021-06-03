@@ -83,7 +83,7 @@ public class ReservationController {
 		ModelAndView mav = new ModelAndView("reservation/shortRegist");
 		StoreDto storeDto = new StoreDto();
 		storeDto.setStoreId(SessionUtil.getSessionMemberVo(request).getStoreId());
-		mav.addObject("storeList", storeService.selectStoreList(storeDto));
+		mav.addObject("storeList", storeService.selectShortVoucherStoreList(storeDto));
 		VoucherSaleDto voucherSaleDto = new VoucherSaleDto();
 		voucherSaleDto.setBuyCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
 		List<VoucherVo> voucherList = voucherService.getMemberVoucherList(voucherSaleDto);
@@ -173,6 +173,11 @@ public class ReservationController {
 	public JSONObject getAvaReservationList(HttpServletRequest request, @ModelAttribute ReservationDto reservationDto) {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		
+		if(!CrevillConstants.STORE_ID_MOBILE.equals(SessionUtil.getSessionMemberVo(request).getStoreId())) {
+			reservationDto.setStoreId(SessionUtil.getSessionMemberVo(request).getStoreId());	
+		}
+		
 		List<ReservationVo> avaReservationList = reservationService.selectAvaReservation(reservationDto);
 		if(avaReservationList != null && avaReservationList.size() > 0) {
 			result.put("resultCd", CrevillConstants.RESULT_SUCC);
@@ -186,6 +191,9 @@ public class ReservationController {
 	public JSONObject getSearchDayReservation(HttpServletRequest request, @ModelAttribute ReservationDto reservationDto) {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		if(!CrevillConstants.STORE_ID_MOBILE.equals(SessionUtil.getSessionMemberVo(request).getStoreId())) {
+			reservationDto.setStoreId(SessionUtil.getSessionMemberVo(request).getStoreId());	
+		}
 		List<ReservationVo> list = reservationService.selectSearchDayReservation(reservationDto);
 		if(list != null && list.size() > 0) {
 			result.put("resultCd", CrevillConstants.RESULT_SUCC);

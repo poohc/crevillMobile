@@ -7,6 +7,9 @@
 	<div id="appCapsule" class="extra-header-active">
 		<form class="form theme-form" id="reservationForm" @submit.prevent="validateBeforeSubmit" th:action="@{/reservation/regist.proc}" method="post">
         <div class="section full mb-3">
+            <div class="section full">
+                <img th:src="@{/assets/img/reserv_process.png}" alt="image" class="imaged square w-100">
+            </div>
             <input type="hidden" id="cellPhone" name="cellPhone" th:value="${cellPhone}">
             <div class="section-title">예약자 정보 선택</div>
             <div class="wide-block pt-2 pb-2">
@@ -29,7 +32,7 @@
                 <div class="form-group basic">
                     <div class="input-wrapper">
                         <label class="label" for="classType">클래스/튜터링 선택</label>
-                        <select class="form-control custom-select" id="classType" name="classType" v-validate="'required'">
+                        <select class="n_select01 form-control custom-select" id="classType" name="classType" v-validate="'required'">
                             <option value="CLASS_A">클래스</option>
                             <option value="CLASS_D">튜터링</option>
                             <option value="CLASS_B">SPECIAL CAMP</option>
@@ -52,7 +55,7 @@
             <div class="wide-block pt-2 pb-1">
                 <ul class="listview image-listview no-line no-space flush">
 	                <li>
-	                    <div class="item" id="cal">
+	                    <div class="item" id="cal" data-toggle="modal" data-target="#ModalForm">
 	                        <div class="icon-box bg-primary">
 	                            <a href="" data-toggle="modal" data-target="#ModalForm">
 	                                <ion-icon name="calendar-outline"></ion-icon>
@@ -61,7 +64,7 @@
 	                        <div class="in">
 	                            <div class="form-group basic">
 	                                <div class="input-wrapper">
-	                                    <input type="text" class="form-control" id="scheduleStart" name="scheduleStart" placeholder="예약가능일 조회" v-validate="'required'">
+	                                    <input type="text" class="form-control" id="scheduleStart" name="scheduleStart" placeholder="예약가능일 조회" v-validate="'required'" readonly>
 	                                    <i class="clear-input">
 	                                        <ion-icon name="close-circle"></ion-icon>
 	                                    </i>
@@ -105,7 +108,8 @@
                                 <label class="custom-control-label p-0" :for="'scheduleId-' + index"></label>
                             </div>
                             <div>
-                                {{item.scheduleStart}} {{item.playName}}    
+                                {{item.scheduleStart}} {{item.playName}}<br/>
+                                {{item.storeNameShort}}    
                             </div>
                         </div>
                     </div>
