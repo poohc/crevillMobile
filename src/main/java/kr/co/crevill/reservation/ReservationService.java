@@ -141,36 +141,38 @@ public class ReservationService {
 				if(reservationMapper.checkAlreadyReservation(nReservationDto) >= 1) {
 					result.put("resultMsg", MSG_ALREADY_RESERVATION);
 				} else {
-					reservationVo = reservationMapper.checkReservationYn(nReservationDto);
-					if(reservationVo != null && "N".equals(reservationVo.getReservationYn())) {
-						result.put("resultMsg", MSG_CLASS_FULL);
-					} else {
+					
+					if("Y".equals(reservationDto.getTutoringYn())) {
 						reservationVo = reservationMapper.checkTutoringReservationYn(nReservationDto);
 						if(reservationVo != null && "N".equals(reservationVo.getReservationYn())) {
 							result.put("resultMsg", MSG_TUTORING_FULL);
-						} else {
-							//선택 수업의 플레이타임 가져오기
-							ReservationVo rVo = reservationMapper.selectReservationPlayInfo(nReservationDto);
-							EntranceDto entranceDto = new EntranceDto(); 
-							entranceDto.setVoucherNo(nReservationDto.getVoucherNo());
-			         	    
-							//모바일 회원의 1회권 사용일 경우, 1회권 바우처 모든 시간(2시간, 상수값으로 정의) 다 소진
-							if(CrevillConstants.STORE_ID_MOBILE.equals(SessionUtil.getSessionMemberVo(request).getStoreId()) &&
-									"Y".equals(reservationDto.getExperienceClass())) {
-								entranceDto.setUseTime(CrevillConstants.SHORT_VOUCHER_USE_TIME);
-							} else {
-								entranceDto.setUseTime(rVo.getPlayTime());
-							}
-			         	    entranceDto.setStatus(CrevillConstants.VOUCHER_STATUS_USED);
-			         	    entranceDto.setScheduleId(nReservationDto.getScheduleId());
-			         	    entranceDto.setRegId(reservationDto.getRegId());
-							//바우처 사용 처리
-			         	    if(entranceMapper.insertVoucherUse(entranceDto) > 0) {
-			         	    	//예약등록 처리
-			         	    	if(reservationMapper.insertReservation(nReservationDto) > 0) {
-									succCnt++;
-								}
-							}
+						}
+					} else {
+						reservationVo = reservationMapper.checkReservationYn(nReservationDto);
+						if(reservationVo != null && "N".equals(reservationVo.getReservationYn())) {
+							result.put("resultMsg", MSG_CLASS_FULL);
+						}
+					}
+					//선택 수업의 플레이타임 가져오기
+					ReservationVo rVo = reservationMapper.selectReservationPlayInfo(nReservationDto);
+					EntranceDto entranceDto = new EntranceDto(); 
+					entranceDto.setVoucherNo(nReservationDto.getVoucherNo());
+	         	    
+					//모바일 회원의 1회권 사용일 경우, 1회권 바우처 모든 시간(2시간, 상수값으로 정의) 다 소진
+					if(CrevillConstants.STORE_ID_MOBILE.equals(SessionUtil.getSessionMemberVo(request).getStoreId()) &&
+							"Y".equals(reservationDto.getExperienceClass())) {
+						entranceDto.setUseTime(CrevillConstants.SHORT_VOUCHER_USE_TIME);
+					} else {
+						entranceDto.setUseTime(rVo.getPlayTime());
+					}
+	         	    entranceDto.setStatus(CrevillConstants.VOUCHER_STATUS_USED);
+	         	    entranceDto.setScheduleId(nReservationDto.getScheduleId());
+	         	    entranceDto.setRegId(reservationDto.getRegId());
+					//바우처 사용 처리
+	         	    if(entranceMapper.insertVoucherUse(entranceDto) > 0) {
+	         	    	//예약등록 처리
+	         	    	if(reservationMapper.insertReservation(nReservationDto) > 0) {
+							succCnt++;
 						}
 					}
 				}
