@@ -20,6 +20,7 @@
 									<label class="col-form-label-sm" for="buyCellPhone" v-if="errors.has('buyCellPhone')">{{ errors.first('buyCellPhone') }}</label>
 								</div>
 							</div>
+                            <button class="btn btn-primary m-r-15" id="searchMemberNameBtn" type="button">검색</button>
 						</div>
 						<div class="card-footer text-right">
 							<button class="btn btn-primary m-r-15" id="searchMemberNameBtn" type="button">검색</button>
@@ -31,8 +32,8 @@
 								<div class="form-group mb-0">
 									<label for="exampleFormControlSelect31">바우처 구분</label>
 									<select class="form-control form-control-sm" id="gradeType" name="gradeType">
+                                        <option value="ANON">무기명</option>
 										<option value="REGIST">기명</option>
-										<option value="ANON">무기명</option>
 									</select>
 								</div>
 							</div>

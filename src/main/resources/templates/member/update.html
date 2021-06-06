@@ -1,62 +1,77 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/defaultCommon(scriptName='/assets/js/crevill/memberUpdateScript.js')}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/defaultCommon(scriptName='/assets/js/crevill/memberUpdateScript.js')}">
 
 <th:block layout:fragment="content">
-	<div id="appCapsule">
-	    <form class="form theme-form" id="memberForm" @submit.prevent="validateBeforeSubmit" th:action="@{/member/update.proc}" method="post">
-		<input type="hidden" id="qrCode" name="qrCode" th:value="${info.qrCode}">
-        <div class="section full mt-2 mb-2">
-            <div class="section-title">회원정보</div>
-            <div class="wide-block pb-1 pt-2">
-	            <div class="form-group boxed">
-	                <div class="input-wrapper">
-	                    <label class="label" for="parentName">성함[한글]</label>
-	                    <input type="text" class="form-control" v-validate="'required'" id="parentName" name="parentName" placeholder="예)홍길동" th:value="${info.name}">
-	                    <label class="label" for="parentName" v-if="errors.has('parentName')">{{ errors.first('parentName') }}</label>
-	                </div>
-	            </div>
-	            <div class="form-group boxed">
-	                <div class="input-wrapper">
-	                    <label class="label" for="email">이메일</label>
-	                    <input type="email" class="form-control" v-validate="'required|email'" id="email" name="email" placeholder="이메일주소" th:value="${info.email}">
-	                    <label class="label" for="email" v-if="errors.has('email')">{{ errors.first('email') }}</label>
-	                </div>
-	            </div>
-	            <input type="hidden" class="form-control" id="password" name="password" ref="password" th:value="${info.password}">
-	            <div class="form-group boxed">
-	                <div class="input-wrapper">
-	                    <label class="label" for="passwordAgain">비밀번호</label>
-	                    <input type="password" class="form-control" v-validate="'required|confirmed:password'" data-vv-as="password" id="passwordAgain" name="passwordAgain" placeholder="입력">
-	                    <label class="label" for="passwordAgain" v-if="errors.has('passwordAgain')">{{ errors.first('passwordAgain') }}</label>
-	                </div>
-	            </div>
-	            <div class="form-group boxed">
-	                <div class="input-wrapper">
-	                    <label class="label" for="cellPhone">전화번호[변경불가]</label>
-	                    <input type="tel" class="form-control" id="cellPhone" name="cellPhone" disabled="disabled" th:value="${info.cellPhone}">
-	                </div>
-	            </div>
-	            <div class="form-group boxed">
-	                <div class="input-wrapper">
-	                    <label class="label" for="address5">Address</label>
-	                    <input type="text" id="postcode" placeholder="우편번호">
-						<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
-						<input type="text" v-validate="'required'" id="address" name="address" placeholder="주소" th:value="${info.roadAddress}"><br>
-						<span id="guide" style="color:#999;display:none"></span>
-						<input type="text" v-validate="'required'" id="detailAddress" name="detailAddress" placeholder="상세주소" th:value="${info.detailAddress}">
-						<input type="text" id="extraAddress" placeholder="참고항목">
-						<label class="label" for="address" v-if="errors.has('address')">{{ errors.first('address') }}</label>
-	                    <label class="label" for="detailAddress" v-if="errors.has('detailAddress')">{{ errors.first('detailAddress') }}</label>
-	                </div>
-	            </div>
-	            <div class="wide-block pt-2 pb-2">
-                	<button type="submit" class="btn btn-primary btn-block">정보수정</button>
-            	</div>
+    <div id="appCapsule">
+        <form class="form theme-form" id="memberForm" @submit.prevent="validateBeforeSubmit"
+            th:action="@{/member/update.proc}" method="post">
+            <input type="hidden" id="qrCode" name="qrCode" th:value="${info.qrCode}">
+            <div class="section full mt-2 mb-2">
+                <div class="section-title">회원정보 수정</div>
+                <div class="wide-block pb-1 pt-2">
+                    <div class="form-group boxed">
+                        <div class="input-wrapper">
+                            <label class="label" for="parentName">성함[한글]</label>
+                            <input type="text" class="form-control" v-validate="'required'" id="parentName"
+                                name="parentName" placeholder="예)홍길동" th:value="${info.name}">
+                            <label class="label" for="parentName"
+                                v-if="errors.has('parentName')">{{ errors.first('parentName') }}</label>
+                        </div>
+                    </div>
+                    <div class="form-group boxed">
+                        <div class="input-wrapper">
+                            <label class="label" for="email">이메일</label>
+                            <input type="email" class="form-control" v-validate="'required|email'" id="email"
+                                name="email" placeholder="이메일주소" th:value="${info.email}">
+                            <label class="label" for="email"
+                                v-if="errors.has('email')">{{ errors.first('email') }}</label>
+                        </div>
+                    </div>
+                    <input type="hidden" class="form-control" id="password" name="password" ref="password"
+                        th:value="${info.password}">
+                    <div class="form-group boxed">
+                        <div class="input-wrapper">
+                            <label class="label" for="passwordAgain">비밀번호</label>
+                            <code>* 현재 비밀번호를 입력해 주세요.</code>
+                            <input type="password" class="form-control" v-validate="'required|confirmed:password'"
+                                data-vv-as="password" id="passwordAgain" name="passwordAgain" placeholder="입력">
+                            <label class="label" for="passwordAgain"
+                                v-if="errors.has('passwordAgain')">{{ errors.first('passwordAgain') }}</label>
+                        </div>
+                    </div>
+                    <div class="form-group boxed">
+                        <div class="input-wrapper">
+                            <label class="label" for="cellPhone">전화번호[변경불가]</label>
+                            <code>* 휴대폰번호 ID로 수정이 불가합니다.</code>
+                            <input type="tel" class="form-control" id="cellPhone" name="cellPhone" disabled="disabled"
+                                th:value="${info.cellPhone}">
+                        </div>
+                    </div>
+                    <div class="form-group boxed">
+                        <div class="input-wrapper">
+                            <label class="label" for="address5">주소</label>
+                            <!--<input class="form-control" type="text" id="postcode" placeholder="우편번호">-->
+                            <input class="form-control" type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
+                            <input class="form-control" type="text" v-validate="'required'" id="address" name="address"
+                                placeholder="주소" th:value="${info.roadAddress}">
+                            <span id="guide" style="color:#999;display:none"></span>
+                            <input class="form-control" type="text" v-validate="'required'" id="detailAddress"
+                                name="detailAddress" placeholder="상세주소" th:value="${info.detailAddress}">
+                            <input class="form-control" type="text" id="extraAddress" placeholder="참고항목">
+                            <label class="label" for="address"
+                                v-if="errors.has('address')">{{ errors.first('address') }}</label>
+                            <label class="label" for="detailAddress"
+                                v-if="errors.has('detailAddress')">{{ errors.first('detailAddress') }}</label>
+                        </div>
+                    </div>
+                    <div class="wide pt-2 pb-2">
+                        <button type="submit" class="btn btn-primary btn-block btn-lg">정보수정</button>
+                    </div>
+                </div>
             </div>
-        </div>
         </form>
     </div>
 </th:block>
+
 </html>

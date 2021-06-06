@@ -34,6 +34,7 @@ import kr.co.crevill.store.StoreService;
 import kr.co.crevill.storeProgram.StoreProgramDto;
 import kr.co.crevill.storeProgram.StoreProgramService;
 import kr.co.crevill.voucher.VoucherDto;
+import kr.co.crevill.voucher.VoucherSaleDto;
 import kr.co.crevill.voucher.VoucherService;
 
 @Controller
@@ -110,7 +111,10 @@ public class MainController {
 		scheduleDto.setCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
 		scheduleDto.setLimit(4);
 		mav.addObject("reservationList", reservationService.selectReservationList(scheduleDto));
-		mav.addObject("voucherList", voucherService.getMemberVoucherAllList(voucherDto));
+		VoucherSaleDto voucherSaleDto = new VoucherSaleDto();
+		voucherSaleDto.setLimit(1);
+		voucherSaleDto.setBuyCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
+		mav.addObject("voucherList", voucherService.getMemberVoucherList(voucherSaleDto));
 		storeDto.setLocation("SEOUL");
 		mav.addObject("seoulStore", storeService.selectStoreList(storeDto));
 		storeDto.setLocation("KYUNGKI");

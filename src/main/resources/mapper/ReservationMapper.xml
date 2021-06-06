@@ -292,9 +292,12 @@
 		       PLAY B
 		 WHERE A.SCHEDULE_START > NOW()
 		   AND A.STORE_ID = #{storeId}
-		   <![CDATA[        
-		   AND (SELECT COUNT(*) FROM RESERVATION R WHERE R.SCHEDULE_ID = A.SCHEDULE_ID AND R.TUTORING_YN = #{tutoringYn}) < A.NUMBER_OF_PEOPLE
-		   ]]>
+		   <if test="tutoringYn != null and tutoringYn == 'N'.toString()">
+		   AND (SELECT COUNT(*) + #{childLength} FROM RESERVATION R WHERE R.SCHEDULE_ID = A.SCHEDULE_ID AND R.TUTORING_YN = #{tutoringYn}) <![CDATA[ < ]]> A.NUMBER_OF_PEOPLE
+		   </if>
+		   <if test="tutoringYn != null and tutoringYn == 'Y'.toString()">
+		   AND (SELECT COUNT(*) + #{childLength} FROM RESERVATION R WHERE R.SCHEDULE_ID = A.SCHEDULE_ID AND R.TUTORING_YN = #{tutoringYn}) <![CDATA[ < ]]> A.TUTORING_NUMBER
+		   </if>
 		   AND A.OPERATION_TYPE = #{operationType}
 		   AND A.PLAY_ID = B.PLAY_ID
 		   <if test="playName != null and playName != ''">

@@ -130,6 +130,13 @@ $('#cal').click(function(){
 	setCalEvent();
 });
 
+$('input[name="childName"]').change(function(){
+	vm.classType = $("#classType option:checked").text();
+	setReservationCalendar();
+	$('#scheduleStart').val('');
+	vm.scheduleList = {};
+});
+
 setTimeout(function() {
 //강제이벤트 발생
 $('input[name="voucherNo"]').trigger('click');
@@ -159,13 +166,21 @@ function setReservationCalendar(){
 	if($('#classType').val() == 'CLASS_E'){
 		playName = 'VIP 캠프';
 	}
+	calendarEvent = [{}];
+	
+	var childName = '';
+	$("input[name=childName]:checked").each(function() {
+		childName += $(this).val() + ',';
+	});
+	childName = childName.substr(0, childName.length - 1);
 	
 	$.ajax({
 		type : "POST",
 		data: {
 	            tutoringYn : tutoringYn,
 				operationType : operationType,
-				playName : playName
+				playName : playName,
+				childName : childName
 	    },
 		url : contextRoot + 'reservation/getAvaReservationList.proc',
 		success : function(data){
@@ -203,9 +218,7 @@ function getReservationSearchList(scheduleStart){
 				for(var i=0; i < data.list.length; i++){
 					Vue.set(vm.scheduleList, i, data.list[i]);
 				} 
-				vm.scheduleList.slice().sort(function(a, b) {
-	    			return b.scheduleStart - a.scheduleStart;
-	            });
+//				vm.scheduleList.splice(data.list.length);
 			} else {
 //				alert('해당 조건으로 예약 가능한 날짜가 없습니다.');
 				return false;	

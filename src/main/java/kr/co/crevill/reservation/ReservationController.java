@@ -177,6 +177,7 @@ public class ReservationController {
 		if(!CrevillConstants.STORE_ID_MOBILE.equals(SessionUtil.getSessionMemberVo(request).getStoreId())) {
 			reservationDto.setStoreId(SessionUtil.getSessionMemberVo(request).getStoreId());	
 		}
+		reservationDto.setChildLength(reservationDto.getChildName().split(",").length - 1);
 		
 		List<ReservationVo> avaReservationList = reservationService.selectAvaReservation(reservationDto);
 		if(avaReservationList != null && avaReservationList.size() > 0) {

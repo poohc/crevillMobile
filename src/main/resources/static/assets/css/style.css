@@ -1812,7 +1812,9 @@ a.badge-dark {
   overflow: hidden;
   text-overflow: ellipsis;
   display: block;
+  width: 170px;
 }
+
 
 .listview > li {
   padding: 8px 16px;
@@ -4219,16 +4221,33 @@ textarea,
   margin: 0;
 }
 
-.form-group.basic .form-control,
+/* .form-group.basic .form-control,
 .form-group.basic .custom-select {
   background: transparent;
-  border: none;
-  border-bottom: 1px solid #E1E1E1;
-  padding: 0 30px 0 0;
+  border: 1px solid #E1E1E1;
+  padding: 0 30px 0 10px;
   border-radius: 0;
   height: 40px;
   color: #141515;
   font-size: 15px;
+} */
+/* reservation/regist */
+.form-group.basic .form-control,
+.form-group.basic .custom-select {
+    background: transparent;
+    border: 1px solid #E1E1E1;
+    padding: 0 10px 0 10px;
+    border-radius: 0;
+    height: 40px;
+    color: #141515;
+    font-size: 15px;
+    margin-top: 10px;
+    border-radius: 5px;
+    background: url(../img/arrow_down.png) no-repeat right 10px center;
+    background-size: 10px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 
 .form-group.basic .form-control:focus,
@@ -8234,4 +8253,9 @@ body.dark-mode-active .story-blocks .passive img {
 /* reservation/regist */
 .n_select01{
     border: 1px solid #ccc;
+}
+
+.n_title.label {
+    font-size: 15px;
+    font-weight: 500;
 }

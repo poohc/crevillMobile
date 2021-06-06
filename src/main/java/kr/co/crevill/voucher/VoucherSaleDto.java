@@ -17,4 +17,5 @@ public class VoucherSaleDto {
 	private String regDate;
 	private String updId;
 	private String updDate;
+	private int limit;
 }

@@ -128,6 +128,24 @@ $('input[name="childName"]').click(function(){
 	vm.reservationCnt = $("input:checkbox[name=childName]:checked").length;
 });
 
+$(document).on('click', 'input[name=scheduleId]', function(){
+//    $('input[name="scheduleId"]').attr("checked", false);
+//    $(this).attr("checked", true);
+	
+	if($("input:checkbox[name=scheduleId]:checked").length > 1){
+		alert('리스트는 하나만 선택 가능합니다.');
+		$(this).trigger('click');
+		return false;	
+	}
+});
+
+$('input[name="childName"]').change(function(){
+	vm.classType = $("#classType option:checked").text();
+	setReservationCalendar();
+	$('#scheduleStart').val('');
+	vm.scheduleList = {};
+});
+
 $('#cal').click(function(){
 	setCalEvent();
 });
@@ -146,13 +164,22 @@ function setReservationCalendar(){
 	var tutoringYn = 'N';
 	var operationType = 'WEEKDAY';
 	
+	calendarEvent = [{}];
+	
+	var childName = '';
+	$("input[name=childName]:checked").each(function() {
+		childName += $(this).val() + ',';
+	});
+	childName = childName.substr(0, childName.length - 1);
+	
 	$.ajax({
 		type : "POST",
 		data: {
 	            tutoringYn : tutoringYn,
 				operationType : operationType,
 				experienceClass : 'Y',
-				storeId : $('#storeId').val()
+				storeId : $('#storeId').val(),
+				childName : childName
 	    },
 		url : contextRoot + 'reservation/getAvaReservationList.proc',
 		success : function(data){
@@ -192,9 +219,9 @@ function getReservationSearchList(scheduleStart){
 				for(var i=0; i < data.list.length; i++){
 					Vue.set(vm.scheduleList, i, data.list[i]);
 				} 
-				vm.scheduleList.slice().sort(function(a, b) {
-	    			return b.scheduleStart - a.scheduleStart;
-	            });
+//				vm.scheduleList.slice().sort(function(a, b) {
+//	    			return b.scheduleStart - a.scheduleStart;
+//	            });
 			} else {
 //				alert('해당 조건으로 예약 가능한 날짜가 없습니다.');
 				return false;	

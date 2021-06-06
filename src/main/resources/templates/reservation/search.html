@@ -1,258 +1,287 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/default(scriptName='/assets/js/crevill/reservationSearchScript.js')}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/default(scriptName='/assets/js/crevill/reservationSearchScript.js')}">
 
 <th:block layout:fragment="content">
-	<div class="page-body" id="listDiv">
-		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
-		<!-- Container-fluid starts-->
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md-12 project-list">
-					<div class="card">
-						<div class="row">
-							<div class="col-sm-6">
-								<ul class="nav nav-tabs border-tab" id="top-tab" role="tablist">
-									<li class="nav-item">
-										<a class="nav-link active" id="top-home-tab" data-toggle="tab" href="#top-all" role="tab" aria-controls="top-home" aria-selected="true" v-on:click="검색('ALL')">
-											<i data-feather="target"></i>당일전체
-										</a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" id="profile-top-tab" data-toggle="tab" href="#top-processing" role="tab" aria-controls="top-profile" aria-selected="false" v-on:click="검색('ING')">
-											<i data-feather="info"></i>진행중
-										</a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" id="contact-top-tab" data-toggle="tab" href="#top-complete" role="tab" aria-controls="top-contact" aria-selected="false" v-on:click="검색('END')">
-											<i data-feather="check-circle"></i>진행완료
-										</a>
-									</li>
-<!-- 									<li class="nav-item"> -->
-<!-- 										<a class="nav-link" id="contact-top-tab" data-toggle="tab" href="#top-expect" role="tab" aria-controls="top-contact" aria-selected="false" v-on:click="검색('ALL')"> -->
-<!-- 											<i data-feather="check-circle"></i>진행예정 -->
-<!-- 										</a> -->
-<!-- 									</li> -->
-								</ul>
-							</div>
-							<div class="col-sm-6">
-								<div class="text-right">
-									<input class="form-control-lg" id="scheduleStart" name="scheduleStart" type="text" style="width: 22%;height: 42px;vertical-align:top;margin-right: 15px">
-									<input type="hidden" id="scheduleType" name="scheduleType" value="ALL">
-									<button class="btn btn-primary" v-on:click="검색()">검색</button>
-									<a class="btn btn-primary" href="/reservation/regist.view">
-										<i data-feather="plus-square"></i>신규 예약등록
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-12">
-					<div class="card">
-						<div class="card-body">
-							<div class="tab-content" id="top-tabContent">
-								<div class="tab-pane fade show active" id="top-all" role="tabpanel" aria-labelledby="top-home-tab">
-									<div class="row">
-										<div class="col-xl-4 col-lg-6" v-for="item in list">
-											<div class="project-box">
-												<span class="badge badge-primary">진행중</span>
-												<h6>{{item.scheduleTime}}</h6>
-<!-- 												<div class="media"> -->
-<!-- 													<img class="img-20 mr-1 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="" data-original-title="" title=""> -->
-<!-- 													<div class="media-body"> -->
-<!-- 														<p>FULL RESERVATION</p> -->
-<!-- 													</div> -->
-<!-- 												</div> -->
-												<p>전체정원 : {{item.numberOfPeople}}</p>
-												<p>튜터링정원 : {{item.tutoringNumber}}</p>
-												<div class="row details">
-<!-- 													<div class="col-6"> -->
-<!-- 														<span>TIME USER </span> -->
-<!-- 													</div> -->
-<!-- 													<div class="col-6 text-primary">4</div> -->
-													
-													<div class="col-6">
-														<span>CLASS</span>
-													</div>
-													<div class="col-6 text-primary">{{item.reservationCnt}}</div>
-<!-- 													<div class="col-6"> -->
-<!-- 														<span>TUTORING</span> -->
-<!-- 													</div> -->
-<!-- 													<div class="col-6 text-primary">{{item.tutoringNumber}}</div> -->
-												</div>
-<!-- 												<div class="customers"> -->
-<!-- 													<ul> -->
-<!-- 														<a href=""> 예약고객 정보 link -->
-<!-- 														<li class="d-inline-block"> -->
-<!-- 															<img class="img-30 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="홍길동" data-original-title="" title="홍길동"> -->
-<!-- 														</a> -->
-<!-- 														</li> -->
-<!-- 														<a href=""> -->
-<!-- 															<li class="d-inline-block"> -->
-<!-- 															<img class="img-30 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="송강호" data-original-title="" title="홍길동"> -->
-<!-- 														</a> -->
-<!-- 														</li> -->
-<!-- 														<a href=""> -->
-<!-- 														<li class="d-inline-block"> -->
-<!-- 															<img class="img-30 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="최민식" data-original-title="" title="홍길동"> -->
-<!-- 														</a> -->
-<!-- 														</li> -->
-<!-- 													</ul> -->
-<!-- 												</div> -->
-												<div class="project-status mt-4">
-													<div class="media mb-0">
-														<p>{{item.reservationPer}}%</p>
-														<div class="media-body text-right">
-															<span>FULL</span>
-														</div>
-													</div>
-													<div class="progress" style="height: 5px">
-														<div class="progress-bar-animated bg-primary progress-bar-striped" role="progressbar" :style="{width: item.reservationPer + '%'}" aria-valuenow="10" aria-valuemin="0" aria-valuemax="10"></div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								
-								<div class="tab-pane fade" id="top-processing" role="tabpanel" aria-labelledby="top-processing">
-									<div class="row">
-										<div class="col-xl-4 col-lg-6" v-for="item in list">
-											<div class="project-box">
-												<span class="badge badge-primary">진행중</span>
-												<h6>{{item.scheduleTime}}</h6>
-<!-- 												<div class="media"> -->
-<!-- 													<img class="img-20 mr-1 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="" data-original-title="" title=""> -->
-<!-- 													<div class="media-body"> -->
-<!-- 														<p>FULL RESERVATION</p> -->
-<!-- 													</div> -->
-<!-- 												</div> -->
-												<p>전체정원 : {{item.numberOfPeople}}</p>
-												<div class="row details">
-<!-- 													<div class="col-6"> -->
-<!-- 														<span>TIME USER </span> -->
-<!-- 													</div> -->
-<!-- 													<div class="col-6 text-primary">4</div> -->
-<!-- 													<div class="col-6"> -->
-<!-- 														<span>TUTORING</span> -->
-<!-- 													</div> -->
-<!-- 													<div class="col-6 text-primary">4</div> -->
-													<div class="col-6">
-														<span>CLASS</span>
-													</div>
-													<div class="col-6 text-primary">{{item.reservationCnt}}</div>
-												</div>
-<!-- 												<div class="customers"> -->
-<!-- 													<ul> -->
-<!-- 														<a href=""> 예약고객 정보 link -->
-<!-- 														<li class="d-inline-block"> -->
-<!-- 															<img class="img-30 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="홍길동" data-original-title="" title="홍길동"> -->
-<!-- 														</a> -->
-<!-- 														</li> -->
-<!-- 														<a href=""> -->
-<!-- 															<li class="d-inline-block"> -->
-<!-- 															<img class="img-30 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="송강호" data-original-title="" title="홍길동"> -->
-<!-- 														</a> -->
-<!-- 														</li> -->
-<!-- 														<a href=""> -->
-<!-- 														<li class="d-inline-block"> -->
-<!-- 															<img class="img-30 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="최민식" data-original-title="" title="홍길동"> -->
-<!-- 														</a> -->
-<!-- 														</li> -->
-<!-- 													</ul> -->
-<!-- 												</div> -->
-												<div class="project-status mt-4">
-													<div class="media mb-0">
-														<p>{{item.reservationPer}}%</p>
-														<div class="media-body text-right">
-															<span>FULL</span>
-														</div>
-													</div>
-													<div class="progress" style="height: 5px">
-														<div class="progress-bar-animated bg-primary progress-bar-striped" role="progressbar" :style="{width: item.reservationPer + '%'}" aria-valuenow="10" aria-valuemin="0" aria-valuemax="10"></div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								
-								<div class="tab-pane fade" id="top-complete" role="tabpanel" aria-labelledby="top-complete">
-									<div class="row">
-										<div class="col-xl-4 col-lg-6" v-for="item in list">
-											<div class="project-box">
-												<span class="badge badge-primary">진행중</span>
-												<h6>{{item.scheduleTime}}</h6>
-<!-- 												<div class="media"> -->
-<!-- 													<img class="img-20 mr-1 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="" data-original-title="" title=""> -->
-<!-- 													<div class="media-body"> -->
-<!-- 														<p>FULL RESERVATION</p> -->
-<!-- 													</div> -->
-<!-- 												</div> -->
-												<p>전체정원 : {{item.numberOfPeople}}</p>
-												<div class="row details">
-<!-- 													<div class="col-6"> -->
-<!-- 														<span>TIME USER </span> -->
-<!-- 													</div> -->
-<!-- 													<div class="col-6 text-primary">4</div> -->
-<!-- 													<div class="col-6"> -->
-<!-- 														<span>TUTORING</span> -->
-<!-- 													</div> -->
-<!-- 													<div class="col-6 text-primary">4</div> -->
-													<div class="col-6">
-														<span>CLASS</span>
-													</div>
-													<div class="col-6 text-primary">{{item.reservationCnt}}</div>
-												</div>
-<!-- 												<div class="customers"> -->
-<!-- 													<ul> -->
-<!-- 														<a href=""> 예약고객 정보 link -->
-<!-- 														<li class="d-inline-block"> -->
-<!-- 															<img class="img-30 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="홍길동" data-original-title="" title="홍길동"> -->
-<!-- 														</a> -->
-<!-- 														</li> -->
-<!-- 														<a href=""> -->
-<!-- 															<li class="d-inline-block"> -->
-<!-- 															<img class="img-30 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="송강호" data-original-title="" title="홍길동"> -->
-<!-- 														</a> -->
-<!-- 														</li> -->
-<!-- 														<a href=""> -->
-<!-- 														<li class="d-inline-block"> -->
-<!-- 															<img class="img-30 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="최민식" data-original-title="" title="홍길동"> -->
-<!-- 														</a> -->
-<!-- 														</li> -->
-<!-- 													</ul> -->
-<!-- 												</div> -->
-												<div class="project-status mt-4">
-													<div class="media mb-0">
-														<p>{{item.reservationPer}}%</p>
-														<div class="media-body text-right">
-															<span>FULL</span>
-														</div>
-													</div>
-													<div class="progress" style="height: 5px">
-														<div class="progress-bar-animated bg-primary progress-bar-striped" role="progressbar" :style="{width: item.reservationPer + '%'}" aria-valuenow="10" aria-valuemin="0" aria-valuemax="10"></div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								
-<!-- 								<div class="tab-pane fade" id="top-expect" role="tabpanel" aria-labelledby="top-expect"> -->
-<!-- 									top-expect -->
-<!-- 								</div> -->
-								
-								
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- Container-fluid Ends-->
-			</div>
-		</div>
-	</div>
+    <div class="page-body" id="listDiv">
+        <th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 project-list">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <ul class="nav nav-tabs border-tab" id="top-tab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="top-home-tab" data-toggle="tab" href="#top-all"
+                                            role="tab" aria-controls="top-home" aria-selected="true"
+                                            v-on:click="검색('ALL')">
+                                            <i data-feather="target"></i>당일전체
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="profile-top-tab" data-toggle="tab"
+                                            href="#top-processing" role="tab" aria-controls="top-profile"
+                                            aria-selected="false" v-on:click="검색('ING')">
+                                            <i data-feather="info"></i>진행중
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="contact-top-tab" data-toggle="tab" href="#top-complete"
+                                            role="tab" aria-controls="top-contact" aria-selected="false"
+                                            v-on:click="검색('END')">
+                                            <i data-feather="check-circle"></i>진행완료
+                                        </a>
+                                    </li>
+                                    <!-- 									<li class="nav-item"> -->
+                                    <!-- 										<a class="nav-link" id="contact-top-tab" data-toggle="tab" href="#top-expect" role="tab" aria-controls="top-contact" aria-selected="false" v-on:click="검색('ALL')"> -->
+                                    <!-- 											<i data-feather="check-circle"></i>진행예정 -->
+                                    <!-- 										</a> -->
+                                    <!-- 									</li> -->
+                                </ul>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="text-right">
+                                    <select class="button btn btn-primary" id="" name="">
+                                        <option>판교점</option>
+                                        <option>청주점</option>
+                                        <option>반포점</option>
+                                        <option>용산점</option>
+                                        <option>대구점</option>
+                                    </select>
+                                    <input class="form-control-lg" id="scheduleStart" name="scheduleStart" type="text"
+                                        style="width: 22%;height: 42px;vertical-align:top;margin-right: 15px">
+                                    <input type="hidden" id="scheduleType" name="scheduleType" value="ALL">
+                                    <button class="btn btn-primary" v-on:click="검색()">검색</button>
+                                    <a class="btn btn-primary" href="/reservation/regist.view">
+                                        <i data-feather="plus-square"></i>신규 예약등록
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="tab-content" id="top-tabContent">
+                                <div class="tab-pane fade show active" id="top-all" role="tabpanel"
+                                    aria-labelledby="top-home-tab">
+                                    <div class="row">
+                                        <div class="col-xl-4 col-lg-6" v-for="item in list">
+                                            <div class="project-box">
+                                                <span class="badge badge-primary">진행중</span>
+                                                <h6>{{item.scheduleTime}}</h6>
+                                                <!-- 												<div class="media"> -->
+                                                <!-- 													<img class="img-20 mr-1 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="" data-original-title="" title=""> -->
+                                                <!-- 													<div class="media-body"> -->
+                                                <!-- 														<p>FULL RESERVATION</p> -->
+                                                <!-- 													</div> -->
+                                                <!-- 												</div> -->
+                                                <p>전체정원 : {{item.numberOfPeople}}</p>
+                                                <p>튜터링정원 : {{item.tutoringNumber}}</p>
+                                                <div class="row details">
+                                                    <!-- 													<div class="col-6"> -->
+                                                    <!-- 														<span>TIME USER </span> -->
+                                                    <!-- 													</div> -->
+                                                    <!-- 													<div class="col-6 text-primary">4</div> -->
+
+                                                    <div class="col-6">
+                                                        <span>CLASS</span>
+                                                    </div>
+                                                    <div class="col-6 text-primary">{{item.reservationCnt}}</div>
+                                                    <!-- 													<div class="col-6"> -->
+                                                    <!-- 														<span>TUTORING</span> -->
+                                                    <!-- 													</div> -->
+                                                    <!-- 													<div class="col-6 text-primary">{{item.tutoringNumber}}</div> -->
+                                                </div>
+                                                <!-- 												<div class="customers"> -->
+                                                <!-- 													<ul> -->
+                                                <!-- 														<a href=""> 예약고객 정보 link -->
+                                                <!-- 														<li class="d-inline-block"> -->
+                                                <!-- 															<img class="img-30 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="홍길동" data-original-title="" title="홍길동"> -->
+                                                <!-- 														</a> -->
+                                                <!-- 														</li> -->
+                                                <!-- 														<a href=""> -->
+                                                <!-- 															<li class="d-inline-block"> -->
+                                                <!-- 															<img class="img-30 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="송강호" data-original-title="" title="홍길동"> -->
+                                                <!-- 														</a> -->
+                                                <!-- 														</li> -->
+                                                <!-- 														<a href=""> -->
+                                                <!-- 														<li class="d-inline-block"> -->
+                                                <!-- 															<img class="img-30 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="최민식" data-original-title="" title="홍길동"> -->
+                                                <!-- 														</a> -->
+                                                <!-- 														</li> -->
+                                                <!-- 													</ul> -->
+                                                <!-- 												</div> -->
+                                                <div class="project-status mt-4">
+                                                    <div class="media mb-0">
+                                                        <p>{{item.reservationPer}}%</p>
+                                                        <div class="media-body text-right">
+                                                            <span>FULL</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="progress" style="height: 5px">
+                                                        <div class="progress-bar-animated bg-primary progress-bar-striped"
+                                                            role="progressbar"
+                                                            :style="{width: item.reservationPer + '%'}"
+                                                            aria-valuenow="10" aria-valuemin="0" aria-valuemax="10">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade" id="top-processing" role="tabpanel"
+                                    aria-labelledby="top-processing">
+                                    <div class="row">
+                                        <div class="col-xl-4 col-lg-6" v-for="item in list">
+                                            <div class="project-box">
+                                                <span class="badge badge-primary">진행중</span>
+                                                <h6>{{item.scheduleTime}}</h6>
+                                                <!-- 												<div class="media"> -->
+                                                <!-- 													<img class="img-20 mr-1 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="" data-original-title="" title=""> -->
+                                                <!-- 													<div class="media-body"> -->
+                                                <!-- 														<p>FULL RESERVATION</p> -->
+                                                <!-- 													</div> -->
+                                                <!-- 												</div> -->
+                                                <p>전체정원 : {{item.numberOfPeople}}</p>
+                                                <div class="row details">
+                                                    <!-- 													<div class="col-6"> -->
+                                                    <!-- 														<span>TIME USER </span> -->
+                                                    <!-- 													</div> -->
+                                                    <!-- 													<div class="col-6 text-primary">4</div> -->
+                                                    <!-- 													<div class="col-6"> -->
+                                                    <!-- 														<span>TUTORING</span> -->
+                                                    <!-- 													</div> -->
+                                                    <!-- 													<div class="col-6 text-primary">4</div> -->
+                                                    <div class="col-6">
+                                                        <span>CLASS</span>
+                                                    </div>
+                                                    <div class="col-6 text-primary">{{item.reservationCnt}}</div>
+                                                </div>
+                                                <!-- 												<div class="customers"> -->
+                                                <!-- 													<ul> -->
+                                                <!-- 														<a href=""> 예약고객 정보 link -->
+                                                <!-- 														<li class="d-inline-block"> -->
+                                                <!-- 															<img class="img-30 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="홍길동" data-original-title="" title="홍길동"> -->
+                                                <!-- 														</a> -->
+                                                <!-- 														</li> -->
+                                                <!-- 														<a href=""> -->
+                                                <!-- 															<li class="d-inline-block"> -->
+                                                <!-- 															<img class="img-30 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="송강호" data-original-title="" title="홍길동"> -->
+                                                <!-- 														</a> -->
+                                                <!-- 														</li> -->
+                                                <!-- 														<a href=""> -->
+                                                <!-- 														<li class="d-inline-block"> -->
+                                                <!-- 															<img class="img-30 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="최민식" data-original-title="" title="홍길동"> -->
+                                                <!-- 														</a> -->
+                                                <!-- 														</li> -->
+                                                <!-- 													</ul> -->
+                                                <!-- 												</div> -->
+                                                <div class="project-status mt-4">
+                                                    <div class="media mb-0">
+                                                        <p>{{item.reservationPer}}%</p>
+                                                        <div class="media-body text-right">
+                                                            <span>FULL</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="progress" style="height: 5px">
+                                                        <div class="progress-bar-animated bg-primary progress-bar-striped"
+                                                            role="progressbar"
+                                                            :style="{width: item.reservationPer + '%'}"
+                                                            aria-valuenow="10" aria-valuemin="0" aria-valuemax="10">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade" id="top-complete" role="tabpanel"
+                                    aria-labelledby="top-complete">
+                                    <div class="row">
+                                        <div class="col-xl-4 col-lg-6" v-for="item in list">
+                                            <div class="project-box">
+                                                <span class="badge badge-primary">진행중</span>
+                                                <h6>{{item.scheduleTime}}</h6>
+                                                <!-- 												<div class="media"> -->
+                                                <!-- 													<img class="img-20 mr-1 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="" data-original-title="" title=""> -->
+                                                <!-- 													<div class="media-body"> -->
+                                                <!-- 														<p>FULL RESERVATION</p> -->
+                                                <!-- 													</div> -->
+                                                <!-- 												</div> -->
+                                                <p>전체정원 : {{item.numberOfPeople}}</p>
+                                                <div class="row details">
+                                                    <!-- 													<div class="col-6"> -->
+                                                    <!-- 														<span>TIME USER </span> -->
+                                                    <!-- 													</div> -->
+                                                    <!-- 													<div class="col-6 text-primary">4</div> -->
+                                                    <!-- 													<div class="col-6"> -->
+                                                    <!-- 														<span>TUTORING</span> -->
+                                                    <!-- 													</div> -->
+                                                    <!-- 													<div class="col-6 text-primary">4</div> -->
+                                                    <div class="col-6">
+                                                        <span>CLASS</span>
+                                                    </div>
+                                                    <div class="col-6 text-primary">{{item.reservationCnt}}</div>
+                                                </div>
+                                                <!-- 												<div class="customers"> -->
+                                                <!-- 													<ul> -->
+                                                <!-- 														<a href=""> 예약고객 정보 link -->
+                                                <!-- 														<li class="d-inline-block"> -->
+                                                <!-- 															<img class="img-30 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="홍길동" data-original-title="" title="홍길동"> -->
+                                                <!-- 														</a> -->
+                                                <!-- 														</li> -->
+                                                <!-- 														<a href=""> -->
+                                                <!-- 															<li class="d-inline-block"> -->
+                                                <!-- 															<img class="img-30 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="송강호" data-original-title="" title="홍길동"> -->
+                                                <!-- 														</a> -->
+                                                <!-- 														</li> -->
+                                                <!-- 														<a href=""> -->
+                                                <!-- 														<li class="d-inline-block"> -->
+                                                <!-- 															<img class="img-30 rounded-circle" th:src="@{/assets/images/user/5.jpg}" alt="최민식" data-original-title="" title="홍길동"> -->
+                                                <!-- 														</a> -->
+                                                <!-- 														</li> -->
+                                                <!-- 													</ul> -->
+                                                <!-- 												</div> -->
+                                                <div class="project-status mt-4">
+                                                    <div class="media mb-0">
+                                                        <p>{{item.reservationPer}}%</p>
+                                                        <div class="media-body text-right">
+                                                            <span>FULL</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="progress" style="height: 5px">
+                                                        <div class="progress-bar-animated bg-primary progress-bar-striped"
+                                                            role="progressbar"
+                                                            :style="{width: item.reservationPer + '%'}"
+                                                            aria-valuenow="10" aria-valuemin="0" aria-valuemax="10">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 								<div class="tab-pane fade" id="top-expect" role="tabpanel" aria-labelledby="top-expect"> -->
+                                <!-- 									top-expect -->
+                                <!-- 								</div> -->
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Container-fluid Ends-->
+            </div>
+        </div>
+    </div>
 </th:block>
+
 </html>

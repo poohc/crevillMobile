@@ -29,7 +29,7 @@
                     	<img th:src="@{/common/getImage(imageIdx=${list.pictureIdx})}" th:alt="|${list.childName} 어린이 사진|" class="image">
                     </th:block>
                     <th:block th:unless="${list.pictureIdx != null && list.pictureIdx != ''}">
-                    	<img th:src="@{/assets/img/sample/avatar/avatar3.jpg}" th:alt="|${list.childName} 어린이 사진|" class="image">
+                    	<img th:src="@{/assets/img/kids.png}" th:alt="|${list.childName} 어린이 사진|" class="image">
                     </th:block>
                     <div class="in">
                         <div th:text="${list.childName}"></div>

@@ -36,10 +36,10 @@
                     <th:block th:if="${session.memberVo != null}">
                         <h5 class="card-title" th:text="|${session.memberVo?.name}님|"></h5>
                         <p class="card-text">
-                        	<span class="badge badge-danger" th:text="|${session.memberVo?.memberType}|"></span> 회원</p>
-                        	<th:block th:if="${visitSummary != null}">
-                           		<p class="card-text"><small th:text="|최근방문 : ${visitSummary.visitDate}|"></small></p>
-                        	</th:block>
+                            <span class="badge badge-danger" th:text="|${session.memberVo?.memberType}|"></span> 회원</p>
+                        <th:block th:if="${visitSummary != null}">
+                            <p class="card-text"><small th:text="|최근방문 : ${visitSummary.visitDate}|"></small></p>
+                        </th:block>
                         <th:block th:unless="${visitSummary != null}">
                             <p class="card-text"><small>방문이력 없음</small></p>
                         </th:block>
@@ -75,7 +75,7 @@
             </div>
             <div class="section full mt-1">
                 <div class="section-title">신규프로그램</div>
-                
+
                 <div class="carousel-full owl-carousel owl-theme">
                     <div class="item" th:each="list : ${programList}">
                         <div class="card">
@@ -170,22 +170,22 @@
         </th:block>
 
         <div class="section full mt-1">
-            <th:block th:if="${session.memberVo != null && voucherInfo != null && session.memberVo.storeId != 'MOBILE'}">
+            <th:block
+                th:if="${session.memberVo != null && voucherInfo != null && session.memberVo.storeId != 'MOBILE'}">
                 <div class="wide-block pt-2 pb-2">
                     <div class="row">
+                    	<th:block th:each="list : ${voucherList}">
+                    	<input type="hidden" id="voucherUsePerCalc" th:value="${list.voucherUsePerCalc}">
                         <div class="col-4">
                             <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown"
-                                    style="font-size:10px">
-                                    100시간권
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" style="font-size:10px" th:text="${list.ticketName}">
                                 </button>
                                 <div class="dropdown-menu" style="padding-top:5px;">
-                                    <a class="dropdown-item">100시간권</a>
-                                    <a class="dropdown-item">20시간권</a>
+                                    <a class="dropdown-item" th:text="${list.ticketName}"></a>
                                 </div>
                                 잔여시간
                                 <div class="chip chip-outline chip-primary ml-05 mb-05" style="padding-left:0px;">
-                                    <span class="chip-label">20/100</span>
+                                    <span class="chip-label" th:text="|${list.timeLeftHour}/${list.useTime}|">20/100</span>
                                 </div>
                             </div>
                         </div>
@@ -194,7 +194,7 @@
                                 <div class="in">
                                     <div class="text">
                                         잔여시간
-                                        <h3 class="value">10</h3>
+                                        <h3 class="value" th:text="${list.timeLeftHour}"></h3>
                                         시간
                                     </div>
                                 </div>
@@ -205,12 +205,13 @@
                                 <div class="in">
                                     <div class="text">
                                         바우처
-                                        <h3 class="value">80%</h3>
+                                        <h3 class="value" th:text="|${list.voucherUsePer}%|"></h3>
                                         소진률
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        </th:block>
                     </div>
                 </div>
             </th:block>
@@ -231,7 +232,7 @@
                 <div class="section-title">링크</div>
                 <div class="wide-block pt-2">
                     <div class="row" style="text-align: center;">
-                        <div class="col-4">
+                        <div class="col-6">
                             <a href="http://pf.kakao.com/_xoFKuxb">
                                 <img src="assets/img/btn1.jpg" alt="alt" class="imaged w-50 rounded"
                                     style="padding-bottom:5px;">
@@ -240,21 +241,12 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="col-4">
+                        <div class="col-6">
                             <a href="https://www.instagram.com/crevill_headquarter/">
                                 <img src="assets/img/instagram.png" alt="alt" class="imaged w-50 rounded"
                                     style="padding-bottom:5px;">
                                 <div style="bottom: 10px; left: 19px;font-size: 13px;">
                                     <h5>인스타그램</h5>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-4">
-                            <a href="https://pf.kakao.com/_xoFKuxb">
-                                <img src="assets/img/btn1.jpg" alt="alt" class="imaged w-50 rounded"
-                                    style="padding-bottom:5px;">
-                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
-                                    <h5>카카오상담</h5>
                                 </div>
                             </a>
                         </div>
@@ -342,87 +334,87 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="section full mt-2 mb-3">
-            <div class="section-title">크레빌 프로모션</div>
-            <div class="carousel-full owl-carousel owl-theme">
-                <div class="item" th:each="list : ${promotionList}">
-                    <a th:href="@{/promotion/list.view}">
-                        <img th:src="@{/common/getImage(imageIdx=${list.promotionBannerId})}"
-                            class="imaged w-100 square" alt="promotion">
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="section full mt-1">
-            <div class="wide-block pt-2">
-                <div class="row" style="text-align: center;">
-                    <div class="col-6">
-                        <a href="#" data-toggle="modal" data-component="stories" data-target="#about_crevill">
-                            <img src="assets/img/introBtn1.png" alt="alt" class="imaged w-50"
-                                style="padding-bottom:5px;">
-                            <div style="bottom: 10px; left: 19px;font-size: 13px;">
-                                <h5>크레빌소개</h5>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-6">
-                        <a href="#" data-toggle="modal" data-component="stories" data-target="#about_program">
-                            <img src="assets/img/introBtn2.png" alt="alt" class="imaged w-50"
-                                style="padding-bottom:5px;">
-                            <div style="bottom: 10px; left: 19px;font-size: 13px;">
-                                <h5>프로그램소개</h5>
-                            </div>
+            <div class="section full mt-2 mb-3">
+                <div class="section-title">크레빌 프로모션</div>
+                <div class="carousel-full owl-carousel owl-theme">
+                    <div class="item" th:each="list : ${promotionList}">
+                        <a th:href="@{/promotion/list.view}">
+                            <img th:src="@{/common/getImage(imageIdx=${list.promotionBannerId})}"
+                                class="imaged w-100 square" alt="promotion">
                         </a>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="modal fade modalbox" id="about_crevill" data-backdrop="static" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">크레빌 소개</h5>
-                        <a href="javascript:;" data-dismiss="modal">닫기</a>
-                    </div>
-                    <div class="modal-body">
-                        <img th:src="@{assets/img/detail_crevill.jpg}" alt="image" class="imaged img-fluid">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="modal fade modalbox" id="about_program" data-backdrop="static" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">프로그램 소개</h5>
-                        <a href="javascript:;" data-dismiss="modal">닫기</a>
-                    </div>
-                    <div class="modal-body">
-                        <img th:src="@{assets/img/detail_program.jpg}" alt="image" class="imaged img-fluid">
+            <div class="section full mt-1">
+                <div class="wide-block pt-2">
+                    <div class="row" style="text-align: center;">
+                        <div class="col-6">
+                            <a href="#" data-toggle="modal" data-component="stories" data-target="#about_crevill">
+                                <img src="assets/img/introBtn1.png" alt="alt" class="imaged w-50"
+                                    style="padding-bottom:5px;">
+                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
+                                    <h5>크레빌소개</h5>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-6">
+                            <a href="#" data-toggle="modal" data-component="stories" data-target="#about_program">
+                                <img src="assets/img/introBtn2.png" alt="alt" class="imaged w-50"
+                                    style="padding-bottom:5px;">
+                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
+                                    <h5>프로그램소개</h5>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="section full mt-2 mb-3">
-            <div class="section-title">소개영상</div>
-            <div class="embed-responsive embed-responsive-16by9">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/HZ-tVcvnAl0"
-                    title="YouTube video player" frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
+
+            <div class="modal fade modalbox" id="about_crevill" data-backdrop="static" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">크레빌 소개</h5>
+                            <a href="javascript:;" data-dismiss="modal">닫기</a>
+                        </div>
+                        <div class="modal-body">
+                            <img th:src="@{assets/img/detail_crevill.jpg}" alt="image" class="imaged img-fluid">
+                        </div>
+                    </div>
+                </div>
             </div>
+
+
+            <div class="modal fade modalbox" id="about_program" data-backdrop="static" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">프로그램 소개</h5>
+                            <a href="javascript:;" data-dismiss="modal">닫기</a>
+                        </div>
+                        <div class="modal-body">
+                            <img th:src="@{assets/img/detail_program.jpg}" alt="image" class="imaged img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section full mt-2 mb-3">
+                <div class="section-title">소개영상</div>
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/HZ-tVcvnAl0"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+
+
+
+            <!-- app footer -->
+            <th:block th:replace="fragments/appFooter :: appFooterFragment"></th:block>
         </div>
-
-
-
-        <!-- app footer -->
-        <th:block th:replace="fragments/appFooter :: appFooterFragment"></th:block>
-    </div>
-    <!-- * App Capsule -->
+        <!-- * App Capsule -->
 </th:block>
 
 </html>

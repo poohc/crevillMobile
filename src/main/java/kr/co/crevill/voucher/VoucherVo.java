@@ -34,4 +34,6 @@ public class VoucherVo {
     private String voucherUseId; 
     private String voucherRegDate;
     private String voucherUseDate;
+    private String voucherUsePer;
+    private String voucherUsePerCalc;
 }

@@ -112,7 +112,9 @@
 		       A.USE_TIME,
 		       D.NAME,
 		       C.TIME_LEFT_HOUR,
-		       (SELECT S.STORE_NAME FROM STORE S WHERE S.STORE_ID = B.STORE_ID) STORE_NAME
+		       (SELECT S.STORE_NAME FROM STORE S WHERE S.STORE_ID = B.STORE_ID) STORE_NAME,
+		       FORMAT(ROUND(((A.USE_TIME - C.TIME_LEFT_HOUR) / A.USE_TIME) * 100),0) VOUCHER_USE_PER,
+		       ROUND((3-2) / 3, 2) VOUCHER_USE_PER_CALC
 		  FROM VOUCHER A,
 		       VOUCHER_SALE B,
 		       VOUCHER_USE_VIEW C,
@@ -124,6 +126,9 @@
 		   AND (C.TIME_LEFT_HOUR = 'UNLIMITED' OR C.TIME_LEFT_HOUR  > 0)
 		   AND B.BUY_CELL_PHONE = D.PARENT_CELL_PHONE
       GROUP BY A.VOUCHER_NO		   
+      <if test="limit != null and limit != ''">
+         LIMIT #{limit}
+      </if>
 	</select>
 	
 	<select id="getMemberVoucherAllList" parameterType="kr.co.crevill.voucher.VoucherDto" resultType="kr.co.crevill.voucher.VoucherVo">

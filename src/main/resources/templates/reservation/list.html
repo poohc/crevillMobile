@@ -15,12 +15,12 @@
         </div>
     </div>
 	<div id="appCapsule">
-        <div class="listview-title mt-2">예약 목록 - 당일취소는 불가합니다.</div>
+        <div class="listview-title mt-2">이용일 기준 1일전까지 취소가 가능합니다.</div>
         <ul class="listview image-listview">
             <li th:each="list : ${list}">
             	<th:block th:if="${list.status == '02'}">
                 <a class="item" th:attr="onclick=|cancel('${list.reservationId}','${list.voucherUseId}','${list.isToday}', '${list.isCancelPossible}')|">
-                    <img th:src="@{/assets/img/sample/avatar/avatar1.jpg}" alt="image" class="image">
+                    <img th:src="@{/assets/img/logo_circle.jpg}" alt="image" class="image">
                     <div class="in">
                         <div>
                             <header th:text="${list.storeName}"></header>
@@ -32,7 +32,7 @@
                             </footer>
                         </div>
                         <th:block th:if="${list.status == '02'}">
-                        	<span class="text-muted">예약완료</span>
+                        	<span class="badge badge-info" style="width:50px;">취소하기</span>
                         </th:block>
                     </div>
                 </a>
@@ -51,7 +51,7 @@
                             </footer>
                         </div>
                         <th:block th:if="${list.status == '05'}">
-                        	<span class="text-muted"><font color="red">예약취소</font></span>
+                        	<span class="badge badge-danger" style="width:50px;">취소완료</font></span>
                         </th:block>
                     </div>
                 </a>
