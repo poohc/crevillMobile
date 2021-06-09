@@ -195,6 +195,12 @@ public class ReservationController {
 		if(!CrevillConstants.STORE_ID_MOBILE.equals(SessionUtil.getSessionMemberVo(request).getStoreId())) {
 			reservationDto.setStoreId(SessionUtil.getSessionMemberVo(request).getStoreId());	
 		}
+		
+		if(!CrevillConstants.STORE_ID_MOBILE.equals(SessionUtil.getSessionMemberVo(request).getStoreId())) {
+			reservationDto.setStoreId(SessionUtil.getSessionMemberVo(request).getStoreId());	
+		}
+		reservationDto.setChildLength(reservationDto.getChildName().split(",").length - 1);
+		
 		List<ReservationVo> list = reservationService.selectSearchDayReservation(reservationDto);
 		if(list != null && list.size() > 0) {
 			result.put("resultCd", CrevillConstants.RESULT_SUCC);

@@ -205,12 +205,24 @@ function setReservationCalendar(){
 }
 
 function getReservationSearchList(scheduleStart){
+	var tutoringYn = 'N';
+	var operationType = 'WEEKDAY';
+	
+	var childName = '';
+	$("input[name=childName]:checked").each(function() {
+		childName += $(this).val() + ',';
+	});
+	childName = childName.substr(0, childName.length - 1);
+	
 	$.ajax({
 		type : "POST",
 		data: {
 	            scheduleStart : scheduleStart,
+				tutoringYn : tutoringYn,
+				operationType : operationType,
 				experienceClass : 'Y',
-				storeId : $('#storeId').val()
+				storeId : $('#storeId').val(),
+				childName : childName
 	    },
 		url : contextRoot + 'reservation/getSearchDayReservation.proc',
 		success : function(data){
@@ -219,9 +231,8 @@ function getReservationSearchList(scheduleStart){
 				for(var i=0; i < data.list.length; i++){
 					Vue.set(vm.scheduleList, i, data.list[i]);
 				} 
-//				vm.scheduleList.slice().sort(function(a, b) {
-//	    			return b.scheduleStart - a.scheduleStart;
-//	            });
+				vm.scheduleList.splice(data.list.length);
+				
 			} else {
 //				alert('해당 조건으로 예약 가능한 날짜가 없습니다.');
 				return false;	

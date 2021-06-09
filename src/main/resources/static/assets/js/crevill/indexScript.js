@@ -91,12 +91,90 @@ $('#circle3').circleProgress({
 });
 
 $(document).ready(function(){
-	$(".owl-carousel").owlCarousel({
-		items:1,                 // 한번에 보여줄 아이템 수
-        loop:true,               // 반복여부
-        autoplayHoverPause:true,  //마우스오버시 멈출지 여부
-        dots: true,
-	}); 
+	$('.carousel-full').owlCarousel({
+    loop: true,
+    margin: 0,
+    nav: false,
+    items: 1,
+    dots: false,
+//    dots: true,
+});
+
+$('.carousel-single').owlCarousel({
+    stagePadding: 30,
+    loop: true,
+    margin: 16,
+    nav: false,
+    dots: false,
+    responsiveClass: true,
+    responsive: {
+        0: {
+            items: 1,
+        },
+        768: {
+            items: 3,
+        }
+    }
+
+});
+$('.carousel-multiple').owlCarousel({
+    stagePadding: 32,
+    loop: true,
+    margin: 16,
+    nav: false,
+    items: 2,
+    dots: false,
+    responsiveClass: true,
+    responsive: {
+        0: {
+            items: 2,
+        },
+        768: {
+            items: 4,
+        }
+    }
+});
+$('.carousel-small').owlCarousel({
+    stagePadding: 32,
+    loop: true,
+    margin: 16,
+    nav: false,
+    items: 5,
+    dots: false,
+    responsiveClass: true,
+    responsive: {
+        0: {
+            items: 5,
+        },
+        768: {
+            items: 8,
+        }
+    }
+});
+$('.carousel-slider').owlCarousel({
+    loop: true,
+    margin: 8,
+    nav: false,
+    items: 1,
+    dots: true,
+});
+$('.story-blocks').owlCarousel({
+    stagePadding: 32,
+    loop: false,
+    margin: 16,
+    nav: false,
+    items: 5,
+    dots: false,
+    responsiveClass: true,
+    responsive: {
+        0: {
+            items: 5,
+        },
+        768: {
+            items: 8,
+        }
+    }
+});
 });
 
 function reservation(scheduleId, scheduleStart, playName, reservationCnt){
@@ -116,9 +194,7 @@ function reservation(scheduleId, scheduleStart, playName, reservationCnt){
 				for(var i=0; i < data.scheduleList.length; i++){
 					Vue.set(vm.scheduleList, i, data.scheduleList[i]);
 				} 
-				vm.scheduleList.slice().sort(function(a, b) {
-	    			return b.scheduleStart - a.scheduleStart;
-	            });
+				vm.scheduleList.splice(data.scheduleList.length);
 				vm.voucherTimeLeft = data.scheduleList[0].timeLeftHour;
 				
 			} else {

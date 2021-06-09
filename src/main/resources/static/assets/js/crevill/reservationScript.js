@@ -31,7 +31,9 @@ var vm = new Vue({
 		voucherTimeLeftHour : '',
 		voucherEndDate : '',
 		reservationCnt : '',
-		classType : ''
+		classType : '',
+		voucherAttribute : [],
+		scheduleText : ''
     },
 	methods: {
     validateBeforeSubmit() {
@@ -61,7 +63,7 @@ var vm = new Vue({
 				formdata.append("voucherNo", $("input[name=voucherNo]:checked").val());
 				formdata.append("scheduleId", scheduleId);
 				formdata.append("childName", childName);
-				formdata.append("classType", $('#classType').val());
+				formdata.append("classType", $("input[name='classType']:checked").val());
 				
 				axios.post(contextRoot + 'reservation/regist.proc', formdata,{
 					  headers: {
@@ -101,6 +103,11 @@ $('input[name="voucherNo"]').click(function(){
 			if(data.resultCd == '00'){
 				vm.voucherTimeLeftHour = data.voucherInfo.timeLeftHour;
 				vm.voucherEndDate = data.voucherInfo.endDate;
+				
+				for(var i=0; i < data.voucherInfo.attribute.split(',').length; i++){
+					Vue.set(vm.voucherAttribute, i, data.voucherInfo.attribute.split(',')[i]);
+				} 
+				vm.voucherAttribute.splice(data.voucherInfo.attribute.split(',').length);
 			} else {
 				alert('바우처 정보를 불러올 수가 없습니다.');
 				return false;	
@@ -119,8 +126,14 @@ $('input[name="childName"]').click(function(){
 	vm.reservationCnt = $("input:checkbox[name=childName]:checked").length;
 });
 
-$('#classType').change(function(){
-	vm.classType = $("#classType option:checked").text();
+$(document).on("change","input[name='classType']",function(){
+	var classType = $("input[name='classType']:checked").val();
+	var classTypeText = '';
+	if(classType == 'CLASS_A') classTypeText = '클래스';
+	if(classType == 'CLASS_D') classTypeText = '튜터링';
+	if(classType == 'CLASS_B') classTypeText = '스페셜캠프';
+	
+	vm.classType = classTypeText;
 	setReservationCalendar();
 	$('#scheduleStart').val('');
 	vm.scheduleList = {};
@@ -131,7 +144,12 @@ $('#cal').click(function(){
 });
 
 $('input[name="childName"]').change(function(){
-	vm.classType = $("#classType option:checked").text();
+	var classType = $("input[name='classType']:checked").val();
+	var classTypeText = '';
+	if(classType == 'CLASS_A') classTypeText = '클래스';
+	if(classType == 'CLASS_D') classTypeText = '튜터링';
+	if(classType == 'CLASS_B') classTypeText = '스페셜캠프';
+	vm.classType = classTypeText;
 	setReservationCalendar();
 	$('#scheduleStart').val('');
 	vm.scheduleList = {};
@@ -141,29 +159,30 @@ setTimeout(function() {
 //강제이벤트 발생
 $('input[name="voucherNo"]').trigger('click');
 $('input[name="childName"]').trigger('click');
-$('#classType').trigger('change');
+$("input[name='classType']:radio").trigger('change');
 setReservationCalendar();
-}, 1000);
+}, 1500);
 
 function setReservationCalendar(){
 	
 	var tutoringYn = 'N';
 	var operationType = 'WEEKDAY';
 	var playName;
+	var classType = $("input[name='classType']:checked").val();
 	
-	if($('#classType').val() == 'CLASS_D'){
+	if(classType == 'CLASS_D'){
 		tutoringYn = 'Y'
 	}
 	
-	if($('#classType').val() == 'CLASS_B' || $('#classType').val() == 'CLASS_E'){
+	if(classType == 'CLASS_B' || classType == 'CLASS_E'){
 		operationType = 'WEEKEND';
 	}
 	
-	if($('#classType').val() == 'CLASS_B'){
+	if(classType == 'CLASS_B'){
 		playName = 'SPECIAL CAMP';
 	}
 	
-	if($('#classType').val() == 'CLASS_E'){
+	if(classType == 'CLASS_E'){
 		playName = 'VIP 캠프';
 	}
 	calendarEvent = [{}];
@@ -206,10 +225,42 @@ function setReservationCalendar(){
 }
 
 function getReservationSearchList(scheduleStart){
+	
+	var tutoringYn = 'N';
+	var operationType = 'WEEKDAY';
+	var playName;
+	var classType = $("input[name='classType']:checked").val();
+	
+	if(classType == 'CLASS_D'){
+		tutoringYn = 'Y'
+	}
+	
+	if(classType == 'CLASS_B' || classType == 'CLASS_E'){
+		operationType = 'WEEKEND';
+	}
+	
+	if(classType == 'CLASS_B'){
+		playName = 'SPECIAL CAMP';
+	}
+	
+	if(classType == 'CLASS_E'){
+		playName = 'VIP 캠프';
+	}
+	
+	var childName = '';
+	$("input[name=childName]:checked").each(function() {
+		childName += $(this).val() + ',';
+	});
+	childName = childName.substr(0, childName.length - 1);
+	
 	$.ajax({
 		type : "POST",
 		data: {
-	            scheduleStart : scheduleStart
+				scheduleStart : scheduleStart,
+	            tutoringYn : tutoringYn,
+				operationType : operationType,
+				playName : playName,
+				childName : childName
 	    },
 		url : contextRoot + 'reservation/getSearchDayReservation.proc',
 		success : function(data){
@@ -218,7 +269,7 @@ function getReservationSearchList(scheduleStart){
 				for(var i=0; i < data.list.length; i++){
 					Vue.set(vm.scheduleList, i, data.list[i]);
 				} 
-//				vm.scheduleList.splice(data.list.length);
+				vm.scheduleText = data.list[0].scheduleText;
 			} else {
 //				alert('해당 조건으로 예약 가능한 날짜가 없습니다.');
 				return false;	

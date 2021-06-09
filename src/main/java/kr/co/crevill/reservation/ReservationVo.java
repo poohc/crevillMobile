@@ -45,4 +45,5 @@ public class ReservationVo {
 	private String isCancelPossible;
 	private String timeLeftHour;
 	private String ticketName;
+	private String scheduleText;
 }

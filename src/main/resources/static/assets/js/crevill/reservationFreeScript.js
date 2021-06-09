@@ -79,9 +79,7 @@ $('#scheduleId').click(function(){
 				for(var i=0; i < data.scheduleList.length; i++){
 					Vue.set(vm.scheduleList, i, data.scheduleList[i]);
 				} 
-				vm.scheduleList.slice().sort(function(a, b) {
-	    			return b.scheduleStart - a.scheduleStart;
-	            });
+				vm.scheduleList.splice(data.scheduleList.length);
 			} else {
 				alert('해당 날짜에 등록된 수업이 없습니다.');
 				return false;	

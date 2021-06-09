@@ -1,34 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layout/default(scriptName='/assets/js/crevill/indexScript.js')}">
+      layout:decorate="~{layout/default(scriptName='/assets/js/crevill/indexScript.js')}">
 
 <th:block layout:fragment="content">
     <div id="appCapsule" style="padding-top:45px;">
-        <!--<div class="section mt-1">
-            <div class="row">
-                <div class="col-12" style="padding-right: 0px;">
-                    <div class="card bg-dark text-white" style="box-shadow: none;">
-                        <img src="assets/img/left.jpg" class="card-img overlay-img" alt="image">
-                        <div class="card-img-overlay" style="color: black;">
-                            <th:block th:if="${session.memberVo != null}">
-                            <h5 class="card-title" th:text="|${session.memberVo?.name}님|"></h5>
-	                            <p class="card-text"><span class="badge badge-danger" th:text="|${session.memberVo?.storeNameShort}|"></span> 회원</p>
-	                            <th:block th:if="${visitSummary != null}">
-	                            	<p class="card-text"><small th:text="|최근방문 : ${visitSummary.visitDate}|"></small></p>
-	                            </th:block>
-	                            <th:block th:unless="${visitSummary != null}">
-	                            	<p class="card-text"><small>방문이력 없음</small></p>
-	                            </th:block>
-                            </th:block>
-                            <th:block th:unless="${session.memberVo != null}">
-	                            <a th:href="@{/login/login.view}" class="btn btn-primary square mr-1">로그인</a><br><br>
-	                            <p class="card-text"><small>안녕하세요. 크레빌영어 마을입니다.</small></p>
-                            </th:block>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>-->
         <div class="section mt-1">
             <div class="card bg-dark text-white">
                 <img src="assets/img/loginform_bg.jpg" class="card-img overlay-img" alt="image">
@@ -75,18 +50,15 @@
             </div>
             <div class="section full mt-1">
                 <div class="section-title">신규프로그램</div>
-
                 <div class="carousel-full owl-carousel owl-theme">
                     <div class="item" th:each="list : ${programList}">
                         <div class="card">
                             <a th:href="@{/storeProgram/list.view(chainClass=${list.chainClass})}" class="item">
-                                <img th:src="@{/common/getImage(imageIdx=${list.thumbnailId})}"
-                                    class="card-img overlay-img" alt="image">
+                                <img th:src="@{/common/getImage(imageIdx=${list.thumbnailId})}" class="card-img overlay-img" alt="image">
                             </a>
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <div class="modal fade action-sheet" id="actionSheetForm" tabindex="-1" role="dialog">

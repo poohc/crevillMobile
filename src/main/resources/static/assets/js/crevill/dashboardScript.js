@@ -18,11 +18,9 @@ var listVm = new Vue({
 							  listVm.list.splice(0);
 						  } else {
 						  	  for(var i=0; i < response.data.length; i++){
-								Vue.set(listVm.list, i, response.data[i]);
+							  	  Vue.set(listVm.list, i, response.data[i]);
 							  }	
-							  listVm.list.slice().sort(function(a, b) {
-				    		  	  return b.reservationTime - a.reservationTime;
-				              });		
+							  listVm.list.splice(response.data.length);
 						  }
 						  
 					}).catch(function (error) {
@@ -45,10 +43,7 @@ $(function(){
 			  for(var i=0; i < response.data.length; i++){
 				Vue.set(listVm.list, i, response.data[i]);
 			  }	
-			  
-			  listVm.list.slice().sort(function(a, b) {
-    		  	  return b.reservationTime - a.reservationTime;
-              });
+			  listVm.list.splice(response.data.length);
 
 		}).catch(function (error) {
 			console.log(error);

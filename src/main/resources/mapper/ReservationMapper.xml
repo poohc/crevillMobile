@@ -237,12 +237,12 @@
 		       DATE_FORMAT(A.SCHEDULE_START, '%m월 %d일 %H:%i') SCHEDULE_START,
 		       (SELECT COUNT(*) FROM RESERVATION R WHERE R.SCHEDULE_ID = A.SCHEDULE_ID AND R.TUTORING_YN = 'N') RESERVATION_CNT
 		  FROM SCHEDULE A
-		 WHERE SCHEDULE_START > NOW()        
+		 WHERE SCHEDULE_START <![CDATA[ > ]]> NOW()        
 		   AND DATE_FORMAT(SCHEDULE_END, '%Y%m%d') = DATE_FORMAT(NOW(), '%Y%m%d')
 		   <![CDATA[
 		   AND (SELECT COUNT(*) FROM RESERVATION R WHERE R.SCHEDULE_ID = A.SCHEDULE_ID AND R.TUTORING_YN = 'N') < A.NUMBER_OF_PEOPLE
 		   ]]> 
-		 LIMIT 2 
+		 LIMIT 1 
 	</select>
 	
 	<select id="selectRecommendReservationWeekend" resultType="kr.co.crevill.reservation.ReservationVo">
@@ -313,12 +313,26 @@
 		SELECT A.SCHEDULE_ID,
 		       DATE_FORMAT(A.SCHEDULE_START, '%H:%i') SCHEDULE_START,
 		       B.NAME PLAY_NAME,
-		       (SELECT SUBSTRING_INDEX(S.STORE_NAME, ' ', - 1) FROM STORE S WHERE S.STORE_ID = A.STORE_ID) STORE_NAME_SHORT
+		       (SELECT SUBSTRING_INDEX(S.STORE_NAME, ' ', - 1) FROM STORE S WHERE S.STORE_ID = A.STORE_ID) STORE_NAME_SHORT,
+		       A.SUB_TOPIC,
+		       (A.NUMBER_OF_PEOPLE - (SELECT COUNT(*) FROM RESERVATION R WHERE R.SCHEDULE_ID = A.SCHEDULE_ID AND R.TUTORING_YN = 'N')) RESERVATION_CNT,
+		       (A.TUTORING_NUMBER - (SELECT COUNT(*) FROM RESERVATION R WHERE R.SCHEDULE_ID = A.SCHEDULE_ID AND R.TUTORING_YN = 'Y')) TUTORING_CNT,
+		       CONCAT(CONCAT(DATE_FORMAT(A.SCHEDULE_START, '%m월%d일'), (SELECT SUBSTRING_INDEX(S.STORE_NAME, ' ', - 1) FROM STORE S WHERE S.STORE_ID = A.STORE_ID)), ' 스케쥴') SCHEDULE_TEXT
 		  FROM SCHEDULE A,
 		       PLAY B
 		 WHERE DATE_FORMAT(A.SCHEDULE_START, '%Y-%m-%d') = #{scheduleStart}
-		   AND A.PLAY_ID = B.PLAY_ID
 		   AND A.STORE_ID = #{storeId}
+		   <if test="tutoringYn != null and tutoringYn == 'N'.toString()">
+		   AND (SELECT COUNT(*) + #{childLength} FROM RESERVATION R WHERE R.SCHEDULE_ID = A.SCHEDULE_ID AND R.TUTORING_YN = #{tutoringYn}) <![CDATA[ < ]]> A.NUMBER_OF_PEOPLE
+		   </if>
+		   <if test="tutoringYn != null and tutoringYn == 'Y'.toString()">
+		   AND (SELECT COUNT(*) + #{childLength} FROM RESERVATION R WHERE R.SCHEDULE_ID = A.SCHEDULE_ID AND R.TUTORING_YN = #{tutoringYn}) <![CDATA[ < ]]> A.TUTORING_NUMBER
+		   </if>
+		   AND A.OPERATION_TYPE = #{operationType}
+		   AND A.PLAY_ID = B.PLAY_ID
+		   <if test="playName != null and playName != ''">
+		   AND B.NAME = #{playName}
+		   </if>
 		   <if test="experienceClass != null and experienceClass == 'Y'.toString()">
 		   AND DATE_FORMAT(A.SCHEDULE_START, '%H') % 2 = 0
 		   </if>
