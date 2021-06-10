@@ -1,10 +1,4 @@
- $("#storeName").on("keydown",function(key){
-    if(key.keyCode==13) {
-     	location.href = contextRoot + 'store/storeList.view?storeName=' + $('#storeName').val();   
-    }
- });
-
-$(document).ready(function(){
+ $(document).ready(function(){
 	$('.carousel-full').owlCarousel({
     loop: true,
     margin: 0,

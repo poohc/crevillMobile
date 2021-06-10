@@ -12,7 +12,7 @@
 			    A.PROMOTION_VALUE,
 			    A.PROMOTION_BANNER_ID,
 			    A.PROMOTION_DETAIL_IMAGE_ID,
-			    (SELECT GROUP_CONCAT(S.STORE_NAME SEPARATOR ',') FROM PROMOTION_STORE PS, STORE S WHERE A.PROMOTION_ID = PS.PROMOTION_ID AND PS.STORE_ID = S.STORE_ID) STORE_ID,
+			    (SELECT GROUP_CONCAT(SUBSTRING_INDEX(S.STORE_NAME, ' ', - 1) SEPARATOR ',') FROM PROMOTION_STORE PS, STORE S WHERE A.PROMOTION_ID = PS.PROMOTION_ID AND PS.STORE_ID = S.STORE_ID AND PS.STORE_ID != 'CST00001') STORE_ID,
 			    A.REG_ID,
 		        DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') REG_DATE,
 		        A.UPD_ID,
@@ -25,7 +25,7 @@
             AND A.END_DATE >= DATE_FORMAT(NOW(), '%Y%m%d')
             ]]>
             AND A.STATUS = 'ACTIVE' 
-            AND B.STORE_ID = #{storeId}  
+            AND B.STORE_ID = #{storeId}
     </select>
 	
 	<select id="getPromotionList" parameterType="kr.co.crevill.promotion.PromotionDto" resultType="kr.co.crevill.promotion.PromotionVo">

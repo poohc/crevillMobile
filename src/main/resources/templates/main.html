@@ -123,7 +123,7 @@
 
             <div class="n_res section mt-2">
                 <div class="section-title">예약알림</div>
-                <div class="carousel-multiple owl-carousel owl-theme">
+                <div class="carousel-slider owl-carousel owl-theme">
                     <th:block th:each="list : ${reservationList}">
                         <div class="item">
                             <a th:href="@{/reservation/list.view}">
@@ -157,7 +157,7 @@
                                 </div>
                                 잔여시간
                                 <div class="chip chip-outline chip-primary ml-05 mb-05" style="padding-left:0px;">
-                                    <span class="chip-label" th:text="|${list.timeLeftHour}/${list.useTime}|">20/100</span>
+                                    <span class="chip-label" th:text="|${list.timeLeftHour}/${list.useTime}|"></span>
                                 </div>
                             </div>
                         </div>
@@ -311,8 +311,7 @@
                 <div class="carousel-full owl-carousel owl-theme">
                     <div class="item" th:each="list : ${promotionList}">
                         <a th:href="@{/promotion/list.view}">
-                            <img th:src="@{/common/getImage(imageIdx=${list.promotionBannerId})}"
-                                class="imaged w-100 square" alt="promotion">
+                            <img th:src="@{/common/getImage(imageIdx=${list.promotionBannerId})}" class="imaged w-100 square" alt="promotion">
                         </a>
                     </div>
                 </div>

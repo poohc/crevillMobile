@@ -174,9 +174,10 @@ public class ReservationController {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
 		
-		if(!CrevillConstants.STORE_ID_MOBILE.equals(SessionUtil.getSessionMemberVo(request).getStoreId())) {
-			reservationDto.setStoreId(SessionUtil.getSessionMemberVo(request).getStoreId());	
-		}
+//		if(!CrevillConstants.STORE_ID_MOBILE.equals(SessionUtil.getSessionMemberVo(request).getStoreId())) {
+//			reservationDto.setStoreId(SessionUtil.getSessionMemberVo(request).getStoreId());	
+//		}
+		
 		reservationDto.setChildLength(reservationDto.getChildName().split(",").length - 1);
 		
 		List<ReservationVo> avaReservationList = reservationService.selectAvaReservation(reservationDto);
@@ -192,13 +193,9 @@ public class ReservationController {
 	public JSONObject getSearchDayReservation(HttpServletRequest request, @ModelAttribute ReservationDto reservationDto) {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
-		if(!CrevillConstants.STORE_ID_MOBILE.equals(SessionUtil.getSessionMemberVo(request).getStoreId())) {
-			reservationDto.setStoreId(SessionUtil.getSessionMemberVo(request).getStoreId());	
-		}
-		
-		if(!CrevillConstants.STORE_ID_MOBILE.equals(SessionUtil.getSessionMemberVo(request).getStoreId())) {
-			reservationDto.setStoreId(SessionUtil.getSessionMemberVo(request).getStoreId());	
-		}
+//		if(!CrevillConstants.STORE_ID_MOBILE.equals(SessionUtil.getSessionMemberVo(request).getStoreId())) {
+//			reservationDto.setStoreId(SessionUtil.getSessionMemberVo(request).getStoreId());	
+//		}
 		reservationDto.setChildLength(reservationDto.getChildName().split(",").length - 1);
 		
 		List<ReservationVo> list = reservationService.selectSearchDayReservation(reservationDto);

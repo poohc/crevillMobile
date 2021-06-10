@@ -199,7 +199,8 @@ function setReservationCalendar(){
 	            tutoringYn : tutoringYn,
 				operationType : operationType,
 				playName : playName,
-				childName : childName
+				childName : childName,
+				storeId : $("input[name=voucherNo]:checked").data().storeid
 	    },
 		url : contextRoot + 'reservation/getAvaReservationList.proc',
 		success : function(data){
@@ -260,7 +261,8 @@ function getReservationSearchList(scheduleStart){
 	            tutoringYn : tutoringYn,
 				operationType : operationType,
 				playName : playName,
-				childName : childName
+				childName : childName,
+				storeId : $("input[name=voucherNo]:checked").data().storeid
 	    },
 		url : contextRoot + 'reservation/getSearchDayReservation.proc',
 		success : function(data){

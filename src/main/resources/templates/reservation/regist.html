@@ -12,10 +12,10 @@
                 <div class="col-6" th:each="list, i : ${voucherList}">
                     <div class="frb-group">
                         <div class="frb frb-success">
-                            <input type="radio" th:id="'voucherNo' + ${i.index}" name="voucherNo" th:value="${list.voucherNo}" v-validate="'required'">
+                            <input type="radio" th:id="'voucherNo' + ${i.index}" name="voucherNo" th:value="${list.voucherNo}" th:data-storeId="${list.storeId}" v-validate="'required'">
                             <label th:for="'voucherNo' + ${i.index}">
                                 <span class="frb-title" th:text="${list.ticketName}"></span>
-                                <span class="frb-description" style="font-size: 10px;" th:text="|${list.storeName} 잔여${list.timeLeftHour} 시간|">판교점 잔여20시간</span>
+                                <span class="frb-description" style="font-size: 10px;" th:text="|${list.storeName} 잔여${list.timeLeftHour} 시간|"></span>
                             </label>
                             <label class="col-form-label-sm" for="voucherNo" v-if="errors.has('voucherNo')">{{ errors.first('voucherNo') }}</label>
                         </div>
