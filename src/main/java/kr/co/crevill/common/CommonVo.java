@@ -31,4 +31,5 @@ public class CommonVo {
 	private String reservationId;
 	private String cellPhone;
 	private String playName;
+	private String storeNameShort;
 }

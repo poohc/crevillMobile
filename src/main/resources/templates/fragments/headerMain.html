@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="headerMainFragment(menu)">
-<!-- 	<div id="loader"> -->
-<!-- 		<div class="spinner-border text-primary" role="status"></div> -->
-<!-- 	</div> -->
-
 	<div class="section full mt-2">
 		<div class="appHeader">
 			<div class="left">
@@ -41,10 +37,11 @@
                 <div class="modal-body">
                     <ul class="listview link-listview mb-1">
                         <li class="multi-level">
-                            <a href="#" class="item" th:text="|${session.memberVo?.storeNameShort}|"></a>
+                            <th:block  th:each="list : ${todayReservationList}">
+                            <a href="#" class="item" th:text="${list.storeNameShort}"></a>
                             <!-- sub menu -->
                             <ul class="listview link-listview">
-                                <li th:each="list : ${todayReservationList}">
+                                <li>
                                     <a th:href="@{/reservation/reservationList.view}" class="item">
                                         <span th:text="${list.reservationTime}"></span>
                                         <span class="badge badge-primary" th:text="${list.playName}"></span>
@@ -52,6 +49,7 @@
                                     </a>
                                 </li>
                             </ul>
+                            </th:block>
                         </li>
                     </ul>
                 </div>

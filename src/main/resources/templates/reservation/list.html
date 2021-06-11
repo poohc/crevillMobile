@@ -29,6 +29,9 @@
                             	<span th:text="${list.playName}"></span> |
                             	<span th:text="${list.subTopic}"></span> |
                             	<span th:text="${list.childName}"></span>
+                            	<th:block th:if="${list.voucherNo == 'FREE'}">
+                            	| <span>무료체험</span>
+                            	</th:block>
                             </footer>
                         </div>
                         <th:block th:if="${list.status == '02'}">
