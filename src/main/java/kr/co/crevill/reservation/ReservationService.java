@@ -124,6 +124,7 @@ public class ReservationService {
 		for(String childName : reservationDto.getChildName().split(",")) {
 			for(String scheduleId : reservationDto.getScheduleId().split(",")) {
 				nReservationDto = new ReservationDto();
+				nReservationDto.setReservationId(reservationMapper.selectReservationId());
 				nReservationDto.setScheduleId(scheduleId);
 				nReservationDto.setCellPhone(reservationDto.getCellPhone());
 				nReservationDto.setClassType(reservationDto.getClassType());
@@ -166,7 +167,7 @@ public class ReservationService {
 						entranceDto.setUseTime(rVo.getPlayTime());
 					}
 	         	    entranceDto.setStatus(CrevillConstants.VOUCHER_STATUS_USED);
-	         	    entranceDto.setScheduleId(nReservationDto.getScheduleId());
+	         	    entranceDto.setReservationId(nReservationDto.getReservationId());
 	         	    entranceDto.setRegId(reservationDto.getRegId());
 					//바우처 사용 처리
 	         	    if(entranceMapper.insertVoucherUse(entranceDto) > 0) {
@@ -194,6 +195,7 @@ public class ReservationService {
 		JSONObject result = new JSONObject();
 		HttpSession session = request.getSession();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		reservationDto.setReservationId(reservationMapper.selectReservationId());
 		reservationDto.setRegId(SessionUtil.getSessionMemberVo(request).getQrCode());
 		reservationDto.setStatus(CrevillConstants.RESERVATION_STATUS_READY);
 		reservationDto.setCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
@@ -218,7 +220,7 @@ public class ReservationService {
 				entranceDto.setVoucherNo(CrevillConstants.EXPERIENCE_VOUCHER_NO);
          	    entranceDto.setUseTime(rVo.getPlayTime());
          	    entranceDto.setStatus(CrevillConstants.VOUCHER_STATUS_USED);
-         	    entranceDto.setScheduleId(reservationDto.getScheduleId());
+         	    entranceDto.setReservationId(reservationDto.getReservationId());
          	    entranceDto.setRegId(reservationDto.getRegId());
 				//바우처 사용 처리
          	    if(entranceMapper.insertVoucherUse(entranceDto) > 0) {

@@ -30,13 +30,11 @@
             <div class="carousel-full owl-carousel owl-theme">
                 <div class="section mt-0">
                     <th:block th:each="reccomendList : ${reccomendList}">
-                        <a href="#" data-toggle="modal" data-target="#actionSheetForm"
-                            th:attr="onclick=|reservation('${reccomendList.scheduleId}','${reccomendList.scheduleStart}','${reccomendList.playName}', '${reccomendList.reservationCnt}')|">
+                        <a href="#" data-toggle="modal" data-target="#actionSheetForm" th:attr="onclick=|reservation('${reccomendList.scheduleId}','${reccomendList.scheduleStart}','${reccomendList.playName}', '${reccomendList.reservationCnt}')|">
                             <div class="card bg-primary comment-box" style="text-align: left;">
                                 <div class="card-text">예약추천</div>
                                 <div class="text">
-                                    <h5 style="color:white;"
-                                        th:text="|${reccomendList.scheduleStart} 클래스 ${reccomendList.playName}|"></h5>
+                                    <h5 style="color:white;" th:text="|${reccomendList.scheduleStart} 클래스 ${reccomendList.playName}|"></h5>
                                     <span class="chip-label">
                                         <span class="badge badge-success"
                                             th:text="${reccomendList.reservationCnt}"></span>
@@ -62,8 +60,7 @@
             </div>
 
             <div class="modal fade action-sheet" id="actionSheetForm" tabindex="-1" role="dialog">
-                <form class="form theme-form" id="reservationForm" @submit.prevent="validateBeforeSubmit"
-                    th:action="@{/reservation/regist.proc}" method="post">
+                <form class="form theme-form" id="reservationForm" @submit.prevent="validateBeforeSubmit" th:action="@{/reservation/regist.proc}" method="post">
                     <input type="hidden" id="scheduleId" name="scheduleId" :value="scheduleId" />
                     <input type="hidden" id="cellPhone" name="cellPhone" th:value="${cellPhone}" />
                     <div class="modal-dialog" role="document">
@@ -104,8 +101,9 @@
                                                     <select class="form-control custom-select" id="childName"
                                                         name="childName">
                                                         <option th:each="childList : ${childList}"
-                                                            th:value="${childList.childName}"
-                                                            th:text="${childList.childName}"></option>
+                                                            	th:value="${childList.childName}"
+                                                            	th:text="${childList.childName}">
+                                                        </option>
                                                     </select>
                                                 </div>
                                             </div>

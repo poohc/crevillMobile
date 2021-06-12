@@ -170,7 +170,7 @@
 		       CASE WHEN R.TUTORING_YN = 'Y' THEN CASE WHEN (C.USE_TIME % 60) != 0 THEN ROUND(C.USE_TIME / 60,1)
 		       										   ELSE FORMAT((C.USE_TIME / 60),0) END 
 		            ELSE '' END AS USE_TUTORING_TIME,
-		       R.STATUS          
+		       R.STATUS
 		  FROM VOUCHER A,
 		  	   VOUCHER_SALE B,     
 		  	   VOUCHER_USE C,
@@ -185,10 +185,10 @@
 		   AND B.VOUCHER_NO = C.VOUCHER_NO 
 		   AND B.BUY_CELL_PHONE = D.CELL_PHONE 
 		   AND D.CELL_PHONE = E.PARENT_CELL_PHONE
-		   AND C.SCHEDULE_ID = F.SCHEDULE_ID
-		   AND R.SCHEDULE_ID = C.SCHEDULE_ID
+		   AND R.SCHEDULE_ID = F.SCHEDULE_ID
+		   AND R.RESERVATION_ID = C.RESERVATION_ID
 		   AND R.VOUCHER_NO = A.VOUCHER_NO
-		GROUP BY R.RESERVATION_ID, A.VOUCHER_NO, C.VOUCHER_USE_ID, D.CELL_PHONE, C.REG_DATE, F.STORE_ID, E.NAME, A.TICKET_NAME, G.NAME, R.TUTORING_YN, R.STATUS
+      GROUP BY R.RESERVATION_ID
 	</select>
 	
 	<insert id="insertVoucher" parameterType="kr.co.crevill.voucher.VoucherDto">
@@ -298,7 +298,7 @@
 	         <if test="voucherNo != null">VOUCHER_NO = #{voucherNo},</if>
 	         <if test="useTime != null">USE_TIME = #{useTime},</if>
 	         <if test="status != null">STATUS = #{status},</if>
-	         <if test="scheduleId != null">SCHEDULE_ID = #{scheduleId},</if>
+	         <if test="reservationId != null">RESERVATION_ID = #{reservationId},</if>
 	         UPD_ID = #{updId},
 	         UPD_DATE = NOW(),
     	 </set>		 
@@ -348,22 +348,20 @@
 		       CASE WHEN C.PROMOTION_NAME != '' THEN C.PROMOTION_NAME 
 		            ELSE A.TICKET_NAME END AS TICKET_NAME,
 		       DATE_FORMAT(D.REG_DATE, '%Y-%m-%d') VOUCHER_USE_DATE,     
-		       (SELECT S.STORE_NAME FROM STORE S WHERE S.STORE_ID = E.STORE_ID) STORE_NAME
+		       (SELECT SUBSTRING_INDEX(S.STORE_NAME, ' ', - 1) FROM STORE S WHERE S.STORE_ID = A.STORE_ID) STORE_NAME
 		  FROM VOUCHER A,
 		       VOUCHER_SALE B,
 		       PROMOTION C,             
-		       VOUCHER_USE D,
-		       SCHEDULE E,
+		       VOUCHER_USE D
 		       VOUCHER_USE_VIEW F
 		 WHERE A.VOUCHER_NO = B.VOUCHER_NO
 		   AND B.PROMOTION_ID = C.PROMOTION_ID
 		   AND A.STATUS = '12' 
 		   AND B.BUY_CELL_PHONE = #{cellPhone}
 		   AND B.VOUCHER_NO = D.VOUCHER_NO
-		   AND D.SCHEDULE_ID = E.SCHEDULE_ID
 		   AND B.VOUCHER_NO = F.VOUCHER_NO
-		   AND (F.TIME_LEFT_HOUR = 'UNLIMITED' OR F.TIME_LEFT_HOUR  > 0)
-		GROUP BY A.VOUCHER_NO
+		   AND F.TIME_LEFT_HOUR  <![CDATA[ > ]]> 0
+	  GROUP BY A.VOUCHER_NO
 	</select>
 		
 </mapper>

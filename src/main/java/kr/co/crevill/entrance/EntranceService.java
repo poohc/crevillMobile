@@ -98,6 +98,7 @@ public class EntranceService {
 		if(voucherMapper.updateVoucher(voucherDto) > 0) {
 			if(entranceMapper.insertVoucherUse(entranceDto) > 0) {
 				 ReservationDto reservationDto = new ReservationDto();
+				 reservationDto.setReservationId(reservationMapper.selectReservationId());
 				 reservationDto.setCellPhone(entranceDto.getCellPhone());
 				 reservationDto.setVoucherNo(entranceDto.getVoucherNo());
 				 reservationDto.setScheduleId(entranceDto.getScheduleId());

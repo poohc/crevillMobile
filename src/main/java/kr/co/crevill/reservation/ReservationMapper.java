@@ -10,6 +10,7 @@ import kr.co.crevill.schedule.ScheduleDto;
 @Mapper
 @Repository
 public interface ReservationMapper {
+	public String selectReservationId();
 	public int selectReservationCount(ScheduleDto scheduleDto);
 	public List<ReservationVo> selectReservationList(ScheduleDto scheduleDto);
 	public List<ReservationVo> selectReservationSearchList(ScheduleDto scheduleDto);

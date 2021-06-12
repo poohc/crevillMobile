@@ -3,6 +3,10 @@
 
 <mapper namespace="kr.co.crevill.reservation.ReservationMapper">
 	
+	<select id="selectReservationId" resultType="String">
+        SELECT RESERVATION_ID_SEQ_NEXTVAL()
+    </select>
+	
 	<select id="selectReservationCount" parameterType="kr.co.crevill.schedule.ScheduleDto" resultType="Integer">
         SELECT COUNT(*)
           FROM RESERVATION A,
@@ -65,7 +69,7 @@
            AND B.SCHEDULE_END > NOW()
            ]]>
            AND A.SCHEDULE_ID = B.SCHEDULE_ID
-           AND B.SCHEDULE_ID = C.SCHEDULE_ID
+           AND A.RESERVATION_ID = C.RESERVATION_ID
            AND A.VOUCHER_NO = C.VOUCHER_NO
       GROUP BY A.RESERVATION_ID
       ORDER BY A.REG_DATE DESC
@@ -196,6 +200,7 @@
 	
 	<insert id="insertReservation" parameterType="kr.co.crevill.reservation.ReservationDto">
     	INSERT INTO RESERVATION (
+    							 RESERVATION_ID,
    					       		 CELL_PHONE,
 								 VOUCHER_NO,
 								 SCHEDULE_ID,
@@ -206,6 +211,7 @@
 								 REG_DATE
    						        )
 				         VALUES (
+				         		 #{reservationId},
 					  		     #{cellPhone},
 								 #{voucherNo},
 								 #{scheduleId},
