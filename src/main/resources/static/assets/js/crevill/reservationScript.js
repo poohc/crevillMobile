@@ -226,7 +226,6 @@ function setReservationCalendar(){
 }
 
 function getReservationSearchList(scheduleStart){
-	
 	var tutoringYn = 'N';
 	var operationType = 'WEEKDAY';
 	var playName;
@@ -267,7 +266,7 @@ function getReservationSearchList(scheduleStart){
 		url : contextRoot + 'reservation/getSearchDayReservation.proc',
 		success : function(data){
 			if(data.resultCd == '00'){
-				
+				vm.scheduleList = {};
 				for(var i=0; i < data.list.length; i++){
 					Vue.set(vm.scheduleList, i, data.list[i]);
 				} 
