@@ -119,6 +119,9 @@ $(document).on("change","input[name='classType']",function(){
 });
 
 $('#cal').click(function(){
+	if($("input[name='classType']:checked").val() == 'CLASS_D' && $("input[name=childName]:checked").length > 1){
+		alert('튜터링은 아동 한명만 예약 가능합니다.');
+	}
 	setCalEvent();
 });
 
