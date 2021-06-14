@@ -24,8 +24,8 @@
             <![CDATA[
             AND A.END_DATE >= DATE_FORMAT(NOW(), '%Y%m%d')
             ]]>
-            AND A.STATUS = 'ACTIVE' 
-            AND B.STORE_ID = #{storeId}
+            AND A.STATUS = 'ACTIVE'
+       GROUP BY A.PROMOTION_ID
     </select>
 	
 	<select id="getPromotionList" parameterType="kr.co.crevill.promotion.PromotionDto" resultType="kr.co.crevill.promotion.PromotionVo">

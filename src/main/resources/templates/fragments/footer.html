@@ -20,7 +20,7 @@
                 <strong>시간표</strong>
             </div>
         </a>
-        <th:block th:if="${voucherInfo != null && not #strings.isEmpty(voucherInfo.timeLeftHour)}">
+        <th:block th:if="${session.memberVo != null && session.memberVo.memberType == '바우처'}">
         <a th:href="@{/reservation/regist.view}" class="item" th:classappend="${servletPath} == 'reservation' ? active">
             <div class="col">
                 <ion-icon name="calendar-outline"></ion-icon>
@@ -28,7 +28,7 @@
             </div>
         </a>
         </th:block>
-        <th:block th:unless="${voucherInfo != null && not #strings.isEmpty(voucherInfo.timeLeftHour)}">
+        <th:block th:unless="${session.memberVo != null && session.memberVo.memberType == '바우처'}">
         <a href="javascript:alert('바우처회원만 접근이 가능합니다.')" class="item" th:classappend="${servletPath} == 'reservation' ? active">
             <div class="col">
                 <ion-icon name="calendar-outline"></ion-icon>

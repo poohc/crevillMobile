@@ -128,7 +128,7 @@
         </th:block>
 
         <div class="section full mt-1">
-            <th:block th:if="${session.memberVo.memberType == '바우처'}">
+            <th:block th:if="${session.memberVo != null && session.memberVo.memberType == '바우처'}">
                 <div class="wide-block pt-2 pb-2">
                     <div class="row">
                     	<th:block th:each="list : ${voucherList}">
@@ -216,8 +216,7 @@
                     <div class="row" style="text-align: center;">
                         <div class="col-3">
                             <a th:href="@{/promotion/list.view}">
-                                <img src="assets/img/promotion.png" alt="alt" class="imaged w-50 rounded"
-                                    style="padding-bottom:5px;">
+                                <img th:src="@{/assets/img/promotion.png}" alt="alt" class="imaged w-50 rounded" style="padding-bottom:5px;">
                                 <div style="bottom: 10px; left: 19px;font-size: 13px;">
                                     <h5>프로모션</h5>
                                 </div>
@@ -225,8 +224,7 @@
                         </div>
                         <div class="col-3">
                             <a href="https://www.youtube.com/embed/HZ-tVcvnAl0">
-                                <img src="assets/img/youtube.png" alt="alt" class="imaged w-50 rounded"
-                                    style="padding-bottom:5px;">
+                                <img th:src="@{/assets/img/youtube.png}" alt="alt" class="imaged w-50 rounded" style="padding-bottom:5px;">
                                 <div style="bottom: 10px; left: 19px;font-size: 13px;">
                                     <h5>소개영상</h5>
                                 </div>
@@ -234,8 +232,7 @@
                         </div>
                         <div class="col-3">
                             <a th:href="@{/main/guide.view}">
-                                <img src="assets/img/information.png" alt="alt" class="imaged w-50 rounded"
-                                    style="padding-bottom:5px;">
+                                <img th:src="@{/assets/img/information.png}" alt="alt" class="imaged w-50 rounded" style="padding-bottom:5px;">
                                 <div style="bottom: 10px; left: 19px;font-size: 13px;">
                                     <h5>이용안내</h5>
                                 </div>
