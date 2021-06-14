@@ -27,25 +27,25 @@
             </div>
         </div>
         <th:block th:if="${session.memberVo != null && voucherInfo != null}">
-            <div class="carousel-full owl-carousel owl-theme">
-                <div class="section mt-0">
-                    <th:block th:each="reccomendList : ${reccomendList}">
-                        <a href="#" data-toggle="modal" data-target="#actionSheetForm" th:attr="onclick=|reservation('${reccomendList.scheduleId}','${reccomendList.scheduleStart}','${reccomendList.playName}', '${reccomendList.reservationCnt}')|">
-                            <div class="card bg-primary comment-box" style="text-align: left;">
-                                <div class="card-text">예약추천</div>
-                                <div class="text">
-                                    <h5 style="color:white;" th:text="|${reccomendList.scheduleStart} 클래스 ${reccomendList.playName}|"></h5>
-                                    <span class="chip-label">
-                                        <span class="badge badge-success"
-                                            th:text="${reccomendList.reservationCnt}"></span>
-                                        <font color="white">예약가능</font>
-                                    </span>
-                                </div>
-                            </div>
-                        </a>
-                    </th:block>
-                </div>
-            </div>
+<!--             <div class="carousel-full owl-carousel owl-theme"> -->
+<!--                 <div class="section mt-0"> -->
+<!--                     <th:block th:each="reccomendList : ${reccomendList}"> -->
+<!--                         <a href="#" data-toggle="modal" data-target="#actionSheetForm" th:attr="onclick=|reservation('${reccomendList.scheduleId}','${reccomendList.scheduleStart}','${reccomendList.playName}', '${reccomendList.reservationCnt}')|"> -->
+<!--                             <div class="card bg-primary comment-box" style="text-align: left;"> -->
+<!--                                 <div class="card-text">예약추천</div> -->
+<!--                                 <div class="text"> -->
+<!--                                     <h5 style="color:white;" th:text="|${reccomendList.scheduleStart} 클래스 ${reccomendList.playName}|"></h5> -->
+<!--                                     <span class="chip-label"> -->
+<!--                                         <span class="badge badge-success" -->
+<!--                                             th:text="${reccomendList.reservationCnt}"></span> -->
+<!--                                         <font color="white">예약가능</font> -->
+<!--                                     </span> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                         </a> -->
+<!--                     </th:block> -->
+<!--                 </div> -->
+<!--             </div> -->
 
             <div class="modal fade action-sheet" id="actionSheetForm" tabindex="-1" role="dialog">
                 <form class="form theme-form" id="reservationForm" @submit.prevent="validateBeforeSubmit" th:action="@{/reservation/regist.proc}" method="post">
