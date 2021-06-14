@@ -1,14 +1,45 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/defaultCommon}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/defaultCommon}">
 
 <th:block layout:fragment="content">
-	<!-- App Capsule -->
+    <!-- App Capsule -->
     <div id="appCapsule">
         <div class="section full mt-2 mb-2">
-        	<div class="section-title">신규 2020-01-01</div>
+            <div class="section-title">신규 2021-06-15</div>
+        </div>
+        <div class="section full mt-2 mb-2">
+            <div class="table-responsive">
+                <table class="table" style="text-align: center;">
+                    <thead>
+                        <tr>
+                            <th scope="col">목적</th>
+                            <th scope="col">항목</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">이용자 식별 및 본인 여부 확인</th>
+                            <td>성명, 생년월일, 성별, 아이디, 비밀번호, 휴대전화번호, 이메일, CI, DI</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">고객 불만처리 등의 민원처리</th>
+                            <td>성명, 아이디, 휴대전화번호, 서비스이용기록, 이메일</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">서비스 제공에 관한 계약 이행 및 서비스 제공에 따른 콘텐츠 제공</th>
+                            <td>성명, 아이디, 휴대전화번호, 서비스이용기록, 이메일</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">NICE평가정보(주)</th>
+                            <td>회원가입 시 본인인증 서비스 제공</td>
+                        </tr>
+                    </tbody>
+                    <code>* 보유기간 : 회원 탈퇴 후 6개월</code>
+                </table>
+            </div>
         </div>
     </div>
 </th:block>
+
 </html>

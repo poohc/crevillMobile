@@ -7,6 +7,9 @@
         <form class="form theme-form" id="reservationForm" @submit.prevent="validateBeforeSubmit" th:action="@{/reservation/regist.proc}" method="post">
         <input type="hidden" id="cellPhone" name="cellPhone" th:value="${cellPhone}">
             <div class="section full mt-0">
+                <div class="section full">
+                    <img th:src="@{/assets/img/reservation_info.png}" alt="image" class="imaged square w-100">
+                </div>
             <div class="section-title">바우처선택</div>
             <div class="row" style="margin-left: 0px; margin-right: 0px;">
                 <div class="col-6" th:each="list, i : ${voucherList}">
@@ -14,7 +17,7 @@
                         <div class="frb frb-success">
                             <input type="radio" th:id="'voucherNo' + ${i.index}" name="voucherNo" th:value="${list.voucherNo}" th:data-storeId="${list.storeId}" v-validate="'required'">
                             <label th:for="'voucherNo' + ${i.index}">
-                                <span class="frb-title" th:text="${list.ticketName}"></span>
+                                <span class="frb-title" th:text="${list.ticketName}"></span><br>
                                 <span class="frb-description" style="font-size: 10px;" th:text="|${list.storeName} 잔여${list.timeLeftHour} 시간|"></span>
                             </label>
                             <label class="col-form-label-sm" for="voucherNo" v-if="errors.has('voucherNo')">{{ errors.first('voucherNo') }}</label>

@@ -27,4 +27,5 @@ public interface ReservationMapper {
 	public List<ReservationVo> selectQuickReservation(ScheduleDto scheduleDto);
 	public List<ReservationVo> selectAvaReservation(ReservationDto reservationDto);
 	public List<ReservationVo> selectSearchDayReservation(ReservationDto reservationDto);
+	public int checkAlreadyShortReservation(ReservationDto reservationDto);
 }

@@ -6,7 +6,7 @@
     <div id="appCapsule" style="padding-top:45px;">
         <div class="section mt-1">
             <div class="card bg-dark text-white">
-                <img src="assets/img/loginform_bg.jpg" class="card-img overlay-img" alt="image">
+                <img src="assets/img/login_form.gif" class="card-img overlay-img" alt="image">
                 <div class="card-img-overlay">
                     <th:block th:if="${session.memberVo != null}">
                         <h5 class="card-title" th:text="|${session.memberVo?.name}님|"></h5>
@@ -44,18 +44,6 @@
                             </div>
                         </a>
                     </th:block>
-                </div>
-            </div>
-            <div class="section full mt-1">
-                <div class="section-title">신규프로그램</div>
-                <div class="carousel-full owl-carousel owl-theme">
-                    <div class="item" th:each="list : ${programList}">
-                        <div class="card">
-                            <a th:href="@{/storeProgram/list.view(chainClass=${list.chainClass})}" class="item">
-                                <img th:src="@{/common/getImage(imageIdx=${list.thumbnailId})}" class="card-img overlay-img" alt="image">
-                            </a>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -140,8 +128,7 @@
         </th:block>
 
         <div class="section full mt-1">
-            <th:block
-                th:if="${session.memberVo != null && voucherInfo != null && session.memberVo.storeId != 'MOBILE'}">
+            <th:block th:if="${session.memberVo.memberType == '바우처'}">
                 <div class="wide-block pt-2 pb-2">
                     <div class="row">
                     	<th:block th:each="list : ${voucherList}">
@@ -185,7 +172,141 @@
                     </div>
                 </div>
             </th:block>
+
+            <div class="section full mt-0">
+                <div class="wide-block pt-2">
+                    <div class="row" style="text-align: center;">
+                        <div class="col-3">
+                            <a href="http://pf.kakao.com/_xoFKuxb">
+                                <img src="assets/img/kakao.png" alt="alt" class="imaged w-50 rounded"
+                                    style="padding-bottom:5px;">
+                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
+                                    <h5>카카오링크</h5>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-3">
+                            <a href="https://www.instagram.com/crevill_headquarter/">
+                                <img src="assets/img/instargram.png" alt="alt" class="imaged w-50 rounded"
+                                    style="padding-bottom:5px;">
+                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
+                                    <h5>인스타그램</h5>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-3">
+                            <a href="#" data-toggle="modal" data-component="stories" data-target="#about_program">
+                                <img src="assets/img/program.png" alt="alt" class="imaged w-50 rounded"
+                                    style="padding-bottom:5px;">
+                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
+                                    <h5>프로그램소개</h5>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-3">
+                            <a href="https://nid.naver.com/login/privacyQR">
+                                <img src="assets/img/qrcheck.png" alt="alt" class="imaged w-50 rounded"
+                                    style="padding-bottom:5px;">
+                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
+                                    <h5>QR체크인</h5>
+                                </div>
+                            </a>
+                        </div>
+                    </div><br>
+                    <div class="row" style="text-align: center;">
+                        <div class="col-3">
+                            <a th:href="@{/promotion/list.view}">
+                                <img src="assets/img/promotion.png" alt="alt" class="imaged w-50 rounded"
+                                    style="padding-bottom:5px;">
+                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
+                                    <h5>프로모션</h5>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-3">
+                            <a href="https://www.youtube.com/embed/HZ-tVcvnAl0">
+                                <img src="assets/img/youtube.png" alt="alt" class="imaged w-50 rounded"
+                                    style="padding-bottom:5px;">
+                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
+                                    <h5>소개영상</h5>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-3">
+                            <a th:href="@{/main/guide.view}">
+                                <img src="assets/img/information.png" alt="alt" class="imaged w-50 rounded"
+                                    style="padding-bottom:5px;">
+                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
+                                    <h5>이용안내</h5>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-3">
+                            <a th:href="@{/program/timeTable.view}">
+                                <img src="assets/img/schedule.png" alt="alt" class="imaged w-50 rounded"
+                                    style="padding-bottom:5px;">
+                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
+                                    <h5>시간표</h5>
+                                </div>
+                            </a>
+                        </div>
+                    </div><br>
+                    <div class="row" style="text-align: center;">
+                        <div class="col-3">
+                            <a href="#" data-toggle="modal" data-component="stories" data-target="#about_crevill">
+                                <img src="assets/img/crevill_icon.png" alt="alt" class="imaged w-50 rounded"
+                                    style="padding-bottom:5px;">
+                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
+                                    <h5>크레빌소개</h5>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-3">
+                            <a th:href="@{/store/storeList.view}">
+                                <img src="assets/img/center.png" alt="alt" class="imaged w-50 rounded"
+                                    style="padding-bottom:5px;">
+                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
+                                    <h5>센터안내</h5>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-3">
+                            <a th:href="@{/member/childList.view}">
+                                <img src="assets/img/child_add.png" alt="alt" class="imaged w-50 rounded"
+                                    style="padding-bottom:5px;">
+                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
+                                    <h5>아동추가등록</h5>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-3">
+                            <a href="tel:02-1688-0980">
+                                <img src="assets/img/contact_call.png" alt="alt" class="imaged w-50 rounded"
+                                    style="padding-bottom:5px;">
+                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
+                                    <h5>전화상담</h5>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="section full mt-1">
+                <div class="section-title">신규프로그램</div>
+                <div class="carousel-full owl-carousel owl-theme">
+                    <div class="item" th:each="list : ${programList}">
+                        <div class="card">
+                            <a th:href="@{/storeProgram/list.view(chainClass=${list.chainClass})}" class="item">
+                                <img th:src="@{/common/getImage(imageIdx=${list.thumbnailId})}" class="card-img overlay-img" alt="image">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section full mt-1">
+                <div class="section-title">공지</div>
                 <div class="carousel-full owl-carousel owl-theme">
                     <th:block th:each="list : ${noticeList}">
                         <div class="item">
@@ -198,31 +319,7 @@
                 </div>
             </div>
 
-            <div class="section full mt-1">
-                <div class="section-title">링크</div>
-                <div class="wide-block pt-2">
-                    <div class="row" style="text-align: center;">
-                        <div class="col-6">
-                            <a href="http://pf.kakao.com/_xoFKuxb">
-                                <img src="assets/img/btn1.jpg" alt="alt" class="imaged w-50 rounded"
-                                    style="padding-bottom:5px;">
-                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
-                                    <h5>카카오상담</h5>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-6">
-                            <a href="https://www.instagram.com/crevill_headquarter/">
-                                <img src="assets/img/instagram.png" alt="alt" class="imaged w-50 rounded"
-                                    style="padding-bottom:5px;">
-                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
-                                    <h5>인스타그램</h5>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
             <div class="tab-pane fade show active" id="pilled" role="tabpanel">
                 <div class="section full mt-1">
                     <div class="section-title">CENTER</div>
@@ -311,30 +408,6 @@
                         <a th:href="@{/promotion/list.view}">
                             <img th:src="@{/common/getImage(imageIdx=${list.promotionBannerId})}" class="imaged w-100 square" alt="promotion">
                         </a>
-                    </div>
-                </div>
-            </div>
-            <div class="section full mt-1">
-                <div class="wide-block pt-2">
-                    <div class="row" style="text-align: center;">
-                        <div class="col-6">
-                            <a href="#" data-toggle="modal" data-component="stories" data-target="#about_crevill">
-                                <img src="assets/img/introBtn1.png" alt="alt" class="imaged w-50"
-                                    style="padding-bottom:5px;">
-                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
-                                    <h5>크레빌소개</h5>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-6">
-                            <a href="#" data-toggle="modal" data-component="stories" data-target="#about_program">
-                                <img src="assets/img/introBtn2.png" alt="alt" class="imaged w-50"
-                                    style="padding-bottom:5px;">
-                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
-                                    <h5>프로그램소개</h5>
-                                </div>
-                            </a>
-                        </div>
                     </div>
                 </div>
             </div>

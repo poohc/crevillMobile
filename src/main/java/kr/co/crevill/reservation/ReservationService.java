@@ -56,6 +56,7 @@ public class ReservationService {
 	private final String MSG_CLASS_FULL = "해당 클래스는 예약이 모두 완료된 클래스입니다.";
 	private final String MSG_TUTORING_FULL = "해당 튜터링은 예약이 모두 완료된 튜터링입니다.";
 	private final String MSG_LESS_TIME_LEFT_VOUCHER = "바우처의 남은 시간이 부족합니다.";
+	private final String MSG_ALREADY_SHORT_RESERVATION = "해당 회원으로 1회권 예약 내역이 있습니다.";
 	private final String MSG_RESRVATION_PART_SUCC = "일부 예약이 실패했습니다. 상세 내역은 예약목록에서 확인해 주세요.";
 	
 	public int selectReservationCount(ScheduleDto scheduleDto) {
@@ -113,7 +114,13 @@ public class ReservationService {
 		}
 		nReservationDto.setScheduleIdList(scheduleList);
 		
-		//스케쥴에 잡힌 시간보다 바우처 남은 시간이 부족할 경우 전체 실패로 처리
+		//기존 1회권 예약이 있을 경우 처리 불가
+		if(reservationMapper.checkAlreadyShortReservation(reservationDto) > 0) {
+			result.put("resultMsg", MSG_ALREADY_SHORT_RESERVATION);
+			return result;
+		}
+		
+		//스케쥴에 잡힌 시간보다 바우처 남은 시간이 부족할 경우 전체 실패로 처리, BUT 1회권은 예외사항
 		ReservationVo reservationVo = reservationMapper.checkVoucherYn(nReservationDto);
 		if(reservationVo != null && "N".equals(reservationVo.getVoucherYn())) {
 			result.put("resultMsg", MSG_LESS_TIME_LEFT_VOUCHER);
@@ -160,7 +167,7 @@ public class ReservationService {
 					entranceDto.setVoucherNo(nReservationDto.getVoucherNo());
 	         	    
 					//모바일 회원의 1회권 사용일 경우, 1회권 바우처 모든 시간(2시간, 상수값으로 정의) 다 소진
-					if(CrevillConstants.STORE_ID_MOBILE.equals(SessionUtil.getSessionMemberVo(request).getStoreId()) &&
+					if(CrevillConstants.STORE_ID_MOBILE.equals(SessionUtil.getSessionMemberVo(request).getStoreId()) ||
 							"Y".equals(reservationDto.getExperienceClass())) {
 						entranceDto.setUseTime(CrevillConstants.SHORT_VOUCHER_USE_TIME);
 					} else {
@@ -298,6 +305,8 @@ public class ReservationService {
 		voucherDto.setAttribute(CrevillConstants.CREATE_NORMAL_VOUCHER_ATTRIBUTE);
 		voucherDto.setStatus(CrevillConstants.VOUCHER_STATUS_READY);
 		voucherDto.setRegId(SessionUtil.getSessionMemberVo(request).getQrCode());
+		
+		request.setAttribute("voucherInfo", voucherDto);
 		
 		if(voucherMapper.insertVoucher(voucherDto) > 0) {
 			//선택된 전달매체 모두 INSERT 성공해야 SUCC

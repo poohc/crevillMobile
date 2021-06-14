@@ -124,7 +124,7 @@
 		   AND B.VOUCHER_NO = C.VOUCHER_NO 
 		   AND B.BUY_CELL_PHONE = #{buyCellPhone}
 		   AND A.STATUS = '12'
-		   AND (C.TIME_LEFT_HOUR = 'UNLIMITED' OR C.TIME_LEFT_HOUR  > 0)
+		   AND C.TIME_LEFT_HOUR  <![CDATA[ > ]]> 0
 		   AND B.BUY_CELL_PHONE = D.PARENT_CELL_PHONE
       GROUP BY A.VOUCHER_NO		   
       <if test="limit != null and limit != ''">

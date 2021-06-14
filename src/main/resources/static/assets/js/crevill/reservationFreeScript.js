@@ -70,8 +70,10 @@ $('#scheduleId').click(function(){
 		type : "POST",
 		data: {
 	            scheduleType : 'ING',
+				scheduleStart : $('#scheduleStart').val().replace(/[^0-9]/g,""),
 				classType : 'CLASS_D',
-				experienceClass : 'Y'
+				experienceClass : 'Y',
+				storeId : $('#storeId').val()
 	    },
 		url : contextRoot + 'schedule/getScheduleList.proc',
 		success : function(data){

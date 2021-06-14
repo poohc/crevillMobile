@@ -33,8 +33,8 @@ public class CrevillConstants {
 	public static final String CREATE_NORMAL_VOUCHER_TICKET_NAME = "1회권";
 	public static final String CREATE_NORMAL_VOUCHER_PRICE = "40000";
 	public static final String CREATE_NORMAL_VOUCHER_USE_TIME = "2";
-	public static final String CREATE_NORMAL_VOUCHER_END_DATE = "0";
-	public static final String CREATE_NORMAL_VOUCHER_ATTRIBUTE = "CLASS,비회원";
+	public static final String CREATE_NORMAL_VOUCHER_END_DATE = "30";
+	public static final String CREATE_NORMAL_VOUCHER_ATTRIBUTE = "CLASS,TUTORING,SPECIAL CAMP";
 	public static final String CREATE_NORMAL_VOUCHER_PG_TYPE = "DEPT";
 	public static final String CREATE_NORMAL_VOUCHER_APPROVAL_NO = "000000";
 	public static final String CLASS_TYPE_CLASS = "CLASS_A";

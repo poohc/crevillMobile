@@ -25,6 +25,7 @@ import kr.co.crevill.member.MemberService;
 import kr.co.crevill.schedule.ScheduleDto;
 import kr.co.crevill.store.StoreDto;
 import kr.co.crevill.store.StoreService;
+import kr.co.crevill.voucher.VoucherDto;
 import kr.co.crevill.voucher.VoucherSaleDto;
 import kr.co.crevill.voucher.VoucherService;
 import kr.co.crevill.voucher.VoucherVo;
@@ -88,7 +89,7 @@ public class ReservationController {
 		voucherSaleDto.setBuyCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
 		List<VoucherVo> voucherList = voucherService.getMemberVoucherList(voucherSaleDto);
 		//TODO 모바일 회원 이고 보유 바우처가 하나도 없는 경우 1회권 바우처 자동 생성 및 판매
-		if(CrevillConstants.STORE_ID_MOBILE.equals(SessionUtil.getSessionMemberVo(request).getStoreId()) &&
+		if(CrevillConstants.STORE_ID_MOBILE.equals(SessionUtil.getSessionMemberVo(request).getStoreId()) ||
 				voucherList.size() == 0) {
 			reservationService.setNormalVoucher(request);
 		}
@@ -96,7 +97,13 @@ public class ReservationController {
 		memberDto.setParentCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
 		mav.addObject("cellPhone", SessionUtil.getSessionMemberVo(request).getCellPhone());
 		mav.addObject("childList", memberService.selectChildMemberList(memberDto));
-		mav.addObject("voucherList", voucherService.getMemberVoucherList(voucherSaleDto));
+		
+		List<VoucherVo> memVoucherList = voucherService.getMemberVoucherList(voucherSaleDto);
+		mav.addObject("voucherList", memVoucherList);
+		VoucherDto voucherDto = new VoucherDto();
+		voucherDto.setVoucherNo(memVoucherList.get(0).getVoucherNo());
+		mav.addObject("voucherAttributeList", voucherService.selectVoucherAttributeList(voucherDto));
+		
 		return mav;
 	}
 	

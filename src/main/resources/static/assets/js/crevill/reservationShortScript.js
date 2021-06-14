@@ -31,7 +31,10 @@ var vm = new Vue({
 		voucherTimeLeftHour : '',
 		voucherEndDate : '',
 		reservationCnt : '',
-		classType : ''
+		classType : '',
+		storeName : '',
+		voucherAttribute : [],
+		scheduleText : '',
     },
 	methods: {
     validateBeforeSubmit() {
@@ -57,11 +60,12 @@ var vm = new Vue({
 				childName = childName.substr(0, childName.length - 1);
 				
 				var formdata = new FormData();
+				
 				formdata.append("cellPhone", $('#cellPhone').val());
 				formdata.append("voucherNo", $("input[name=voucherNo]:checked").val());
 				formdata.append("scheduleId", scheduleId);
 				formdata.append("childName", childName);
-				formdata.append("classType", 'CLASS_A');
+				formdata.append("classType", $("input[name='classType']:checked").val());
 				formdata.append("experienceClass", 'Y');
 				
 				axios.post(contextRoot + 'reservation/regist.proc', formdata,{
@@ -71,7 +75,6 @@ var vm = new Vue({
 					}).then((response) => {
 					if (response.data.resultCd == '00') {
 				      	$('#DialogReserveSuccess').modal('show');
-//						location.href = contextRoot + 'reservation/list.view';
 				    } else {
 						alert(response.data.resultMsg);
 					} 
@@ -98,49 +101,18 @@ $('#storeId').change(function(){
 	setReservationCalendar();
 });
 
-$('input[name="voucherNo"]').click(function(){
-	
-	$.ajax({
-		type : "POST",
-		data: {
-	            voucherNo : $(this).val()
-	    },
-		url : contextRoot + 'voucher/getVoucherInfo.proc',
-		success : function(data){
-			if(data.resultCd == '00'){
-				vm.voucherTimeLeftHour = data.voucherInfo.timeLeftHour;
-				vm.voucherEndDate = data.voucherInfo.endDate;
-			} else {
-				alert('바우처 정보를 불러올 수가 없습니다.');
-				return false;	
-			}
-			
-		},
-		error : function(error) {
-	        alert("바우처 정보를 가져오는 중에 오류가 발생했습니다. 다시 시도하여 주세요.");
-			return false;
-	    }
-	});
-	
-});
-
 $('input[name="childName"]').click(function(){
 	vm.reservationCnt = $("input:checkbox[name=childName]:checked").length;
 });
 
-$(document).on('click', 'input[name=scheduleId]', function(){
-//    $('input[name="scheduleId"]').attr("checked", false);
-//    $(this).attr("checked", true);
+$(document).on("change","input[name='classType']",function(){
+	var classType = $("input[name='classType']:checked").val();
+	var classTypeText = '';
+	if(classType == 'CLASS_A') classTypeText = '클래스';
+	if(classType == 'CLASS_D') classTypeText = '튜터링';
+	if(classType == 'CLASS_B') classTypeText = '스페셜캠프';
 	
-	if($("input:checkbox[name=scheduleId]:checked").length > 1){
-		alert('리스트는 하나만 선택 가능합니다.');
-		$(this).trigger('click');
-		return false;	
-	}
-});
-
-$('input[name="childName"]').change(function(){
-	vm.classType = $("#classType option:checked").text();
+	vm.classType = classTypeText;
 	setReservationCalendar();
 	$('#scheduleStart').val('');
 	vm.scheduleList = {};
@@ -150,20 +122,50 @@ $('#cal').click(function(){
 	setCalEvent();
 });
 
+$('input[name="childName"]').change(function(){
+	var classType = $("input[name='classType']:checked").val();
+	var classTypeText = '';
+	if(classType == 'CLASS_A') classTypeText = '클래스';
+	if(classType == 'CLASS_D') classTypeText = '튜터링';
+	if(classType == 'CLASS_B') classTypeText = '스페셜캠프';
+	vm.classType = classTypeText;
+	setReservationCalendar();
+	$('#scheduleStart').val('');
+	vm.scheduleList = {};
+});
+
 setTimeout(function() {
 //강제이벤트 발생
+$('#storeId').trigger('click');
 $('input[name="voucherNo"]').trigger('click');
 $('input[name="childName"]').trigger('click');
-$('#storeId').trigger('click');
-vm.classType = '클래스';
+$("input[name='classType']:radio").trigger('change');
+vm.voucherTimeLeftHour = $('input[name="voucherNo"]').data().timelefthour;
 setReservationCalendar();
-}, 1000);
+}, 1500);
 
 function setReservationCalendar(){
 	
 	var tutoringYn = 'N';
 	var operationType = 'WEEKDAY';
+	var playName;
+	var classType = $("input[name='classType']:checked").val();
 	
+	if(classType == 'CLASS_D'){
+		tutoringYn = 'Y'
+	}
+	
+	if(classType == 'CLASS_B' || classType == 'CLASS_E'){
+		operationType = 'WEEKEND';
+	}
+	
+	if(classType == 'CLASS_B'){
+		playName = 'SPECIAL CAMP';
+	}
+	
+	if(classType == 'CLASS_E'){
+		playName = 'VIP 캠프';
+	}
 	calendarEvent = [{}];
 	
 	var childName = '';
@@ -177,9 +179,9 @@ function setReservationCalendar(){
 		data: {
 	            tutoringYn : tutoringYn,
 				operationType : operationType,
-				experienceClass : 'Y',
-				storeId : $('#storeId').val(),
-				childName : childName
+				playName : playName,
+				childName : childName,
+				storeId : $('#storeId').val()
 	    },
 		url : contextRoot + 'reservation/getAvaReservationList.proc',
 		success : function(data){
@@ -207,6 +209,24 @@ function setReservationCalendar(){
 function getReservationSearchList(scheduleStart){
 	var tutoringYn = 'N';
 	var operationType = 'WEEKDAY';
+	var playName;
+	var classType = $("input[name='classType']:checked").val();
+	
+	if(classType == 'CLASS_D'){
+		tutoringYn = 'Y'
+	}
+	
+	if(classType == 'CLASS_B' || classType == 'CLASS_E'){
+		operationType = 'WEEKEND';
+	}
+	
+	if(classType == 'CLASS_B'){
+		playName = 'SPECIAL CAMP';
+	}
+	
+	if(classType == 'CLASS_E'){
+		playName = 'VIP 캠프';
+	}
 	
 	var childName = '';
 	$("input[name=childName]:checked").each(function() {
@@ -217,22 +237,21 @@ function getReservationSearchList(scheduleStart){
 	$.ajax({
 		type : "POST",
 		data: {
-	            scheduleStart : scheduleStart,
-				tutoringYn : tutoringYn,
+				scheduleStart : scheduleStart,
+	            tutoringYn : tutoringYn,
 				operationType : operationType,
-				experienceClass : 'Y',
-				storeId : $('#storeId').val(),
-				childName : childName
+				playName : playName,
+				childName : childName,
+				storeId : $('#storeId').val()
 	    },
 		url : contextRoot + 'reservation/getSearchDayReservation.proc',
 		success : function(data){
 			if(data.resultCd == '00'){
-				
+				vm.scheduleList = {};
 				for(var i=0; i < data.list.length; i++){
 					Vue.set(vm.scheduleList, i, data.list[i]);
 				} 
-				vm.scheduleList.splice(data.list.length);
-				
+				vm.scheduleText = data.list[0].scheduleText;
 			} else {
 //				alert('해당 조건으로 예약 가능한 날짜가 없습니다.');
 				return false;	

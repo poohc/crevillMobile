@@ -45,11 +45,10 @@
 	                    <label class="label" for="childName" v-if="errors.has('childName')">{{ errors.first('childName') }}</label>
 	                </div>
 	            </div>
-                <!--없던 날짜선택 datepicker 추가-->
                 <div class="form-group basic">
                     <div class="input-wrapper">
-                        <label class="label" for="name1" aria-placeholder="날짜선택 터치">이용희망일</label>
-                        <input type="date" class="form-control" id="date1" placeholder="">
+                        <label class="label" for="scheduleStart" aria-placeholder="날짜선택 터치">이용희망일</label>
+                        <input type="date" class="form-control" id="scheduleStart" name="scheduleStart" placeholder="">
                         <i class="clear-input">
                             <ion-icon name="close-circle"></ion-icon>
                         </i>

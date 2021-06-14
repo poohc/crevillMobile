@@ -164,13 +164,16 @@
 			   ]]>         	            
 		  FROM SCHEDULE A,
 		       VOUCHER_USE_VIEW B,
-		       PLAY C
+		       PLAY C,
+		       VOUCHER V
 		 WHERE A.SCHEDULE_ID IN 
 		 	<foreach collection="scheduleIdList" item="scheduleId"  separator="," open="(" close=")">
 			#{scheduleId}
 			</foreach>
 		   AND B.VOUCHER_NO = #{voucherNo}
 		   AND A.PLAY_ID = C.PLAY_ID
+		   AND B.VOUCHER_NO = V.VOUCHER_NO
+		   AND V.TICKET_NAME != '1회권'
 	</select>
 	
 	<select id="checkAlreadyReservation" parameterType="kr.co.crevill.reservation.ReservationDto" resultType="Integer">
@@ -343,6 +346,18 @@
 		   AND DATE_FORMAT(A.SCHEDULE_START, '%H') % 2 = 0
 		   </if>
       GROUP BY A.SCHEDULE_ID		   
+	</select>
+	
+	<select id="checkAlreadyShortReservation" parameterType="kr.co.crevill.reservation.ReservationDto" resultType="Integer">
+		SELECT COUNT(A.VOUCHER_NO)
+		  FROM VOUCHER A,
+		  	   VOUCHER_SALE B,    
+		  	   RESERVATION C
+		 WHERE B.BUY_CELL_PHONE = #{cellPhone}
+		   AND A.VOUCHER_NO = B.VOUCHER_NO 
+		   AND B.VOUCHER_NO = C.VOUCHER_NO 
+		   AND A.TICKET_NAME = '1회권'
+		   AND C.STATUS = '02'
 	</select>
 	
 </mapper>
