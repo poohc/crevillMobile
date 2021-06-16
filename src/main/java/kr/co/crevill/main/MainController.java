@@ -135,6 +135,7 @@ public class MainController {
 			mav.addObject("todayReservationListCnt", todayReservationList.size());
 		}
 		NoticeDto noticeDto = new NoticeDto(); 
+		noticeDto.setLimit(1);
 		mav.addObject("noticeList", branchesService.selectNoticeList(noticeDto));
 		return mav;
 	}

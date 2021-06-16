@@ -22,256 +22,158 @@
 
         </div>
     </div>
-	<div id="appCapsule">
-        <th:block th:each="list : ${list}">
-        <div class="carousel-full owl-carousel owl-theme">
-            <div class="item" style="padding-top: 0px;">
-                <img th:src="@{/common/getImage(imageIdx=${list.image1Idx})}" alt="매장이미지1" class="imaged w-100 square">
-            </div>
-            <div class="item" style="padding-top: 0px;">
-                <img th:src="@{/common/getImage(imageIdx=${list.image2Idx})}" alt="매장이미지2" class="imaged w-100 square">
-            </div>
-            <div class="item" style="padding-top: 0px;">
-                <img th:src="@{/common/getImage(imageIdx=${list.image3Idx})}" alt="매장이미지3" class="imaged w-100 square">
-            </div>
+	
+<div id="appCapsule">
+    <!--스토어 이미지 중 thumbnail 이미지 1장 -->
+    <div class="section full mt-2 mb-2">
+        <div class="section full"> 
+            <img th:src="@{/common/getImage(imageIdx=${info.thumbnailImageIdx})}" alt="매장썸네일" class="imaged square w-100">
         </div>
-        
-        <!-- * carousel -->
-        <div class="section full">
-            <div class="wide-block pt-2 pb-2 product-detail-header">
-                <h1 class="title" style="text-decoration: underline;" th:text="${list.storeName}"></h1>
-                <div class="text" th:text="${list.address}"></div>
-                <span class="badge badge-success">OPEN</span>
-                <div class="divider mt-3 mb-2"></div>
-                <a th:href="'tel:' + ${list.telNo}" class="btn btn-block btn-primary">상담전화</a>
-            </div>
-        </div>
-		</th:block>
+    </div>
 
-        <div class="section full mt-2">
-            <div class="section-title">지점소개</div>
-            <div class="wide-block pt-2 pb-2">
-                우리 아이들은 크레빌의 다양한 프로그램을 통해
-                자유롭게 표현하는 방법을 배우고 주도성과 자율성을 기를 수 있습니다.
-            </div>
-        </div>
-		
-		<div class="section full mt-2 mb-2">
-            <div class="wide-block pt-2 pb-2">
-                <p class="mb-0">
-                    <img th:src="@{/assets/img/parking.png}" alt="image" class="imaged w48 square">
-                    주차가능 | 주차권 제공
-                </p>
-            </div>
-        </div>
-		<!--
-		<div class="section full mt-2 mb-2">
-            <div class="section-title" th:text="|${currentYear}월 스케쥴|"></div>
-            <div class="wide-block pt-2 pb-2">
-                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#schedule">보기</button>
-            </div>
-        </div>-->
-        <!--스케쥴 팝업-->
-        <div class="modal fade action-sheet" id="schedule" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title"th:text="|${currentYear}월 스케쥴|"></h5>
+    <div class="section full">
+        <div class="wide-block pt-2 pb-2 product-detail-header">
+            <h1 class="title" style="font-size:1.4rem; font-weight: 150;" th:text="${storeNameShort}"></h1>
+            <div class="divider mt-1 mb-2"></div>
+            <div class="section full">
+                <div class="row" style="text-align: center;">
+                    <div class="col-4">
+                        <a th:href="'tel:' + ${info.telNo}" class="btn btn-block btn-primary" style="background: #fff !important; color:#3B3F59 !important; border-radius:4px; border-width:1px;">
+                            <ion-icon name="logo-whatsapp"></ion-icon>전화
+                        </a>
                     </div>
-                    <div class="modal-body">
-                        <div class="action-sheet-content">
-                            <div class="mb-1">
-                            	<th:block th:if="${info.etcFile1Idx != null}">
-                                	<img th:src="@{/common/getImage(imageIdx=${info.etcFile1Idx})}" th:alt="|${info.storeName} 매장이미지|" class="imaged img-fluid">
-                                </th:block>
-                                <th:block th:unless="${info.etcFile1Idx != null}">
-                                	<img th:src="@{/assets/img/sc.jpg}" alt="image" class="imaged img-fluid">
-                                </th:block>
-                            </div>
-                            <a href="#" class="btn btn-primary btn-block" data-bs-dismiss="modal">닫기</a>
-                        </div>
+                    <div class="col-4">
+                        <th:block th:if="${session.memberVo != null && session.memberVo.memberType == '바우처'}">
+                        <a th:href="@{/reservation/regist.view}" class="btn btn-block btn-primary" style="background: #fff !important; color:#3B3F59 !important; border-radius:4px; border-width:1px;">
+                            <ion-icon name="calendar"></ion-icon>예약
+                        </a>
+                        </th:block>
+                        <th:block th:unless="${session.memberVo != null && session.memberVo.memberType == '바우처'}">
+                        <a href="javascript:alert('바우처 회원만 예약이 가능합니다.')" class="btn btn-block btn-primary" style="background: #fff !important; color:#3B3F59 !important; border-radius:4px; border-width:1px;">
+                            <ion-icon name="calendar"></ion-icon>예약
+                        </a>
+                        </th:block>
+                    </div>
+                    <div class="col-4">
+                        <!--신규 : 인스타그램 주소 (매장별로 인스타그램 주소가 있음) -->
+                        <a th:href="${info.instagramUrl}" class="btn btn-block btn-primary" style="background: #fff !important; color:#3B3F59 !important; border-radius:4px; border-width:1px;">
+                            <ion-icon name="logo-instagram"></ion-icon>인스타그램
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-		
-		<div class="section mt-2 mb-3">
-            <div class="section-title">센터 원어민</div>
-            <div class="row">
-                <div class="col-6" th:each="list : ${nsList}">
-                    <div class="card product-card">
-                        <div class="card-body">
-                            <img th:src="@{/common/getImage(imageIdx=${list.pictureIdx})}" alt="원어민직원사진" class="image">
-                            <h2 class="title" style="text-align: center;">
-                                <div class="chip chip-outline">
-                                    <span class="chip-label" th:text="${list.fullName}"></span>
-                                </div>
-                            </h2>
-                        </div>
-                    </div>
+    </div>
+
+    <div class="section full mt-1 mb-1">
+        <div class="wide-block pt-1 pb-1">
+            <img th:src="@{/assets/img/logo2.png}" class="logo" style="width:15%; vertical-align: middle;"> 모바일 예약
+            	<th:block th:if="${info.mobileReservationYn == 'Y'}">
+            	<span class="badge badge-primary">가능</span>
+            	</th:block>
+            	<th:block th:if="${info.mobileReservationYn == 'N'}">
+            	<span class="badge badge-warning">불가</span>
+            	</th:block>
+        </div>
+        <div class="section mt-2 mb-2">
+            <!--신규 : 매장에서 긴급한 공지를 알리는 기능 -->
+            <div class="card" style="border-radius:4px; background-color: #3B3F59;">
+                <div class="card-body" style="border-radius:4px; padding:16px 16px; line-height: 0.3em;">
+                    <p class="card-text" style="color:#fff" th:text="${info.alrim}"></p>
+                    <p class="card-text" style="color:#fff"><small  th:text="${info.alrimDate}"></small></p>
                 </div>
             </div>
         </div>
-		
-		<div class="section full mt-2 mb-3">
-            <div class="section-title mb-1">과정소개</div>
-            <div class="carousel-multiple owl-carousel owl-theme">
-                <div class="item">
-                    <div class="card product-card">
-                        <div class="card-body">
-                            <a href="#" data-toggle="modal" data-target="#program1">
-                            	<img th:src="@{/assets/img/sample/photo/cv001_c2.jpg}" class="image" alt="product image">
-                                <div class="price">GYM CLASS</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="card product-card">
-                        <div class="card-body">
-                            <a href="#" data-toggle="modal" data-target="#program2">
-                            	<img th:src="@{/assets/img/sample/photo/cv001_c1.jpg}" class="image" alt="product image">
-                                <div class="price">EIC CLASS</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="card product-card">
-                        <div class="card-body">
-                            <a href="#" data-toggle="modal" data-target="#program3">
-                            	<img th:src="@{/assets/img/sample/photo/cv001_c3.jpg}" class="image" alt="product image">
-                                <div class="price">STORY CLASS</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="card product-card">
-                        <div class="card-body">
-                            <a href="#" data-toggle="modal" data-target="#program4">
-                            	<img th:src="@{/assets/img/sample/photo/cv001_c4.jpg}" class="image" alt="product image">
-                                <div class="price">SPECIAL CAMP</div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="wide-block pt-1 pb-1" style="font-weight:100; border-bottom: 0px !important;">
+            <ion-icon name="navigate-outline"></ion-icon><span th:text="${info.address}"></span>
+            <div class="divider mt-1 mb-1"></div>
+            <ion-icon name="time-outline"></ion-icon><span th:text="${info.operationTime}"></span>
+            <div class="divider mt-1 mb-1"></div>
+            <ion-icon name="sunny-outline"></ion-icon><span th:text="${info.holiday}"></span>
+            <div class="divider mt-1 mb-1"></div>
+            <ion-icon name="storefront-outline"></ion-icon><span th:text="${info.etcGuide}"></span>
+            <div class="divider mt-1 mb-1"></div>
+            <ion-icon name="chatbubble-outline"></ion-icon><span th:text="${info.storeIntroduce}"></span>
+            <div class="divider mt-1 mb-1"></div>
+            <ion-icon name="car-outline"></ion-icon><span th:text="${info.parkingGuide}"></span>
         </div>
-		
-		<div class="modal fade dialogbox" id="program1" data-backdrop="static" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <img th:src="@{/assets/img/program1.jpg}" alt="image" class="img-fluid">
-                    <div class="modal-footer">
-                        <div class="btn-inline">
-                            <a href="#" class="btn btn-text-secondary" data-dismiss="modal">닫기</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    </div>
+
+    <div class="section full mt-1 mb-1">
+        <div class="wide-block pt-2 pb-2" style="border-bottom: 0px !important;">
+            <h4 style="margin:0 0 0 0" th:text="|[${info.storeNameShort}] 운영 프로그램|"></h4>
         </div>
-        <div class="modal fade dialogbox" id="program2" data-backdrop="static" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <img th:src="@{/assets/img/program2.jpg}" alt="image" class="img-fluid">
-                    <div class="modal-footer">
-                        <div class="btn-inline">
-                            <a href="#" class="btn btn-text-secondary" data-dismiss="modal">닫기</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade dialogbox" id="program3" data-backdrop="static" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <img th:src="@{/assets/img/program3.jpg}" alt="image" class="img-fluid">
-                    <div class="modal-footer">
-                        <div class="btn-inline">
-                            <a href="#" class="btn btn-text-secondary" data-dismiss="modal">닫기</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade dialogbox" id="program4" data-backdrop="static" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <img th:src="@{/assets/img/program4.jpg}" alt="image" class="img-fluid">
-                    <div class="modal-footer">
-                        <div class="btn-inline">
-                            <a href="#" class="btn btn-text-secondary" data-dismiss="modal">닫기</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-		
-		<!-- 
-        <div class="section full mt-2 mb-3">
-            <div class="section-title mb-1">과정소개</div>
-            <div class="carousel-multiple owl-carousel owl-theme">
-            	<th:block th:each="list : ${playList}">
-                <div class="item">
-                    <div class="card product-card">
-                        <div class="card-body">
-                        	<img th:src="@{/common/getImage(imageIdx=${list.pictureIdx})}" alt="놀이사진" class="image">
-                            <div class="price" th:text="${list.name}"></div>
-                        </div>
+        <div class="wide-block pt-2 pb-2">
+             <div class="row">
+             	<th:block th:each="list, i : ${playList}">
+                <div class="col-6">
+                    <img th:src="@{/common/getImage(imageIdx=${list.pictureIdx})}" alt="놀이사진" class="card-img-top" style="border-style:solid; border-width: 1px;">
+                    <div class="card-body" style="text-align:left; font-size:0.5rem; padding:8px 8px; border-style:solid; border-width: 1px;">
+                        <h4>CLASS
+                        	<span class="badge badge-primary" th:text="${list.name}"></span>
+                        </h4>
+                        <h5 th:text="${list.description}"></h5>
                     </div>
                 </div>
                 </th:block>
-            </div>
+            </div><br>
         </div>
-         -->
-        
-         <div class="section full mt-2 mb-3">
-            <div class="section-title mb-1">위치안내</div>
-            <div>
+    </div>
+
+    <div class="section full mt-1 mb-1">
+        <div class="wide-block pt-2 pb-2" style="border-bottom: 0px !important;">
+            <h4 style="margin:0 0 0 0">위치</h4>
+        </div>
+        <div class="wide-block pt-2 pb-2">
+            <div class="row">
                 <iframe th:src="${googleMapSrc}" width=100% height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
-        
     </div>
-    <div class="modal fade action-sheet" id="saveStore" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">즐겨찾는 매장변경</h5>
+
+    <div class="section full mt-1 mb-1"><!--기존 : 원어민 사진은 X / 왼쪽 동그란 썸네일은 고정이미지 / 유색인종이 많아 사진 못 올린다고 함. -->
+        <div class="wide-block pt-2 pb-2" style="border-bottom: 0px !important;">
+            <h4 style="margin:0 0 0 0" th:text="|[${info.storeNameShort}] 원어민|"></h4>
+        </div>
+        <ul class="listview image-listview">
+            <li th:each="list : ${nsList}">
+                <div class="item">
+                    <img th:src="@{/assets/img/foreign.png}" alt="image" class="image">
+                    <div class="in">
+                        <div th:text="${list.fullName}"></div>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <ul class="action-button-list">
-                        <li>
-                            <a href="#" class="btn btn-list" data-dismiss="modal">
-                                <span>
-                                    <ion-icon name="thumbs-up-outline"></ion-icon>
-                                    예
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="btn btn-list" data-dismiss="modal">
-                                <span>
-                                    <ion-icon name="thumbs-down-outline"></ion-icon>
-                                    아니오
-                                </span>
-                            </a>
-                        </li>
-                        <li class="action-divider"></li>
-                        <li>
-                            <a href="#" class="btn btn-list text-danger" data-dismiss="modal">
-                                <span>
-                                    <ion-icon name="close-outline"></ion-icon>
-                                    취소
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="section full mt-1 mb-1">
+        <div class="wide-block pt-2 pb-2" style="border-bottom: 0px !important;">
+            <h4 style="margin:0 0 0 0">센터 활동 사진</h4>
+        </div>
+        <div class="mt-2 pr-2 pl-2">
+            <div class="row">
+                <div class="col-6 mb-2">
+                    <img th:src="@{/common/getImage(imageIdx=${info.image1Idx})}" alt="매장사진" class="imaged w-100">
+                </div>
+                <div class="col-6 mb-2">
+                    <img th:src="@{/common/getImage(imageIdx=${info.image2Idx})}" alt="매장사진" class="imaged w-100">
+                </div>
+                <div class="col-6 mb-2">
+                    <img th:src="@{/common/getImage(imageIdx=${info.image3Idx})}" alt="매장사진" class="imaged w-100">
+                </div>
+                <div class="col-6 mb-2">
+                    <img th:src="@{/common/getImage(imageIdx=${info.image4Idx})}" alt="매장사진" class="imaged w-100">
+                </div>
+                <div class="col-6 mb-2">
+                    <img th:src="@{/common/getImage(imageIdx=${info.image5Idx})}" alt="매장사진" class="imaged w-100">
+                </div>
+                <div class="col-6 mb-2">
+                    <img th:src="@{/common/getImage(imageIdx=${info.image6Idx})}" alt="매장사진" class="imaged w-100">
                 </div>
             </div>
-        </div>
+        </div>         
     </div>
-	<!-- * App Capsule -->
+</div>
 </th:block>
 </html>

@@ -46,4 +46,13 @@ public class StoreVo {
 	private String updId;
 	private String updDate;
 	private String cntTimeClass;
+	private String mobileReservationYn;
+	private String instagramUrl;
+	private String operationTime;
+	private String holiday;
+	private String etcGuide;
+	private String storeIntroduce;
+	private String parkingGuide;
+	private String alrim;
+	private String alrimDate;
 }

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/default(scriptName='/assets/js/crevill/indexScript.js')}">
+    layout:decorate="~{layout/default(scriptName='/assets/js/crevill/indexScript.js')}">
 
 <th:block layout:fragment="content">
     <div id="appCapsule" style="padding-top:45px;">
@@ -27,28 +27,29 @@
             </div>
         </div>
         <th:block th:if="${session.memberVo != null && voucherInfo != null}">
-<!--             <div class="carousel-full owl-carousel owl-theme"> -->
-<!--                 <div class="section mt-0"> -->
-<!--                     <th:block th:each="reccomendList : ${reccomendList}"> -->
-<!--                         <a href="#" data-toggle="modal" data-target="#actionSheetForm" th:attr="onclick=|reservation('${reccomendList.scheduleId}','${reccomendList.scheduleStart}','${reccomendList.playName}', '${reccomendList.reservationCnt}')|"> -->
-<!--                             <div class="card bg-primary comment-box" style="text-align: left;"> -->
-<!--                                 <div class="card-text">예약추천</div> -->
-<!--                                 <div class="text"> -->
-<!--                                     <h5 style="color:white;" th:text="|${reccomendList.scheduleStart} 클래스 ${reccomendList.playName}|"></h5> -->
-<!--                                     <span class="chip-label"> -->
-<!--                                         <span class="badge badge-success" -->
-<!--                                             th:text="${reccomendList.reservationCnt}"></span> -->
-<!--                                         <font color="white">예약가능</font> -->
-<!--                                     </span> -->
-<!--                                 </div> -->
-<!--                             </div> -->
-<!--                         </a> -->
-<!--                     </th:block> -->
-<!--                 </div> -->
-<!--             </div> -->
+            <!--             <div class="carousel-full owl-carousel owl-theme"> -->
+            <!--                 <div class="section mt-0"> -->
+            <!--                     <th:block th:each="reccomendList : ${reccomendList}"> -->
+            <!--                         <a href="#" data-toggle="modal" data-target="#actionSheetForm" th:attr="onclick=|reservation('${reccomendList.scheduleId}','${reccomendList.scheduleStart}','${reccomendList.playName}', '${reccomendList.reservationCnt}')|"> -->
+            <!--                             <div class="card bg-primary comment-box" style="text-align: left;"> -->
+            <!--                                 <div class="card-text">예약추천</div> -->
+            <!--                                 <div class="text"> -->
+            <!--                                     <h5 style="color:white;" th:text="|${reccomendList.scheduleStart} 클래스 ${reccomendList.playName}|"></h5> -->
+            <!--                                     <span class="chip-label"> -->
+            <!--                                         <span class="badge badge-success" -->
+            <!--                                             th:text="${reccomendList.reservationCnt}"></span> -->
+            <!--                                         <font color="white">예약가능</font> -->
+            <!--                                     </span> -->
+            <!--                                 </div> -->
+            <!--                             </div> -->
+            <!--                         </a> -->
+            <!--                     </th:block> -->
+            <!--                 </div> -->
+            <!--             </div> -->
 
             <div class="modal fade action-sheet" id="actionSheetForm" tabindex="-1" role="dialog">
-                <form class="form theme-form" id="reservationForm" @submit.prevent="validateBeforeSubmit" th:action="@{/reservation/regist.proc}" method="post">
+                <form class="form theme-form" id="reservationForm" @submit.prevent="validateBeforeSubmit"
+                    th:action="@{/reservation/regist.proc}" method="post">
                     <input type="hidden" id="scheduleId" name="scheduleId" :value="scheduleId" />
                     <input type="hidden" id="cellPhone" name="cellPhone" th:value="${cellPhone}" />
                     <div class="modal-dialog" role="document">
@@ -89,8 +90,8 @@
                                                     <select class="form-control custom-select" id="childName"
                                                         name="childName">
                                                         <option th:each="childList : ${childList}"
-                                                            	th:value="${childList.childName}"
-                                                            	th:text="${childList.childName}">
+                                                            th:value="${childList.childName}"
+                                                            th:text="${childList.childName}">
                                                         </option>
                                                     </select>
                                                 </div>
@@ -131,43 +132,45 @@
             <th:block th:if="${session.memberVo != null && session.memberVo.memberType == '바우처'}">
                 <div class="wide-block pt-2 pb-2">
                     <div class="row">
-                    	<th:block th:each="list : ${voucherList}">
-                    	<input type="hidden" id="voucherUsePerCalc" th:value="${list.voucherUsePerCalc}">
-                        <div class="col-4">
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" style="font-size:10px" th:text="${list.ticketName}">
-                                </button>
-                                <div class="dropdown-menu" style="padding-top:5px;">
-                                    <a class="dropdown-item" th:text="${list.ticketName}"></a>
-                                </div>
-                                잔여시간
-                                <div class="chip chip-outline chip-primary ml-05 mb-05" style="padding-left:0px;">
-                                    <span class="chip-label" th:text="|${list.timeLeftHour}/${list.useTime}|"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div id="circle1" class="circle-progress">
-                                <div class="in">
-                                    <div class="text">
-                                        잔여시간
-                                        <h3 class="value" th:text="${list.timeLeftHour}"></h3>
-                                        시간
+                        <th:block th:each="list : ${voucherList}">
+                            <input type="hidden" id="voucherUsePerCalc" th:value="${list.voucherUsePerCalc}">
+                            <div class="col-4">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                        data-toggle="dropdown" style="font-size:10px" th:text="${list.ticketName}">
+                                    </button>
+                                    <div class="dropdown-menu" style="padding-top:5px;">
+                                        <a class="dropdown-item" th:text="${list.ticketName}"></a>
+                                    </div>
+                                    잔여시간
+                                    <div class="chip chip-outline chip-primary ml-05 mb-05" style="padding-left:0px;">
+                                        <span class="chip-label"
+                                            th:text="|${list.timeLeftHour}/${list.useTime}|"></span>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-4">
-                            <div id="circle3" class="circle-progress">
-                                <div class="in">
-                                    <div class="text">
-                                        바우처
-                                        <h3 class="value" th:text="|${list.voucherUsePer}%|"></h3>
-                                        소진률
+                            <div class="col-4">
+                                <div id="circle1" class="circle-progress">
+                                    <div class="in">
+                                        <div class="text">
+                                            잔여시간
+                                            <h3 class="value" th:text="${list.timeLeftHour}"></h3>
+                                            시간
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            <div class="col-4">
+                                <div id="circle3" class="circle-progress">
+                                    <div class="in">
+                                        <div class="text">
+                                            바우처
+                                            <h3 class="value" th:text="|${list.voucherUsePer}%|"></h3>
+                                            소진률
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </th:block>
                     </div>
                 </div>
@@ -176,25 +179,43 @@
             <div class="section full mt-0">
                 <div class="wide-block pt-2">
                     <div class="row" style="text-align: center;">
-                        <div class="col-3">
-                            <a href="http://pf.kakao.com/_xoFKuxb">
+                        <!-- <div class="col-3 kakao">
+                            <a id="channel-chat-button" href="#" onclick="void chatChannel();">
                                 <img src="assets/img/kakao.png" alt="alt" class="imaged w-50 rounded"
                                     style="padding-bottom:5px;">
                                 <div style="bottom: 10px; left: 19px;font-size: 13px;">
                                     <h5>카카오링크</h5>
                                 </div>
                             </a>
-                        </div>
-                        <div class="col-3">
-                            <a href="https://www.instagram.com/crevill_headquarter/">
-                                <img src="assets/img/instargram.png" alt="alt" class="imaged w-50 rounded"
+                        </div> -->
+                        <div class="col-3 info">
+                            <a th:href="@{/main/guide.view}">
+                                <img th:src="@{/assets/img/information.png}" alt="alt" class="imaged w-50 rounded"
                                     style="padding-bottom:5px;">
                                 <div style="bottom: 10px; left: 19px;font-size: 13px;">
-                                    <h5>인스타그램</h5>
+                                    <h5>이용안내</h5>
                                 </div>
                             </a>
                         </div>
-                        <div class="col-3">
+                        <div class="col-3 intro">
+                            <a href="#" data-toggle="modal" data-component="stories" data-target="#about_crevill">
+                                <img src="assets/img/crevill_icon.png" alt="alt" class="imaged w-50 rounded"
+                                    style="padding-bottom:5px;">
+                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
+                                    <h5>크레빌소개</h5>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-3 branch">
+                            <a th:href="@{/store/storeList.view}">
+                                <img src="assets/img/center.png" alt="alt" class="imaged w-50 rounded"
+                                    style="padding-bottom:5px;">
+                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
+                                    <h5>센터안내</h5>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-3 prgrm">
                             <a href="#" data-toggle="modal" data-component="stories" data-target="#about_program">
                                 <img src="assets/img/program.png" alt="alt" class="imaged w-50 rounded"
                                     style="padding-bottom:5px;">
@@ -203,42 +224,37 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="col-3">
-                            <a href="https://nid.naver.com/login/privacyQR">
-                                <img src="assets/img/qrcheck.png" alt="alt" class="imaged w-50 rounded"
-                                    style="padding-bottom:5px;">
-                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
-                                    <h5>QR체크인</h5>
-                                </div>
-                            </a>
-                        </div>
+
                     </div><br>
                     <div class="row" style="text-align: center;">
-                        <div class="col-3">
-                            <a th:href="@{/promotion/list.view}">
-                                <img th:src="@{/assets/img/promotion.png}" alt="alt" class="imaged w-50 rounded" style="padding-bottom:5px;">
+                        <div class="col-3 insta">
+                            <a href="https://www.instagram.com/crevill_headquarter/">
+                                <img src="assets/img/instargram.png" alt="alt" class="imaged w-50 rounded"
+                                    style="padding-bottom:5px;">
                                 <div style="bottom: 10px; left: 19px;font-size: 13px;">
-                                    <h5>프로모션</h5>
+                                    <h5>인스타그램</h5>
                                 </div>
                             </a>
                         </div>
-                        <div class="col-3">
+                        <div class="col-3 vid">
                             <a href="https://www.youtube.com/embed/HZ-tVcvnAl0">
-                                <img th:src="@{/assets/img/youtube.png}" alt="alt" class="imaged w-50 rounded" style="padding-bottom:5px;">
+                                <img th:src="@{/assets/img/youtube.png}" alt="alt" class="imaged w-50 rounded"
+                                    style="padding-bottom:5px;">
                                 <div style="bottom: 10px; left: 19px;font-size: 13px;">
                                     <h5>소개영상</h5>
                                 </div>
                             </a>
                         </div>
-                        <div class="col-3">
-                            <a th:href="@{/main/guide.view}">
-                                <img th:src="@{/assets/img/information.png}" alt="alt" class="imaged w-50 rounded" style="padding-bottom:5px;">
+                        <div class="col-3 promo">
+                            <a th:href="@{/promotion/list.view}">
+                                <img th:src="@{/assets/img/promotion.png}" alt="alt" class="imaged w-50 rounded"
+                                    style="padding-bottom:5px;">
                                 <div style="bottom: 10px; left: 19px;font-size: 13px;">
-                                    <h5>이용안내</h5>
+                                    <h5>프로모션</h5>
                                 </div>
                             </a>
                         </div>
-                        <div class="col-3">
+                        <div class="col-3 sched">
                             <a th:href="@{/program/timeTable.view}">
                                 <img src="assets/img/schedule.png" alt="alt" class="imaged w-50 rounded"
                                     style="padding-bottom:5px;">
@@ -249,34 +265,34 @@
                         </div>
                     </div><br>
                     <div class="row" style="text-align: center;">
-                        <div class="col-3">
-                            <a href="#" data-toggle="modal" data-component="stories" data-target="#about_crevill">
-                                <img src="assets/img/crevill_icon.png" alt="alt" class="imaged w-50 rounded"
+                        <div class="col-3 qrcode">
+                            <a href="https://nid.naver.com/login/privacyQR">
+                                <img src="assets/img/qrcheck.png" alt="alt" class="imaged w-50 rounded"
                                     style="padding-bottom:5px;">
                                 <div style="bottom: 10px; left: 19px;font-size: 13px;">
-                                    <h5>크레빌소개</h5>
+                                    <h5>QR체크인</h5>
                                 </div>
                             </a>
                         </div>
-                        <div class="col-3">
-                            <a th:href="@{/store/storeList.view}">
-                                <img src="assets/img/center.png" alt="alt" class="imaged w-50 rounded"
-                                    style="padding-bottom:5px;">
-                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
-                                    <h5>센터안내</h5>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-3">
+                        <div class="col-3 child">
                             <a th:href="@{/member/childList.view}">
                                 <img src="assets/img/child_add.png" alt="alt" class="imaged w-50 rounded"
                                     style="padding-bottom:5px;">
                                 <div style="bottom: 10px; left: 19px;font-size: 13px;">
-                                    <h5>아동추가등록</h5>
+                                    <h5>자녀 정보</h5>
                                 </div>
                             </a>
                         </div>
-                        <div class="col-3">
+                        <div class="col-3 myvoucher">
+                            <a th:href="@{/member/info.view}">
+                                <img src="assets/img/myvoucher.png" alt="alt" class="imaged w-50 rounded"
+                                    style="padding-bottom:5px;">
+                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
+                                    <h5>바우처 정보</h5>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- <div class="col-3 call">
                             <a href="tel:02-1688-0980">
                                 <img src="assets/img/contact_call.png" alt="alt" class="imaged w-50 rounded"
                                     style="padding-bottom:5px;">
@@ -284,26 +300,28 @@
                                     <h5>전화상담</h5>
                                 </div>
                             </a>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
 
             <div class="section full mt-1">
-                <div class="section-title">신규프로그램</div>
+                <div class="section-title">THEME</div>
                 <div class="carousel-full owl-carousel owl-theme">
                     <div class="item" th:each="list : ${programList}">
                         <div class="card">
                             <a th:href="@{/storeProgram/list.view(chainClass=${list.chainClass})}" class="item">
-                                <img th:src="@{/common/getImage(imageIdx=${list.thumbnailId})}" class="card-img overlay-img" alt="image">
+                                <img th:src="@{/common/getImage(imageIdx=${list.thumbnailId})}"
+                                    class="card-img overlay-img" alt="image">
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
 
+
             <div class="section full mt-1">
-                <div class="section-title">공지</div>
+                <div class="section-title">NOTICE</div>
                 <div class="carousel-full owl-carousel owl-theme">
                     <th:block th:each="list : ${noticeList}">
                         <div class="item">
@@ -316,24 +334,24 @@
                 </div>
             </div>
 
-            
+
             <div class="tab-pane fade show active" id="pilled" role="tabpanel">
                 <div class="section full mt-1">
                     <div class="section-title">CENTER</div>
                     <ul class="nav nav-tabs style1" role="tablist" style="padding-left:16px; padding-right:16px;">
                         <li class="nav-item">
                             <a class="nav-link active" data-toggle="tab" href="#seoul" role="tab">
-                                서울권
+                                서울
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#gyeongi" role="tab">
-                                경기권
+                                경인
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#southern" role="tab">
-                                남부권
+                                남부
                             </a>
                         </li>
                     </ul>
@@ -398,12 +416,13 @@
                     </div>
                 </div>
             </div>
-            <div class="section full mt-2 mb-3">
+            <div class="section full mt-2 mb-2">
                 <div class="section-title">크레빌 프로모션</div>
                 <div class="carousel-full owl-carousel owl-theme">
                     <div class="item" th:each="list : ${promotionList}">
                         <a th:href="@{/promotion/list.view}">
-                            <img th:src="@{/common/getImage(imageIdx=${list.promotionBannerId})}" class="imaged w-100 square" alt="promotion">
+                            <img th:src="@{/common/getImage(imageIdx=${list.promotionBannerId})}"
+                                class="imaged w-100 square" alt="promotion">
                         </a>
                     </div>
                 </div>
@@ -437,23 +456,52 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="section full mt-2 mb-3">
-                <div class="section-title">소개영상</div>
-                <div class="embed-responsive embed-responsive-16by9">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/HZ-tVcvnAl0"
-                        title="YouTube video player" frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen></iframe>
-                </div>
+
+            <!--corona banner add-->
+            <div class="section full mt-1 mb-1">
+                <img th:src="@{/assets/img/corona.png}" alt="image" class="imaged square w-100">
             </div>
 
-
-
+            <div class="section full mt-2 mb-3">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/HZ-tVcvnAl0"
+                        	title="YouTube video player" frameborder="0"
+                        	allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        	allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            <!--고객공지추가 - 최근1개만-->
+            <div class="wide-block pt-1 pb-1">
+                <div style="display:inline">
+                    <p style="text-decoration: dotted; margin-bottom:0rem;">
+                    	<font color="blue">공지</font> | &nbsp;
+                    	<th:block th:each="list : ${noticeList}">
+                    		<span style="font-size:9px;" th:text="${list.contents}"></span>
+                    	</th:block>
+                    </p>
+                </div>
+            </div>
             <!-- app footer -->
             <th:block th:replace="fragments/appFooter :: appFooterFragment"></th:block>
+
+            <!--floating button 추가 FAB-->
+            <div class="fab-button animate bottom-right dropdown">
+                <a href="#" class="fab" data-toggle="dropdown">
+                    <ion-icon name="chevron-up-outline"></ion-icon>
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="https://nid.naver.com/login/privacyQR">
+                        <ion-icon name="qr-code-outline"></ion-icon>
+                        <p>QR체크인</p>
+                    </a>
+                    <a class="dropdown-item" href="#">
+                        <ion-icon name="arrow-up-outline"></ion-icon>
+                        <p>TOP</p>
+                    </a>
+                </div>
+            </div>
         </div>
-        <!-- * App Capsule -->
 </th:block>
 
 </html>

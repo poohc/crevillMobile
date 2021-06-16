@@ -7,7 +7,7 @@
      	<form class="form theme-form" id="reservationForm" @submit.prevent="validateBeforeSubmit" th:action="@{/reservation/regist.proc}" method="post">
      	<input type="hidden" id="cellPhone" name="cellPhone" th:value="${cellPhone}">
         <div class="section full mt-0">
-            <img src="https://static.vecteezy.com/system/resources/thumbnails/000/677/302/small/abstract-technology-banner-background.jpg" alt="image" class="imaged square w-100">  
+            <img src="http://ssem.myds.me/rinfo2.png" alt="image" class="imaged square w-100">  
         </div>
         <div class="section mt-0">
             <div class="section-title"><font color="blue">바우처선택</font></div>
@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="section-title"><font color="blue">아동선택</font></div>
-            <code>한가족은 다중예약이 가능합니다.</code>
+            <code>아동 1인만 예약이 가능합니다.</code>
             <div class="row" style="margin-left: 0px; margin-right: 0px;">
                 <th:block th:each="list, i : ${childList}">
                 <div class="col-4">
@@ -42,7 +42,6 @@
             </div>
             <div class="section-title"><font color="blue">놀이구분선택</font></div>
             <div class="row" style="margin-left: 0px; margin-right: 0px;">
-                
                 <th:block th:each="list,i : ${voucherAttributeList}">
                 <div class="col-4">
                     <div class="frb-group">

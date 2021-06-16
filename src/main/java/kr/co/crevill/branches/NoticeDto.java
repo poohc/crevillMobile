@@ -17,4 +17,5 @@ public class NoticeDto {
 	private String updDate;
 	private String startDate;
 	private String endDate;
+	private int limit;
 }

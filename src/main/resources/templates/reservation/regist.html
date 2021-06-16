@@ -7,11 +7,10 @@
         <form class="form theme-form" id="reservationForm" @submit.prevent="validateBeforeSubmit" th:action="@{/reservation/regist.proc}" method="post">
         <input type="hidden" id="cellPhone" name="cellPhone" th:value="${cellPhone}">
             <div class="section full mt-0">
-                <div class="section full">
-                    <img th:src="@{/assets/img/reservation_info.png}" alt="image" class="imaged square w-100">
-                </div>
+                    <img th:src="@{/assets/img/rinfo1.png}" alt="image" class="imaged square w-100">
+           
             <div class="section-title">바우처선택</div>
-            <div class="row" style="margin-left: 0px; margin-right: 0px;">
+            <div class="row" style="margin-left: 12px; margin-right: 12px;">
                 <div class="col-6" th:each="list, i : ${voucherList}">
                     <div class="frb-group">
                         <div class="frb frb-success">
@@ -26,7 +25,7 @@
                 </div>
             </div>
             <div class="section-title">이용아동선택</div>
-            <div class="row" style="margin-left: 0px; margin-right: 0px;">
+            <div class="row" style="margin-left: 12px; margin-right: 12px;">
             	<th:block th:each="list, i : ${childList}">
                 <div class="col-4">
                     <div class="frb frb-info">
@@ -40,7 +39,7 @@
                 </th:block>
             </div><br>
             <div class="section-title">놀이구분선택</div>
-            <div class="row" style="margin-left: 0px; margin-right: 0px;">
+            <div class="row" style="margin-left: 12px; margin-right: 12px;">
                 <template v-for="(item, i) in voucherAttribute">
                 <div class="col-4">
                     <div class="frb-group">
@@ -59,7 +58,7 @@
                 </template>
             </div>
             <div class="section-title">선택결과</div>
-            <div class="row" style="margin-left: 0px; margin-right: 0px;">
+            <div class="row" style="margin-left: 12px; margin-right: 12px;">
                 <div class="col-12">
                     <p style="font-size:7px">
                     	<span class="badge badge-primary">잔여 {{voucherTimeLeftHour}}시간</span> |
@@ -79,7 +78,7 @@
             </div>
             <div class="section-title">{{scheduleText}}</div>
 <!--             <code>스케쥴이 마감되었거나 등록되지 않았습니다.</code> -->
-            <div class="row" style="margin-left: 0px; margin-right: 0px;">
+            <div class="row" style="margin-left: 12px; margin-right: 12px;">
                 <template v-for="(item, index) in scheduleList">
                 <div class="col-12">
                     <div class="frb frb-primary">
@@ -136,10 +135,10 @@
                         <h5 class="modal-title">예약완료</h5>
                     </div>
                     <div class="modal-body">
-                        예약이 완료되었습니다. 고객님의 바우처 이용시간에서 시간이 차감되었습니다.
-                    </div>
-                    <div class="modal-body">
-                        이용일전 예약취소 시 100% 환급이 가능하며, 당일 취소는 불가함을 양해구합니다.
+                        <p>예약이 완료되었습니다.</p> 
+                        <span>고객님의 바우처 이용시간에서 시간이 차감되었습니다.</span>
+                        ※ 이용일 하루 전까지 취소가능하며, 당일 취소는 불가합니다.
+                        <p>당일취소시 바우처 차감</p>
                     </div>
                     <div class="modal-footer">
                         <div class="btn-inline">

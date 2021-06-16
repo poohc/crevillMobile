@@ -99,6 +99,7 @@
         SELECT STORE_ID,
 			   STORE_NAME,
 			   STORE_NAME_REG,
+			   SUBSTRING_INDEX(STORE_NAME, ' ', - 1) STORE_NAME_SHORT,
 			   TEL_NO,
 			   SORT_RANK,
 			   REGISTRATION_NUMBER,
@@ -138,7 +139,16 @@
 			   REG_ID,
 			   DATE_FORMAT(REG_DATE, '%Y/%m/%d') REG_DATE,
 			   UPD_ID,
-			   DATE_FORMAT(UPD_DATE, '%Y/%m/%d') UPD_DATE
+			   DATE_FORMAT(UPD_DATE, '%Y/%m/%d') UPD_DATE,
+			   MOBILE_RESERVATION_YN,
+			   INSTAGRAM_URL,
+			   OPERATION_TIME,
+			   HOLIDAY,
+			   ETC_GUIDE,
+			   STORE_INTRODUCE,
+			   PARKING_GUIDE,
+			   ALRIM,
+			   DATE_FORMAT(ALRIM_DATE, '%Y.%m.%d') ALRIM_DATE
           FROM STORE
          WHERE STORE_ID = #{storeId}
     </select>

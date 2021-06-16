@@ -1,21 +1,33 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="headFragment">
+
     <head>
-    	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
-	    <meta name="apple-mobile-web-app-capable" content="yes" />
-	    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-	    <meta name="theme-color" content="#000000">
-	    <meta name="description" content="크레빌 모바일">
-	    <meta name="keywords" content="crevill mobile, crevill, kidsfactory" />
-	    <link rel="icon" type="image/png" th:href="@{/assets/img/favicon.png}" sizes="32x32">
-	    <link rel="apple-touch-icon" sizes="180x180" th:href="@{/assets/img/icon/192x192.png}">
-	    <link rel="stylesheet" th:href="@{/assets/css/style.css}">
-<!-- 		<link rel="manifest" th:href="@{/assets/__manifest.json}"> -->
-	    <link rel="preconnect" href="https://fonts.gstatic.com">
-	    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="theme-color" content="#000000">
+        <meta name="description" content="크레빌 모바일">
+        <meta name="keywords" content="crevill mobile, crevill, kidsfactory" />
+        <link rel="icon" type="image/png" th:href="@{/assets/img/favicon.png}" sizes="32x32">
+        <link rel="apple-touch-icon" sizes="180x180" th:href="@{/assets/img/icon/192x192.png}">
+        <link rel="stylesheet" th:href="@{/assets/css/style.css}">
+        <!-- 		<link rel="manifest" th:href="@{/assets/__manifest.json}"> -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
         <title>크레빌 모바일</title>
+        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+        <script>
+            window.OneSignal = window.OneSignal || [];
+            OneSignal.push(function () {
+                OneSignal.init({
+                    appId: "a9182cbe-5e1c-4067-8d1e-0258a85d8095",
+                });
+            });
+        </script>
     </head>
 </th:block>
+
 </html>

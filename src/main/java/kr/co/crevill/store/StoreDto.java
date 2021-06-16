@@ -57,4 +57,13 @@ public class StoreDto {
 	private String regDate;
 	private String updId;
 	private String updDate;	
+	private String mobileReservationYn;
+	private String instagramUrl;
+	private String operationTime;
+	private String holiday;
+	private String etcGuide;
+	private String storeIntroduce;
+	private String parkingGuide;
+	private String alrim;
+	private String alrimDate;
 }

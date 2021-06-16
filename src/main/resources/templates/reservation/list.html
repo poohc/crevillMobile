@@ -20,7 +20,7 @@
             <li th:each="list : ${list}">
             	<th:block th:if="${list.status == '02'}">
                 <a class="item" th:attr="onclick=|cancel('${list.reservationId}','${list.voucherUseId}','${list.isToday}', '${list.isCancelPossible}')|">
-                    <img th:src="@{/assets/img/logo_circle.jpg}" alt="image" class="image">
+                    <img th:src="@{/assets/img/accept.jpg}" alt="image" class="image">
                     <div class="in">
                         <div>
                             <header th:text="${list.storeName}"></header>

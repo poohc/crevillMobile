@@ -5,7 +5,7 @@
 
 <th:block layout:fragment="content">
 	 <div id="appCapsule">
-        <div class="section full mb-3">
+        <div class="section full mb-0">
             <div class="section-title"></div>
             <div class="carousel-single owl-carousel owl-theme">
                 <div class="item">
@@ -19,7 +19,7 @@
                 </div>
             </div>
         </div>
-        <div class="section full mt-2 mb-2">
+        <div class="section full mt-0 mb-2">
         	<form class="form theme-form" id="reservationForm" @submit.prevent="validateBeforeSubmit" th:action="@{/reservation/freeRegist.proc}" method="post">
             <div class="section-title">체험 신청자 정보</div>
             <div class="wide-block pb-1 pt-2">

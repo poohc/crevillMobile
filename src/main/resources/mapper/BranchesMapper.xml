@@ -25,6 +25,10 @@
 		 WHERE A.NOTICE_ID  = B.NOTICE_ID 
 		   AND A.NOTICE_TYPE = 'ALL'
       GROUP BY A.NOTICE_ID
+      ORDER BY A.REG_DATE DESC
+      <if test="limit != null and limit != ''">
+      LIMIT #{limit}
+      </if>
 	</select>
 	
 	<insert id="insertNotice" parameterType="kr.co.crevill.branches.NoticeDto">

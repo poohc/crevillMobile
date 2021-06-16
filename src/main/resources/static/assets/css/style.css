@@ -527,7 +527,7 @@ button:hover, button:active, button:focus {
 .appBottomMenu .item.active i.icon,
 .appBottomMenu .item.active ion-icon,
 .appBottomMenu .item.active strong {
-  color: #1E74FD !important;
+  color: #1C3A54 !important;
   font-weight: 500;
 }
 
@@ -874,7 +874,7 @@ button:hover, button:active, button:focus {
   padding: 24px 16px;
   font-size: 12px;
   text-align: center;
-  line-height: 1.2em;
+  line-height: 1.5em;
   background: #fff;
 }
 
@@ -1667,7 +1667,7 @@ i.icon {
 
 .badge-primary,
 a.badge-primary {
-  background: #3B3F59 !important;
+  background: #1C3A54 !important;
 }
 
 .badge-secondary,
@@ -2098,12 +2098,17 @@ a.badge-dark {
   padding-left: 96px !important;
 }
 
+/* --------210615 sinfo2 ------------- */
 .card {
   background: #ffffff;
-  border-radius: 0px;
+  /* border-radius: 0px; */
+  border-radius: 6px;
   border: 0;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.08);
 }
+
+
+
 
 .card .card-body {
   padding: 24px 16px;
@@ -2340,8 +2345,8 @@ a.badge-dark {
 }
 
 .btn-secondary {
-  background: #617085 !important;
-  border-color: #617085 !important;
+  background: #1C3A54 !important;
+  border-color: #1C3A54 !important;
   color: #ffffff !important;
 }
 
@@ -3648,7 +3653,7 @@ a.badge-dark {
 }
 
 .bg-primary {
-  background: #3B3F59 !important;
+  background: #1C3A54 !important;
   color: #FFF;
 }
 
@@ -4221,7 +4226,7 @@ textarea,
   margin: 0;
 }
 
-/* .form-group.basic .form-control,
+.form-group.basic .form-control,
 .form-group.basic .custom-select {
   background: transparent;
   border: 1px solid #E1E1E1;
@@ -4230,9 +4235,9 @@ textarea,
   height: 40px;
   color: #141515;
   font-size: 15px;
-} */
+}
 /* reservation/regist */
-.form-group.basic .form-control,
+/* .form-group.basic .form-control,
 .form-group.basic .custom-select {
     background: transparent;
     border: 1px solid #E1E1E1;
@@ -4248,7 +4253,7 @@ textarea,
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-}
+} */
 
 .form-group.basic .form-control:focus,
 .form-group.basic .custom-select:focus {
@@ -4488,7 +4493,7 @@ textarea,
 .nav-tabs.style1 .nav-item .nav-link.active {
   color: #fff;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.08);
-  background: #3B3F59;
+  background: #1C3A54;
   
   
 }
@@ -5471,7 +5476,7 @@ textarea,
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #1E74FD;
+  background: #1C3A54;
   border-radius: 100%;
   color: #fff !important;
 }
@@ -5506,7 +5511,7 @@ textarea,
 }
 
 .fab-button.dropdown.show .fab {
-  background: #0564fd;
+  background: #1C3A54;
 }
 
 .fab-button .dropdown-menu {
@@ -5523,7 +5528,7 @@ textarea,
 
 .fab-button .dropdown-menu .dropdown-item {
   padding: 0;
-  background: #1E74FD;
+  background: #1C3A54;
   width: 42px;
   height: 42px;
   display: flex !important;
@@ -5537,7 +5542,7 @@ textarea,
 }
 
 .fab-button .dropdown-menu .dropdown-item:hover, .fab-button .dropdown-menu .dropdown-item:active {
-  background: #1E74FD;
+  background: #1C3A54;
 }
 
 .fab-button .dropdown-menu .dropdown-item i.icon,
@@ -5570,7 +5575,7 @@ textarea,
 
 .fab-button.bottom-right {
   position: fixed;
-  bottom: 16px;
+  bottom: 70px;
   right: 16px;
   z-index: 100;
   margin-bottom: env(safe-area-inset-bottom);
@@ -5578,7 +5583,7 @@ textarea,
 
 .fab-button.bottom-left {
   position: fixed;
-  bottom: 16px;
+  bottom: 70px;
   left: 16px;
   z-index: 100;
   margin-bottom: env(safe-area-inset-bottom);
@@ -8259,3 +8264,5 @@ body.dark-mode-active .story-blocks .passive img {
     font-size: 15px;
     font-weight: 500;
 }
+
+
