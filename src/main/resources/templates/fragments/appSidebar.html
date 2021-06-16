@@ -66,7 +66,7 @@
 	                            </a>
 	                        </li>
 	                        </th:block>
-	                        <th:block th:if="${session.memberVo.memberType == 'NV'}">
+	                        <th:block th:if="${session.memberVo.memberType == 'NV' || session.memberVo.memberType == '모바일'}">
 	                        <li>
 	                            <a th:href="@{/reservation/free.view}" class="item">
 	                                <div class="icon-box bg-primary">
