@@ -13,7 +13,7 @@
             <div class="row" style="margin-left: 12px; margin-right: 12px;">
                 <div class="col-6" th:each="list, i : ${voucherList}">
                     <div class="frb-group">
-                        <div class="frb frb-success">
+                        <div class="frb frb-primary">
                             <input type="radio" th:id="'voucherNo' + ${i.index}" name="voucherNo" th:value="${list.voucherNo}" th:data-storeId="${list.storeId}" v-validate="'required'">
                             <label th:for="'voucherNo' + ${i.index}">
                                 <span class="frb-title" th:text="${list.ticketName}"></span><br>
@@ -28,7 +28,7 @@
             <div class="row" style="margin-left: 12px; margin-right: 12px;">
             	<th:block th:each="list, i : ${childList}">
                 <div class="col-4">
-                    <div class="frb frb-info">
+                    <div class="frb frb-primary">
                         <input type="checkbox" th:id="'childName' + ${i.index}" name="childName" th:value="${list.childName}" v-validate="'required'">
                         <label th:for="'childName' + ${i.index}">
                             <span class="frb-title" th:text="${list.childName}"></span>
@@ -43,7 +43,7 @@
                 <template v-for="(item, i) in voucherAttribute">
                 <div class="col-4">
                     <div class="frb-group">
-                        <div class="frb frb-success">
+                        <div class="frb frb-primary">
                         	<input v-if="item == 'CLASS'" type="radio" :id="'classType-' + i" name="classType" value="CLASS_A">
                         	<input v-else-if="item == 'SPECIAL CAMP'" type="radio" :id="'classType-' + i" name="classType" value="CLASS_B">
                         	<input v-else-if="item == 'TUTORING'" type="radio" :id="'classType-' + i" name="classType" value="CLASS_D">
@@ -86,7 +86,7 @@
                         <label :for="'scheduleId-' + index">
                             <span class="frb-title" v-if="classType == '튜터링'">{{item.scheduleStart}} | 잔여 {{item.tutoringCnt}} | 튜터링</span>
                             <span class="frb-title" v-else>{{item.scheduleStart}} | 잔여 {{item.reservationCnt}} | {{item.playName}}</span>
-                            <span class="frb-description" style="font-size: 9px;">{{item.subTopic}}</span>
+<!--                             <span class="frb-description" style="font-size: 9px;">{{item.subTopic}}</span> -->
                         </label>
                     </div>
                 </div>

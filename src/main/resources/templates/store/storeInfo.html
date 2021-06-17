@@ -6,7 +6,7 @@
 <th:block layout:fragment="content">
 	 <!-- loader -->
     <div id="loader">
-        <div class="spinner-border text-primary" role="status"></div>
+<!--         <div class="spinner-border text-primary" role="status"></div> -->
     </div>
     <!-- * loader -->
 
@@ -25,7 +25,7 @@
 	
 <div id="appCapsule">
     <!--스토어 이미지 중 thumbnail 이미지 1장 -->
-    <div class="section full mt-2 mb-2">
+    <div class="section full mt-0 mb-0">
         <div class="section full"> 
             <img th:src="@{/common/getImage(imageIdx=${info.thumbnailImageIdx})}" alt="매장썸네일" class="imaged square w-100">
         </div>
@@ -55,7 +55,7 @@
                         </th:block>
                     </div>
                     <div class="col-4">
-                        <!--신규 : 인스타그램 주소 (매장별로 인스타그램 주소가 있음) -->
+                        <!--신규 : 인스타그램 주소-->
                         <a th:href="${info.instagramUrl}" class="btn btn-block btn-primary" style="background: #fff !important; color:#3B3F59 !important; border-radius:4px; border-width:1px;">
                             <ion-icon name="logo-instagram"></ion-icon>인스타그램
                         </a>
@@ -63,6 +63,10 @@
                 </div>
             </div>
         </div>
+    </div>
+    <!-- corona -->
+    <div class="section full mt-1 mb-1">
+        <img th:src="@{/assets/img/corona.png}" alt="image" class="imaged square w-100">
     </div>
 
     <div class="section full mt-1 mb-1">
@@ -76,7 +80,7 @@
             	</th:block>
         </div>
         <div class="section mt-2 mb-2">
-            <!--신규 : 매장에서 긴급한 공지를 알리는 기능 -->
+            <!--신규  -->
             <div class="card" style="border-radius:4px; background-color: #3B3F59;">
                 <div class="card-body" style="border-radius:4px; padding:16px 16px; line-height: 0.3em;">
                     <p class="card-text" style="color:#fff" th:text="${info.alrim}"></p>
@@ -85,17 +89,17 @@
             </div>
         </div>
         <div class="wide-block pt-1 pb-1" style="font-weight:100; border-bottom: 0px !important;">
-            <ion-icon name="navigate-outline"></ion-icon><span th:text="${info.address}"></span>
+            <ion-icon name="navigate-outline" style="margin-right:10px;"></ion-icon><span th:text="${info.address}"></span>
             <div class="divider mt-1 mb-1"></div>
-            <ion-icon name="time-outline"></ion-icon><span th:text="${info.operationTime}"></span>
-            <div class="divider mt-1 mb-1"></div>
-            <ion-icon name="sunny-outline"></ion-icon><span th:text="${info.holiday}"></span>
-            <div class="divider mt-1 mb-1"></div>
-            <ion-icon name="storefront-outline"></ion-icon><span th:text="${info.etcGuide}"></span>
-            <div class="divider mt-1 mb-1"></div>
-            <ion-icon name="chatbubble-outline"></ion-icon><span th:text="${info.storeIntroduce}"></span>
-            <div class="divider mt-1 mb-1"></div>
-            <ion-icon name="car-outline"></ion-icon><span th:text="${info.parkingGuide}"></span>
+            <ion-icon name="time-outline" style="margin-right:10px;"></ion-icon><span th:text="${info.operationTime}"></span>
+            <div class="divider mt-1 mb-1" ></div>
+            <ion-icon name="sunny-outline" style="margin-right:10px;"></ion-icon><span th:text="${info.holiday}"></span>
+            <div class="divider mt-1 mb-1" ></div>
+            <ion-icon name="storefront-outline" style="margin-right:10px;"></ion-icon><span th:text="${info.etcGuide}"></span>
+            <div class="divider mt-1 mb-1" ></div>
+            <ion-icon name="chatbubble-outline" style="margin-right:10px;"></ion-icon><span th:text="${info.storeIntroduce}"></span>
+            <div class="divider mt-1 mb-1" ></div>
+            <ion-icon name="car-outline" style="margin-right:10px;"></ion-icon><span th:text="${info.parkingGuide}"></span>
         </div>
     </div>
 
@@ -107,12 +111,14 @@
              <div class="row">
              	<th:block th:each="list, i : ${playList}">
                 <div class="col-6">
-                    <img th:src="@{/common/getImage(imageIdx=${list.pictureIdx})}" alt="놀이사진" class="card-img-top" style="border-style:solid; border-width: 1px;">
-                    <div class="card-body" style="text-align:left; font-size:0.5rem; padding:8px 8px; border-style:solid; border-width: 1px;">
+                    <div class="card" style="border-radius: 4px; margin-bottom:15px">
+                        <img th:src="@{/common/getImage(imageIdx=${list.pictureIdx})}" alt="놀이사진" class="card-img-top">
+                    <div class="card-body" style="text-align:left; font-size:0.5rem; padding:8px 8px; height: 107px;">
                         <h4>CLASS
                         	<span class="badge badge-primary" th:text="${list.name}"></span>
                         </h4>
                         <h5 th:text="${list.description}"></h5>
+                    </div>
                     </div>
                 </div>
                 </th:block>
@@ -131,14 +137,14 @@
         </div>
     </div>
 
-    <div class="section full mt-1 mb-1"><!--기존 : 원어민 사진은 X / 왼쪽 동그란 썸네일은 고정이미지 / 유색인종이 많아 사진 못 올린다고 함. -->
+    <div class="section full mt-1 mb-1"><!--기존 . -->
         <div class="wide-block pt-2 pb-2" style="border-bottom: 0px !important;">
             <h4 style="margin:0 0 0 0" th:text="|[${info.storeNameShort}] 원어민|"></h4>
         </div>
         <ul class="listview image-listview">
             <li th:each="list : ${nsList}">
                 <div class="item">
-                    <img th:src="@{/assets/img/foreign.png}" alt="image" class="image">
+                    <img th:src="@{/assets/img/earth.png}" alt="image" class="image">
                     <div class="in">
                         <div th:text="${list.fullName}"></div>
                     </div>

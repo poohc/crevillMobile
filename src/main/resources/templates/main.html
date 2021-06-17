@@ -420,10 +420,10 @@
                 <div class="section-title">크레빌 프로모션</div>
                 <div class="carousel-full owl-carousel owl-theme">
                     <div class="item" th:each="list : ${promotionList}">
-                        <a th:href="@{/promotion/list.view}">
+                        <!-- <a th:href="@{/promotion/list.view}"> -->
                             <img th:src="@{/common/getImage(imageIdx=${list.promotionBannerId})}"
                                 class="imaged w-100 square" alt="promotion">
-                        </a>
+                        <!-- </a> -->
                     </div>
                 </div>
             </div>
