@@ -3,7 +3,7 @@
     <!-- 공통 헤더-->
     <th:block th:replace="fragments/head :: headFragment"></th:block>
     <body class="bg-white">
-    	<th:block th:replace="fragments/header :: headerFragment(${menu})"></th:block>
+    	<th:block th:replace="fragments/headerJoin :: headerFragment(${menu})"></th:block>
     	<th:block layout:fragment="content"></th:block>
         <th:block th:replace="fragments/script :: scriptFragment(${scriptName})"></th:block>
     </body>
