@@ -130,9 +130,9 @@
 
                 <!-- sidebar buttons -->
                 <div class="sidebar-buttons">
-                    <a href="tel:02-1688-0980" class="button">
-                        <ion-icon name="phone-portrait-outline"></ion-icon>
-                        <h5>고객센터</h5>
+                    <a th:href="@{/member/info.view}" class="button">
+                        <ion-icon name="settings-outline"></ion-icon>
+                        <h5>회원정보</h5>
                     </a>
                     <th:block th:if="${session.memberVo != null}">
                     <a th:href="@{/login/loginOut.view}" class="button">

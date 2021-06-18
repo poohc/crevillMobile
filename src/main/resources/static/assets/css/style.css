@@ -1335,7 +1335,7 @@ h4,
 h5,
 h6 {
   color: #141515;
-  margin: 0 0 10px 0;
+  margin: 0 0 0px 0;
   letter-spacing: -0.02em;
   line-height: 1.3em;
 }
@@ -1927,7 +1927,9 @@ a.badge-dark {
 }
 
 .image-listview > li:after {
-  left: 68px;
+  /* left: 68px; */
+  left: 16px;
+  right: 16px;
 }
 
 .image-listview > li .item {
