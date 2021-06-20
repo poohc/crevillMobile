@@ -49,6 +49,12 @@ public class MemberController {
 	@Autowired
 	private CommonService commonService;
 	
+	@GetMapping("welcome.view")
+	public ModelAndView welcome(HttpServletRequest request, MemberDto memberDto) {
+		ModelAndView mav = new ModelAndView("member/welcome");
+		return mav;
+	}
+	
 	@GetMapping("termsAgree.view")
 	public ModelAndView termsAgree(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("member/termsAgree");
