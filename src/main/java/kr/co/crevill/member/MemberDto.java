@@ -35,4 +35,5 @@ public class MemberDto {
 	private String parentSex;
 	private String mobileCorp;
 	private String di;
+	private String authNum;
 }

@@ -103,7 +103,7 @@ new Vue({
 					}).then((response) => {
 					if (response.data.resultCd == '00') {
 				      	alert('정상처리 되었습니다.');
-						location.href = contextRoot;
+						location.href= contextRoot + 'member/welcome.view';
 				    }
 					
 					return {

@@ -35,7 +35,7 @@ new Vue({
 			    } else {
 					if (response.data.resultCd == '11') {
 						alert('최초 비밀번호 설정을 위해 이동합니다.');
-						location.href = contextRoot + "login/passwordInit.view?cellPhone=" + $('#cellPhone').val();	
+						location.href = contextRoot + "login/smsAuth.view?cellPhone=" + $('#cellPhone').val();	
 					} else {
 						alert(response.data.resultMsg);
 						return false;	

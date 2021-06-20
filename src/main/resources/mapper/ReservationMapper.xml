@@ -72,7 +72,7 @@
            AND A.RESERVATION_ID = C.RESERVATION_ID
            AND A.VOUCHER_NO = C.VOUCHER_NO
       GROUP BY A.RESERVATION_ID
-      ORDER BY A.REG_DATE DESC
+      ORDER BY B.SCHEDULE_START
       <if test="limit != null and limit != ''">
       LIMIT #{limit}
       </if>

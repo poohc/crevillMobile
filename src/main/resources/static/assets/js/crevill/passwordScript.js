@@ -3,7 +3,8 @@ Vue.use(VeeValidate, {
   dictionary: {
     ko: {
 		    attributes: {
-		      password : '비밀번호',
+		      newPassword : '신규비밀번호',
+			  newPasswordAgain : '신규비밀번호 확인'
 		    }
 	  	}
   }
@@ -20,7 +21,7 @@ new Vue({
         if (result) {
  			var formdata = new FormData();
 			formdata.append("cellPhone", $('#cellPhone').val());
-			formdata.append("password", $('#password').val());
+			formdata.append("password", $('#newPassword').val());
 			
 			axios.post(contextRoot + 'login/passwordInit.proc', formdata,{
 				  headers: {
