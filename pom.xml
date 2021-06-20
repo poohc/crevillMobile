@@ -105,8 +105,15 @@
 			<scope>system</scope>
 			<systemPath>${basedir}/src/main/resources/lib/NiceID_ibm.jar</systemPath>
 		</dependency>
+		<dependency>
+			<groupId>net.nurigo</groupId>
+			<artifactId>java_sdk</artifactId>
+			<version>2.2</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/src/main/resources/lib/javaSDK-2.2.jar</systemPath>
+		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<plugins>
 			<plugin>

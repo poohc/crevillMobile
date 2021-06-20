@@ -107,7 +107,7 @@ public class LoginController {
 				result.put("authNum", authNum);
 				Message coolsms = new Message(apiKey, apiSecret);
 			    HashMap<String, String> params = new HashMap<String, String>();
-			    params.put("to", "01091091806");
+			    params.put("to", memberDto.getCellPhone());
 			    params.put("from", "01030242890");
 			    params.put("type", "SMS");
 			    params.put("text", "[크레빌 인증번호] : " + authNum);
