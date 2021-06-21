@@ -527,7 +527,8 @@ button:hover, button:active, button:focus {
 .appBottomMenu .item.active i.icon,
 .appBottomMenu .item.active ion-icon,
 .appBottomMenu .item.active strong {
-  color: #1C3A54 !important;
+  /* color: #1C3A54 !important; */
+  color: #10aee6 !important;
   font-weight: 500;
 }
 
@@ -8267,4 +8268,19 @@ body.dark-mode-active .story-blocks .passive img {
     font-weight: 500;
 }
 
-
+/* 210621 termsAgree */
+.modal-content h5{
+    line-height: 2.3em ; 
+    font-weight: 700;
+}
+.modal-content h6{
+    line-height: 1.5em;
+}
+.modal-content h5.chapter{
+    font-size: 15px;
+}
+/* 210621 storeInfo */
+.card .card-body h4{
+    display: inline-block;
+    margin-bottom: 5px;
+}

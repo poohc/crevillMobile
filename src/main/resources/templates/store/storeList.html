@@ -6,11 +6,13 @@
 <th:block layout:fragment="content">
 	 <div id="appCapsule">
          <div class="section full">
-            <div class="carousel-full owl-carousel owl-theme">
+            <!-- <div class="carousel-full owl-carousel owl-theme">
                 <div class="item" style="padding-top: 0px;" th:each="list : ${noticeList}">
                     <img th:src="@{/common/getImage(imageIdx=${list.bannerId})}" class="imaged w-100 square" alt="promotion">
                 </div>
-            </div>
+            </div> -->
+            <img th:src="@{/assets/img/storeList.png}" alt="image" class="imaged square w-100">
+
         </div>
         <div class="section full mt-2">
             <div class="section mt-0">

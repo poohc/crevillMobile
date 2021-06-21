@@ -152,6 +152,7 @@
 		  FROM RESERVATION A,
 		       SCHEDULE B
 		 WHERE A.SCHEDULE_ID = B.SCHEDULE_ID
+		   AND A.STATUS = '02'
 		   AND A.CELL_PHONE = #{cellPhone}
 		   <if test="storeId != null and storeId != 'CST00001'.toString() and storeId != 'MOBILE'.toString()">
 		   AND B.STORE_ID = #{storeId}

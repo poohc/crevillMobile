@@ -35,12 +35,13 @@
 	    <input type="hidden" id="sDupInfo" name="sDupInfo" th:value="${sDupInfo}">
          <div class="section full mt-2 mb-2">
             <div class="section-title" style="font-size:18px color;">회원정보입력</div>
+            <div class="section-title" style="font-size:14px color;"><span class="badge badge-success"><font color="red">*</font>필수입력 사항입니다.</span></div> 
             <div class="wide-block pb-1 pt-2">
 	            <div><button type="button" class="btn btn-primary btn-sm mr-1" onclick="fnPopup()">나이스 본인인증</button></div>
 	            <div class="form-group basic" style="padding-top:20px;">
 	                <div class="input-wrapper">
-	                    <label class="label" for="parentName" style="font-size:15px;">성함[한글]</label>
-	                    <input type="text" class="form-control" v-validate="'required'" id="parentName" name="parentName" placeholder="홍길동" readonly th:value="${sName}">
+	                    <label class="label" for="parentName" style="font-size:15px; margin-bottom: 6px;"><font color="red">*</font>성함[한글]</label>
+	                    <input type="text" class="form-control" v-validate="'required'" id="parentName" name="parentName" placeholder="" readonly th:value="${sName}">
 	                    <i class="clear-input">
 	                        <ion-icon name="close-circle"></ion-icon>
 	                    </i>
@@ -49,8 +50,8 @@
 	            </div>
 	            <div class="form-group basic" style="padding-top:15px;">
 	                <div class="input-wrapper">
-	                    <label class="label" for="cellPhone" style="font-size:15px;">전화번호</label>
-	                    <input type="tel" class="form-control" v-validate="'required|numeric|min:10|max:11|chkCellPhone'" id="cellPhone" name="cellPhone" placeholder="01066668888" readonly th:value="${sMobileNo}">
+	                    <label class="label" for="cellPhone" style="font-size:15px; margin-bottom: 6px;"><font color="red">*</font>전화번호</label>
+	                    <input type="tel" class="form-control" v-validate="'required|numeric|min:10|max:11|chkCellPhone'" id="cellPhone" name="cellPhone" placeholder="" readonly th:value="${sMobileNo}">
 	                    <i class="clear-input">
 	                        <ion-icon name="close-circle"></ion-icon>
 	                    </i>
@@ -59,7 +60,7 @@
 	            </div>
 	            <div class="form-group basic" style="padding-top:15px;">
 	                <div class="input-wrapper">
-	                    <label class="label" for="email" style="font-size:15px;">이메일(공지안내를 위한 정확한 메일주소 입력)</label>
+	                    <label class="label" for="email" style="font-size:15px; margin-bottom: 6px;"><font color="red">*</font>이메일(공지안내를 위한 정확한 메일주소 입력)</label>
 	                    <input type="email" class="form-control" v-validate="'required|email'" id="email" name="email" placeholder="이메일주소">
 	                    <i class="clear-input">
 	                        <ion-icon name="close-circle"></ion-icon>
@@ -69,7 +70,7 @@
 	            </div>
 	            <div class="form-group basic" style="padding-top:15px;">
 	                <div class="input-wrapper">
-	                    <label class="label" for="password" style="font-size:15px;">비밀번호</label>
+	                    <label class="label" for="password" style="font-size:15px; margin-bottom: 6px;"><font color="red">*</font>비밀번호</label>
 	                    <input type="password" class="form-control" v-validate="{required: true, min: 8, regex: /^(?=.*?[a-z])(?=.*?[0-9]).*$/ }" id="password" name="password" ref="password" placeholder="8자리이상 숫자,문자조합">
 	                    <i class="clear-input">
 	                        <ion-icon name="close-circle"></ion-icon>
@@ -79,7 +80,7 @@
 	            </div>
 	            <div class="form-group basic" style="padding-top:15px;">
 	                <div class="input-wrapper">
-	                    <label class="label" for="password5" style="font-size:15px;">비밀번호 재입력</label>
+	                    <label class="label" for="password5" style="font-size:15px; margin-bottom: 6px;"><font color="red">*</font>비밀번호 재입력</label>
 	                    <input type="password" class="form-control" v-validate="'confirmed:password'" data-vv-as="password" id="passwordAgain" name="passwordAgain" placeholder="재입력">
 	                    <i class="clear-input">
 	                        <ion-icon name="close-circle"></ion-icon>
@@ -89,13 +90,13 @@
 	            </div>
 	            <div class="form-group basic" style="padding-top:15px;">
 	                <div class="input-wrapper">
-	                    <label class="label" for="address" style="font-size:15px;">주소</label>
+	                    <label class="label" for="address" style="font-size:15px; margin-bottom: 6px;"><font color="red">*</font>주소</label>
 	                    <textarea v-validate="'required'" id="address" name="address" rows="2" class="form-control" onclick='execDaumPostcode();'></textarea>
 	                    <span id="guide" style="color:#999;display:none"></span>
 	                    <i class="clear-input">
 	                        <ion-icon name="close-circle"></ion-icon>
 	                    </i>
-	                    <input type="text" class="form-control" v-validate="'required'" id="detailAddress" name="detailAddress" placeholder="상세주소">
+	                    <input type="text" class="form-control" v-validate="'required'" id="detailAddress" name="detailAddress" placeholder="상세주소" style="margin-bottom: 6px;">
 	                    <i class="clear-input">
 	                        <ion-icon name="close-circle"></ion-icon>
 	                    </i>
@@ -108,10 +109,11 @@
 
         <div class="section full mt-2 mb-2">
             <div class="section-title" style="font-size:18px;">자녀정보</div>
+            <div class="section-title" style="font-size:14px color; "><span class="badge badge-success">회원가입 후 자녀 추가 및 수정 가능</span></div>
             <div class="wide-block pb-1 pt-1">
 	            <div class="form-group basic" style="padding-top:15px;">
 	                <div class="input-wrapper">
-	                    <label class="label" for="childName" style="font-size:15px;">성함</label>
+	                    <label class="label" for="childName" style="font-size:15px; margin-bottom: 6px;"><font color="red">*</font>성함</label>
 	                    <input type="text" class="form-control" v-validate="'required'" id="childName" name="childName" placeholder="홍길동">
 	                    <i class="clear-input">
 	                        <ion-icon name="close-circle"></ion-icon>
@@ -121,7 +123,7 @@
 	            </div>
 	            <div class="form-group basic" style="padding-top:15px;">
 	                <div class="input-wrapper">
-	                    <label class="label" for="engName" style="font-size:15px;">FULL NAME OR NICKNAME</label>
+	                    <label class="label" for="engName" style="font-size:15px; margin-bottom: 6px;"><font color="red">*</font>FULL NAME OR NICKNAME</label>
 	                    <input type="text" class="form-control" v-validate="'required'" id="engName" name="engName" placeholder="Ex)NANCY">
 	                    <i class="clear-input">
 	                        <ion-icon name="close-circle"></ion-icon>
@@ -131,7 +133,7 @@
 	            </div>
 	            <div class="form-group basic" style="padding-top:15px;">
 	                <div class="input-wrapper">
-	                    <label class="label" for="birthday" style="font-size:15px;">생년월일</label>
+	                    <label class="label" for="birthday" style="font-size:15px; margin-bottom: 6px;"><font color="red">*</font>생년월일</label>
 	                    <input type="text" class="form-control" v-validate="'required|numeric|min:8|max:8'" id="birthday" name="birthday" placeholder="">
 	                    <i class="clear-input">
 	                        <ion-icon name="close-circle"></ion-icon>
@@ -141,7 +143,7 @@
 	            </div>
 	            <div class="form-group basic" style="padding-top:15px;">
 	                <div class="input-wrapper">
-	                    <label class="label" for="sex" style="font-size:15px;">성별</label>
+	                    <label class="label" for="sex" style="font-size:15px; margin-bottom: 6px;"><font color="red">*</font>성별</label>
 	                    <select class="form-control custom-select" v-validate="'required|included:M,F'" id="sex" name="sex">
 	                        <option value="F">여아</option>
 	                        <option value="M">남아</option>

@@ -16,6 +16,24 @@
                 	등록된 매장시간표가 없습니다.
                 	</th:block>
                 </div>
+                <!-- <div class="mb-1">
+                	<th:block th:if="${info.etcFile1Idx != null}">
+                	<img th:src="@{/common/getImage(imageIdx=${info.etcFile3Idx})}" class="imaged img-fluid" alt="스케쥴 이미지">
+                	</th:block>
+                	<th:block th:unless="${info.etcFile1Idx != null}">
+                	등록된 매장시간표가 없습니다.
+                	</th:block>
+                </div> -->
+                <div class="mb-1">
+                    <br>
+                    <h3 style="margin-bottom:10px;">스페셜캠프</h3>
+                	<th:block th:if="${info.etcFile1Idx != null}">
+                	<img th:src="@{/common/getImage(imageIdx=${info.etcFile4Idx})}" class="imaged img-fluid" alt="스케쥴 이미지">
+                	</th:block>
+                	<th:block th:unless="${info.etcFile1Idx != null}">
+                	등록된 매장시간표가 없습니다.
+                	</th:block>
+                </div>
             </div>
         </div>
     </div>
