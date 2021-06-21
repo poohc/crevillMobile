@@ -110,6 +110,7 @@ public class MainController {
 		ScheduleDto scheduleDto = new ScheduleDto();
 		scheduleDto.setCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
 		scheduleDto.setLimit(4);
+		scheduleDto.setScheduleType("ING");
 		mav.addObject("reservationList", reservationService.selectReservationList(scheduleDto));
 		VoucherSaleDto voucherSaleDto = new VoucherSaleDto();
 		voucherSaleDto.setLimit(1);

@@ -64,7 +64,12 @@
                SCHEDULE B,
                VOUCHER_USE C
          WHERE A.CELL_PHONE = #{cellPhone}
+           <if test="scheduleType != null and scheduleType == 'ING'.toString()">
+           AND A.STATUS = '02'
+           </if>
+           <if test="scheduleType == null">
            AND A.STATUS IN ('02', '04', '05')
+           </if>
            <![CDATA[
            AND B.SCHEDULE_END > NOW()
            ]]>
