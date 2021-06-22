@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface MemberMapper {
 	public int checkExistCellPhone(MemberDto memberDto);
 	public MemberVo selectMemberInfo(MemberDto memberDto);
-	public List<MemberVo> selectChildMemberInfo(MemberDto memberDto);
+	public MemberVo selectChildMemberInfo(MemberDto memberDto);
 	public List<MemberVo> selectChildMemberList(MemberDto memberDto);
 	public List<MemberVo> selectVisitStoreList(MemberDto memberDto);
 	public MemberVo selectVisitStoreSummary(MemberDto memberDto);

@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.co.crevill.common.CommonMapper;
-import kr.co.crevill.common.CommonUtil;
 import kr.co.crevill.common.CrevillConstants;
-import kr.co.crevill.common.FileDto;
-import kr.co.crevill.common.FileVo;
 import kr.co.crevill.common.SessionUtil;
 
 @Service
@@ -36,7 +33,7 @@ public class MemberService {
 		return memberMapper.selectMemberInfo(memberDto);
 	}
 	
-	public List<MemberVo> selectChildMemberInfo(MemberDto memberDto){
+	public MemberVo selectChildMemberInfo(MemberDto memberDto){
 		return memberMapper.selectChildMemberInfo(memberDto);
 	}
 	
@@ -173,6 +170,8 @@ public class MemberService {
 	    request.setAttribute("sName", sName);
 	    request.setAttribute("sMobileNo", sMobileNo);
 	    request.setAttribute("sBirthDate", sBirthDate);
+	    if(sGender.equals("0")) sGender = "F";
+	    if(sGender.equals("1")) sGender = "M";
 	    request.setAttribute("sGender", sGender);
 	    request.setAttribute("sMobileCo", sMobileCo);
 	    request.setAttribute("sDupInfo", sDupInfo);

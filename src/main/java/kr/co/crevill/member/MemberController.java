@@ -156,13 +156,13 @@ public class MemberController {
 	@GetMapping("childUpdate.view")
 	public ModelAndView childUpdate(HttpServletRequest request, MemberDto memberDto) {
 		ModelAndView mav = new ModelAndView("member/childUpdate");
-		memberDto.setParentCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
+		memberDto.setCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
 		CommonCodeDto commonCodeDto = new CommonCodeDto();
 		commonCodeDto.setCodeType("LEARNING_GRADE");
-		List<MemberVo> infoList = memberService.selectChildMemberInfo(memberDto);
-		mav.addObject("info", infoList);
+		MemberVo memberInfo = memberService.selectChildMemberInfo(memberDto);
+		mav.addObject("info", memberInfo);
 		List<String> learningGradeList = new ArrayList<String>();
-		for(String learningGrade : infoList.get(0).getLearningGrade().split(",")) {
+		for(String learningGrade : memberInfo.getLearningGrade().split(",")) {
 			learningGradeList.add(learningGrade);
 		}
 		mav.addObject("learningGradeList", commonService.selectCommonCode(commonCodeDto));
