@@ -50,12 +50,19 @@
                     <li th:each="learningGrade, i: ${learningGradeList}">
                         <div th:text="${learningGrade.codeValue}"></div>
                         <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" th:id="'learningGrade' + ${i.index}" name="learningGrade" th:value="${learningGrade.codeValue}" th:checked="${#strings.contains(checkedlearningGradeList,learningGrade.codeValue)}">
+                        	<th:block th:if="${checkedlearningGradeList != null}">
+                        	<input type="checkbox" class="custom-control-input" th:id="'learningGrade' + ${i.index}" name="learningGrade" th:value="${learningGrade.codeValue}" th:checked="${#strings.contains(checkedlearningGradeList,learningGrade.codeValue)}">
+                        	</th:block>
+                        	<th:block th:unless="${checkedlearningGradeList != null}">
+                        	<input type="checkbox" class="custom-control-input" th:id="'learningGrade' + ${i.index}" name="learningGrade" th:value="${learningGrade.codeValue}">
+                        	</th:block>
+                        </div>
                     <label class="custom-control-label" th:for="'learningGrade' + ${i.index}"></label>
                 </ul> 
             </div>
             <div class="wide pt-2 pb-2">
             	<button type="submit" class="btn btn-primary btn-block btn-lg">자녀정보수정</button>
+            	<button type="button" class="btn btn-primary btn-block btn-lg" th:attr="onclick=|deleteChild('${info.childName}')|">자녀정보삭제</button>
         	</div>
    		</form>    	
     </div>

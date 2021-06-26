@@ -284,6 +284,17 @@ public class MemberService {
 		return result;
 	}
 	
+	public JSONObject childDelete(MemberDto memberDto, HttpServletRequest request) {
+		JSONObject result = new JSONObject();
+		memberDto.setCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
+		memberDto.setUpdId(SessionUtil.getSessionMemberVo(request).getQrCode());
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		if(memberMapper.deleteMemberChildren(memberDto) > 0) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);
+		}
+		return result;
+	}
+	
 	public JSONObject childAdd(MemberDto memberDto, HttpServletRequest request) {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);

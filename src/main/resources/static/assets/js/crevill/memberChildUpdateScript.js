@@ -104,3 +104,34 @@ $(function(){
         $('#picture').attr('src', URL.createObjectURL(e.target.files[0]));
     });
 });
+
+function deleteChild(childName){
+	if(confirm(childName + ' 자녀를 삭제처리하시겠습니까?')){
+		var formdata = new FormData();
+		formdata.append("childName", $('#childName').val());
+				
+		axios.post(contextRoot + 'member/childDelete.proc', formdata,{
+			  headers: {
+				'Content-Type': 'multipart/form-data'
+			  }
+			}).then((response) => {
+			if (response.data.resultCd == '00') {
+		      	alert('정상처리 되었습니다.');
+				location.href = contextRoot + 'member/childList.view';
+		    } else {
+				alert('자녀회원정보 삭제 중 오류가 발생했습니다. 다시 시도하여 주세요.');
+				return false;
+			}
+		}).catch(function (error) {
+		    if (error.response) {
+		      alert('처리 중 오류가 발생했습니다. 관리자에게 문의하여 주세요.');
+		    }
+		    else if (error.request) {
+		      alert('처리 중 오류가 발생했습니다. 관리자에게 문의하여 주세요.');
+		    }
+		    else {
+		      alert('처리 중 오류가 발생했습니다. 관리자에게 문의하여 주세요.');
+		    }
+	    });	
+	}	
+}

@@ -161,13 +161,15 @@ public class MemberController {
 		commonCodeDto.setCodeType("LEARNING_GRADE");
 		MemberVo memberInfo = memberService.selectChildMemberInfo(memberDto);
 		mav.addObject("info", memberInfo);
-		List<String> learningGradeList = new ArrayList<String>();
-		for(String learningGrade : memberInfo.getLearningGrade().split(",")) {
-			learningGradeList.add(learningGrade);
+		
+		if(memberInfo.getLearningGrade() != null) {
+			List<String> learningGradeList = new ArrayList<String>();
+			for(String learningGrade : memberInfo.getLearningGrade().split(",")) {
+				learningGradeList.add(learningGrade);
+			}
+			mav.addObject("checkedlearningGradeList", learningGradeList);
 		}
 		mav.addObject("learningGradeList", commonService.selectCommonCode(commonCodeDto));
-		mav.addObject("checkedlearningGradeList", learningGradeList);
-		
 		return mav;
 	}
 	
@@ -176,6 +178,14 @@ public class MemberController {
 	public JSONObject childUpdateProc(HttpServletRequest request, @ModelAttribute MemberDto memberDto) {
 		JSONObject result = new JSONObject();
 		result = memberService.updateChildMemberInfo(memberDto, request);
+		return result;
+	}
+	
+	@PostMapping("childDelete.proc")
+	@ResponseBody
+	public JSONObject childDelete(HttpServletRequest request, @ModelAttribute MemberDto memberDto) {
+		JSONObject result = new JSONObject();
+		result = memberService.childDelete(memberDto, request);
 		return result;
 	}
 	

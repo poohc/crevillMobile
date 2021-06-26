@@ -11,7 +11,8 @@ Vue.use(VeeValidate, {
 			  classType : '클래스/튜터링선택',
    			  scheduleDate : '스케쥴날짜',		  
 			  scheduleTime : '스케쥴시간',
-			  scheduleId : '수업'
+			  scheduleId : '수업',
+			  childName : '예약아동이름'
 		    }
 	  	}
   }
@@ -142,8 +143,10 @@ $(document).on("change","input[name='classType']",function(){
 $('#cal').click(function(){
 	if($("input[name='classType']:checked").val() == 'CLASS_D' && $("input[name=childName]:checked").length > 1){
 		alert('튜터링은 아동 한명만 예약 가능합니다.');
+		return false;
+	} else {
+		setCalEvent();	
 	}
-	setCalEvent();
 });
 
 $('input[name="childName"]').change(function(){

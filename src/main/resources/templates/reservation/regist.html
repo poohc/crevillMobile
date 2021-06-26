@@ -9,7 +9,7 @@
             <div class="section full mt-0">
                     <img th:src="@{/assets/img/rinfo1.png}" alt="image" class="imaged square w-100">
            
-            <div class="section-title">바우처선택</div>
+            <div class="section-title">바우처</div>
             <div class="row" style="margin-left: 12px; margin-right: 12px;">
                 <div class="col-6" th:each="list, i : ${voucherList}">
                     <div class="frb-group">
@@ -24,7 +24,7 @@
                     </div>
                 </div>
             </div>
-            <div class="section-title">이용아동선택</div>
+            <div class="section-title">예약자</div>
             <div class="row" style="margin-left: 12px; margin-right: 12px;">
             	<th:block th:each="list, i : ${childList}">
                 <div class="col-4">
@@ -33,12 +33,12 @@
                         <label th:for="'childName' + ${i.index}">
                             <span class="frb-title" th:text="${list.childName}"></span>
                         </label>
-                        <label class="col-form-label-sm" for="childName" v-if="errors.has('childName')">{{ errors.first('childName') }}</label>
                     </div>
+                    <label for="childName" v-if="errors.has('childName')">{{ errors.first('childName') }}</label>
                 </div>
                 </th:block>
-            </div><br>
-            <div class="section-title">놀이구분선택</div>
+            </div>
+            <div class="section-title">프로그램</div>
             <div class="row" style="margin-left: 12px; margin-right: 12px;">
                 <template v-for="(item, i) in voucherAttribute">
                 <div class="col-4">
@@ -57,7 +57,7 @@
                 </div>
                 </template>
             </div>
-            <div class="section-title">선택결과</div>
+            <div class="section-title">예약 정보</div>
             <div class="row" style="margin-left: 12px; margin-right: 12px;">
                 <div class="col-12">
                     <p style="font-size:7px">
@@ -68,7 +68,7 @@
                 	</p>
                 </div>
             </div>
-            <div class="section-title">스케쥴조회 </div>
+            <div class="section-title">달력 조회 </div>
             <div class="row" style="margin-left: 8px; margin-right: 8px;">
                 <div class="col-12">
                     <button id="cal" data-toggle="modal" data-target="#ModalForm" type="button" class="btn btn-primary btn-lg btn-block">
@@ -84,9 +84,13 @@
                     <div class="frb frb-primary">
                         <input type="checkbox" :id="'scheduleId-' + index" name="scheduleId" :value="item.scheduleId" v-validate="'required'">
                         <label :for="'scheduleId-' + index">
-                            <span class="frb-title" v-if="classType == '튜터링'">{{item.scheduleStart}} | 잔여 {{item.tutoringCnt}} | 튜터링</span>
-                            <span class="frb-title" v-else>{{item.scheduleStart}} | 잔여 {{item.reservationCnt}} | {{item.playName}}</span>
-<!--                             <span class="frb-description" style="font-size: 9px;">{{item.subTopic}}</span> -->
+                        	<template v-if="classType == '튜터링'">
+                            	<span class="frb-title">{{item.scheduleStart}} | 잔여 {{item.tutoringCnt}} | 튜터링</span>
+                            </template>
+                            <template v-else>
+								<span class="frb-title">{{item.scheduleStart}} | 잔여 {{item.reservationCnt}} | {{item.playName}}</span>
+	                            <span class="frb-description" style="font-size: 9px;">{{item.subTopic}}</span>                            	
+                            </template>
                         </label>
                     </div>
                 </div>
@@ -119,7 +123,7 @@
         <div class="fixed-footer">
             <div class="row">
                 <div class="col-12">
-                    <button id="registBtn" class="btn btn-primary btn-lg btn-block" type="submit">등록완료</button>
+                    <button id="registBtn" class="btn btn-primary btn-lg btn-block" type="submit">예약하기</button>
                 </div>
             </div>
         </div>
@@ -135,14 +139,13 @@
                         <h5 class="modal-title">예약완료</h5>
                     </div>
                     <div class="modal-body">
-                        <p>예약이 완료되었습니다.</p> 
-                        <span>고객님의 바우처 이용시간에서 시간이 차감되었습니다.</span>
-                        ※ 이용일 하루 전까지 취소가능하며, 당일 취소는 불가합니다.
-                        <p>당일취소시 바우처 차감</p>
+                        <span>고객님의 바우처를 소진하여<br /> 예약이 완료되었습니다.</span><br /><br />
+                        <span>※ 이용일 하루 전까지 취소시 </span><br /><span>차감된 바우처는 다시 반환되며,</span><br />
+                        <span style ="font-weight: bold;">당일 취소는 불가합니다.</span>
                     </div>
                     <div class="modal-footer">
                         <div class="btn-inline">
-                            <a href="#" class="btn" data-dismiss="modal">닫기</a>
+                            <a th:href="@{/reservation/regist.view}" class="btn">닫기</a>
                         </div>
                     </div>
                 </div>

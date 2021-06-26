@@ -26,8 +26,13 @@
                             <header th:text="${list.storeName}"></header>
                             <span th:text="${list.scheduleDate}"></span>
                             <footer>
+                            	<th:block th:if="${list.tutoringYn == 'Y'}">
+                            	<span></span>튜터링 |
+                            	</th:block>
+                            	<th:block th:unless="${list.tutoringYn == 'Y'}">
                             	<span th:text="${list.playName}"></span> |
-                            	<span th:text="${list.subTopic}"></span> |
+                            	</th:block>
+                            	<span th:text="${list.subTopic}"></span> |	
                             	<span th:text="${list.childName}"></span>
                             	<th:block th:if="${list.voucherNo == 'FREE'}">
                             	| <span>무료체험</span>

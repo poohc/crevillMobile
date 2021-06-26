@@ -171,7 +171,7 @@ public class ReservationService {
 							"Y".equals(reservationDto.getExperienceClass())) {
 						entranceDto.setUseTime(CrevillConstants.SHORT_VOUCHER_USE_TIME);
 					} else {
-						entranceDto.setUseTime(rVo.getPlayTime());
+						entranceDto.setUseTime(rVo.getVoucherTime());
 					}
 	         	    entranceDto.setStatus(CrevillConstants.VOUCHER_STATUS_USED);
 	         	    entranceDto.setReservationId(nReservationDto.getReservationId());
@@ -225,7 +225,7 @@ public class ReservationService {
 				ReservationVo rVo = reservationMapper.selectReservationPlayInfo(reservationDto);
 				EntranceDto entranceDto = new EntranceDto(); 
 				entranceDto.setVoucherNo(CrevillConstants.EXPERIENCE_VOUCHER_NO);
-         	    entranceDto.setUseTime(rVo.getPlayTime());
+         	    entranceDto.setUseTime(rVo.getVoucherTime());
          	    entranceDto.setStatus(CrevillConstants.VOUCHER_STATUS_USED);
          	    entranceDto.setReservationId(reservationDto.getReservationId());
          	    entranceDto.setRegId(reservationDto.getRegId());

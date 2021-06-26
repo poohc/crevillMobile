@@ -1999,6 +1999,11 @@ a.badge-dark {
   margin-top: -8px;
 }
 
+.tab-pane .image-listview > li a.item:after {
+    width: 0px;
+    height: 0px;
+  }
+
 .image-listview.text > li:after {
   left: 16px;
 }

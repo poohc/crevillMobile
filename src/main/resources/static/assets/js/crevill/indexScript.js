@@ -70,7 +70,7 @@ setTimeout(() => {
 }, 2000);
 
 $('#circle1').circleProgress({
-	value: $('#voucherUsePerCalc').val(),
+	value: 1 - ($('#voucherUsePerCalc').val() / 100),
 	size: 100,
 	fill: {
 		gradient: ["#1E74FD", "#592BCA"]
@@ -80,7 +80,7 @@ $('#circle1').circleProgress({
 	}
 });
 $('#circle3').circleProgress({
-	value: $('#voucherUsePerCalc').val(),
+	value: $('#voucherUsePerCalc').val() / 100,
 	size: 100,
 	fill: {
 		gradient: ["#00CDFF", "#1E74FD"]

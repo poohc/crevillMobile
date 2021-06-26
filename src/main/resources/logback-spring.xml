@@ -19,7 +19,7 @@
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>20MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
-            <maxHistory>5</maxHistory>
+            <maxHistory>2</maxHistory>
         </rollingPolicy>
     </appender>
 
@@ -32,4 +32,5 @@
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
     </logger>
+    
 </configuration>

@@ -59,7 +59,8 @@
 			   CASE WHEN DATE_FORMAT(B.SCHEDULE_START, '%Y/%m/%d') = DATE_FORMAT(NOW(), '%Y/%m/%d') THEN 'TODAY'
 			        ELSE 'NOT_TODAY' END AS IS_TODAY,
 			   CASE WHEN DATE_FORMAT(B.SCHEDULE_START, '%Y/%m/%d') > DATE_FORMAT(NOW(), '%Y/%m/%d') THEN 'CANCEL_POSSIBLE'
-			        ELSE 'CANCEL_IMPOSSIBLE' END AS IS_CANCEL_POSSIBLE     
+			        ELSE 'CANCEL_IMPOSSIBLE' END AS IS_CANCEL_POSSIBLE,
+			   A.TUTORING_YN     
           FROM RESERVATION A,
                SCHEDULE B,
                VOUCHER_USE C
@@ -164,7 +165,7 @@
 	
 	<select id="checkVoucherYn" parameterType="kr.co.crevill.reservation.ReservationDto" resultType="kr.co.crevill.reservation.ReservationVo">
 		SELECT <![CDATA[
-			   CASE WHEN SUM(C.PLAY_TIME) > B.TIME_LEFT_MINUTE THEN 'N'
+			   CASE WHEN SUM(C.VOUCHER_TIME) > B.TIME_LEFT_MINUTE THEN 'N'
 			            ELSE 'Y' END AS VOUCHER_YN
 			   ]]>         	            
 		  FROM SCHEDULE A,
@@ -199,7 +200,7 @@
 	</select>
 	
 	<select id="selectReservationPlayInfo" parameterType="kr.co.crevill.reservation.ReservationDto" resultType="kr.co.crevill.reservation.ReservationVo">
-		SELECT B.PLAY_TIME
+		SELECT B.VOUCHER_TIME
 		  FROM SCHEDULE A,
 		       PLAY B
          WHERE A.SCHEDULE_ID = #{scheduleId}

@@ -46,4 +46,5 @@ public class ReservationVo {
 	private String timeLeftHour;
 	private String ticketName;
 	private String scheduleText;
+	private String voucherTime;
 }

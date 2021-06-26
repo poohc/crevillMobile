@@ -228,10 +228,13 @@
 		 WHERE QR_CODE = #{qrCode}  
 	</delete>
 	
-	<delete id="deleteMemberChildren">
+	<delete id="deleteMemberChildren" parameterType="kr.co.crevill.member.MemberDto">
 		DELETE 
 		  FROM MEMBER_CHILDREN
-		 WHERE PARENT_CELL_PHONE = #{cellPhone} 
+		 WHERE PARENT_CELL_PHONE = #{cellPhone}
+		   <if test="childName != null and childName != ''">
+		   AND NAME = #{childName}
+		   </if> 
 	</delete>
 	
 	<delete id="deleteMemberChildrenGrade">
