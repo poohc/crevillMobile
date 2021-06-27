@@ -120,7 +120,7 @@ public class ReservationService {
 			return result;
 		}
 		
-		//스케쥴에 잡힌 시간보다 바우처 남은 시간이 부족할 경우 전체 실패로 처리, BUT 1회권은 예외사항
+		//스케쥴에 잡힌 시간보다 바우처 남은 시간이 부족할 경우 전체 실패로 처리, BUT BASIC권은 예외사항
 		ReservationVo reservationVo = reservationMapper.checkVoucherYn(nReservationDto);
 		if(reservationVo != null && "N".equals(reservationVo.getVoucherYn())) {
 			result.put("resultMsg", MSG_LESS_TIME_LEFT_VOUCHER);
@@ -128,8 +128,10 @@ public class ReservationService {
 		}
 		
 		//아이이름 X 스케쥴ID 개수만큼 FOR 문 돌면서 처리
+		int reservationCnt = 0;
 		for(String childName : reservationDto.getChildName().split(",")) {
 			for(String scheduleId : reservationDto.getScheduleId().split(",")) {
+				reservationCnt++;
 				nReservationDto = new ReservationDto();
 				nReservationDto.setReservationId(reservationMapper.selectReservationId());
 				nReservationDto.setScheduleId(scheduleId);
@@ -166,10 +168,14 @@ public class ReservationService {
 					EntranceDto entranceDto = new EntranceDto(); 
 					entranceDto.setVoucherNo(nReservationDto.getVoucherNo());
 	         	    
-					//모바일 회원의 1회권 사용일 경우, 1회권 바우처 모든 시간(2시간, 상수값으로 정의) 다 소진
+					//모바일 회원의 BASIC권 사용일 경우, BASIC권 바우처 모든 시간(4시간, 상수값으로 정의) 다 소진
 					if(CrevillConstants.STORE_ID_MOBILE.equals(SessionUtil.getSessionMemberVo(request).getStoreId()) ||
 							"Y".equals(reservationDto.getExperienceClass())) {
-						entranceDto.setUseTime(CrevillConstants.SHORT_VOUCHER_USE_TIME);
+						if(reservationCnt == 1) {
+							entranceDto.setUseTime(CrevillConstants.SHORT_VOUCHER_USE_TIME);	
+						} else {
+							entranceDto.setUseTime("0");
+						}
 					} else {
 						entranceDto.setUseTime(rVo.getVoucherTime());
 					}

@@ -32,6 +32,7 @@
          WHERE A.SCHEDULE_ID = B.SCHEDULE_ID
            AND A.CELL_PHONE = C.CELL_PHONE 
            AND C.CELL_PHONE = D.PARENT_CELL_PHONE
+           AND C.STATUS = 'A'
            AND B.PLAY_ID = E.PLAY_ID 
            AND DATE_FORMAT(B.SCHEDULE_START,'%Y%m%d%H') = DATE_FORMAT(NOW(),'%Y%m%d%H')
     </select>
@@ -68,6 +69,7 @@
            AND A.SCHEDULE_ID = B.SCHEDULE_ID
            AND A.CELL_PHONE = C.CELL_PHONE 
            AND C.CELL_PHONE = D.PARENT_CELL_PHONE
+           AND C.STATUS = 'A'
            AND B.PLAY_ID = E.PLAY_ID
     </select>
 	

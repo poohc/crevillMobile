@@ -70,11 +70,11 @@ public class ReservationController {
 		mav.addObject("storeList", storeService.selectStoreList(storeDto));
 		VoucherSaleDto voucherSaleDto = new VoucherSaleDto();
 		voucherSaleDto.setBuyCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
-		List<VoucherVo> voucherList = voucherService.getMemberVoucherList(voucherSaleDto);
 		MemberDto memberDto = new MemberDto();
 		memberDto.setParentCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
 		mav.addObject("cellPhone", SessionUtil.getSessionMemberVo(request).getCellPhone());
 		mav.addObject("childList", memberService.selectChildMemberList(memberDto));
+		voucherSaleDto.setIsBasic("false");
 		mav.addObject("voucherList", voucherService.getMemberVoucherList(voucherSaleDto));
 		return mav;
 	}
@@ -87,17 +87,31 @@ public class ReservationController {
 		mav.addObject("storeList", storeService.selectShortVoucherStoreList(storeDto));
 		VoucherSaleDto voucherSaleDto = new VoucherSaleDto();
 		voucherSaleDto.setBuyCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
+		voucherSaleDto.setIsBasic("true");
 		List<VoucherVo> voucherList = voucherService.getMemberVoucherList(voucherSaleDto);
-		//TODO 모바일 회원 이고 보유 바우처가 하나도 없는 경우 1회권 바우처 자동 생성 및 판매
-		if(CrevillConstants.STORE_ID_MOBILE.equals(SessionUtil.getSessionMemberVo(request).getStoreId()) ||
-				voucherList.size() == 0) {
-			reservationService.setNormalVoucher(request);
+		
+		int basicVoucherCount = 0; 
+		//보유 바우처 중 BASIC 권이 하나도 없으면 생성		
+		
+		if(voucherList != null) {
+			for(VoucherVo tempVoucher : voucherList) {
+				if("BASIC".equals(tempVoucher.getTicketName())) {
+					basicVoucherCount++;
+					break;
+				}
+			}
 		}
+		
+		//BASIC 권이 하나도 없을 경우 생성
+		if(basicVoucherCount == 0) {
+			reservationService.setNormalVoucher(request);	
+		}
+		
 		MemberDto memberDto = new MemberDto();
 		memberDto.setParentCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
 		mav.addObject("cellPhone", SessionUtil.getSessionMemberVo(request).getCellPhone());
 		mav.addObject("childList", memberService.selectChildMemberList(memberDto));
-		
+		voucherSaleDto.setIsBasic("true");
 		List<VoucherVo> memVoucherList = voucherService.getMemberVoucherList(voucherSaleDto);
 		mav.addObject("voucherList", memVoucherList);
 		VoucherDto voucherDto = new VoucherDto();

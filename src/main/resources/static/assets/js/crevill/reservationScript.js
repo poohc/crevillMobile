@@ -123,6 +123,19 @@ $('input[name="voucherNo"]').click(function(){
 	
 });
 
+$('input[name="voucherNo"]').change(function(){
+	var classType = $("input[name='classType']:checked").val();
+	var classTypeText = '';
+	if(classType == 'CLASS_A') classTypeText = '클래스';
+	if(classType == 'CLASS_D') classTypeText = '튜터링';
+	if(classType == 'CLASS_B') classTypeText = '스페셜캠프';
+	
+	vm.classType = classTypeText;
+	setReservationCalendar();
+	$('#scheduleStart').val('');
+	vm.scheduleList = {};
+});
+
 $('input[name="childName"]').click(function(){
 	vm.reservationCnt = $("input:checkbox[name=childName]:checked").length;
 });

@@ -154,7 +154,7 @@ public class CrevillAop {
         			menu = "예약등록";
         		}
         		if(servletMenuPath.indexOf("shortRegist.view") > -1) {
-        			menu = "1회 예약";
+        			menu = "BASIC 예약";
         		}
         		if(servletMenuPath.indexOf("free.view") > -1) {
         			menu = "무료체험신청";

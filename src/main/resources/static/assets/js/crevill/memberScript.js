@@ -3,14 +3,10 @@ var acceessableCount = 1; //동시접근제한수
 const checkMemberCellPhone = (value) => {
   	return axios.post(contextRoot + 'member/checkMemberCellPhone.proc', {parentCellPhone: value}).then((response) => {
 		if (response.data.resultCd == '00') {
-	      return true;
-	    }
-		
-		return {
-	      data: {
-	        message: '이미 가입되어 있는 번호입니다.'
-	      }
-	    };
+	    	return true;
+	    } else {
+			alert('이미 가입되어 있거나 탈퇴한 회원번호입니다. 고객센터에 문의하여 주세요.');
+		}
 	});
 };
 

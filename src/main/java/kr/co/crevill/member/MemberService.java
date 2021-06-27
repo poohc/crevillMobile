@@ -384,9 +384,10 @@ public class MemberService {
 		JSONObject result = new JSONObject();
 		result.put("resultCd", CrevillConstants.RESULT_FAIL);
 		if(memberMapper.deleteMemberChildren(memberDto) > 0) {
-			if(memberMapper.deleteMemberParent(memberDto) > 0) {
-				if(memberMapper.deleteMemberChildrenGrade(memberDto) > 0) {
-					result.put("resultCd", CrevillConstants.RESULT_SUCC);	
+			if(memberMapper.deleteMemberChildrenGrade(memberDto) >= 0) {
+				memberDto.setStatus(CrevillConstants.MEMBER_STATUS_INACTIVE);
+				if(memberMapper.updateMemberParent(memberDto) > 0) {
+					result.put("resultCd", CrevillConstants.RESULT_SUCC);
 				}	
 			}
 		}

@@ -18,4 +18,5 @@ public class VoucherSaleDto {
 	private String updId;
 	private String updDate;
 	private int limit;
+	private String isBasic;
 }

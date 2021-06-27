@@ -126,6 +126,12 @@
 		   AND A.STATUS = '12'
 		   AND C.TIME_LEFT_HOUR  <![CDATA[ > ]]> 0
 		   AND B.BUY_CELL_PHONE = D.PARENT_CELL_PHONE
+		   <if test="isBasic != null and isBasic == 'true'.toString()">
+		   AND A.TICKET_NAME = 'BASIC'
+		   </if>
+		   <if test="isBasic != null and isBasic == 'false'.toString()">
+		   AND A.TICKET_NAME != 'BASIC'
+		   </if>
       GROUP BY A.VOUCHER_NO		   
       <if test="limit != null and limit != ''">
          LIMIT #{limit}
@@ -152,6 +158,7 @@
 		   AND B.BUY_CELL_PHONE = #{cellPhone}
 		   AND B.BUY_CELL_PHONE = D.PARENT_CELL_PHONE
 		   AND D.PARENT_CELL_PHONE = E.CELL_PHONE
+		   AND E.STATUS = 'A'
 	</select>
 	
 	<select id="getMemberVoucherUseList" parameterType="kr.co.crevill.voucher.VoucherSaleDto" resultType="kr.co.crevill.voucher.VoucherVo">
@@ -188,6 +195,7 @@
 		   AND R.SCHEDULE_ID = F.SCHEDULE_ID
 		   AND R.RESERVATION_ID = C.RESERVATION_ID
 		   AND R.VOUCHER_NO = A.VOUCHER_NO
+		   AND D.STATUS = 'A'
       GROUP BY R.RESERVATION_ID
 	</select>
 	

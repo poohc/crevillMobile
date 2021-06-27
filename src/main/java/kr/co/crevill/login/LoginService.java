@@ -33,16 +33,22 @@ public class LoginService {
 		if(memberMapper.checkExistCellPhone(memberDto) > 0) {
 			
 			MemberVo memberVo = memberMapper.selectMemberInfo(memberDto);
-			if(memberVo.getPassword() != null && memberVo.getPassword().length() > 0) {
-				
-				//ID(휴대폰번호), 패스워드 일치할 경우
-				if(memberDto.getPassword().equals(memberVo.getPassword())) {
-					result.put("resultCd", CrevillConstants.RESULT_SUCC);
-					session.setAttribute("memberVo", memberVo);
-				}
-				
+			
+			if(memberVo == null) {
+				result.put("resultCd",  CrevillConstants.RESULT_FAIL);
+				result.put("resultMsg", CrevillConstants.RESULT_LOGIN_FAIL_MSG);	
 			} else {
-				result.put("resultCd",  CrevillConstants.RESULT_PASSWORD_RESET);	//회원 정보는 있으나 패스워드 정보가 없을 경우 초기화 페이지 이동 처리
+				if(memberVo.getPassword() != null && memberVo.getPassword().length() > 0) {
+					
+					//ID(휴대폰번호), 패스워드 일치할 경우
+					if(memberDto.getPassword().equals(memberVo.getPassword())) {
+						result.put("resultCd", CrevillConstants.RESULT_SUCC);
+						session.setAttribute("memberVo", memberVo);
+					}
+					
+				} else {
+					result.put("resultCd",  CrevillConstants.RESULT_PASSWORD_RESET);	//회원 정보는 있으나 패스워드 정보가 없을 경우 초기화 페이지 이동 처리
+				}
 			}
 			
 		} else {

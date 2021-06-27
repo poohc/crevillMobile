@@ -34,6 +34,9 @@
                             	</th:block>
                             	<span th:text="${list.subTopic}"></span> |	
                             	<span th:text="${list.childName}"></span>
+                            	<th:block th:if="${list.voucherType == 'BASIC'}">
+                            	| <span>BASIC</span>
+                            	</th:block>
                             	<th:block th:if="${list.voucherNo == 'FREE'}">
                             	| <span>무료체험</span>
                             	</th:block>

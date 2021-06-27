@@ -90,7 +90,6 @@
                STORE_PLAY B
          WHERE A.STORE_ID NOT IN ('ADMIN','CST00001')
            AND A.STORE_ID = B.STORE_ID
-           AND B.CLASS_TYPE = 'CLASS_C'
       GROUP BY A.STORE_ID     
       ORDER BY A.SORT_RANK
     </select>

@@ -24,7 +24,7 @@
                PASSWORD,
                STORE_ID,
                CASE WHEN MEMBER_PARENT.STORE_ID = 'MOBILE' THEN '모바일'
-                    WHEN (SELECT COUNT(V.VOUCHER_NO) FROM VOUCHER V, VOUCHER_SALE VS, VOUCHER_USE_VIEW U WHERE V.TICKET_NAME != '1회권' AND VS.BUY_CELL_PHONE = MEMBER_PARENT.CELL_PHONE AND V.VOUCHER_NO = VS.VOUCHER_NO AND VS.VOUCHER_NO = U.VOUCHER_NO AND U.TIME_LEFT_HOUR <![CDATA[ > ]]> 0) = 0 THEN 'NV'   
+                    WHEN (SELECT COUNT(V.VOUCHER_NO) FROM VOUCHER V, VOUCHER_SALE VS, VOUCHER_USE_VIEW U WHERE V.TICKET_NAME != 'BASIC' AND VS.BUY_CELL_PHONE = MEMBER_PARENT.CELL_PHONE AND V.VOUCHER_NO = VS.VOUCHER_NO AND VS.VOUCHER_NO = U.VOUCHER_NO AND U.TIME_LEFT_HOUR <![CDATA[ > ]]> 0) = 0 THEN 'NV'   
                     ELSE '바우처' 
                     END AS MEMBER_TYPE,
                CASE WHEN MEMBER_PARENT.STORE_ID = 'MOBILE' THEN '모바일'
@@ -35,6 +35,7 @@
                     END AS STORE_NAME_SHORT
     	  FROM MEMBER_PARENT
          WHERE CELL_PHONE = #{parentCellPhone} 
+           AND STATUS = 'A'
     </select>
 	
 	<select id="selectChildMemberInfo" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
@@ -52,6 +53,7 @@
           FROM MEMBER_PARENT A,
                MEMBER_CHILDREN B
          WHERE A.CELL_PHONE = B.PARENT_CELL_PHONE
+           AND A.STATUS = 'A'
            <if test="qrCode != null and qrCode != ''">
            AND A.QR_CODE = #{qrCode}
            </if>
@@ -81,6 +83,7 @@
 		       MEMBER_CHILDREN B
 		 WHERE A.CELL_PHONE = #{parentCellPhone} 
 		   AND A.CELL_PHONE = B.PARENT_CELL_PHONE
+		   AND A.STATUS = 'A'
     </select>
 	
 	<select id="selectVisitStoreList" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
@@ -202,6 +205,7 @@
 	       	  <if test="email != null">EMAIL = #{email},</if>
 	       	  <if test="address != null">ADDRESS = #{address},</if>
 	       	  <if test="password != null">PASSWORD = #{password},</if>
+	       	  <if test="status != null">STATUS = #{status},</if>
 	       	  UPD_ID = #{updId},
 			  UPD_DATE = NOW()
        	  </set>
