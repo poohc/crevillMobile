@@ -154,10 +154,10 @@ public class CrevillAop {
         			menu = "예약등록";
         		}
         		if(servletMenuPath.indexOf("shortRegist.view") > -1) {
-        			menu = "BASIC 예약";
+        			menu = "1회권 예약";
         		}
         		if(servletMenuPath.indexOf("free.view") > -1) {
-        			menu = "무료체험신청";
+        			menu = "체험수업";
         		}
         	}
         	

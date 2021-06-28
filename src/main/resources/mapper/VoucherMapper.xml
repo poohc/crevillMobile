@@ -127,10 +127,10 @@
 		   AND C.TIME_LEFT_HOUR  <![CDATA[ > ]]> 0
 		   AND B.BUY_CELL_PHONE = D.PARENT_CELL_PHONE
 		   <if test="isBasic != null and isBasic == 'true'.toString()">
-		   AND A.TICKET_NAME = 'BASIC'
+		   AND A.TICKET_NAME = '1회권'
 		   </if>
 		   <if test="isBasic != null and isBasic == 'false'.toString()">
-		   AND A.TICKET_NAME != 'BASIC'
+		   AND A.TICKET_NAME != '1회권'
 		   </if>
       GROUP BY A.VOUCHER_NO		   
       <if test="limit != null and limit != ''">

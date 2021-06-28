@@ -165,7 +165,7 @@
                                     <div th:text="${list.ticketName}">
                                         <div class="text-muted" th:text="${list.grade}"></div>
                                     </div>
-                                    <th:block th:if="${list.ticketName != 'BASIC'}">
+                                    <th:block th:if="${list.ticketName != '1회권'}">
                                     <span class="badge badge-primary" th:text="|잔여시간 ${list.timeLeftHour}|"></span>
                                     </th:block>
                                     <span class="badge badge-danger" th:text="${list.storeName}"></span>

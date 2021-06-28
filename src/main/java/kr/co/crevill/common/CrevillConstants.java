@@ -30,7 +30,7 @@ public class CrevillConstants {
 	public static final String ALREADY_USE_FREE_RESERVATION_MSG = "바우처회원은 이용하실 수 없습니다.";
 	public static final String CREATE_VOUCHER_STORE_ID = "CST00001";
 	public static final String CREATE_NORMAL_VOUCHER_GRADE = "NORMAL";
-	public static final String CREATE_NORMAL_VOUCHER_TICKET_NAME = "BASIC";
+	public static final String CREATE_NORMAL_VOUCHER_TICKET_NAME = "1회권";
 	public static final String CREATE_NORMAL_VOUCHER_PRICE = "40000";
 	public static final String CREATE_NORMAL_VOUCHER_USE_TIME = "4";
 	public static final String CREATE_NORMAL_VOUCHER_END_DATE = "30";

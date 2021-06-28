@@ -91,18 +91,18 @@ public class ReservationController {
 		List<VoucherVo> voucherList = voucherService.getMemberVoucherList(voucherSaleDto);
 		
 		int basicVoucherCount = 0; 
-		//보유 바우처 중 BASIC 권이 하나도 없으면 생성		
+		//보유 바우처 중 1회권이 하나도 없으면 생성		
 		
 		if(voucherList != null) {
 			for(VoucherVo tempVoucher : voucherList) {
-				if("BASIC".equals(tempVoucher.getTicketName())) {
+				if("1회권".equals(tempVoucher.getTicketName())) {
 					basicVoucherCount++;
 					break;
 				}
 			}
 		}
 		
-		//BASIC 권이 하나도 없을 경우 생성
+		//1회권이 하나도 없을 경우 생성
 		if(basicVoucherCount == 0) {
 			reservationService.setNormalVoucher(request);	
 		}
