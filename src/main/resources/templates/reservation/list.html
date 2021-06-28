@@ -15,7 +15,7 @@
         </div>
     </div>
 	<div id="appCapsule">
-        <div class="listview-title mt-2">이용일 기준 1일전까지 취소가 가능합니다.</div>
+        <div class="listview-title mt-0">이용일 기준 1일전까지 취소가 가능합니다.</div>
         <ul class="listview image-listview">
             <li th:each="list : ${list}">
             	<th:block th:if="${list.status == '02'}">
@@ -35,10 +35,10 @@
                             	<span th:text="${list.subTopic}"></span> |	
                             	<span th:text="${list.childName}"></span>
                             	<th:block th:if="${list.voucherType == 'BASIC'}">
-                            	| <span>BASIC</span>
+                            	| <span class="badge badge-warning">1회예약</span>
                             	</th:block>
                             	<th:block th:if="${list.voucherNo == 'FREE'}">
-                            	| <span>무료체험</span>
+                            	| <span class="badge badge-secondary">체험수업</span>
                             	</th:block>
                             </footer>
                         </div>

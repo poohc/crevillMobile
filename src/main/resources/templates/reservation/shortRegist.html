@@ -11,6 +11,7 @@
         </div>
         <div class="section mt-0">
             <div class="section-title"><font color="blue">바우처선택</font></div>
+            <code style="font-size: 12px;"><font color="red">BASIC바우처는 1회만 예약이 됩니다. 추가예약은 불가하며, 이용 후 다시 재예약이 가능합니다.</font></code>
             <div class="row" style="margin-left: 0px; margin-right: 0px;">
                 <div class="col-6" th:each="list, i : ${voucherList}">
                     <div class="frb-group">
@@ -18,7 +19,7 @@
                             <input type="radio" th:id="'voucherNo' + ${i.index}" name="voucherNo" th:value="${list.voucherNo}" th:data-storeId="${list.storeId}" th:data-timeLeftHour="${list.timeLeftHour}" v-validate="'required'">
                             <label th:for="'voucherNo' + ${i.index}">
                                 <span class="frb-title" th:text="${list.ticketName}"></span><br>
-                                <span class="frb-description" style="font-size: 10px;" th:text="|${list.storeName} 잔여${list.timeLeftHour} 시간|"></span>
+                                <span class="frb-description" style="font-size: 10px;" th:text="|${list.storeName}|"></span>
                             </label>
                             <label class="col-form-label-sm" for="voucherNo" v-if="errors.has('voucherNo')">{{ errors.first('voucherNo') }}</label>
                         </div>
@@ -26,7 +27,6 @@
                 </div>
             </div>
             <div class="section-title"><font color="blue">아동선택</font></div>
-            <code>아동 1인만 예약이 가능합니다.</code>
             <div class="row" style="margin-left: 0px; margin-right: 0px;">
                 <th:block th:each="list, i : ${childList}">
                 <div class="col-4">

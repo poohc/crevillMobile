@@ -13,8 +13,9 @@
                     <div class="form-group boxed">
                         <div class="input-wrapper">
                             <label class="label" for="parentName">성함[한글]</label>
+                            <code>* 변경불가</code>
                             <input type="text" class="form-control" v-validate="'required'" id="parentName"
-                                name="parentName" placeholder="예)홍길동" th:value="${info.name}">
+                                name="parentName" placeholder="예)홍길동" th:value="${info.name}" disabled="disabled">
                             <label class="label" for="parentName"
                                 v-if="errors.has('parentName')">{{ errors.first('parentName') }}</label>
                         </div>

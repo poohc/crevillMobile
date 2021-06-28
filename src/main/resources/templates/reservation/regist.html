@@ -85,11 +85,11 @@
                         <input type="checkbox" :id="'scheduleId-' + index" name="scheduleId" :value="item.scheduleId" v-validate="'required'">
                         <label :for="'scheduleId-' + index">
                         	<template v-if="classType == '튜터링'">
-                            	<span class="frb-title">{{item.scheduleStart}} | 잔여 {{item.tutoringCnt}} | 튜터링</span>
+                            	<span class="frb-title schedule-title">{{item.scheduleStart}} | 잔여 {{item.tutoringCnt}} | 튜터링</span>
                             </template>
                             <template v-else>
-								<span class="frb-title">{{item.scheduleStart}} | 잔여 {{item.reservationCnt}} | {{item.playName}}</span>
-	                            <span class="frb-description" style="font-size: 9px;">{{item.subTopic}}</span>                            	
+								<span class="frb-title schedule-title">{{item.scheduleStart}} | 잔여 {{item.reservationCnt}} | {{item.playName}}</span>
+	                            <span class="frb-description program-title" style="font-size: 9px;">{{item.subTopic}}</span>                            	
                             </template>
                         </label>
                     </div>

@@ -4,21 +4,24 @@
 
 <th:block layout:fragment="content">
     <div id="appCapsule">
-    	<form class="form theme-form" id="memberForm" @submit.prevent="validateBeforeSubmit" th:action="@{/member/childUpdate.proc}" method="post">
-    	<input type="hidden" id="childName" name="childName" th:value="${info.childName}">
+        <form class="form theme-form" id="memberForm" @submit.prevent="validateBeforeSubmit"
+            th:action="@{/member/childUpdate.proc}" method="post">
+            <input type="hidden" id="childName" name="childName" th:value="${info.childName}">
             <div class="section full mt-2 mb-2">
                 <div class="section-title">자녀정보수정</div>
                 <div class="wide-block pb-1 pt-1">
                     <div class="form-group basic">
                         <div class="input-wrapper">
                             <label class="label" for="childName">이름[자녀이름수정불가]</label>
-                            <input type="text" class="form-control" id="childName" name="childName" placeholder="홍길동" th:value="${info.childName}" disabled="disabled">
+                            <input type="text" class="form-control" id="childName" name="childName" placeholder="홍길동"
+                                th:value="${info.childName}" disabled="disabled">
                         </div>
                     </div>
                     <div class="form-group basic">
                         <div class="input-wrapper">
-                            <label class="label" for="engName">FULL NAME</label>
-                            <input type="text" class="form-control" v-validate="'required'" id="engName" name="engName" placeholder="Ex)HONG GIL DONG" th:value="${info.engName}">
+                            <label class="label" for="engName">ENGLSIH NAME or NICKNAME</label>
+                            <input type="text" class="form-control" v-validate="'required'" id="engName" name="engName"
+                                placeholder="Ex)HONG GIL DONG" th:value="${info.engName}">
                             <label class="label" for="engName"
                                 v-if="errors.has('engName')">{{ errors.first('engName') }}</label>
                         </div>
@@ -26,7 +29,8 @@
                     <div class="form-group basic">
                         <div class="input-wrapper">
                             <label class="label" for="birthday">생년월일</label>
-                            <input type="text" class="form-control" v-validate="'required|numeric|min:8|max:8'" id="birthday" name="birthday" placeholder="" th:value="${info.birthday}">
+                            <input type="text" class="form-control" v-validate="'required|numeric|min:8|max:8'"
+                                id="birthday" name="birthday" placeholder="" th:value="${info.birthday}">
                             <label class="label" for="birthday"
                                 v-if="errors.has('birthday')">{{ errors.first('birthday') }}</label>
                         </div>
@@ -34,7 +38,8 @@
                     <div class="form-group basic">
                         <div class="input-wrapper">
                             <label class="label" for="city4">성별</label>
-                            <select class="form-control custom-select" v-validate="'required|included:M,F'" id="sex" name="sex">
+                            <select class="form-control custom-select" v-validate="'required|included:M,F'" id="sex"
+                                name="sex">
                                 <option value="M" th:selected="${info.sex == 'M'}">남자</option>
                                 <option value="F" th:selected="${info.sex == 'F'}">여자</option>
                             </select>
@@ -50,18 +55,20 @@
                     <li th:each="learningGrade, i: ${learningGradeList}">
                         <div th:text="${learningGrade.codeValue}"></div>
                         <div class="custom-control custom-switch">
-                        	<th:block th:if="${checkedlearningGradeList != null}">
-                        	<input type="checkbox" class="custom-control-input" th:id="'learningGrade' + ${i.index}" name="learningGrade" th:value="${learningGrade.codeValue}" th:checked="${#strings.contains(checkedlearningGradeList,learningGrade.codeValue)}">
+                            <th:block th:if="${checkedlearningGradeList != null}">
+                                <input type="checkbox" class="custom-control-input" th:id="'learningGrade' + ${i.index}"
+                                    name="learningGrade" th:value="${learningGrade.codeValue}" th:checked="${#strings.contains(checkedlearningGradeList,learningGrade.codeValue)}">
                         	</th:block>
                         	<th:block th:unless="${checkedlearningGradeList != null}">
                         	<input type="checkbox" class="custom-control-input" th:id="'learningGrade' + ${i.index}" name="learningGrade" th:value="${learningGrade.codeValue}">
                         	</th:block>
+                            <label class="custom-control-label" th:for="'learningGrade' + ${i.index}"></label>
                         </div>
-                    <label class="custom-control-label" th:for="'learningGrade' + ${i.index}"></label>
+                    </li>
                 </ul> 
             </div>
             <div class="wide pt-2 pb-2">
-            	<button type="submit" class="btn btn-primary btn-block btn-lg">자녀정보수정</button>
+            	<button type="submit" class="btn btn-warning btn-block btn-lg">자녀정보수정</button>
             	<button type="button" class="btn btn-primary btn-block btn-lg" th:attr="onclick=|deleteChild('${info.childName}')|">자녀정보삭제</button>
         	</div>
    		</form>    	
