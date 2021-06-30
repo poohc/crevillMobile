@@ -124,8 +124,8 @@
                                             <th scope="col">방문일</th>
                                             <th scope="col">방문매장</th>
                                             <th scope="col">바우처</th>
-                                            <th scope="col">시간증감</th>
-                                            <th scope="col">이용내역</th>
+                                            <th scope="col">사용시간</th>
+                                            <!--<th scope="col">이용내역</th>-->
                                         </tr>
                                     </thead>
                                     <tbody>	
@@ -135,7 +135,7 @@
 	                                            <td th:text="${list.storeName}"></td>
 	                                            <td th:text="${list.ticketName}"></td>
 	                                            <td th:text="${list.useTime}"></td>
-	                                            <td th:text="${list.playName}"></td>
+	                                            <!--<td th:text="${list.playName}"></td>-->
 	                                        </tr>
                                     	</th:block>
                                         <th:block th:unless="${#lists.size(visitList) > 0}">
