@@ -174,16 +174,16 @@ $('input[name="childName"]').change(function(){
 	vm.scheduleList = {};
 });
 
-setTimeout(function() {
-//강제이벤트 발생
-$('input[name="voucherNo"]').trigger('click');
-}, 1000);
-
-setTimeout(function() {
-$('input[name="childName"]').trigger('click');
-$("input[name='classType']:radio").trigger('change');
-setReservationCalendar();
-}, 2000);
+//setTimeout(function() {
+////강제이벤트 발생
+//$('input[name="voucherNo"]').trigger('click');
+//}, 1000);
+//
+//setTimeout(function() {
+//$('input[name="childName"]').trigger('click');
+//$("input[name='classType']:radio").trigger('change');
+//setReservationCalendar();
+//}, 2000);
 
 function setReservationCalendar(){
 	
