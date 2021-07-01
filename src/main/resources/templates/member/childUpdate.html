@@ -7,9 +7,12 @@
         <form class="form theme-form" id="memberForm" @submit.prevent="validateBeforeSubmit"
             th:action="@{/member/childUpdate.proc}" method="post">
             <input type="hidden" id="childName" name="childName" th:value="${info.childName}">
-            <div class="section full mt-2 mb-2">
+            <div class="section full mt-0 mb-1">
+                <img th:src="@{/assets/img/warning.png}" alt="image" class="imaged square w-100">
+            </div>
+            <div class="section full mt-1 mb-1">
                 <div class="section-title">자녀정보수정</div>
-                <div class="wide-block pb-1 pt-1">
+                <div class="wide-block pb-1 pt-0">
                     <div class="form-group basic">
                         <div class="input-wrapper">
                             <label class="label" for="childName">이름[자녀이름수정불가]</label>
@@ -69,7 +72,7 @@
             </div>
             <div class="wide pt-2 pb-2">
             	<button type="submit" class="btn btn-warning btn-block btn-lg">자녀정보수정</button>
-            	<button type="button" class="btn btn-primary btn-block btn-lg" th:attr="onclick=|deleteChild('${info.childName}')|">자녀정보삭제</button>
+            	<!--<button type="button" class="btn btn-primary btn-block btn-lg" th:attr="onclick=|deleteChild('${info.childName}')|">자녀정보삭제</button>-->
         	</div>
    		</form>    	
     </div>

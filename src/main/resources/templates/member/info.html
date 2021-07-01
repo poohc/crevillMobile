@@ -134,7 +134,12 @@
 	                                            <th scope="row" th:text="${list.visitDate}"></th>
 	                                            <td th:text="${list.storeName}"></td>
 	                                            <td th:text="${list.ticketName}"></td>
+	                                            <th:block th:if="${list.ticketName == '1회권'}">
+	                                            <td>-</td>
+	                                            </th:block>
+	                                            <th:block th:unless="${list.ticketName == '1회권'}">
 	                                            <td th:text="${list.useTime}"></td>
+	                                            </th:block>
 	                                            <!--<td th:text="${list.playName}"></td>-->
 	                                        </tr>
                                     	</th:block>

@@ -113,6 +113,7 @@ public class MainController {
 		scheduleDto.setScheduleType("ING");
 		mav.addObject("reservationList", reservationService.selectReservationList(scheduleDto));
 		VoucherSaleDto voucherSaleDto = new VoucherSaleDto();
+		voucherSaleDto.setIsBasic("false");
 		voucherSaleDto.setLimit(1);
 		voucherSaleDto.setBuyCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
 		mav.addObject("voucherList", voucherService.getMemberVoucherList(voucherSaleDto));

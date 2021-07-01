@@ -336,6 +336,7 @@
 		  FROM SCHEDULE A,
 		       PLAY B
 		 WHERE DATE_FORMAT(A.SCHEDULE_START, '%Y-%m-%d') = #{scheduleStart}
+		   AND A.SCHEDULE_START <![CDATA[ >= ]]> NOW()
 		   AND A.STORE_ID = #{storeId}
 		   <if test="tutoringYn != null and tutoringYn == 'N'.toString()">
 		   AND (SELECT COUNT(*) + #{childLength} FROM RESERVATION R WHERE R.SCHEDULE_ID = A.SCHEDULE_ID AND R.TUTORING_YN = #{tutoringYn} AND R.STATUS = '02') <![CDATA[ < ]]> A.NUMBER_OF_PEOPLE

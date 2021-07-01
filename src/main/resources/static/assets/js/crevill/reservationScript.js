@@ -177,10 +177,13 @@ $('input[name="childName"]').change(function(){
 setTimeout(function() {
 //강제이벤트 발생
 $('input[name="voucherNo"]').trigger('click');
+}, 1000);
+
+setTimeout(function() {
 $('input[name="childName"]').trigger('click');
 $("input[name='classType']:radio").trigger('change');
 setReservationCalendar();
-}, 1500);
+}, 2000);
 
 function setReservationCalendar(){
 	

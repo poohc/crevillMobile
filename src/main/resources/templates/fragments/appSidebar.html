@@ -59,7 +59,6 @@
 	                            <a th:href="@{/reservation/regist.view}" class="item">
 	                                <div class="icon-box bg-primary">
                                         <ion-icon name="calendar-outline"></ion-icon>
-
 	                                </div>
 	                                <div class="in">
 	                                    <div>실시간 예약</div>
@@ -67,9 +66,8 @@
 	                            </a>
 	                        </li>
 	                        </th:block>
-<!-- 							<th:block th:if="${session.memberVo.memberType == 'NV' || session.memberVo.memberType == '모바일'}"> -->
-							<th:block th:if="${session.memberVo.cellPhone == '01099448282' || session.memberVo.cellPhone == '01037171701' || session.memberVo.cellPhone == '01011112222' || session.memberVo.cellPhone == '01091091806'}">
-	                        <li>
+							<th:block th:if="${session.memberVo.memberType == 'NV' || session.memberVo.memberType == '바우처' || session.memberVo.memberType == '모바일'}">
+							<!-- <li>
 	                            <a th:href="@{/reservation/free.view}" class="item">
 	                                <div class="icon-box bg-primary">
 	                                    <ion-icon name="rocket-outline"></ion-icon>
@@ -79,8 +77,8 @@
 	                                    <span class="badge badge-danger"></span>
 	                                </div>
 	                            </a>
-	                        </li>
-	                        <li>
+	                        </li> -->
+                           <li>
 	                            <a th:href="@{/reservation/shortRegist.view}" class="item">
 	                                <div class="icon-box bg-primary">
 	                                    <ion-icon name="stopwatch-outline"></ion-icon>

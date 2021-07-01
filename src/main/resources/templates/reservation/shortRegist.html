@@ -7,15 +7,16 @@
      	<form class="form theme-form" id="reservationForm" @submit.prevent="validateBeforeSubmit" th:action="@{/reservation/regist.proc}" method="post">
      	<input type="hidden" id="cellPhone" name="cellPhone" th:value="${cellPhone}">
         <div class="section full mt-0">
-            <img src="http://ssem.myds.me/rinfo2.png" alt="image" class="imaged square w-100">  
+            <!-- <img src="http://ssem.myds.me/rinfo2.png" alt="image" class="imaged square w-100">   -->
+            <img th:src="@{/assets/img/rinfo2.png}" alt="image" class="imaged square w-100">
         </div>
         <div class="section mt-0">
-            <div class="section-title"><font color="blue">바우처선택</font></div>
-            <code style="font-size: 12px;"><font color="red">BASIC바우처는 1회만 예약이 됩니다. 추가예약은 불가하며, 이용 후 다시 재예약이 가능합니다.</font></code>
+            <div class="section-title">바우처</div>
+            <code style="font-size: 12px;"><font color="red">지점 방문 후 직접 결제해주셔야 하는 이용권입니다.</font></code>
             <div class="row" style="margin-left: 0px; margin-right: 0px;">
                 <div class="col-6" th:each="list, i : ${voucherList}">
                     <div class="frb-group">
-                        <div class="frb frb-success">
+                        <div class="frb frb-primary">
                             <input type="radio" th:id="'voucherNo' + ${i.index}" name="voucherNo" th:value="${list.voucherNo}" th:data-storeId="${list.storeId}" th:data-timeLeftHour="${list.timeLeftHour}" v-validate="'required'">
                             <label th:for="'voucherNo' + ${i.index}">
                                 <span class="frb-title" th:text="${list.ticketName}"></span><br>
@@ -26,11 +27,11 @@
                     </div>
                 </div>
             </div>
-            <div class="section-title"><font color="blue">아동선택</font></div>
+            <div class="section-title">예약자</div>
             <div class="row" style="margin-left: 0px; margin-right: 0px;">
                 <th:block th:each="list, i : ${childList}">
                 <div class="col-4">
-                    <div class="frb frb-info">
+                    <div class="frb frb-primary">
                         <input type="checkbox" th:id="'childName' + ${i.index}" name="childName" th:value="${list.childName}" v-validate="'required'">
                         <label th:for="'childName' + ${i.index}">
                             <span class="frb-title" th:text="${list.childName}"></span>
@@ -40,12 +41,12 @@
                 </div>
                 </th:block>
             </div>
-            <div class="section-title"><font color="blue">놀이구분선택</font></div>
+            <div class="section-title">프로그램</div>
             <div class="row" style="margin-left: 0px; margin-right: 0px;">
                 <th:block th:each="list,i : ${voucherAttributeList}">
                 <div class="col-4">
                     <div class="frb-group">
-                        <div class="frb frb-success">
+                        <div class="frb frb-primary">
                         	<th:block th:if="${list.attribute == 'CLASS'}">
                         		<input type="radio" th:id="'classType-' + ${i.index}" name="classType" value="CLASS_A">
                         	</th:block>
@@ -70,7 +71,7 @@
                     </div>
                 </div>
             </div>
-            <div class="section-title"><font color="blue">센터선택</font></div>
+            <div class="section-title">방문지점</div>
             <div class="row" style="margin-left: 0px; margin-right: 0px;">
                 <div class="form-group basic">
                     <div class="input-wrapper">
@@ -80,20 +81,20 @@
                     </div>
                 </div>
             </div><br>
-            <div class="section-title"><font color="blue">선택결과</font></div>
+            <div class="section-title">선택결과</div>
             <div class="row" style="margin-left: 0px; margin-right: 0px;">
                 <div class="col-12">
                     <p style="font-size:7px">
-                        <span class="badge badge-primary">{{voucherTimeLeftHour}}시간</span> |
+                        <!--<span class="badge badge-primary">{{voucherTimeLeftHour}}시간</span> |-->
                         <span class="badge badge-info">{{reservationCnt}}명</span> |
                         <span class="badge badge-info">{{classType}}</span> |
                         <span class="badge badge-info">{{storeId}}</span>
                     </p>
                 </div>
             </div><br>
-            <div class="section-title"><font color="blue">스케쥴조회</font></div>
-            <div class="row" style="margin-left: 0px; margin-right: 0px;">
-                <div class="col-12">
+            <div class="section-title">스케쥴조회</div>
+            <div class="row" >
+                <div class="col-12" style="margin-left: 0px; margin-right: 0px;">
                     <button id="cal" data-toggle="modal" data-target="#ModalForm" type="button" class="btn btn-primary btn-lg btn-block">
                         <ion-icon name="calendar-outline"></ion-icon>
                     </button>
@@ -107,8 +108,8 @@
                     	<div class="frb frb-primary">
                         	<input type="checkbox" :id="'scheduleId-' + index" name="scheduleId" :value="item.scheduleId" v-validate="'required'">
                             <label :for="'scheduleId-' + index">
-	                            <span class="frb-title" v-if="classType == '튜터링'">{{item.scheduleStart}} | 잔여 {{item.tutoringCnt}} | 튜터링</span>
-	                            <span class="frb-title" v-else>{{item.scheduleStart}} | 잔여 {{item.reservationCnt}} | {{item.playName}}</span>
+	                            <span class="frb-title" v-if="classType == '튜터링'">{{item.scheduleStart}} | 잔여 {{item.tutoringCnt}} | 튜터링 | {{item.subTopic}}</span>
+	                            <span class="frb-title" v-else>{{item.scheduleStart}} | 잔여 {{item.reservationCnt}} | {{item.playName}} | {{item.subTopic}}</span>
 <!-- 	                            <span class="frb-description" style="font-size: 9px;">{{item.subTopic}}</span> -->
                             </label>
                         </div>
@@ -144,7 +145,7 @@
         <div class="fixed-footer">
             <div class="row">
                 <div class="col-12">
-                    <button id="registBtn" class="btn btn-primary btn-lg btn-block" type="submit">등록완료</button>
+                    <button id="registBtn" class="btn btn-primary btn-lg btn-block" type="submit">예약하기</button>
                 </div>
             </div>
         </div>

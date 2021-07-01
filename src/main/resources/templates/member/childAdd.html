@@ -8,7 +8,10 @@
 	    <form class="form theme-form" id="memberForm" @submit.prevent="validateBeforeSubmit" th:action="@{/member/childAdd.proc}" method="post">
 		<input type="hidden" id="cellPhone" name="cellPhone" th:value="${cellPhone}">
 		<input type="hidden" id="parentName" name="parentName" th:value="${parentName}">
-		<div class="section full mt-2 mb-2">
+        <div class="section full mt-0 mb-1">
+            <img th:src="@{/assets/img/warning.png}" alt="image" class="imaged square w-100">
+        </div>
+		<div class="section full mt-1 mb-2">
             <div class="section-title">자녀추가등록</div>
             <div class="wide-block pb-1 pt-1">
                 <div class="form-group basic">
