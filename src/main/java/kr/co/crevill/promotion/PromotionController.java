@@ -37,6 +37,12 @@ public class PromotionController {
 		return mav;
 	}
 	
+	@GetMapping("event.view")
+	public ModelAndView event(HttpServletRequest request, @ModelAttribute PromotionDto promotionDto) {
+		ModelAndView mav = new ModelAndView("promotion/promo_mkt");
+		return mav;
+	}
+	
 	@GetMapping("regist.view")
 	public ModelAndView master(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("promotion/regist");

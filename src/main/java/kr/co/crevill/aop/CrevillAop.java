@@ -70,7 +70,7 @@ public class CrevillAop {
 												  "/mobile/store/storeList.view", "/mobile/store/storeInfo.view", "/mobile/main/guide.view",
 												  "/mobile/storeProgram/list.view", "/mobile/storeProgram/info.view", "/mobile/promotion/list.view",
 												  "/mobile/play/playList.view", "/mobile/login/smsAuth.view", "/mobile/login/getAuthNum.proc",
-												  "/mobile/login/checkAuthNum.proc", "/mobile/member/welcome.view")) {
+												  "/mobile/login/checkAuthNum.proc", "/mobile/member/welcome.view", "/mobile/promotion/event.view")) {
 				logger.info("여기로 오면 안되는데?");
 				ModelAndView mav = new ModelAndView();
 				mav.setViewName("redirect:/login/login.view");
