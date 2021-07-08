@@ -182,6 +182,26 @@
 		   AND V.TICKET_NAME != '1회권'
 	</select>
 	
+	<select id="checkAlreadySameTimeReservation" parameterType="kr.co.crevill.reservation.ReservationDto" resultType="Integer">
+	    SELECT COUNT(*)
+		  FROM RESERVATION A,
+		       SCHEDULE B,
+		       (SELECT S.SCHEDULE_START 
+		  		 FROM SCHEDULE S
+		 		WHERE S.SCHEDULE_ID = #{scheduleId}) C
+		 WHERE A.CELL_PHONE = #{cellPhone}
+		   AND A.CHILD_NAME = #{childName} 
+		   AND A.SCHEDULE_ID = B.SCHEDULE_ID 
+		   AND B.SCHEDULE_START = C.SCHEDULE_START
+		   AND A.STATUS = '02'
+		   <if test="tutoringYn != null and tutoringYn == 'Y'.toString()">
+		   AND A.TUTORING_YN = 'N'
+		   </if>
+		   <if test="tutoringYn != null and tutoringYn == 'N'.toString()">
+		   AND A.TUTORING_YN = 'Y'
+		   </if>
+	</select>
+	
 	<select id="checkAlreadyReservation" parameterType="kr.co.crevill.reservation.ReservationDto" resultType="Integer">
 		SELECT COUNT(*) 
 		  FROM RESERVATION
@@ -353,6 +373,7 @@
 		   AND DATE_FORMAT(A.SCHEDULE_START, '%H') % 2 = 0
 		   </if>
       GROUP BY A.SCHEDULE_ID		   
+      ORDER BY A.SCHEDULE_START
 	</select>
 	
 	<select id="checkAlreadyShortReservation" parameterType="kr.co.crevill.reservation.ReservationDto" resultType="Integer">
