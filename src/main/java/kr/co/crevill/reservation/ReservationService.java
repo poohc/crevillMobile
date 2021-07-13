@@ -58,7 +58,7 @@ public class ReservationService {
 	private final String MSG_TUTORING_FULL = "해당 튜터링은 예약이 모두 완료된 튜터링입니다.";
 	private final String MSG_LESS_TIME_LEFT_VOUCHER = "바우처의 남은 시간이 부족합니다.";
 	private final String MSG_ALREADY_SHORT_RESERVATION = "해당 회원으로 1회권 예약 내역이 있습니다.";
-	private final String MSG_RESRVATION_PART_SUCC = "일부 예약이 실패했습니다. 상세 내역은 예약목록에서 확인해 주세요.";
+	private final String MSG_RESRVATION_PART_SUCC = "예약건이 존재하는 자녀를 제외한 나머지 자녀의 이용예약이 접수되었습니다. 자세한 예약내역은 “예약리스트”를 참고해 주세요.";
 	
 	public int selectReservationCount(ScheduleDto scheduleDto) {
 		return reservationMapper.selectReservationCount(scheduleDto);
