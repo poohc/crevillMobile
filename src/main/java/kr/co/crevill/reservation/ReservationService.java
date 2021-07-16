@@ -189,11 +189,12 @@ public class ReservationService {
 		         	    entranceDto.setStatus(CrevillConstants.VOUCHER_STATUS_USED);
 		         	    entranceDto.setReservationId(nReservationDto.getReservationId());
 		         	    entranceDto.setRegId(reservationDto.getRegId());
-						//바우처 사용 처리
-		         	    if(entranceMapper.insertVoucherUse(entranceDto) > 0) {
-		         	    	//예약등록 처리
-		         	    	if(reservationMapper.insertReservation(nReservationDto) > 0) {
-								succCnt++;
+  		         	    
+		         	    //예약등록 처리
+	         	    	if(reservationMapper.insertReservation(nReservationDto) > 0) {
+							//바우처 사용 처리
+			         	    if(entranceMapper.insertVoucherUse(entranceDto) > 0) {
+			         	    	succCnt++;
 							}
 						}
 					}
