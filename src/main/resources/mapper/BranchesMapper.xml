@@ -15,7 +15,7 @@
 			        ELSE '잘못된 값' END AS NOTICE_TYPE,
 			   A.CONTENTS,
 			   A.REG_ID,
-			   DATE_FORMAT(A.REG_DATE, '%Y/%m/%d') REG_DATE,
+			   DATE_FORMAT(A.REG_DATE, '%Y-%m-%d %H:%i') REG_DATE,
 			   A.START_DATE,
 			   A.END_DATE,
 			   GROUP_CONCAT(CASE WHEN B.NOTICE_SEND_TYPE = 'KAKAO' THEN '카카오톡' ELSE '공지리스트' END SEPARATOR ',') NOTICE_SEND_TYPE,
@@ -31,42 +31,16 @@
       </if>
 	</select>
 	
-	<insert id="insertNotice" parameterType="kr.co.crevill.branches.NoticeDto">
-    	INSERT INTO NOTICE (
-   							NOTICE_ID,
-							TITLE,
-							NOTICE_TYPE,
-							CONTENTS,
-							REG_ID,
-							REG_DATE,
-							START_DATE,
-							END_DATE							
-   						   )
-				    VALUES (
-				    		#{noticeId},
-							#{title},
-							#{noticeType},
-							#{contents},
-							#{regId},
-							NOW(),
-							#{startDate, jdbcType=VARCHAR},
-							#{endDate, jdbcType=VARCHAR}
-						   )
-    </insert>
-	
-	<insert id="insertNoticeSendType" parameterType="kr.co.crevill.branches.NoticeDto">
-    	INSERT INTO NOTICE_SEND_TYPE (
-		   							  NOTICE_ID,
-		   							  NOTICE_SEND_TYPE,
-		   							  REG_ID,
-		   							  REG_DATE						
-		   						     )
-						      VALUES (
-						    		  #{noticeId},
-									  #{noticeSendType},
-									  #{regId},
-									  NOW()
-								     )
-    </insert>
+	<select id="selectNoticeInfo" parameterType="kr.co.crevill.branches.NoticeDto" resultType="kr.co.crevill.branches.NoticeVo">
+		SELECT NOTICE_ID,
+			   TITLE,
+			   NOTICE_TYPE,
+			   CONTENTS,
+			   REG_ID,
+			   DATE_FORMAT(REG_DATE, '%Y/%m/%d') REG_DATE,
+			   BANNER_ID
+	      FROM NOTICE
+	     WHERE NOTICE_ID = #{noticeId}		   
+	</select>
 	
 </mapper>

@@ -111,7 +111,7 @@
                 <a th:href="@{/reservation/shortRegist.view}"><img th:src="@{http://kidsfactory2021.cdn3.cafe24.com/onetime.jpg}" alt="image" class="imaged square w-100"></a>
             </div>
 
-            <div class="n_res section mt-2">
+            <div class="n_res section">
                 <div class="section-title">예약알림</div>
                 <div class="carousel-slider owl-carousel owl-theme">
                     <th:block th:each="list : ${reservationList}">
@@ -209,15 +209,6 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="col-3 branch">
-                            <a th:href="@{/store/storeList.view}">
-                                <img src="assets/img/center.png" alt="alt" class="imaged w-50 rounded"
-                                    style="padding-bottom:5px;">
-                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
-                                    <h5>센터안내</h5>
-                                </div>
-                            </a>
-                        </div>
                         <div class="col-3 prgrm">
                             <a href="#" data-toggle="modal" data-component="stories" data-target="#about_program">
                                 <img src="assets/img/program.png" alt="alt" class="imaged w-50 rounded"
@@ -227,6 +218,17 @@
                                 </div>
                             </a>
                         </div>
+                        <div class="col-3 sched">
+                            <a th:href="@{/program/timeTable.view}">
+                                <img src="assets/img/schedule.png" alt="alt" class="imaged w-50 rounded"
+                                    style="padding-bottom:5px;">
+                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
+                                    <h5>시간표</h5>
+                                </div>
+                            </a>
+                        </div>
+
+
 
                     </div><br>
                     <div class="row" style="text-align: center;">
@@ -257,23 +259,34 @@
                                 </div>
                             <!--</a>-->
                         </div>
-                        <div class="col-3 sched">
-                            <a th:href="@{/program/timeTable.view}">
-                                <img src="assets/img/schedule.png" alt="alt" class="imaged w-50 rounded"
+                        <div class="col-3 branch">
+                            <a th:href="@{/store/storeList.view}">
+                                <img src="assets/img/center.png" alt="alt" class="imaged w-50 rounded"
                                     style="padding-bottom:5px;">
                                 <div style="bottom: 10px; left: 19px;font-size: 13px;">
-                                    <h5>시간표</h5>
+                                    <h5>지점안내</h5>
                                 </div>
                             </a>
                         </div>
+
+
                     </div><br>
                     <div class="row" style="text-align: center;">
-                        <div class="col-3 qrcode">
-                            <a href="https://nid.naver.com/login/privacyQR">
-                                <img src="assets/img/qrcheck.png" alt="alt" class="imaged w-50 rounded"
+                        <div class="col-3 reservlist">
+                            <a th:href="@{/reservation/list.view}">
+                                <img src="assets/img/reservlist.png" alt="alt" class="imaged w-50 rounded"
                                     style="padding-bottom:5px;">
                                 <div style="bottom: 10px; left: 19px;font-size: 13px;">
-                                    <h5>QR체크인</h5>
+                                    <h5>예약내역</h5>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-3 myvoucher">
+                            <a th:href="@{/member/info.view}">
+                                <img src="assets/img/myvoucher.png" alt="alt" class="imaged w-50 rounded"
+                                    style="padding-bottom:5px;">
+                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
+                                    <h5>바우처정보</h5>
                                 </div>
                             </a>
                         </div>
@@ -286,21 +299,12 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="col-3 myvoucher">
-                            <a th:href="@{/member/info.view}">
-                                <img src="assets/img/myvoucher.png" alt="alt" class="imaged w-50 rounded"
+                        <div class="col-3 qrcode">
+                            <a href="https://nid.naver.com/login/privacyQR">
+                                <img src="assets/img/qrcheck.png" alt="alt" class="imaged w-50 rounded"
                                     style="padding-bottom:5px;">
                                 <div style="bottom: 10px; left: 19px;font-size: 13px;">
-                                    <h5>바우처 정보</h5>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-3 reservlist">
-                            <a th:href="@{/reservation/list.view}">
-                                <img src="assets/img/reservlist.png" alt="alt" class="imaged w-50 rounded"
-                                    style="padding-bottom:5px;">
-                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
-                                    <h5>예약 리스트</h5>
+                                    <h5>QR체크인</h5>
                                 </div>
                             </a>
                         </div>
@@ -412,19 +416,19 @@
                     </div>
                 </div>
             </div>
-            <div class="section full mt-1">
-                <div class="section-title">NOTICE</div>
-                <div class="carousel-full owl-carousel owl-theme">
-                    <th:block th:each="list : ${noticeList}">
-                        <div class="item">
-                            <div class="card">
-                                <img th:src="@{/common/getImage(imageIdx=${list.bannerId})}"
-                                    class="card-img card-img-top1" th:alt="|${list.title} 배너이미지|">
-                            </div>
-                        </div>
-                    </th:block>
-                </div>
-            </div>
+<!--             <div class="section full mt-1"> -->
+<!--                 <div class="section-title">NOTICE</div> -->
+<!--                 <div class="carousel-full owl-carousel owl-theme"> -->
+<!--                     <th:block th:each="list : ${noticeList}"> -->
+<!--                         <div class="item"> -->
+<!--                             <div class="card"> -->
+<!--                                 <img th:src="@{/common/getImage(imageIdx=${list.bannerId})}" -->
+<!--                                     class="card-img card-img-top1" th:alt="|${list.title} 배너이미지|"> -->
+<!--                             </div> -->
+<!--                         </div> -->
+<!--                     </th:block> -->
+<!--                 </div> -->
+<!--             </div> -->
             <div class="section full mt-1 mb-2">
                 <div class="section-title">PROMOTION</div>
                 <div class="carousel-full owl-carousel owl-theme">
@@ -479,6 +483,10 @@
                         	allowfullscreen>
                     </iframe>
                 </div>
+                <!-- <div class="video_wrap">
+                    <img src="http://kidsfactory2021.cdn3.cafe24.com/thumbnail.png" alt="" class="thumbnail">
+                    <a href="" class="play"><ion-icon name="play" style="color:white;"></ion-icon></a>
+                </div> -->
             </div>
             <!--고객공지추가 - 최근1개만-->
             <div class="wide-block pt-1 pb-1">
@@ -486,7 +494,9 @@
                     <p style="text-decoration: dotted; margin-bottom:0rem;">
                     	<font color="blue">공지</font> | &nbsp;
                     	<th:block th:each="list : ${noticeList}">
-                    		<span style="font-size:9px;" th:text="${list.contents}"></span>
+                    		<a th:href="@{/branches/noticeList.view}">
+                    			<span style="font-size:9px;" th:text="${list.contents}"></span>
+                    		</a>
                     	</th:block>
                     </p>
                 </div>
@@ -593,5 +603,16 @@
             </div>
         </div>
 </th:block>
+<!-- youtube play -->
+<script>
+    $(function() {
+    $('.play').click(function(e) {
+        e.preventDefault();
+        $('.video .video_wrap').html('<iframe width="560" height="315" src="https://www.youtube.com/embed/HZ-tVcvnAl0?autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
+      })
+})
+</script>
+
+
 
 </html>

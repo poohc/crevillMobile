@@ -1,47 +1,27 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layout/default">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/defaultCommon">
 
 <th:block layout:fragment="content">
-	<div class="page-body">
-		<th:block th:replace="fragments/topIconMenu :: topIconMenuFragment(${menu})"></th:block>
-		<!-- Container-fluid starts-->
-		<div class="container-fluid">
-			<div class="row">
-				<!-- Individual column searching (text inputs) Starts-->
-				<div class="col-sm-12">
-					<div class="card">
-						<div class="card-body">
-							<div class="table-responsive product-table">
-								<table class="display" id="basic-1">
-									<thead>
-										<tr>
-											<th>제목</th>
-											<th>알림구분</th>
-											<th>전달매체</th>
-											<th>내용</th>
-											<th>등록일</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr th:each="list : ${list}">
-											<td th:text=${list.title}></td>
-											<td th:text=${list.noticeType}></td>
-											<td th:text=${list.noticeSendType}></td>
-											<td th:text=${list.contents}></td>
-											<td th:text=${list.regDate}></td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- Individual column searching (text inputs) Ends-->
-			</div>
-		</div>
-		<!-- Container-fluid Ends-->
-	</div>
+
+    <div id="appCapsule">
+        <div class="listview-title mt-1">공지사항</div>
+        <ul class="listview image-listview">
+            <li th:each="list : ${list}">
+                <a th:href="@{/branches/noticeInfo.view(noticeId=${list.noticeId})}" class="item">
+                    <img th:src="@{/assets/img/notice_icon.jpg}" alt="image" class="image">
+                    <div class="in">
+                        <div>
+                            <header style="font-size:14px;" th:text="${list.title}"></header>
+                            <footer style="font-size:11px;">크레빌</footer>
+                            <footer style="color: blue;" th:text="${list.regDate}"></footer>
+                        </div>
+                        <span class="text-muted"></span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
 </th:block>
+
 </html>

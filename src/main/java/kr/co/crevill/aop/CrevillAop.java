@@ -70,7 +70,8 @@ public class CrevillAop {
 												  "/mobile/store/storeList.view", "/mobile/store/storeInfo.view", "/mobile/main/guide.view",
 												  "/mobile/storeProgram/list.view", "/mobile/storeProgram/info.view", "/mobile/promotion/list.view",
 												  "/mobile/play/playList.view", "/mobile/login/smsAuth.view", "/mobile/login/getAuthNum.proc",
-												  "/mobile/login/checkAuthNum.proc", "/mobile/member/welcome.view", "/mobile/promotion/event.view")) {
+												  "/mobile/login/checkAuthNum.proc", "/mobile/member/welcome.view", "/mobile/promotion/event.view",
+												  "/mobile/branches/noticeList.view", "/mobile/branches/noticeInfo.view")) {
 				logger.info("여기로 오면 안되는데?");
 				ModelAndView mav = new ModelAndView();
 				mav.setViewName("redirect:/login/login.view");
@@ -162,20 +163,11 @@ public class CrevillAop {
         	}
         	
         	if(servletPath.indexOf("branches") > -1) {
-        		menuDto.setUpperMenu("지점업무");
-        		if(servletMenuPath.indexOf("noticeWrite.view") > -1) {
-        			menu = "공지작성";
-        		}
         		if(servletMenuPath.indexOf("noticeList.view") > -1) {
-        			menu = "공지리스트";
+        			menu = "크레빌 고객공지";
         		}
-        		if(servletMenuPath.indexOf("list.view") > -1) {
-        			menuDto.setUpperMenu("지점관리");
-        			menu = "지점리스트";
-        		}
-        		if(servletMenuPath.indexOf("regist.view") > -1) {
-        			menuDto.setUpperMenu("지점관리");
-        			menu = "지점등록";
+        		if(servletMenuPath.indexOf("noticeInfo.view") > -1) {
+        			menu = "크레빌 고객공지";
         		}
         	}
         	

@@ -10,6 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface BranchesMapper {
 	public NoticeVo selectNoticeId();
 	public List<NoticeVo> selectNoticeList(NoticeDto noticeDto);
-	public int insertNotice(NoticeDto noticeDto);
-	public int insertNoticeSendType(NoticeDto noticeDto);
+	public NoticeVo selectNoticeInfo(NoticeDto noticeDto);
 }
