@@ -118,6 +118,40 @@
 		       ROUND(((A.USE_TIME - C.TIME_LEFT_HOUR) / A.USE_TIME) * 100, 2) VOUCHER_USE_PER_CALC
 		  FROM VOUCHER A,
 		       VOUCHER_SALE B,
+		       VOUCHER_USE_VIEW C,
+		       MEMBER_CHILDREN D
+		 WHERE A.VOUCHER_NO = B.VOUCHER_NO
+		   AND B.VOUCHER_NO = C.VOUCHER_NO
+		   AND B.BUY_CELL_PHONE = #{buyCellPhone}
+		   AND A.STATUS = '12'
+		   AND C.TIME_LEFT_HOUR  <![CDATA[ > ]]> 0
+		   AND B.BUY_CELL_PHONE = D.PARENT_CELL_PHONE
+		   <if test="isBasic != null and isBasic == 'true'.toString()">
+		   AND A.TICKET_NAME = '1회권'
+		   </if>
+		   <if test="isBasic != null and isBasic == 'false'.toString()">
+		   AND A.TICKET_NAME != '1회권'
+		   </if>
+      GROUP BY A.VOUCHER_NO		   
+      <if test="limit != null and limit != ''">
+         LIMIT #{limit}
+      </if>
+	</select>
+	
+	<select id="getShortMemberVoucherList" parameterType="kr.co.crevill.voucher.VoucherSaleDto" resultType="kr.co.crevill.voucher.VoucherVo">
+		SELECT A.VOUCHER_NO,
+			   A.TICKET_NAME, 	
+		       A.GRADE,
+		       A.PRICE,
+		       A.USE_TIME,
+		       D.NAME,
+		       C.TIME_LEFT_HOUR,
+		       A.STORE_ID,
+		       (SELECT SUBSTRING_INDEX(S.STORE_NAME, ' ', - 1) FROM STORE S WHERE S.STORE_ID = B.STORE_ID) STORE_NAME,
+		       FORMAT(ROUND(((A.USE_TIME - C.TIME_LEFT_HOUR) / A.USE_TIME) * 100),0) VOUCHER_USE_PER,
+		       ROUND(((A.USE_TIME - C.TIME_LEFT_HOUR) / A.USE_TIME) * 100, 2) VOUCHER_USE_PER_CALC
+		  FROM VOUCHER A,
+		       VOUCHER_SALE B,
 		       VOUCHER_USE_VIEW C LEFT JOIN VOUCHER_USE E ON C.VOUCHER_NO = E.VOUCHER_NO,
 		       MEMBER_CHILDREN D
 		 WHERE A.VOUCHER_NO = B.VOUCHER_NO

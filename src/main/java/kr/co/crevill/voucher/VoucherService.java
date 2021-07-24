@@ -56,6 +56,10 @@ public class VoucherService {
 		return voucherMapper.getMemberVoucherList(voucherSaleDto);
 	}
 	
+	public List<VoucherVo> getShortMemberVoucherList(VoucherSaleDto voucherSaleDto){
+		return voucherMapper.getShortMemberVoucherList(voucherSaleDto);
+	}
+	
 	public List<VoucherVo> getMemberVoucherAllList(VoucherDto voucherDto){
 		return voucherMapper.getMemberVoucherAllList(voucherDto);
 	}

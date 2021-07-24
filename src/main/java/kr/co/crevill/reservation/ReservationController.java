@@ -88,7 +88,7 @@ public class ReservationController {
 		VoucherSaleDto voucherSaleDto = new VoucherSaleDto();
 		voucherSaleDto.setBuyCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
 		voucherSaleDto.setIsBasic("true");
-		List<VoucherVo> voucherList = voucherService.getMemberVoucherList(voucherSaleDto);
+		List<VoucherVo> voucherList = voucherService.getShortMemberVoucherList(voucherSaleDto);
 		
 		int basicVoucherCount = 0; 
 		//보유 바우처 중 1회권이 하나도 없으면 생성		
@@ -114,7 +114,7 @@ public class ReservationController {
 		mav.addObject("cellPhone", SessionUtil.getSessionMemberVo(request).getCellPhone());
 		mav.addObject("childList", memberService.selectChildMemberList(memberDto));
 		voucherSaleDto.setIsBasic("true");
-		List<VoucherVo> memVoucherList = voucherService.getMemberVoucherList(voucherSaleDto);
+		List<VoucherVo> memVoucherList = voucherService.getShortMemberVoucherList(voucherSaleDto);
 		mav.addObject("voucherList", memVoucherList);
 		VoucherDto voucherDto = new VoucherDto();
 		voucherDto.setVoucherNo(memVoucherList.get(0).getVoucherNo());
