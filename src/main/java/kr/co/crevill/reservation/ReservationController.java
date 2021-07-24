@@ -102,6 +102,8 @@ public class ReservationController {
 			}
 		}
 		
+		logger.info("basicVoucherCount : " + basicVoucherCount);
+		
 		//1회권이 하나도 없을 경우 생성
 		if(basicVoucherCount == 0) {
 			reservationService.setNormalVoucher(request);	
