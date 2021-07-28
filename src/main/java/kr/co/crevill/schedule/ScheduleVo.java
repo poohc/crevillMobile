@@ -15,6 +15,7 @@ public class ScheduleVo {
 	private String scheduleStart;
 	private String scheduleEnd;
 	private String scheduleDate;
+	private String scheduleStartTime;
 	private String scheduleTime;
 	private String regId;
 	private String regDate;
