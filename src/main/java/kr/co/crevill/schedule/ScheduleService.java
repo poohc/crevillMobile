@@ -36,6 +36,10 @@ public class ScheduleService {
 		return scheduleMapper.selectScheduleCount(scheduleDto);
 	}
 	
+	public List<ScheduleVo> selectTutoringScheduleList(ScheduleDto scheduleDto){
+		return scheduleMapper.selectTutoringScheduleList(scheduleDto);
+	}
+	
 	public List<ScheduleVo> selectScheduleList(ScheduleDto scheduleDto){
 		return scheduleMapper.selectScheduleList(scheduleDto);
 	}

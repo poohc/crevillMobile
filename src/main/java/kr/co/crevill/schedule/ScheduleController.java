@@ -106,4 +106,26 @@ public class ScheduleController {
 		}
 		return result;
 	}
+	
+	@PostMapping("getTutoringScheduleList.proc")
+	@ResponseBody
+	public JSONObject getTutoringScheduleList(HttpServletRequest request, ScheduleDto scheduleDto) {
+		JSONObject result = new JSONObject();
+		result.put("resultCd", CrevillConstants.RESULT_FAIL);
+		
+		if(scheduleDto.getScheduleStart() == null || scheduleDto.getScheduleStart().isEmpty() || scheduleDto.getScheduleStart() == "") {
+			scheduleDto.setScheduleStart(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+		}
+		
+		if(scheduleDto.getScheduleType() == null || scheduleDto.getScheduleType().isEmpty()) {
+			scheduleDto.setScheduleType("ALL");	
+		}
+		
+		List<ScheduleVo> scheduleList = scheduleService.selectTutoringScheduleList(scheduleDto);
+		if(scheduleList != null && scheduleList.size() > 0) {
+			result.put("resultCd", CrevillConstants.RESULT_SUCC);
+			result.put("scheduleList", scheduleList);
+		}
+		return result;
+	}
 }

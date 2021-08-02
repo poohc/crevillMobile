@@ -75,7 +75,7 @@ $('#scheduleId').click(function(){
 				experienceClass : 'Y',
 				storeId : $('#storeId').val()
 	    },
-		url : contextRoot + 'schedule/getScheduleList.proc',
+		url : contextRoot + 'schedule/getTutoringScheduleList.proc',
 		success : function(data){
 			if(data.resultCd == '00'){
 				for(var i=0; i < data.scheduleList.length; i++){

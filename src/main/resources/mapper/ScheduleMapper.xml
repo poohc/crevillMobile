@@ -8,6 +8,49 @@
           FROM SCHEDULE
     </select>
 	
+	<select id="selectTutoringScheduleList" parameterType="kr.co.crevill.schedule.ScheduleDto" resultType="kr.co.crevill.schedule.ScheduleVo">
+	 	SELECT A.SCHEDULE_ID,
+			   A.OPERATION_TYPE,
+			   A.NUMBER_OF_PEOPLE,
+			   A.TUTORING_NUMBER,
+			   A.SCHEDULE_START,
+			   A.SCHEDULE_END,
+			   DATE_FORMAT(A.SCHEDULE_START,'%H:%i') SCHEDULE_START_TIME,
+			   CONCAT(DATE_FORMAT(A.SCHEDULE_START,'%H:%i'),'~',DATE_FORMAT(A.SCHEDULE_END,'%H:%i')) SCHEDULE_TIME,
+			   CONCAT(DATE_FORMAT(A.SCHEDULE_START,'%Y년 %m월 %d일'), ' 일정') SCHEDULE_DATE,
+			   (SELECT NAME FROM PLAY WHERE PLAY.PLAY_ID = A.PLAY_ID) PLAY_NAME,
+			   A.REG_ID,
+			   DATE_FORMAT(A.REG_DATE, '%Y/%m/%d') REG_DATE,
+			   A.UPD_ID,
+			   DATE_FORMAT(A.UPD_DATE, '%Y/%m/%d') UPD_DATE,
+			   A.SUB_TOPIC,
+			   (SELECT COUNT(*) FROM RESERVATION R WHERE A.SCHEDULE_ID = R.SCHEDULE_ID AND R.TUTORING_YN = 'Y' AND R.STATUS IN ('02', '04')) RESERVATION_COUNT,
+			   TUTORING_NUMBER - ((SELECT COUNT(*) FROM RESERVATION R WHERE A.SCHEDULE_ID = R.SCHEDULE_ID AND R.TUTORING_YN = 'Y' AND R.STATUS IN ('02', '04'))) RESERVATION_AVA_COUNT
+          FROM SCHEDULE A
+        <where>
+           AND A.TUTORING_NUMBER <![CDATA[ > ]]> 0
+           <if test="storeId != null and storeId != 'CST00001'.toString()">
+           AND A.STORE_ID = #{storeId}
+           </if>
+           <if test="scheduleType != null and scheduleType == 'ALL'.toString()">	
+           AND A.SCHEDULE_START BETWEEN DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '000000'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S') 
+                                    AND DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '235959'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S')
+           </if>                         
+		   <if test="scheduleType != null and scheduleType == 'ING'.toString()">
+		   AND A.SCHEDULE_START <![CDATA[ > ]]> NOW()
+		   AND A.SCHEDULE_START BETWEEN DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '000000'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S') 
+                                    AND DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '235959'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S')                                    	
+		   </if>
+		   <if test="scheduleType != null and scheduleType == 'END'.toString()">
+		   AND A.SCHEDULE_END BETWEEN DATE_FORMAT(STR_TO_DATE(CONCAT(#{scheduleStart}, '000000'), '%Y%m%d%H%i%S'),'%Y-%m-%d %H:%i:%S') 
+                                  AND NOW()                                    	
+		   </if>
+<!-- 		   <if test="experienceClass != null and experienceClass == 'Y'.toString()"> -->
+<!-- 		   AND DATE_FORMAT(A.SCHEDULE_START, '%H') % 2 = 0 -->
+<!-- 		   </if> -->
+        </where>
+	</select>
+	
     <select id="selectScheduleList" parameterType="kr.co.crevill.schedule.ScheduleDto" resultType="kr.co.crevill.schedule.ScheduleVo">
         SELECT SUB.SCHEDULE_ID,
 			   SUB.OPERATION_TYPE,
