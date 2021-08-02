@@ -6,15 +6,16 @@
     <div id="appCapsule" style="padding-top:45px;">
         <div class="section mt-1">
             <div class="card bg-dark text-white">
-                <img src="http://kidsfactory2021.cdn3.cafe24.com/login_form.gif" class="card-img overlay-img" alt="image">
+                <img src="http://kidsfactory2021.cdn3.cafe24.com/login_form.gif" class="card-img overlay-img"
+                    alt="image">
                 <div class="card-img-overlay">
                     <th:block th:if="${session.memberVo != null}">
                         <h5 class="card-title" th:text="|${session.memberVo?.name}님|"></h5>
                         <p class="card-text">
                             <span class="badge badge-danger" th:text="|${session.memberVo?.memberType}|"></span> 회원</p>
-                        <th:block th:if="${visitSummary != null}">
-                            <p class="card-text"><small th:text="|최근방문 : ${visitSummary.visitDate}|"></small></p>
-                        </th:block>
+                        <!--                         <th:block th:if="${visitSummary != null}"> -->
+                        <!--                             <p class="card-text"><small th:text="|최근방문 : ${visitSummary.visitDate}|"></small></p> -->
+                        <!--                         </th:block> -->
                         <th:block th:unless="${visitSummary != null}">
                             <p class="card-text"><small>안녕하세요.</small></p>
                         </th:block>
@@ -107,9 +108,11 @@
                     </div>
                 </form>
             </div>
-            <div class="section mt-1 mb-1">
+            <!--<div class="section mt-1 mb-1">
                 <a th:href="@{/reservation/shortRegist.view}"><img th:src="@{http://kidsfactory2021.cdn3.cafe24.com/onetime.jpg}" alt="image" class="imaged square w-100"></a>
-            </div>
+            </div>-->
+
+
 
             <div class="n_res section">
                 <div class="section-title">예약알림</div>
@@ -117,8 +120,8 @@
                     <th:block th:each="list : ${reservationList}">
                         <div class="item">
                             <a th:href="@{/reservation/list.view}">
-                                <div class="card bg-primary comment-box">
-                                    <h6 class="card-title" style="font-size:14px;">예약알림 :
+                                <div class="card bg-primary comment-box" style="border-radius: 0px;">
+                                    <h6 class="card-title" style="font-size:14px;">예약 센터명 :
                                         <span class="badge badge-danger" th:text="${list.storeNameShort}"></span></h6>
                                     <div class="card-text" th:text="${list.scheduleDate}"></div>
                                     <div class="text" style="font-size:13px;" th:text="${list.playName}"></div>
@@ -130,6 +133,27 @@
                 </div>
             </div>
         </th:block>
+
+        <div class="section full mt-1">
+            <div class="wide-block pt-1 pb-1" style="border:none;">
+                <div class="row">
+                    <div class="col-6" style="align-content: center;">
+                        <button type="button" class="btn btn-dark"
+                            onclick="location.href ='reservation/shortRegist.view'" style="width: 100%; height:75px;">
+                            <ion-icon name="ticket-outline"></ion-icon>
+                            1회권 예약
+                        </button>
+                    </div>
+                    <div class="col-6" style="align-content: center;">
+                        <button type="button" class="btn btn-success" onclick="location.href ='reservation/regist.view'"
+                            style="width: 100%; height:75px;">
+                            <ion-icon name="wallet-outline"></ion-icon>
+                            바우처 이용예약
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="section full mt-1">
             <th:block th:if="${session.memberVo != null && session.memberVo.memberType == '바우처'}">
@@ -178,6 +202,7 @@
                     </div>
                 </div>
             </th:block>
+
 
             <div class="section full mt-0">
                 <div class="wide-block pt-2 pb-2">
@@ -252,11 +277,11 @@
                         </div>
                         <div class="col-3 promo">
                             <!--<a th:href="@{/promotion/list.view}">-->
-                                <img th:src="@{/assets/img/promotion.png}" alt="alt" class="imaged w-50 rounded"
-                                    style="padding-bottom:5px;">
-                                <div style="bottom: 10px; left: 19px;font-size: 13px;">
-                                    <h5>프로모션</h5>
-                                </div>
+                            <img th:src="@{/assets/img/promotion.png}" alt="alt" class="imaged w-50 rounded"
+                                style="padding-bottom:5px;">
+                            <div style="bottom: 10px; left: 19px;font-size: 13px;">
+                                <h5>프로모션</h5>
+                            </div>
                             <!--</a>-->
                         </div>
                         <div class="col-3 branch">
@@ -327,8 +352,8 @@
                     <div class="item" th:each="list : ${programList}">
                         <div class="card">
                             <!--<a th:href="@{/storeProgram/list.view(chainClass=${list.chainClass})}" class="item">-->
-                                <img th:src="@{/common/getImage(imageIdx=${list.thumbnailId})}"
-                                    class="card-img overlay-img" alt="image">
+                            <img th:src="@{/common/getImage(imageIdx=${list.thumbnailId})}" class="card-img overlay-img"
+                                alt="image">
                             </a>
                         </div>
                     </div>
@@ -416,26 +441,26 @@
                     </div>
                 </div>
             </div>
-<!--             <div class="section full mt-1"> -->
-<!--                 <div class="section-title">NOTICE</div> -->
-<!--                 <div class="carousel-full owl-carousel owl-theme"> -->
-<!--                     <th:block th:each="list : ${noticeList}"> -->
-<!--                         <div class="item"> -->
-<!--                             <div class="card"> -->
-<!--                                 <img th:src="@{/common/getImage(imageIdx=${list.bannerId})}" -->
-<!--                                     class="card-img card-img-top1" th:alt="|${list.title} 배너이미지|"> -->
-<!--                             </div> -->
-<!--                         </div> -->
-<!--                     </th:block> -->
-<!--                 </div> -->
-<!--             </div> -->
+            <!--             <div class="section full mt-1"> -->
+            <!--                 <div class="section-title">NOTICE</div> -->
+            <!--                 <div class="carousel-full owl-carousel owl-theme"> -->
+            <!--                     <th:block th:each="list : ${noticeList}"> -->
+            <!--                         <div class="item"> -->
+            <!--                             <div class="card"> -->
+            <!--                                 <img th:src="@{/common/getImage(imageIdx=${list.bannerId})}" -->
+            <!--                                     class="card-img card-img-top1" th:alt="|${list.title} 배너이미지|"> -->
+            <!--                             </div> -->
+            <!--                         </div> -->
+            <!--                     </th:block> -->
+            <!--                 </div> -->
+            <!--             </div> -->
             <div class="section full mt-1 mb-2">
                 <div class="section-title">PROMOTION</div>
                 <div class="carousel-full owl-carousel owl-theme">
                     <div class="item" th:each="list : ${promotionList}">
                         <!-- <a th:href="@{/promotion/list.view}"> -->
-                            <img th:src="@{/common/getImage(imageIdx=${list.promotionBannerId})}"
-                                class="imaged w-100 square" alt="promotion">
+                        <img th:src="@{/common/getImage(imageIdx=${list.promotionBannerId})}"
+                            class="imaged w-100 square" alt="promotion">
                         <!-- </a> -->
                     </div>
                 </div>
@@ -478,9 +503,9 @@
             <div class="section full mt-2 mb-3">
                 <div class="embed-responsive embed-responsive-16by9">
                     <iframe width="560" height="315" src="https://www.youtube.com/embed/HZ-tVcvnAl0"
-                        	title="YouTube video player" frameborder="0"
-                        	allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        	allowfullscreen>
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
                     </iframe>
                 </div>
                 <!-- <div class="video_wrap">
@@ -492,12 +517,12 @@
             <div class="wide-block pt-1 pb-1">
                 <div style="display:inline">
                     <p style="text-decoration: dotted; margin-bottom:0rem;">
-                    	<font color="blue">공지</font> | &nbsp;
-                    	<th:block th:each="list : ${noticeList}">
-                    		<a th:href="@{/branches/noticeList.view}">
-                    			<span style="font-size:9px;" th:text="${list.contents}"></span>
-                    		</a>
-                    	</th:block>
+                        <font color="blue">공지</font> | &nbsp;
+                        <th:block th:each="list : ${noticeList}">
+                            <a th:href="@{/branches/noticeList.view}">
+                                <span style="font-size:9px;" th:text="${list.contents}"></span>
+                            </a>
+                        </th:block>
                     </p>
                 </div>
             </div>
@@ -510,16 +535,14 @@
                     <div class="row">
                         <div class="col-6" style="align-content: center;">
                             <button type="button" class="btn btn-primary"
-                                onclick="$('#android-add-to-home-screen').modal();"
-                                style="width: 100%">
+                                onclick="$('#android-add-to-home-screen').modal();" style="width: 100%">
                                 <ion-icon name="logo-android"></ion-icon>
                                 안드로이드폰
                             </button>
                         </div>
                         <div class="col-6" style="align-content: center;">
                             <button type="button" class="btn btn-primary"
-                                onclick="$('#ios-add-to-home-screen').modal();"
-                                style="width: 100%">
+                                onclick="$('#ios-add-to-home-screen').modal();" style="width: 100%">
                                 <ion-icon name="logo-apple"></ion-icon>
                                 애플 아이폰
                             </button>
@@ -527,7 +550,7 @@
                     </div>
                 </div>
             </div>
-             
+
             <!-- ios 모달 -->
             <div class="modal inset fade action-sheet ios-add-to-home" id="ios-add-to-home-screen" tabindex="-1"
                 role="dialog">
@@ -605,12 +628,14 @@
 </th:block>
 <!-- youtube play -->
 <script>
-    $(function() {
-    $('.play').click(function(e) {
-        e.preventDefault();
-        $('.video .video_wrap').html('<iframe width="560" height="315" src="https://www.youtube.com/embed/HZ-tVcvnAl0?autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
-      })
-})
+    $(function () {
+        $('.play').click(function (e) {
+            e.preventDefault();
+            $('.video .video_wrap').html(
+                '<iframe width="560" height="315" src="https://www.youtube.com/embed/HZ-tVcvnAl0?autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
+                )
+        })
+    })
 </script>
 
 

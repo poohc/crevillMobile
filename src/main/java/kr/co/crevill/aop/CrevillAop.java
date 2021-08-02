@@ -248,7 +248,7 @@ public class CrevillAop {
         	
         	VoucherDto voucherDto = new VoucherDto();
     		voucherDto.setCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
-    		request.setAttribute("voucherInfo", voucherService.getMemberVoucherInfo(voucherDto));
+//    		request.setAttribute("voucherInfo", voucherService.getMemberVoucherInfo(voucherDto));
     		contextPath = contextPath.replace("mobile/", "");
     		request.setAttribute("servletPath", servletPath);
         	logger.info("==================== Logging 종료 ====================");

@@ -382,7 +382,52 @@
 		 WHERE B.VOUCHER_NO = C.VOUCHER_NO 
 		   AND B.BUY_CELL_PHONE = #{cellPhone}
 	  GROUP BY C.VOUCHER_NO
-	           ) SUB   
+	           ) SUB
+<!-- 	SELECT FORMAT(IFNULL((((A.USE_TIME * 60) - SUM(IFNULL(C.USE_TIME, 0))) / 60), 0), 0) TIME_LEFT_HOUR -->
+<!-- 	  FROM (SELECT -->
+<!--     VOUCHER.VOUCHER_NO AS VOUCHER_NO, -->
+<!--     VOUCHER.GRADE AS GRADE, -->
+<!--     VOUCHER.TICKET_NAME AS TICKET_NAME, -->
+<!--     VOUCHER.PRICE AS PRICE, -->
+<!--     VOUCHER.SALE_PRICE AS SALE_PRICE, -->
+<!--     (CASE ( -->
+<!--     SELECT -->
+<!--         P.PROMOTION_TYPE -->
+<!--     FROM -->
+<!--         PROMOTION P -->
+<!--     WHERE -->
+<!--         (P.PROMOTION_ID = B.PROMOTION_ID)) -->
+<!--     WHEN 'ADD_TIME_PER' THEN (VOUCHER.USE_TIME + (VOUCHER.USE_TIME * (( -->
+<!--     SELECT -->
+<!--         P.PROMOTION_VALUE -->
+<!--     FROM -->
+<!--         PROMOTION P -->
+<!--     WHERE -->
+<!--         (P.PROMOTION_ID = B.PROMOTION_ID)) / 100))) -->
+<!--     ELSE VOUCHER.USE_TIME -->
+<!-- END) AS USE_TIME, -->
+<!--     VOUCHER.END_DATE AS END_DATE, -->
+<!--     VOUCHER.SALE_CODE AS SALE_CODE, -->
+<!--     VOUCHER.REG_ID AS REG_ID, -->
+<!--     VOUCHER.REG_DATE AS REG_DATE, -->
+<!--     VOUCHER.IMAGE_IDX AS IMAGE_IDX, -->
+<!--     VOUCHER.UPD_ID AS UPD_ID, -->
+<!--     VOUCHER.UPD_DATE AS UPD_DATE, -->
+<!--     VOUCHER.STATUS AS STATUS, -->
+<!--     VOUCHER.STORE_ID AS STORE_ID -->
+<!-- FROM -->
+<!--     (VOUCHER -->
+<!-- LEFT JOIN VOUCHER_SALE B ON -->
+<!--     ((VOUCHER.VOUCHER_NO = B.VOUCHER_NO))) -->
+<!-- WHERE -->
+<!--     (VOUCHER.STATUS in ('02', '12'))) A, -->
+<!-- 		       VOUCHER_SALE B LEFT JOIN  -->
+<!-- 		       VOUCHER_USE C ON B.VOUCHER_NO = C.VOUCHER_NO -->
+<!-- 		 WHERE B.BUY_CELL_PHONE = #{cellPhone} -->
+<!-- 		   AND A.TICKET_NAME != '1회권' -->
+<!-- 		   AND A.STATUS IN ('02','12')   -->
+<!-- 		   AND A.VOUCHER_NO = B.VOUCHER_NO -->
+<!-- 		   AND C.STATUS = '04' -->
 	</select>
 	
 	<select id="selectPromotionVoucherList" parameterType="kr.co.crevill.voucher.VoucherDto" resultType="kr.co.crevill.voucher.VoucherVo">

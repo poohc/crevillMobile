@@ -105,7 +105,7 @@ public class MainController {
 		mav.addObject("childList", memberService.selectChildMemberList(memberDto));
 		VoucherDto voucherDto = new VoucherDto();
 		voucherDto.setCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
-		mav.addObject("voucherInfo", voucherService.getMemberVoucherInfo(voucherDto));
+//		mav.addObject("voucherInfo", voucherService.getMemberVoucherInfo(voucherDto));
 		mav.addObject("cellPhone", SessionUtil.getSessionMemberVo(request).getCellPhone());
 		ScheduleDto scheduleDto = new ScheduleDto();
 		scheduleDto.setCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
@@ -126,7 +126,7 @@ public class MainController {
 		PromotionDto promotionDto = new PromotionDto();
 		promotionDto.setStoreId(SessionUtil.getSessionMemberVo(request).getStoreId());
 		mav.addObject("promotionList", promotionService.getPromotionList(promotionDto));
-		mav.addObject("visitSummary", memberService.selectVisitStoreSummary(memberDto));
+//		mav.addObject("visitSummary", memberService.selectVisitStoreSummary(memberDto));
 		PlayDto playDto = new PlayDto();
 		mav.addObject("playList", playService.selectPlayList(playDto));
 		CommonDto commonDto = new CommonDto();

@@ -176,8 +176,7 @@ public class ReservationService {
 						entranceDto.setVoucherNo(nReservationDto.getVoucherNo());
 		         	    
 						//모바일 회원의 BASIC권 사용일 경우, BASIC권 바우처 모든 시간(4시간, 상수값으로 정의) 다 소진
-						if(CrevillConstants.STORE_ID_MOBILE.equals(SessionUtil.getSessionMemberVo(request).getStoreId()) ||
-								"Y".equals(reservationDto.getExperienceClass())) {
+						if("Y".equals(reservationDto.getExperienceClass())) {
 							if(reservationCnt == 1) {
 								entranceDto.setUseTime(CrevillConstants.SHORT_VOUCHER_USE_TIME);	
 							} else {
