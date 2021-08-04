@@ -59,7 +59,9 @@
 	                    <label class="label" for="city4">Tutoring 시간표</label>
 	                    <select class="form-control custom-select" id="scheduleId" name="scheduleId" v-validate="'required'">
 	                        <template v-for="item in scheduleList">
-	                        	<option :value="item.scheduleId" :class="item.scheduleTime"><span>[잔여 : {{item.reservationAvaCount}}]명 </span>{{item.scheduleStartTime}}</option>
+	                        	<option :value="item.scheduleId" :class="item.scheduleTime">
+	                        	<span>[잔여 : {{item.reservationAvaCount}}]명 </span>
+	                        	{{item.scheduleStartTime}}</option>
 	                        </template>
 	                    </select>
 	                    <label class="label" for="scheduleId" v-if="errors.has('scheduleId')">{{ errors.first('scheduleId') }}</label>
