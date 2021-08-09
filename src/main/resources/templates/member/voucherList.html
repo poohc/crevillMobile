@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	   layout:decorate="layout/defaultMember">
+
+<th:block layout:fragment="content">
+	 <div id="appCapsule">
+        <div class="section" id="infoVoucher">
+            <ul class="listview media flush transparent pt-1">
+                <li style="padding: 16px 0px 8px 8px;" th:each="list : ${voucherList}">
+                    <div>
+                        <div style="display: inline-block;font-weight: bold;" th:text="${list.ticketName}"></div>
+                        <div class="f-r">
+                            <span class="badge badge-primary mr-1" th:text="|잔여시간 ${list.timeLeftHour}|"></span>
+                            <span class="badge badge-danger" th:text="${list.storeName}"></span>
+                        </div>
+                    </div>
+                    <div class="desc mt-1">
+                        <div class="text-muted" th:text="|구입일 : ${list.voucherSaleDate}|"></div>
+                        <div class="text-muted" th:text="|만료예정일 : ${list.voucherEndDate}|"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</th:block>
+</html>

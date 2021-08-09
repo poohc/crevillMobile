@@ -15,6 +15,8 @@ public interface VoucherMapper {
 	public List<VoucherVo> getVoucherList(VoucherDto voucherDto);
 	public List<VoucherVo> selectVoucherAttributeList(VoucherDto voucherDto);
 	public VoucherVo selectVoucherTimeInfo(VoucherDto voucherDto);
+	public List<VoucherVo> checkVoucherMember(VoucherSaleDto voucherSaleDto);
+	public List<VoucherVo> selectMemberVoucherInfo(VoucherSaleDto voucherSaleDto);
 	public List<VoucherVo> getMemberVoucherList(VoucherSaleDto voucherSaleDto);
 	public List<VoucherVo> getShortMemberVoucherList(VoucherSaleDto voucherSaleDto);
 	public List<VoucherVo> getMemberVoucherAllList(VoucherDto voucherDto);

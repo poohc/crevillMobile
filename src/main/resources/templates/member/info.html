@@ -1,247 +1,94 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/defaultCommon(scriptName='/assets/js/crevill/memberInfoScript.js')}">
+	  layout:decorate="~{layout/defaultMember(scriptName='/assets/js/crevill/memberInfoScript.js')}">
 
 <th:block layout:fragment="content">
-	<div id="appCapsule">
+	 <div id="appCapsule">
         <div class="section mt-2">
-            <div class="profile-head">
-                <div class="avatar">
-                    <img th:src="@{/assets/img/family.png}" alt="avatar" class="imaged w64 rounded">
+            <section class="info-container">
+                <div class="info-basic">
+                    <h2><span th:text="|${info.name} 고객님|"></span></h2>
+                    <a href="" class="member-type" th:text="${memberGrade}"></ion-icon></a>
                 </div>
-                <div class="in">
-                    <h3 class="name" th:text="${info.name}"></h3>
-                    <h5 class="subtext" th:text="${memberGrade}"></h5>
-                </div>
-            </div>
-        </div>
-
-        <div class="section full mt-2">
-            <div class="profile-stats pl-2 pr-2">
-                <a href="#" class="item">
-                	<th:block th:if="${#lists.size(voucherList) > 0}">
-                		<th:block th:each="list, i : ${voucherList}">
-		                	<th:block th:if="${i.index == 0}">
-		                    	<strong th:text="${list.ticketName}"></strong>보유바우처
-		                    </th:block>
-                    	</th:block>
-                	</th:block>
-                	<th:block th:unless="${#lists.size(voucherList) > 0}">
-                		<strong>바우처 없음</strong>보유바우처
-                	</th:block>
-                </a>
-                <a href="#" class="item">
-                    <strong th:text="${info.storeName}"></strong>등록매장
-                </a>
-                <a href="#" class="item">
-                    <strong th:text="${#lists.size(visitList)}"></strong>방문횟수
-                </a>
-            </div>
-        </div>
-
-        <div class="section mt-1 mb-2">
-            <div class="profile-info">
-                <div class=" bio">
-                    고객님의 이용현황과 회원정보를 수정할 수 있습니다. ID로 사용중인 휴대폰번호의 변경은 불가하며, 기명 회원의 경우 자녀등록 정보의 수정이 불가합니다.
-                </div>
-            </div>
-        </div>
-		
-		<div class="section full">
-            <div class="wide-block transparent p-0">
-                <ul class="nav nav-tabs lined iconed" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#bookmarks" role="tab">
-                            <ion-icon name="file-tray-full-outline"></ion-icon>
+                <ul class="image-listview">
+                    <li>
+                        <a th:href="@{/member/voucherList.view}" class="item">
+                            <div class="left">
+                                <ion-icon name="wallet-outline" style="height:20px; width:20px; display: inline-block; margin-bottom:-5px; margin-right:4px;"></ion-icon>
+                                <span>보유 바우처</span>
+                            </div>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link  " data-toggle="tab" href="#ticket" role="tab">
-                            <ion-icon name="ticket-outline"></ion-icon>
+                    <li>
+                        <a th:href="@{/member/visitList.view}" class="item">
+                            <div class="left">
+                                <ion-icon name="receipt-outline" style="height:20px; width:20px; display: inline-block; margin-bottom:-5px; margin-right:4px;"></ion-icon>
+                                <span>매장 방문 이력</span>
+                            </div>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#visit" role="tab">
-                            <ion-icon name="walk-outline"></ion-icon>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#settings" role="tab">
-                            <ion-icon name="settings-outline"></ion-icon>
+                    <li>
+                        <a th:href="@{/member/promotionVoucherList.view}" class="item">
+                            <div class="left">
+                                <ion-icon name="gift-outline" style="height:20px; width:20px; display: inline-block; margin-bottom:-5px; margin-right:4px;"></ion-icon>
+                                <span>프로모션 적용</span>
+                            </div>
                         </a>
                     </li>
                 </ul>
-            </div>
+            </section>
         </div>
 
-        <!-- tab content -->
-        <div class="section full mb-2">
-            <div class="tab-content">
-            	<div class="tab-pane fade " id="ticket" role="tabpanel">
-                    <div class="section full mb-2">
-                        <div class="section-title">프로모션적용</div>
-                        <div class="wide-block p-0">
-                            <div class="table-responsive">
-                                <table class="table table-striped" style="text-align: center; font-size: 12px;">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">적용일</th>
-                                            <th scope="col">프로모션</th>
-                                            <th scope="col">사용일</th>
-                                            <th scope="col">적용센터</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    	<th:block th:if="${#lists.size(promotionVoucherList) > 0}">
-	                                    	<tr th:each="list : ${promotionVoucherList}">
-	                                            <th scope="row" th:text="${list.voucherRegDate}"></th>
-	                                            <td th:text="${list.ticketName}"></td>
-	                                            <td th:text="${list.voucherUseDate}"></td>
-	                                            <td th:text="${list.storeName}"></td>
-	                                        </tr>
-                                    	</th:block>
-                                    	<th:block th:unless="${#lists.size(promotionVoucherList) > 0}">
-	                                    	<tr>
-	                                    		<td colspan="4">바우처가 없습니다.</td>
-	                                    	</tr>
-                                    	</th:block>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            	
-                <div class="tab-pane fade" id="visit" role="tabpanel">
-                    <div class="section full mb-2">
-                        <div class="section-title">매장방문이력</div>
-                        <div class="wide-block p-0">
-                            <div class="table-responsive">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">방문일</th>
-                                            <th scope="col">방문매장</th>
-                                            <th scope="col">바우처</th>
-                                            <th scope="col">사용시간</th>
-                                            <!--<th scope="col">이용내역</th>-->
-                                        </tr>
-                                    </thead>
-                                    <tbody>	
-                                    	<th:block th:if="${#lists.size(visitList) > 0}">
-	                                    	<tr th:each="list : ${visitList}">
-	                                            <th scope="row" th:text="${list.visitDate}"></th>
-	                                            <td th:text="${list.storeName}"></td>
-	                                            <td th:text="${list.ticketName}"></td>
-	                                            <th:block th:if="${list.ticketName == '1회권'}">
-	                                            <td>-</td>
-	                                            </th:block>
-	                                            <th:block th:unless="${list.ticketName == '1회권'}">
-	                                            <td th:text="${list.useTime}"></td>
-	                                            </th:block>
-	                                            <!--<td th:text="${list.playName}"></td>-->
-	                                        </tr>
-                                    	</th:block>
-                                        <th:block th:unless="${#lists.size(visitList) > 0}">
-                                        	<tr>
-                                        		<th scope="row">&nbsp;</th>
-                                        		<td colspan="4">방문이력이 없습니다.</td>
-                                        	</tr>
-                                        </th:block>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- * friends -->
+    <!--기존 자녀정보 페이지 링크-->
+        <div class="section mt-2">
+            <section class="info-container one-line">
+                <ul class="image-listview">
+                    <li>
+                        <a href="#" class="item" th:attr="onclick=|childList()|">
+                            자녀정보
+                        </a>
+                    </li>
+                </ul>
+            </section>
+        </div>
 
-                <!--  bookmarks -->
-                <div class="tab-pane fade show active" id="bookmarks" role="tabpanel">
-                    <ul class="listview image-listview media flush transparent pt-1">
-                        <th:block th:if="${#lists.size(voucherList) > 0}">
-                        <li th:each="list : ${voucherList}">
-                            <a href="#" class="item">
-                                <div class="imageWrapper">
-                                    <img th:src="@{/assets/img/thumb_v.png}" alt="image" class="imaged w64">
-                                </div>
-                                <div>
-                                    <div th:text="${list.ticketName}">
-                                        <div class="text-muted" th:text="${list.grade}"></div>
-                                    </div>
-                                    <th:block th:if="${list.ticketName != '1회권'}">
-                                    <span class="badge badge-primary" th:text="|잔여시간 ${list.timeLeftHour}|"></span>
-                                    </th:block>
-                                    <span class="badge badge-danger" th:text="${list.storeName}"></span>
-                                </div>
-                            </a>
-                        </li>
-                        </th:block>
-                        <th:block th:unless="${#lists.size(voucherList) > 0}">
-                        <li>
-                            <a href="" class="item">
-                                <div class="imageWrapper">
-                                </div>
-                                <div>
-                                    <div>보유 바우처가 없습니다.</div>
-                                </div>
-                            </a>
-                        </li>
-                        </th:block>
-                    </ul>
-                </div>
-                <!-- * bookmarks -->
-                <!-- settings -->
-                <div class="tab-pane fade" id="settings" role="tabpanel">
-                    <ul class="listview image-listview text flush transparent pt-1">
-                        <li>
-                            <a class="item" th:attr="onclick=|updateMemberInfo('${info.qrCode}')|">
-                                <div class="in">
-                                    <div>회원정보수정</div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="item" th:attr="onclick=|childList()|">
-                                <div class="in">
-                                    <div>자녀정보</div>
-                                    <span class="badge badge-primary" th:text="|${#lists.size(childList)}명|"></span>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/member/passwordChange.view}" class="item">
-                                <div class="in">
-                                    <div>비밀번호수정</div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/member/privacyAgree.view}" class="item">
-                                <div class="in">
-                                    <div>개인정보수집및이용에 대한 동의</div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/member/terms.view}" class="item">
-                                <div class="in">
-                                    <div>이용약관</div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="item" th:attr="onclick=|deleteMemberInfo('${info.qrCode}','${info.cellPhone}')|">
-<!--                             <a class="item" href="javascript:alert('가입해지는 고객센터로 연락해 주시면 바로 처리해 드리겠습니다.')"> -->
-                                <div class="in">
-                                    <div class="text-danger">가입해지</div>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+        <div class="section mt-2">
+            <section class="info-container one-line">
+                <ul class="image-listview row" style="margin-left: 0px;margin-right: 0px;">
+                    <li class="col-6">
+                        <a href="#" class="item" th:attr="onclick=|updateMemberInfo('${info.qrCode}')|">
+                            회원정보 수정
+                        </a>
+                    </li>
+                    <li class="col-6">
+                        <a th:href="@{/member/passwordChange.view}" class="item">
+                            비밀번호 수정
+                        </a>
+                    </li>
+                </ul>
+            </section>
+        </div>
+
+        <div class="banner_wrap mt-2" style="height: 60px;">
+            <img src="http://kidsfactory2021.cdn3.cafe24.com/notice-banner-info.png" alt="">
+        </div>
+
+        <div class="section mt-2 full">
+            <section class="full-container full">
+                <ul class="image-listview row" style="margin-left: 0px;margin-right: 0px;">
+                    <li class="col-6">
+                        <a th:href="@{/member/privacyAgree.view}" class="item">
+                            개인정보취급방침
+                        </a>
+                    </li>
+                    <li class="col-6">
+                        <a th:href="@{/member/terms.view}" class="item">
+                            이용약관
+                        </a>
+                    </li>
+                </ul>
+            </section>
         </div>
     </div>
 </th:block>

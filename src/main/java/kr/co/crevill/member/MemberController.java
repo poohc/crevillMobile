@@ -120,27 +120,49 @@ public class MemberController {
 		memberDto.setQrCode(SessionUtil.getSessionMemberVo(request).getQrCode());
 		VoucherSaleDto voucherSaleDto = new VoucherSaleDto();
 		voucherSaleDto.setBuyCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
-		List<VoucherVo> voucherList = voucherService.getMemberVoucherList(voucherSaleDto);
+		List<VoucherVo> voucherList = voucherService.checkVoucherMember(voucherSaleDto);
 		
-		String memberGrade = "크레빌회원";
+		String memberGrade = "크레빌 회원";
 		
 		if(voucherList != null && voucherList.size() > 0) {
-//			for(VoucherVo voucher : voucherList) {
-//				if(voucher.getGrade().indexOf("VIP") > -1) {
-//					memberGrade = "VIP회원";
-//					break;
-//				}
-//			}
-			memberGrade = "바우처회원";
+			memberGrade = "바우처 회원";
 		} 
 		VoucherDto voucherDto = new VoucherDto();
 		voucherDto.setCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
 		mav.addObject("info", memberService.selectMemberInfo(memberDto));
 		mav.addObject("memberGrade", memberGrade);
+//		mav.addObject("voucherList", voucherList);
+//		mav.addObject("promotionVoucherList", voucherService.selectPromotionVoucherList(voucherDto));
+//		mav.addObject("visitList", memberService.selectVisitStoreList(memberDto));
+//		mav.addObject("childList", memberService.selectChildMemberList(memberDto));
+		return mav;
+	}
+	
+	@GetMapping("voucherList.view")
+	public ModelAndView voucherList(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("member/voucherList");
+		VoucherSaleDto voucherSaleDto = new VoucherSaleDto();
+		voucherSaleDto.setBuyCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
+		List<VoucherVo> voucherList = voucherService.selectMemberVoucherInfo(voucherSaleDto);
 		mav.addObject("voucherList", voucherList);
-		mav.addObject("promotionVoucherList", voucherService.selectPromotionVoucherList(voucherDto));
+		return mav;
+	}
+	
+	@GetMapping("visitList.view")
+	public ModelAndView visitList(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("member/visitList");
+		MemberDto memberDto = new MemberDto();
+		memberDto.setCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
 		mav.addObject("visitList", memberService.selectVisitStoreList(memberDto));
-		mav.addObject("childList", memberService.selectChildMemberList(memberDto));
+		return mav;
+	}
+	
+	@GetMapping("promotionVoucherList.view")
+	public ModelAndView promotionVoucherList(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("member/promotionVoucherList");
+		VoucherDto voucherDto = new VoucherDto();
+		voucherDto.setCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
+		mav.addObject("promotionVoucherList", voucherService.selectPromotionVoucherList(voucherDto));
 		return mav;
 	}
 	

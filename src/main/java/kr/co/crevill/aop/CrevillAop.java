@@ -125,6 +125,16 @@ public class CrevillAop {
         		if(servletMenuPath.indexOf("passwordChange.view") > -1) {
         			menu = "비밀번호 변경";
         		}
+        		
+        		if(servletMenuPath.indexOf("voucherList.view") > -1) {
+        			menu = "보유 바우처";
+        		}
+        		if(servletMenuPath.indexOf("visitList.view") > -1) {
+        			menu = "매장 방문 이력";
+        		}
+        		if(servletMenuPath.indexOf("promotionVoucherList.view") > -1) {
+        			menu = "프로모션 적용";
+        		}
         	}
         	
         	if(servletPath.indexOf("staff") > -1) {

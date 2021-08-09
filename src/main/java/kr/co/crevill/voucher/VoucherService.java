@@ -52,6 +52,14 @@ public class VoucherService {
 		return voucherMapper.selectVoucherTimeInfo(voucherDto);
 	}
 	
+	public List<VoucherVo> checkVoucherMember(VoucherSaleDto voucherSaleDto){
+		return voucherMapper.checkVoucherMember(voucherSaleDto);
+	}
+	
+	public List<VoucherVo> selectMemberVoucherInfo(VoucherSaleDto voucherSaleDto){
+		return voucherMapper.selectMemberVoucherInfo(voucherSaleDto);
+	}
+	
 	public List<VoucherVo> getMemberVoucherList(VoucherSaleDto voucherSaleDto){
 		return voucherMapper.getMemberVoucherList(voucherSaleDto);
 	}

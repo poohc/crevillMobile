@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/defaultMember(scriptName='/assets/js/crevill/memberInfoScript.js')}">
+
+<th:block layout:fragment="content">
+	 <div id="appCapsule">
+        <div class="section full mb-2">
+            <div class="section-title">쿠폰정보</div>
+            <div class="wide-block p-0">
+                <div class="table-responsive">
+                    <table class="table table-striped" style="text-align: center; font-size: 12px;">
+                        <thead>
+                            <tr>
+                                <th scope="col">발급일</th>
+                                <th scope="col">쿠폰명</th>
+                                <th scope="col">사용일</th>
+                                <th scope="col">이용지점</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+							<th:block th:if="${#lists.size(promotionVoucherList) > 0}">
+								<tr th:each="list : ${promotionVoucherList}">
+									<th scope="row" th:text="${list.voucherRegDate}"></th>
+									<td th:text="${list.ticketName}"></td>
+									<td th:text="${list.voucherUseDate}"></td>
+									<td th:text="${list.storeName}"></td>
+								</tr>
+							</th:block>
+							<th:block th:unless="${#lists.size(promotionVoucherList) > 0}">
+								<tr>
+									<td colspan="4">쿠폰정보가 없습니다.</td>
+								</tr>
+							</th:block>
+						</tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>

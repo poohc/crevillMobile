@@ -87,26 +87,23 @@
     </select>
 	
 	<select id="selectVisitStoreList" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">
-		SELECT DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') VISIT_DATE,
-		       CASE WHEN B.STORE_ID = 'MOBILE' THEN '모바일'
-		       	    ELSE (SELECT STORE_NAME FROM STORE S WHERE B.STORE_ID = S.STORE_ID)
-		       	    END AS STORE_NAME,
-		       D.TICKET_NAME,
-		       CASE WHEN C.STATUS = '04' THEN CONCAT ('+', TRUNCATE((C.USE_TIME / 60),0))
-		            ELSE CONCAT ('-', TRUNCATE((C.USE_TIME / 60),0)) END AS USE_TIME,
-		       E.NAME PLAY_NAME     
-		  FROM SCHEDULE_ENTRANCE_MEMBER A,
-		       SCHEDULE B,
-		       VOUCHER_USE C,
-		       VOUCHER D,
-		       PLAY E,
-		       RESERVATION R
-		 WHERE A.MEMBER_QR_CODE = #{qrCode} 
-		   AND A.RESERVATION_ID = R.RESERVATION_ID
-		   AND R.SCHEDULE_ID = B.SCHEDULE_ID
-		   AND C.RESERVATION_ID = R.RESERVATION_ID
-		   AND C.VOUCHER_NO = D.VOUCHER_NO 
-		   AND B.PLAY_ID = E.PLAY_ID
+		SELECT DATE_FORMAT(C.SCHEDULE_START, '%Y-%m-%d') VISIT_DATE,
+		       DATE_FORMAT(C.SCHEDULE_START, '%H:%i') VISIT_TIME,
+		       CASE WHEN D.NAME = 'SPECIAL CAMP' THEN 'SPECIAL CAMP'
+		            ELSE CASE WHEN C.TUTORING_NUMBER = 0 THEN 'CLASS'
+		                 ELSE 'TUTORING' END 
+		            END AS PLAY_TYPE,
+		       CASE WHEN B.SEM_ID IS NULL THEN 'NO SHOW'
+		            ELSE '방문완료' END AS VISIT_RESULT,
+		       C.SUB_TOPIC,
+		       A.CHILD_NAME 
+		  FROM RESERVATION A LEFT JOIN SCHEDULE_ENTRANCE_MEMBER B
+		                            ON A.RESERVATION_ID = B.RESERVATION_ID, 
+		       SCHEDULE C,
+		       PLAY D
+		 WHERE A.CELL_PHONE = #{cellPhone} 
+		   AND A.SCHEDULE_ID = C.SCHEDULE_ID 
+		   AND C.PLAY_ID = D.PLAY_ID
 	</select>
 	
 	<select id="selectVisitStoreSummary" parameterType="kr.co.crevill.member.MemberDto" resultType="kr.co.crevill.member.MemberVo">

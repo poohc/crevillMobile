@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="layout/defaultMember">
+
+<th:block layout:fragment="content">
+    <div id="appCapsule">
+        <div class="section full mt-1">
+            <div class="section full mt-0">
+                <div class="wide-block">
+                    <div class="timeline timed">
+                        <div class="item" th:each="list : ${visitList}">
+                            <span class="time" style="font-size:15px; color:#3B3F59; font-weight: bold;" th:text="${list.visitDate}"></span>
+                            <th:block th:if="${list.visitResult == 'NO SHOW'}">
+                           	<div class="dot bg-danger"></div>
+                            </th:block>
+                            <th:block th:unless="${list.visitResult == 'NO SHOW'}">
+                           	<div class="dot bg-primary"></div>
+                            </th:block>
+                            <div class="content">
+                                <h4 class="title">
+                                	<span th:text="${list.visitTime}"></span>&nbsp;&nbsp;
+                                	<span th:text="${list.playType}"></span>
+                                	<span class="badge badge-primary mr-1 f-r" th:text="${list.visitResult}"></span>
+                                </h4>
+                                <div class="text" style="color:slategray" th:text="${list.subTopic}"></div>
+                                <div class="text" style="color:slategray; font-weight: 800;" th:text="${list.childName}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>

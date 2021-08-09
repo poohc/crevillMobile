@@ -104,6 +104,33 @@
 		   AND VOUCHER_NO = B.VOUCHER_NO
 	</select>
 	
+	<select id="checkVoucherMember" parameterType="kr.co.crevill.voucher.VoucherSaleDto" resultType="kr.co.crevill.voucher.VoucherVo">
+		SELECT B.TICKET_NAME
+		  FROM VOUCHER_SALE A,
+		       VOUCHER B
+		 WHERE A.BUY_CELL_PHONE = #{buyCellPhone}
+		   AND B.TICKET_NAME != '1회권'
+		   AND B.STATUS = '12'
+		   AND A.VOUCHER_NO = B.VOUCHER_NO 
+	</select>
+	
+	<select id="selectMemberVoucherInfo" parameterType="kr.co.crevill.voucher.VoucherSaleDto" resultType="kr.co.crevill.voucher.VoucherVo">
+		SELECT B.TICKET_NAME,
+		       C.TIME_LEFT_HOUR,
+		       (SELECT SUBSTRING_INDEX(S.STORE_NAME, ' ', - 1) FROM STORE S WHERE S.STORE_ID = A.STORE_ID ) STORE_NAME,
+		       DATE_FORMAT(A.REG_DATE, '%Y-%m-%d') VOUCHER_SALE_DATE,
+		       DATE_FORMAT(B.END_DATE, '%Y-%m-%d') VOUCHER_END_DATE
+		  FROM VOUCHER_SALE A,
+		       VOUCHER B,
+		       VOUCHER_USE_VIEW C
+		 WHERE A.BUY_CELL_PHONE = #{buyCellPhone}
+		   AND B.TICKET_NAME != '1회권'
+		   AND B.STATUS = '12'
+		   AND C.TIME_LEFT_HOUR  <![CDATA[ > ]]> 0
+		   AND A.VOUCHER_NO = B.VOUCHER_NO 
+		   AND B.VOUCHER_NO = C.VOUCHER_NO
+	</select>
+	
 	<select id="getMemberVoucherList" parameterType="kr.co.crevill.voucher.VoucherSaleDto" resultType="kr.co.crevill.voucher.VoucherVo">
 		SELECT A.VOUCHER_NO,
 			   A.TICKET_NAME, 	

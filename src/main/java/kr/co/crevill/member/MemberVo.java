@@ -36,4 +36,8 @@ public class MemberVo {
 	private String useTime;
 	private String playName;
 	private String memberType;
+	private String visitTime;
+	private String playType;
+	private String visitResult;
+	private String subTopic;
 }
