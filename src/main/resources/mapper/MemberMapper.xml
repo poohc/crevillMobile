@@ -102,7 +102,9 @@
 		       SCHEDULE C,
 		       PLAY D
 		 WHERE A.CELL_PHONE = #{cellPhone} 
-		   AND A.SCHEDULE_ID = C.SCHEDULE_ID 
+		   AND A.STATUS IN ('02','04')
+		   AND A.SCHEDULE_ID = C.SCHEDULE_ID
+		   AND C.SCHEDULE_START <![CDATA[ <= ]]> NOW() 
 		   AND C.PLAY_ID = D.PLAY_ID
 	</select>
 	

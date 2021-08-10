@@ -120,7 +120,7 @@ public class MemberController {
 		memberDto.setQrCode(SessionUtil.getSessionMemberVo(request).getQrCode());
 		VoucherSaleDto voucherSaleDto = new VoucherSaleDto();
 		voucherSaleDto.setBuyCellPhone(SessionUtil.getSessionMemberVo(request).getCellPhone());
-		List<VoucherVo> voucherList = voucherService.checkVoucherMember(voucherSaleDto);
+		List<VoucherVo> voucherList = voucherService.getMemberVoucherList(voucherSaleDto);
 		
 		String memberGrade = "크레빌 회원";
 		

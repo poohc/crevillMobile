@@ -145,11 +145,20 @@
                         </button>
                     </div>
                     <div class="col-6" style="align-content: center;">
-                        <button type="button" class="btn btn-success" onclick="location.href ='reservation/regist.view'"
+                    	<th:block th:if="${session.memberVo != null && session.memberVo.memberType == '바우처'}">
+                    	<button type="button" class="btn btn-success" onclick="location.href ='reservation/regist.view'"
                             style="width: 100%; height:75px;">
                             <ion-icon name="ticket-outline"></ion-icon>
                             바우처 이용 예약
                         </button>
+                        </th:block>
+                        <th:block th:unless="${session.memberVo != null && session.memberVo.memberType == '바우처'}">
+                        <button type="button" class="btn btn-success" onclick="javascript:alert('바우처 회원만 이용가능합니다.')"
+                            style="width: 100%; height:75px;">
+                            <ion-icon name="ticket-outline"></ion-icon>
+                            바우처 이용 예약
+                        </button>
+                        </th:block>
                     </div>
                 </div>
             </div>

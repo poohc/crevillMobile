@@ -121,9 +121,13 @@ public class ReservationService {
 			return result;
 		}
 		
-		//스케쥴에 잡힌 시간보다 바우처 남은 시간이 부족할 경우 전체 실패로 처리, BUT BASIC권은 예외사항
-		ReservationVo reservationVo = reservationMapper.checkVoucherYn(nReservationDto);
-		if(reservationVo != null && "N".equals(reservationVo.getVoucherYn())) {
+		//바우처 남은 시간 체크 프로세스 수정
+		ReservationVo reservationVo = reservationMapper.getScheduleTimeAndVoucherTime(nReservationDto);
+		int scheduleTime = Integer.parseInt(reservationVo.getScheduleTime());
+		int voucherTime = Integer.parseInt(reservationVo.getVoucherTime());
+		scheduleTime = scheduleTime * totalCnt;
+		
+		if(scheduleTime > voucherTime) {
 			result.put("resultMsg", MSG_LESS_TIME_LEFT_VOUCHER);
 			return result;
 		}

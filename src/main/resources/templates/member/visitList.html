@@ -9,6 +9,7 @@
             <div class="section full mt-0">
                 <div class="wide-block">
                     <div class="timeline timed">
+                    	<th:block th:if="${#lists.size(visitList) > 0}">
                         <div class="item" th:each="list : ${visitList}">
                             <span class="time" style="font-size:15px; color:#3B3F59; font-weight: bold;" th:text="${list.visitDate}"></span>
                             <th:block th:if="${list.visitResult == 'NO SHOW'}">
@@ -27,6 +28,10 @@
                                 <div class="text" style="color:slategray; font-weight: 800;" th:text="${list.childName}"></div>
                             </div>
                         </div>
+                        </th:block>
+                        <th:block th:unless="${#lists.size(visitList) > 0}">
+                        	매장방문 이력이 없습니다.
+                        </th:block>
                     </div>
                 </div>
             </div>
