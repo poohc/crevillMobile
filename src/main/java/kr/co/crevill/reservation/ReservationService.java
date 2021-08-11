@@ -121,15 +121,19 @@ public class ReservationService {
 			return result;
 		}
 		
-		//바우처 남은 시간 체크 프로세스 수정
-		ReservationVo reservationVo = reservationMapper.getScheduleTimeAndVoucherTime(nReservationDto);
-		int scheduleTime = Integer.parseInt(reservationVo.getScheduleTime());
-		int voucherTime = Integer.parseInt(reservationVo.getVoucherTime());
-		scheduleTime = scheduleTime * totalCnt;
+		ReservationVo reservationVo;
 		
-		if(scheduleTime > voucherTime) {
-			result.put("resultMsg", MSG_LESS_TIME_LEFT_VOUCHER);
-			return result;
+		if(reservationDto.getExperienceClass() == null) {
+			//바우처 남은 시간 체크 프로세스 수정
+			reservationVo = reservationMapper.getScheduleTimeAndVoucherTime(nReservationDto);
+			int scheduleTime = Integer.parseInt(reservationVo.getScheduleTime());
+			int voucherTime = Integer.parseInt(reservationVo.getVoucherTime());
+			scheduleTime = scheduleTime * totalCnt;
+			
+			if(scheduleTime > voucherTime) {
+				result.put("resultMsg", MSG_LESS_TIME_LEFT_VOUCHER);
+				return result;
+			}
 		}
 		
 		//아이이름 X 스케쥴ID 개수만큼 FOR 문 돌면서 처리
