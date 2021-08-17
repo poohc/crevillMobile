@@ -142,6 +142,7 @@
 				 WHERE A.SCHEDULE_ID = #{scheduleId}
 				   AND A.STATUS = '02'
 				   AND A.SCHEDULE_ID  = B.SCHEDULE_ID
+				   AND A.TUTORING_YN = 'N'
 				GROUP BY B.NUMBER_OF_PEOPLE
 		       ) SUB
 	</select>
