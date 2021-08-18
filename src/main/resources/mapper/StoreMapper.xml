@@ -70,10 +70,10 @@
            AND ADDRESS LIKE '서울%'
            </if>
            <if test="location != null and location == 'KYUNGKI'.toString()">
-           AND ADDRESS LIKE '경기%'
+           AND (ADDRESS LIKE '경기%' OR ADDRESS LIKE '인천%')
            </if>
            <if test="location != null and location == 'NAMBU'.toString()">
-           AND (ADDRESS NOT LIKE '서울%' AND ADDRESS NOT LIKE '경기%')
+           AND (ADDRESS NOT LIKE '서울%' AND ADDRESS NOT LIKE '경기%' AND ADDRESS NOT LIKE '인천%')
            </if>
            <if test="storeName != null">
            AND STORE_NAME LIKE CONCAT('%',#{storeName},'%')
