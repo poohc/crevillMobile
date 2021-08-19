@@ -6,8 +6,9 @@
 <th:block layout:fragment="content">
 	<div id="appCapsule" class="extra-header-active">
 		<input type="hidden" id="storeId" name="storeId" th:value="${storeId}">
+		<input type="hidden" id="tab" name="tab" th:value="${tab}">
         <div class="tab-content mt-1">
-            <div class="tab-pane fade show active" id="thismonth" role="tabpanel">
+            <div class="tab-pane fade show" id="thismonth" role="tabpanel">
                 <div class="banner_wrap" style="height: 60px;">
                     <img th:src="@{/common/getImage(imageIdx=${storeInfo.registrationCertificateIdx})}" alt="">
                 </div>

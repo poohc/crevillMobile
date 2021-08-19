@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +82,7 @@ public class ProgramController {
 		mav.addObject("storeInfo", storeInfo);
 		mav.addObject("thisMonth", LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM")));
 		mav.addObject("nextMonth", LocalDateTime.now().plusMonths(1).format(DateTimeFormatter.ofPattern("MM")));
+		mav.addObject("tab", StringUtils.defaultIfEmpty(programDto.getTab(), "thisMonth"));
 		return mav;
 	}
 	

@@ -18,4 +18,5 @@ public class ProgramDto {
 	private List<String> playNameListNext;
 	private String programName;
 	private String month;
+	private String tab;
 }
