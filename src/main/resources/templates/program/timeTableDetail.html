@@ -46,7 +46,7 @@
 	                    	<span class="badge badge-danger" th:text="${titleList.dayoftheweek}"></span>
 	                    </div>
 	                    <th:block th:each="list : ${list}" th:if="${titleList.viewDay == list.viewDay}">
-	                    <div class="wide-block">
+	                    <div class="wide-block" style="border-bottom:0px solid; border-top:0px solid;">
 	                        <div class="timeline timed">
 	                            <div class="item">
 	                                <span class="time" style="font-size:15px; color:#3B3F59; font-weight: bold;" th:text="${list.time}"></span>
@@ -66,7 +66,7 @@
             </div>
             <div class="tab-pane fade" id="nextmonth" role="tabpanel">
                 <div class="banner_wrap" style="height: 60px;">
-                    <img th:src="@{/common/getImage(imageIdx=${storeInfo.registrationCertificateIdx})}" alt="">
+                    <img th:src="@{/common/getImage(imageIdx=${storeInfo.playgroundCertificateIdx})}" alt="">
                 </div>
                 <div class="section mt-1 pb-1 border bg-white">
                     <div class="section-title">PLAY 종류</div>
@@ -131,7 +131,7 @@
                 </div>
                 <div class="banner_wrap mt-4" >
                     <div class="section-title" style="margin-left:16px;" th:text="|${nextMonth}월|"></div>
-                    <img th:src="@{/common/getImage(imageIdx=${storeInfo.etcFile1Idx})}" alt="">
+                    <img th:src="@{/common/getImage(imageIdx=${storeInfo.etcFile4Idx})}" alt="">
                 </div>
             </div>
         </div>
