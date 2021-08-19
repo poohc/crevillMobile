@@ -20,6 +20,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.crevill.common.MenuDto;
 import kr.co.crevill.common.SessionUtil;
+import kr.co.crevill.store.StoreDto;
+import kr.co.crevill.store.StoreService;
+import kr.co.crevill.store.StoreVo;
 import kr.co.crevill.voucher.VoucherDto;
 import kr.co.crevill.voucher.VoucherService;
 
@@ -34,6 +37,9 @@ public class CrevillAop {
 	
 	@Autowired
 	private VoucherService voucherService;
+	
+	@Autowired
+	private StoreService storeService;
 	
 	@Around("execution(* kr.co.crevill..*Controller.*(..))")
     public Object Around(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -71,7 +77,7 @@ public class CrevillAop {
 												  "/mobile/storeProgram/list.view", "/mobile/storeProgram/info.view", "/mobile/promotion/list.view",
 												  "/mobile/play/playList.view", "/mobile/login/smsAuth.view", "/mobile/login/getAuthNum.proc",
 												  "/mobile/login/checkAuthNum.proc", "/mobile/member/welcome.view", "/mobile/promotion/event.view",
-												  "/mobile/branches/noticeList.view", "/mobile/branches/noticeInfo.view")) {
+												  "/mobile/branches/noticeList.view", "/mobile/branches/noticeInfo.view", "/mobile/program/getTimeTableList.proc")) {
 				logger.info("여기로 오면 안되는데?");
 				ModelAndView mav = new ModelAndView();
 				mav.setViewName("redirect:/login/login.view");
@@ -156,16 +162,16 @@ public class CrevillAop {
         	if(servletPath.indexOf("reservation") > -1) {
         		menuDto.setUpperMenu("예약업무");
         		if(servletMenuPath.indexOf("list.view") > -1) {
-        			menu = "예약리스트";
+        			menu = "예약내역";
         		}
         		if(servletMenuPath.indexOf("todayList.view") > -1) {
         			menu = "당일예약조회";
         		}
         		if(servletMenuPath.indexOf("regist.view") > -1) {
-        			menu = "예약등록";
+        			menu = "바우처 이용 예약";
         		}
         		if(servletMenuPath.indexOf("shortRegist.view") > -1) {
-        			menu = "1회권 예약";
+        			menu = "1회권 예약(후불)";
         		}
         		if(servletMenuPath.indexOf("free.view") > -1) {
         			menu = "체험수업";
@@ -223,7 +229,10 @@ public class CrevillAop {
         			menu = "프로그램 시간표";
         		}
         		if(servletMenuPath.indexOf("timeTableDetail.view") > -1) {
-        			menu = "매장 시간표";
+        			StoreDto storeDto = new StoreDto();
+        			storeDto.setStoreId(request.getParameter("storeId"));;
+        			StoreVo storeInfo = storeService.selectStoreInfo(storeDto);
+        			menu = storeInfo.getStoreNameShort() + " 시간표";
         		}
         	}
         	

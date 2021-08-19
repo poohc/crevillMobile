@@ -1,43 +1,140 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/defaultCommon}">
+	  layout:decorate="~{layout/defaultTimeTable(scriptName='/assets/js/crevill/timeTableScript.js')}">
 
 <th:block layout:fragment="content">
-	<div id="appCapsule">
-        <div class="section full mt-2 mb-2">
-            <!-- <div class="section-title" th:text="|${currentYear}년 ${currentMonth}월|"></div> -->
-            <!-- <div class="section-title" >2021년 7월</div> -->
-            <div class="wide-block pt-2 pb-2">
-                <div class="mb-1">
-                	<th:block th:if="${info.etcFile1Idx != null}">
-                	<img th:src="@{/common/getImage(imageIdx=${info.etcFile2Idx})}" class="imaged img-fluid" alt="스케쥴 이미지">
+	<div id="appCapsule" class="extra-header-active">
+		<input type="hidden" id="storeId" name="storeId" th:value="${storeId}">
+        <div class="tab-content mt-1">
+            <div class="tab-pane fade show active" id="thismonth" role="tabpanel">
+                <div class="banner_wrap" style="height: 60px;">
+                    <img th:src="@{/common/getImage(imageIdx=${storeInfo.registrationCertificateIdx})}" alt="">
+                </div>
+                <div class="section mt-1 pb-1 border bg-white">
+                    <div class="section-title">PLAY 종류</div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="artCheck" name="playCheckBoxThisMonth" value="ART" th:checked="${#strings.contains(playNameList, 'ART')}">
+                        <label class="form-check-label" for="artCheck">ART</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="boardCheck" name="playCheckBoxThisMonth" value="BOARD" th:checked="${#strings.contains(playNameList,'BOARD')}">
+                        <label class="form-check-label" for="boardCheck">BOARD</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="eicCheck" name="playCheckBoxThisMonth" value="EIC" th:checked="${#strings.contains(playNameList,'EIC')}">
+                        <label class="form-check-label" for="eicCheck">EIC</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="gymCheck" name="playCheckBoxThisMonth" value="GYM" th:checked="${#strings.contains(playNameList,'GYM')}">
+                        <label class="form-check-label" for="gymCheck">GYM</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="storyCheck" name="playCheckBoxThisMonth" value="STORYTELLING" th:checked="${#strings.contains(playNameList,'STORYTELLING')}">
+                        <label class="form-check-label" for="storyCheck">STORYTELLING</label>
+                    </div>
+                </div>
+                <div class="section full mt-1">
+                	<th:block th:if="${titleList.empty}">
+                	<div class="section-title">해당월에 스케쥴이 등록되어 있지 않습니다.</div>
                 	</th:block>
-                	<th:block th:unless="${info.etcFile1Idx != null}">
-                	등록된 매장시간표가 없습니다.
+                	<th:block th:unless="${titleList.empty}">
+                	<div class="section full mt-0">
+                		<th:block th:each="titleList : ${titleList}">
+	                    <div class="section-title">
+	                    	<span th:text="${titleList.viewDay}"></span>
+	                    	<span class="badge badge-danger" th:text="${titleList.dayoftheweek}"></span>
+	                    </div>
+	                    <th:block th:each="list : ${list}" th:if="${titleList.viewDay == list.viewDay}">
+	                    <div class="wide-block">
+	                        <div class="timeline timed">
+	                            <div class="item">
+	                                <span class="time" style="font-size:15px; color:#3B3F59; font-weight: bold;" th:text="${list.time}"></span>
+	                                <div class="dot bg-info"></div>
+	                                <div class="content">
+	                                    <h4 class="title" th:text="|${list.playName}&nbsp;&nbsp;|"></h4>
+	                                    <div class="text" style="color:slategray" th:text="${list.programName}"></div>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    </th:block>
+	                    </th:block>
+	                </div>
                 	</th:block>
                 </div>
-                <div class="mb-1">
-                	<th:block th:if="${info.etcFile1Idx != null}">
-                	<img th:src="@{/common/getImage(imageIdx=${info.etcFile3Idx})}" class="imaged img-fluid" alt="스케쥴 이미지">
-                	</th:block>
-                	<th:block th:unless="${info.etcFile1Idx != null}">
-                	등록된 매장시간표가 없습니다.
-                	</th:block>
+            </div>
+            <div class="tab-pane fade" id="nextmonth" role="tabpanel">
+                <div class="banner_wrap" style="height: 60px;">
+                    <img th:src="@{/common/getImage(imageIdx=${storeInfo.registrationCertificateIdx})}" alt="">
                 </div>
-                <div class="mb-1">
-                    <br>
-                    <h3 style="margin-bottom:10px;">스페셜캠프</h3>
-                	<th:block th:if="${info.etcFile1Idx != null}">
-                	<img th:src="@{/common/getImage(imageIdx=${info.etcFile4Idx})}" class="imaged img-fluid" alt="스케쥴 이미지">
-                	</th:block>
-                	<th:block th:unless="${info.etcFile1Idx != null}">
-                	등록된 매장시간표가 없습니다.
-                	</th:block>
+                <div class="section mt-1 pb-1 border bg-white">
+                    <div class="section-title">PLAY 종류</div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="artCheck" name="playCheckBoxNextMonth" value="ART" th:checked="${#strings.contains(playNameListNext,'ART')}">
+                        <label class="form-check-label" for="artCheck">ART</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="boardCheck" name="playCheckBoxNextMonth" value="BOARD" th:checked="${#strings.contains(playNameListNext,'BOARD')}">
+                        <label class="form-check-label" for="boardCheck">BOARD</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="eicCheck" name="playCheckBoxNextMonth" value="EIC" th:checked="${#strings.contains(playNameListNext,'EIC')}">
+                        <label class="form-check-label" for="eicCheck">EIC</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="gymCheck" name="playCheckBoxNextMonth" value="GYM" th:checked="${#strings.contains(playNameListNext,'GYM')}">
+                        <label class="form-check-label" for="gymCheck">GYM</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="storyCheck" name="playCheckBoxNextMonth" value="STORYTELLING" th:checked="${#strings.contains(playNameListNext,'STORYTELLING')}">
+                        <label class="form-check-label" for="storyCheck">STORYTELLING</label>
+                    </div>
+                </div>
+                <div class="section full mt-1">
+                    <div class="section full mt-1">
+                        <th:block th:if="${titleListNext.empty}">
+	                	<div class="section-title">해당월에 스케쥴이 등록되어 있지 않습니다.</div>
+	                	</th:block>
+	                	 <th:block th:unless="${titleListNext.empty}">
+	                	<div class="section full mt-0">
+	                		<th:block th:each="titleListNext : ${titleListNext}">
+		                    <div class="section-title">
+		                    	<span th:text="${titleListNext.viewDay}"></span>
+		                    	<span class="badge badge-danger" th:text="${titleListNext.dayoftheweek}"></span>
+		                    </div>
+		                    <th:block th:each="listNext : ${listNext}" th:if="${titleListNext.viewDay == listNext.viewDay}">
+		                    <div class="wide-block">
+		                        <div class="timeline timed">
+		                            <div class="item">
+		                                <span class="time" style="font-size:15px; color:#3B3F59; font-weight: bold;" th:text="${listNext.time}"></span>
+		                                <div class="dot bg-info"></div>
+		                                <div class="content">
+		                                    <h4 class="title" th:text="|${listNext.playName}&nbsp;&nbsp;|"></h4>
+		                                    <div class="text" style="color:slategray" th:text="${listNext.programName}"></div>
+		                                </div>
+		                            </div>
+		                        </div>
+		                    </div>
+		                    </th:block>
+		                    </th:block>
+		                </div>
+	                	</th:block>
+                    </div>
+                </div>
+
+            </div>
+            <div class="tab-pane fade" id="specialcamp" role="tabpanel">
+                <div class="banner_wrap mt-2" >
+                    <div class="section-title" style="margin-left:16px;" th:text="|${thisMonth}월|"></div>
+                    <img th:src="@{/common/getImage(imageIdx=${storeInfo.insuranceCertificateIdx})}" alt="">
+                </div>
+                <div class="banner_wrap mt-4" >
+                    <div class="section-title" style="margin-left:16px;" th:text="|${nextMonth}월|"></div>
+                    <img th:src="@{/common/getImage(imageIdx=${storeInfo.etcFile1Idx})}" alt="">
                 </div>
             </div>
         </div>
     </div>
-	<!-- * App Capsule -->
 </th:block>
 </html>

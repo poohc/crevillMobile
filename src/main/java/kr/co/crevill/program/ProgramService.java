@@ -7,28 +7,23 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import kr.co.crevill.common.CommonMapper;
-
 @Service
 public class ProgramService {
-
-	@Autowired
-	private CommonMapper commonMapper;
 	
 	@Autowired
-	private ProgramMapper playMapper;
+	private ProgramMapper programMapper;
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	public int selectPlayCount(ProgramDto playDto) {
-		return playMapper.selectPlayCount(playDto);
+	public int selectTimeListCount(ProgramDto programDto) {
+		return programMapper.selectTimeListCount(programDto);
 	}
 	
-	public List<ProgramVo> selectPlayList(ProgramDto playDto){
-		return playMapper.selectPlayList(playDto);
+	public List<ProgramVo> selectTimeTitleList(ProgramDto programDto){
+		return programMapper.selectTimeTitleList(programDto);
 	}
 	
-	public ProgramVo selectPlayInfo(ProgramDto playDto) {
-		return playMapper.selectPlayInfo(playDto);
+	public List<ProgramVo> selectTimeList(ProgramDto programDto){
+		return programMapper.selectTimeList(programDto);
 	}
 }

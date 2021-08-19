@@ -1,16 +1,21 @@
 package kr.co.crevill.program;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter @Setter @ToString
 public class ProgramDto {
-	private String programId;
 	private String storeId;
-	private String storeName;
-	private String regId;
-	private String regDate;
-	private String updId;
-	private String updDate;
+	private String searchMonth;
+	private String day;
+	private String time;
+	private String dayoftheweek;
+	private String playName;
+	private List<String> playNameList;
+	private List<String> playNameListNext;
+	private String programName;
+	private String month;
 }

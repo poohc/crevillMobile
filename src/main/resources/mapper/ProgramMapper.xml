@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.crevill.program.ProgramMapper">
+	
+	<select id="selectTimeListCount" parameterType="kr.co.crevill.program.ProgramDto" resultType="Integer">
+        SELECT COUNT(*)
+          FROM TIME_LIST
+        <where> 
+           <if test="searchMonth != null and searchMonth == 'thisMonth'.toString()">
+           AND DAY BETWEEN DATE_FORMAT(CONCAT(DATE_FORMAT(NOW(),'%Y%m'),'01'), '%Y%m%d') 
+                       AND LAST_DAY(DATE_FORMAT(NOW(),'%Y%m%d'))
+           </if>
+           <if test="searchMonth != null and searchMonth == 'nextMonth'.toString()">
+           AND DAY BETWEEN DATE_FORMAT(CONCAT(DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 MONTH),'%Y%m'),'01'), '%Y%m%d')
+                       AND LAST_DAY(DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 MONTH),'%Y%m%d'))
+           </if>
+           <if test="storeId != null and storeId != 'CST00001'.toString()">
+           AND STORE_ID = #{storeId}
+           </if>
+            <if test="playName != null and playName != ''">
+           AND PLAY_NANE = #{playName}
+           </if>
+        </where> 
+    </select>
+	
+	<select id="selectTimeTitleList" parameterType="kr.co.crevill.program.ProgramDto" resultType="kr.co.crevill.program.ProgramVo">
+		SELECT DAY,
+		 	   DATE_FORMAT(DAY, '%m월%d일') VIEW_DAY,
+  		       DAYOFTHEWEEK 
+          FROM TIME_LIST
+        <where> 
+           <if test="searchMonth != null and searchMonth == 'thisMonth'.toString()">
+           AND DAY BETWEEN DATE_FORMAT(CONCAT(DATE_FORMAT(NOW(),'%Y%m'),'01'), '%Y%m%d') 
+                       AND LAST_DAY(DATE_FORMAT(NOW(),'%Y%m%d'))
+           </if>
+           <if test="searchMonth != null and searchMonth == 'nextMonth'.toString()">
+           AND DAY BETWEEN DATE_FORMAT(CONCAT(DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 MONTH),'%Y%m'),'01'), '%Y%m%d')
+                       AND LAST_DAY(DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 MONTH),'%Y%m%d'))
+           </if>
+           <if test="storeId != null and storeId != 'CST00001'.toString()">
+           AND STORE_ID = #{storeId}
+           </if>
+            <if test="playNameList != null and playNameList != ''">
+           AND PLAY_NAME IN 
+	           <foreach collection="playNameList" item="playNameList" separator="," open="(" close=")">
+			   	   #{playNameList}
+			   </foreach>
+           </if>
+        </where>
+      GROUP BY DAY    
+	</select>
+	
+    <select id="selectTimeList" parameterType="kr.co.crevill.program.ProgramDto" resultType="kr.co.crevill.program.ProgramVo">
+        SELECT STORE_ID,
+			   DAY,
+			   DATE_FORMAT(DAY, '%m월%d일') VIEW_DAY,
+			   TIME,
+			   DAYOFTHEWEEK,
+			   PLAY_NAME,
+			   PROGRAM_NAME,
+			   MONTH
+          FROM TIME_LIST
+        <where> 
+           <if test="searchMonth != null and searchMonth == 'thisMonth'.toString()">
+           AND DAY BETWEEN DATE_FORMAT(CONCAT(DATE_FORMAT(NOW(),'%Y%m'),'01'), '%Y%m%d') 
+                       AND LAST_DAY(DATE_FORMAT(NOW(),'%Y%m%d'))
+           </if>
+           <if test="searchMonth != null and searchMonth == 'nextMonth'.toString()">
+           AND DAY BETWEEN DATE_FORMAT(CONCAT(DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 MONTH),'%Y%m'),'01'), '%Y%m%d')
+                       AND LAST_DAY(DATE_FORMAT(DATE_ADD(NOW(), INTERVAL 1 MONTH),'%Y%m%d'))
+           </if>
+           <if test="storeId != null and storeId != 'CST00001'.toString()">
+           AND STORE_ID = #{storeId}
+           </if>
+           <if test="playNameList != null and playNameList != ''">
+           AND PLAY_NAME IN 
+	           <foreach collection="playNameList" item="playNameList" separator="," open="(" close=")">
+			   	   #{playNameList}
+			   </foreach>
+           </if>    
+           <if test="playNameListNext != null and playNameListNext != ''">
+           AND PLAY_NAME IN 
+	           <foreach collection="playNameListNext" item="playNameListNext" separator="," open="(" close=")">
+			   	   #{playNameListNext}
+			   </foreach>
+           </if>   
+        </where>
+    </select>
+	
+</mapper>

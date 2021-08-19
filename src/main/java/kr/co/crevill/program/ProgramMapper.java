@@ -8,10 +8,7 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface ProgramMapper {
-	public int selectPlayCount(ProgramDto playDto);
-	public List<ProgramVo> selectPlayList(ProgramDto playDto);
-	public ProgramVo selectPlayInfo(ProgramDto playDto);
-	public int insertPlay(ProgramDto playDto);
-	public int updatePlay(ProgramDto playDto);
-	public int deletePlay(ProgramDto playDto);
+	public int selectTimeListCount(ProgramDto programDto);
+	public List<ProgramVo> selectTimeTitleList(ProgramDto programDto);	
+	public List<ProgramVo> selectTimeList(ProgramDto programDto);	
 }
