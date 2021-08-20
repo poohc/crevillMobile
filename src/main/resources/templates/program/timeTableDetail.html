@@ -9,12 +9,12 @@
 		<input type="hidden" id="tab" name="tab" th:value="${tab}">
         <div class="tab-content mt-1">
             <div class="tab-pane fade show" id="thismonth" role="tabpanel">
-                <div class="banner_wrap" style="height: 60px;">
+                <div class="banner_wrap" style="height: 50px; margin-top:60px;">
                     <img th:src="@{/common/getImage(imageIdx=${storeInfo.registrationCertificateIdx})}" alt="">
                 </div>
                 <div class="section mt-1 pb-1 border bg-white">
-                    <div class="section-title">PLAY 종류</div>
-                    <div class="form-check form-check-inline">
+                    <div class="section-title">PLAY 일정별 검색 기능 업데이트 예정</div>
+                    <!--<div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox" id="artCheck" name="playCheckBoxThisMonth" value="ART" th:checked="${#strings.contains(playNameList, 'ART')}">
                         <label class="form-check-label" for="artCheck">ART</label>
                     </div>
@@ -33,7 +33,7 @@
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox" id="storyCheck" name="playCheckBoxThisMonth" value="STORYTELLING" th:checked="${#strings.contains(playNameList,'STORYTELLING')}">
                         <label class="form-check-label" for="storyCheck">STORYTELLING</label>
-                    </div>
+                    </div>-->
                 </div>
                 <div class="section full mt-1">
                 	<th:block th:if="${titleList.empty}">
@@ -42,15 +42,15 @@
                 	<th:block th:unless="${titleList.empty}">
                 	<div class="section full mt-0">
                 		<th:block th:each="titleList : ${titleList}">
-	                    <div class="section-title">
+	                    <div class="section-title" style="background:#b1a8a5;">
 	                    	<span th:text="${titleList.viewDay}"></span>
-	                    	<span class="badge badge-danger" th:text="${titleList.dayoftheweek}"></span>
+	                    	<span class="badge badge-success" th:text="${titleList.dayoftheweek}"></span>
 	                    </div>
 	                    <th:block th:each="list : ${list}" th:if="${titleList.viewDay == list.viewDay}">
-	                    <div class="wide-block" style="border-bottom:0px solid; border-top:0px solid;">
+	                    <div class="wide-block" style="border-bottom:0px solid; border-top:0px solid;"> 
 	                        <div class="timeline timed">
 	                            <div class="item">
-	                                <span class="time" style="font-size:15px; color:#3B3F59; font-weight: bold;" th:text="${list.time}"></span>
+	                                <span class="time" style="font-size:15px; font-weight: bold; justify-content: center;" th:text="${list.time}"></span>
 	                                <div class="dot bg-info"></div>
 	                                <div class="content">
 	                                    <h4 class="title" th:text="|${list.playName}&nbsp;&nbsp;|"></h4>
@@ -66,12 +66,12 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="nextmonth" role="tabpanel">
-                <div class="banner_wrap" style="height: 60px;">
+                <div class="banner_wrap" style="height: 50px; margin-top:60px;">
                     <img th:src="@{/common/getImage(imageIdx=${storeInfo.playgroundCertificateIdx})}" alt="">
                 </div>
                 <div class="section mt-1 pb-1 border bg-white">
-                    <div class="section-title">PLAY 종류</div>
-                    <div class="form-check form-check-inline">
+                    <div class="section-title">PLAY 일정별 검색 기능 업데이트 예정</div>
+                    <!--<div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox" id="artCheck" name="playCheckBoxNextMonth" value="ART" th:checked="${#strings.contains(playNameListNext,'ART')}">
                         <label class="form-check-label" for="artCheck">ART</label>
                     </div>
@@ -90,7 +90,7 @@
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox" id="storyCheck" name="playCheckBoxNextMonth" value="STORYTELLING" th:checked="${#strings.contains(playNameListNext,'STORYTELLING')}">
                         <label class="form-check-label" for="storyCheck">STORYTELLING</label>
-                    </div>
+                    </div>-->
                 </div>
                 <div class="section full mt-1">
                     <div class="section full mt-1">
@@ -100,15 +100,15 @@
 	                	 <th:block th:unless="${titleListNext.empty}">
 	                	<div class="section full mt-0">
 	                		<th:block th:each="titleListNext : ${titleListNext}">
-		                    <div class="section-title">
+		                    <div class="section-title" style="background:#b1a8a5;">
 		                    	<span th:text="${titleListNext.viewDay}"></span>
-		                    	<span class="badge badge-danger" th:text="${titleListNext.dayoftheweek}"></span>
+		                    	<span class="badge badge-success" th:text="${titleListNext.dayoftheweek}"></span>
 		                    </div>
 		                    <th:block th:each="listNext : ${listNext}" th:if="${titleListNext.viewDay == listNext.viewDay}">
-		                    <div class="wide-block">
+		                    <div class="wide-block" style="border-bottom:0px solid; border-top:0px solid;">
 		                        <div class="timeline timed">
 		                            <div class="item">
-		                                <span class="time" style="font-size:15px; color:#3B3F59; font-weight: bold;" th:text="${listNext.time}"></span>
+		                                <span class="time" style="font-size:15px; font-weight: bold;" th:text="${listNext.time}"></span>
 		                                <div class="dot bg-info"></div>
 		                                <div class="content">
 		                                    <h4 class="title" th:text="|${listNext.playName}&nbsp;&nbsp;|"></h4>
@@ -127,9 +127,10 @@
             </div>
             <div class="tab-pane fade" id="specialcamp" role="tabpanel">
                 <div class="banner_wrap mt-2" >
-                    <div class="section-title" style="margin-left:16px;" th:text="|${thisMonth}월|"></div>
+                    <div class="section-title" style="margin-left:16px; margin-top:70px;" th:text="|${thisMonth}월|"></div>
                     <img th:src="@{/common/getImage(imageIdx=${storeInfo.insuranceCertificateIdx})}" alt="">
                 </div>
+                
                 <div class="banner_wrap mt-4" >
                     <div class="section-title" style="margin-left:16px;" th:text="|${nextMonth}월|"></div>
                     <img th:src="@{/common/getImage(imageIdx=${storeInfo.etcFile4Idx})}" alt="">
