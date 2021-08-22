@@ -71,6 +71,7 @@ public class ProgramController {
 		}
 		mav.addObject("playNameList", programDto.getPlayNameList());
 		mav.addObject("playNameListNext", programDto.getPlayNameListNext());
+		programDto.setSearchMonth("thisMonth");
 		mav.addObject("titleList", programService.selectTimeTitleList(programDto));
 		mav.addObject("list", programService.selectTimeList(programDto));
 		programDto.setSearchMonth("nextMonth");

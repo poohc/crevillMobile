@@ -55,7 +55,7 @@
         SELECT STORE_ID,
 			   DAY,
 			   DATE_FORMAT(DAY, '%m월%d일') VIEW_DAY,
-			   TIME,
+			   DATE_FORMAT(TIME, '%H:%i') TIME,
 			   DAYOFTHEWEEK,
 			   PLAY_NAME,
 			   PROGRAM_NAME,
