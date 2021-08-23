@@ -171,11 +171,13 @@ public class ReservationService {
 							reservationVo = reservationMapper.checkTutoringReservationYn(nReservationDto);
 							if(reservationVo != null && "N".equals(reservationVo.getReservationYn())) {
 								result.put("resultMsg", MSG_TUTORING_FULL);
+								break;
 							}
 						} else {
 							reservationVo = reservationMapper.checkReservationYn(nReservationDto);
 							if(reservationVo != null && "N".equals(reservationVo.getReservationYn())) {
 								result.put("resultMsg", MSG_CLASS_FULL);
+								break;
 							}
 						}
 						//선택 수업의 플레이타임 가져오기
